@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dance Explorer</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T1W89Y447W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T1W89Y447W');
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f7f7;
+    color: #222;
+    min-height: 100vh;
+}
+
+/* ── PAGE SHELL: 3 columns from the very top ─────── */
+.page-shell {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ── LOGO SIDEBARS ──────────────────────────────────── */
+.logo-sidebar {
+    display: none;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px 0 24px;
+    background: #1c0c32;
+    width: 210px;
+    flex-shrink: 0;
+}
+
+@media (min-width: 900px) {
+    .logo-sidebar { display: flex; }
+}
+
+/* Left logos: flush to the left edge */
+.left-bar {
+    align-items: flex-start;
+}
+
+/* Right logos: flush to the right edge */
+.right-bar {
+    align-items: flex-end;
+}
+
+.logo-sidebar img {
+    display: block;
+    height: auto;
+    max-height: 110px;
+    object-fit: contain;
+    opacity: 1;
+    transition: opacity 0.45s ease;
+}
+
+/* ── MAIN COLUMN ────────────────────────────────────── */
+.main-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: #f7f7f7;
+}
+
+/* ── SVG HEADER: dancers + line, DANCE text removed ── */
+.site-header {
+    background: #1c0c32;
+    text-align: center;
+    padding: 0;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.site-header svg {
+    display: block;
+    width: 100%;
+    max-width: 700px;
+    height: auto;
+    margin: 0 auto;
+}
+
+/* ── FIND BUTTONS: sit in the space between line and DANCE ── */
+.find-row {
+    background: #1c0c32;
+    border-bottom: 3px solid #d4af37;
+    display: flex;
+    gap: 16px;
+    padding: 16px 24px;
+}
+
+.find-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    padding: 14px 16px;
+    border: 1.5px solid rgba(212,175,55,0.5);
+    border-radius: 6px;
+    background: rgba(212,175,55,0.07);
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.find-btn:hover {
+    background: rgba(212,175,55,0.18);
+    border-color: rgba(212,175,55,0.85);
+}
+
+.btn-title {
+    font-family: 'Cinzel Decorative', Georgia, serif;
+    font-size: clamp(13px, 1.8vw, 20px);
+    font-weight: 700;
+    color: #d4af37;
+    line-height: 1.3;
+    letter-spacing: 0.07em;
+    margin-bottom: 10px;
+}
+
+.btn-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.55;
+    margin: 0;
+    max-width: 300px;
+}
+
+/* ── DANCE / EXPLORER TITLE BAND ────────────────────── */
+.dance-band {
+    background: #1c0c32;
+    text-align: center;
+    padding: 4px 0 16px;
+    line-height: 1;
+}
+
+.dance-text {
+    display: block;
+    font-family: 'Cinzel Decorative', Georgia, serif;
+    font-size: clamp(40px, 7.5vw, 92px);
+    font-weight: 700;
+    color: #d4af37;
+    letter-spacing: 0.05em;
+}
+
+.explorer-text {
+    display: block;
+    font-family: 'Cinzel Decorative', Georgia, serif;
+    font-size: clamp(14px, 1.92vw, 36px);
+    font-weight: 700;
+    color: #d4af37;
+    letter-spacing: 0.5em;
+    opacity: 0.88;
+    margin-top: 2px;
+}
+/* ── BOTTOM LOGO BAR ────────────────────────────────── */
+.bottom-bar {
+    display: none;
+    background: #1c0c32;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 14px 8px;
+    gap: 8px;
+}
+
+@media (min-width: 900px) {
+    .bottom-bar { display: flex; }
+}
+
+.bottom-bar img {
+    height: auto;
+    max-height: 90px;
+    object-fit: contain;
+    opacity: 1;
+    transition: opacity 450ms ease;
+}
+</style>
+</head>
+<body>
+
+<div class="page-shell">
+
+  <!-- ── LEFT SIDEBAR: populated and rotated by JS ── -->
+  <aside class="logo-sidebar left-bar" aria-label="Dance companies">
+    <!-- logos injected by script -->
+  </aside>
+
+  <!-- ── MAIN COLUMN ────────────────────────────────── -->
+  <main class="main-col">
+
+    <!-- SVG: shows dancers + the horizontal line; DANCE/EXPLORER text stripped out -->
+    <header class="site-header">
+      <svg viewBox="0 0 700 292" xmlns="http://www.w3.org/2000/svg">
+        <title>Dance Explorer</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T1W89Y447W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T1W89Y447W');
+</script>
+        <rect width="700" height="445" fill="#1c0c32"/>
+        <!-- star dots -->
+        <g fill="#d4af37" opacity="0.28">
+          <circle cx="58"  cy="30" r="1.5"/><circle cx="148" cy="16" r="1"/>
+          <circle cx="258" cy="26" r="1.8"/><circle cx="388" cy="11" r="2"/>
+          <circle cx="472" cy="22" r="1"/><circle cx="568" cy="15" r="1.5"/>
+          <circle cx="648" cy="36" r="1"/>
+        </g>
+        <!-- corner cross marks -->
+        <g stroke="#d4af37" opacity="0.18" stroke-width="0.8" fill="none">
+          <line x1="70"  y1="28" x2="70"  y2="38"/><line x1="65"  y1="33" x2="75"  y2="33"/>
+          <line x1="630" y1="26" x2="630" y2="36"/><line x1="625" y1="31" x2="635" y2="31"/>
+        </g>
+        <!-- DANCER 1 · ARABESQUE · above D -->
+        <g transform="translate(180,200)" fill="#edeaff" stroke="#edeaff" stroke-linecap="round">
+          <ellipse cx="-5" cy="-25" rx="23" ry="8" stroke="none"/>
+          <circle  cx="-2" cy="-68" r="9"  stroke="none"/><circle  cx="-2" cy="-78" r="4"  stroke="none"/>
+          <ellipse cx="-4" cy="-50" rx="5" ry="12" stroke="none" transform="rotate(-8,-4,-50)"/>
+          <path d="M -5,-47 Q -23,-41 -37,-32" fill="none" stroke-width="4"/>
+          <path d="M -5,-47 Q  8,-43  17,-35" fill="none" stroke-width="4"/>
+          <path d="M -4,-16 L -4,62"           fill="none" stroke-width="5"/>
+          <path d="M -4,62  Q  3,67   7,65"    fill="none" stroke-width="3.5"/>
+          <path d="M -4,-16 Q 18,2  42,-42"    fill="none" stroke-width="5"/>
+          <path d="M 42,-42 Q 47,-48 51,-46"   fill="none" stroke-width="3.5"/>
+        </g>
+        <!-- DANCER 2 · ARMS EN HAUT · above A -->
+        <g transform="translate(265,200)" fill="#edeaff" stroke="#edeaff" stroke-linecap="round">
+          <ellipse cx="0" cy="-25" rx="22" ry="8" stroke="none"/>
+          <circle  cx="0" cy="-68" r="9"  stroke="none"/><circle  cx="0" cy="-78" r="4"  stroke="none"/>
+          <ellipse cx="0" cy="-50" rx="5" ry="12" stroke="none"/>
+          <path d="M -5,-46 C -27,-52 -23,-82  0,-90" fill="none" stroke-width="3.5"/>
+          <path d="M  5,-46 C  27,-52  23,-82  0,-90" fill="none" stroke-width="3.5"/>
+          <path d="M -3,-16 L -5,62"               fill="none" stroke-width="5"/>
+          <path d="M -5,62  Q -9,67 -13,65"        fill="none" stroke-width="3.5"/>
+          <path d="M  3,-16 L  5,62"               fill="none" stroke-width="5"/>
+          <path d="M  5,62  Q  9,67  13,65"        fill="none" stroke-width="3.5"/>
+        </g>
+        <!-- DANCER 3 · ATTITUDE · above N -->
+        <g transform="translate(350,200)" fill="#edeaff" stroke="#edeaff" stroke-linecap="round">
+          <ellipse cx="0" cy="-25" rx="22" ry="8" stroke="none"/>
+          <circle  cx="2" cy="-68" r="9"  stroke="none"/><circle  cx="2" cy="-78" r="4"  stroke="none"/>
+          <ellipse cx="1" cy="-50" rx="5" ry="12" stroke="none" transform="rotate(5,1,-50)"/>
+          <path d="M 0,-45 Q -19,-40 -33,-31"   fill="none" stroke-width="3.5"/>
+          <path d="M 0,-45 Q  14,-53  16,-62"   fill="none" stroke-width="3.5"/>
+          <path d="M -1,-16 L -1,62"            fill="none" stroke-width="5"/>
+          <path d="M -1,62  Q -5,67  -8,65"     fill="none" stroke-width="3.5"/>
+          <path d="M -1,-16 Q 17,-4  25,10"     fill="none" stroke-width="5"/>
+          <path d="M  25,10 Q 30,-9  25,-24"    fill="none" stroke-width="4.5"/>
+          <path d="M  25,-24 Q 30,-30 34,-28"   fill="none" stroke-width="3.5"/>
+        </g>
+        <!-- DANCER 4 · GRAND JETÉ · above C -->
+        <g transform="translate(435,190)" fill="#edeaff" stroke="#edeaff" stroke-linecap="round">
+          <ellipse cx="-3" cy="-33" rx="22" ry="8" stroke="none"/>
+          <circle  cx="0"  cy="-70" r="9"  stroke="none"/><circle  cx="0"  cy="-80" r="4"  stroke="none"/>
+          <ellipse cx="-2" cy="-52" rx="5" ry="13" stroke="none" transform="rotate(-5,-2,-52)"/>
+          <path d="M -2,-50 Q -15,-59 -13,-71"  fill="none" stroke-width="3.5"/>
+          <path d="M -2,-50 Q  14,-45  25,-37"  fill="none" stroke-width="3.5"/>
+          <path d="M -3,-24 Q -27,-4 -46,18"    fill="none" stroke-width="5"/>
+          <path d="M -46,18 Q -51,14 -53,18"    fill="none" stroke-width="3.5"/>
+          <path d="M -3,-24 Q  22,-4  44,18"    fill="none" stroke-width="5"/>
+          <path d="M  44,18 Q  49,14  51,18"    fill="none" stroke-width="3.5"/>
+        </g>
+        <!-- DANCER 5 · PASSÉ EN POINTE · above E -->
+        <g transform="translate(520,200)" fill="#edeaff" stroke="#edeaff" stroke-linecap="round">
+          <ellipse cx="0" cy="-25" rx="22" ry="8" stroke="none"/>
+          <circle  cx="0" cy="-68" r="9"  stroke="none"/><circle  cx="0" cy="-78" r="4"  stroke="none"/>
+          <ellipse cx="0" cy="-50" rx="5" ry="12" stroke="none"/>
+          <path d="M -4,-44 Q -22,-36 -22,-21 Q -18,-8 -6,-5" fill="none" stroke-width="3.5"/>
+          <path d="M  2,-44 Q  19,-37  31,-29"                 fill="none" stroke-width="3.5"/>
+          <path d="M 0,-16 L 0,60"                fill="none" stroke-width="5"/>
+          <path d="M 0,60  Q 6,65 10,63"          fill="none" stroke-width="3.5"/>
+          <path d="M 0,-16 Q 17,-8  21,9"         fill="none" stroke-width="5"/>
+          <path d="M 21,9  Q 17,25   7,29"        fill="none" stroke-width="4.5"/>
+          <path d="M 7,29  Q 2,33  -1,31"         fill="none" stroke-width="3.5"/>
+        </g>
+        <!-- horizontal stage-floor line -->
+        <line x1="38" y1="278" x2="662" y2="278" stroke="#d4af37" stroke-width="0.9" opacity="0.45"/>
+      </svg>
+    </header>
+
+    <!-- DANCE EXPLORER: sits directly under the stick figures -->
+    <div class="dance-band">
+      <span class="dance-text">DANCE</span>
+      <span class="explorer-text">EXPLORER</span>
+    </div>
+
+    <!-- FIND BUTTONS: below DANCE EXPLORER, above the gold border -->
+    <div class="find-row">
+      <a href="podcasts.html" class="find-btn">
+        <div class="btn-title">FIND A<br>PODCAST</div>
+        <p class="btn-desc">Browse 470 episodes of the podcast Conversations on Dance hosted by Rebecca King Ferraro and Michael Sean Breeden</p>
+      </a>
+      <a href="performances.html" class="find-btn">
+        <div class="btn-title">FIND A<br>PERFORMANCE</div>
+        <p class="btn-desc">Browse 1,285 dance performances from major dance companies across the nation.</p>
+      </a>
+    </div>
+
+
+    <!-- Spacer: fills gap between buttons and bottom bar with dark background -->
+    <div style="flex:1; background:#1c0c32;"></div>
+
+    <!-- BOTTOM BAR: 4 logos -->
+    <div class="bottom-bar" id="bottom-bar">
+      <!-- logos injected by script -->
+    </div>
+
+  </main>
+
+  <!-- ── RIGHT SIDEBAR: populated and rotated by JS ── -->
+  <aside class="logo-sidebar right-bar" aria-label="Dance companies continued">
+    <!-- logos injected by script -->
+  </aside>
+
+</div>
+
+<script>
+(function () {
+  const TOKEN = 'pk_SR42vr_kR7uOjccTv8yvdg';
+
+  // ── Single logo pool — add more domains here as needed ──────────────────
+  const allLogos = [
+    { domain: 'nycballet.com',           alt: 'New York City Ballet' },
+    { domain: 'abt.org',                 alt: 'American Ballet Theatre', xtra: true },
+    { domain: 'alvinailey.org',          alt: 'Alvin Ailey' },
+    { domain: 'sfballet.org',            alt: 'San Francisco Ballet' },
+    { domain: 'bostonballet.org',        alt: 'Boston Ballet' },
+    { domain: 'houstonballet.org',       alt: 'Houston Ballet' },
+    { domain: 'joffrey.org',             alt: 'Joffrey Ballet' },
+    { domain: 'pnb.org',                 alt: 'Pacific Northwest Ballet' },
+    { domain: 'coloradoballet.org',      alt: 'Colorado Ballet' },
+    { domain: 'philadelphiaballet.org',  alt: 'Philadelphia Ballet' },
+    { domain: 'pbt.org',                 alt: 'Pittsburgh Ballet' },
+    { domain: 'atlantaballet.com',       alt: 'Atlanta Ballet' },
+    { domain: 'balletwest.org',          alt: 'Ballet West' },
+    { domain: 'carolinaballet.com',      alt: 'Carolina Ballet' },
+    { domain: 'charlotteballet.org',     alt: 'Charlotte Ballet' },
+    { domain: 'cballet.org',             alt: 'Cincinnati Ballet' },
+    { domain: 'kcballet.org',            alt: 'Kansas City Ballet' },
+    { domain: 'balletmemphis.org',       alt: 'Ballet Memphis' },
+    { domain: 'obt.org',                 alt: 'Oregon Ballet Theatre' },
+    { domain: 'sarasotaballet.org',      alt: 'Sarasota Ballet' },
+    { domain: 'texasballettheater.org',  alt: 'Texas Ballet Theater' },
+    { domain: 'austinballet.org',        alt: 'Austin Ballet' },
+  ]; // 22 logos
+
+  // Slot widths (px): 6 per sidebar, 4 for bottom row
+  const leftWidths   = [195, 155, 185, 163, 178, 148];
+  const rightWidths  = [188, 152, 172, 158, 192, 163];
+  const bottomWidths = [165, 150, 170, 155];
+
+  const FADE     = 450;   // ms fade duration
+  const INTERVAL = 1000;  // ms between each single swap
+
+  function imgUrl(domain) {
+    return `https://img.logo.dev/${domain}?token=${TOKEN}&format=png`;
+  }
+
+  function applyLogo(img, logo, width) {
+    img.src   = imgUrl(logo.domain);
+    img.alt   = logo.alt;
+    if (width) img.style.width = width + 'px';
+    img.style.filter       = logo.xtra ? 'invert(1)' : '';
+    img.style.mixBlendMode = logo.xtra ? 'screen'    : '';
+  }
+
+  function makeImg(logo, width) {
+    const img = document.createElement('img');
+    img.style.cssText = `display:block; height:auto; object-fit:contain;
+                         max-height:110px; opacity:1;
+                         transition:opacity ${FADE}ms ease;`;
+    applyLogo(img, logo, width);
+    return img;
+  }
+
+  function buildSlots(el, logos, widths) {
+    el.innerHTML = '';
+    return logos.map((logo, i) => {
+      const img = makeImg(logo, widths[i]);
+      el.appendChild(img);
+      return img;
+    });
+  }
+
+  function swap(img, logo, width) {
+    img.style.opacity = '0';
+    setTimeout(() => { applyLogo(img, logo, width); img.style.opacity = '1'; }, FADE);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const leftEl   = document.querySelector('.left-bar');
+    const rightEl  = document.querySelector('.right-bar');
+    const bottomEl = document.getElementById('bottom-bar');
+    if (!leftEl || !rightEl || !bottomEl) return;
+
+    // Fill all 16 slots: Left [0-5], Bottom [6-9], Right [10-15]
+    const leftImgs   = buildSlots(leftEl,   allLogos.slice(0,  6),  leftWidths);
+    const bottomImgs = buildSlots(bottomEl, allLogos.slice(6,  10), bottomWidths);
+    const rightImgs  = buildSlots(rightEl,  allLogos.slice(10, 16), rightWidths);
+
+    // Conveyor-belt: down the left (slot 0→5), across bottom (0→3), up the right (slot 5→0)
+    const sequence = [
+      ...leftWidths.map(  (w, i) => ({ imgs: leftImgs,   slot: i,     width: w })),
+      ...bottomWidths.map((w, i) => ({ imgs: bottomImgs, slot: i,     width: w })),
+      ...rightWidths.map( (w, i) => ({ imgs: rightImgs,  slot: 5 - i, width: rightWidths[5 - i] })),
+    ]; // 16 steps total
+
+    let seqStep  = 0;
+    let nextLogo = 16 % allLogos.length; // first logo not yet on screen
+
+    setInterval(() => {
+      const step = sequence[seqStep];
+      swap(step.imgs[step.slot], allLogos[nextLogo], step.width);
+      seqStep  = (seqStep  + 1) % sequence.length;
+      nextLogo = (nextLogo + 1) % allLogos.length;
+    }, INTERVAL);
+  });
+})();
+</script>
+</body>
+</html>
