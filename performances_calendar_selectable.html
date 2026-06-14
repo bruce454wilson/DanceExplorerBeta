@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026–27 Dance Season — Selectable Calendar</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T1W89Y447W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T1W89Y447W');
+</script>
+<style>
+* { box-sizing: border-box; }
+body { font-family: Arial, sans-serif; margin: 40px; max-width: 1100px; }
+h1 { margin-bottom: 6px; }
+.lede { color: #555; margin-top: 4px; margin-bottom: 16px; }
+
+/* --- sticky nav --- */
+.month-jump {
+    position: sticky; top: 0; background: white;
+    padding: 7px 0; border-bottom: 1px solid #ddd;
+    font-size: 13px; z-index: 100; margin-bottom: 16px;
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 14px;
+}
+.month-jump a { color: #1a73e8; text-decoration: none; font-weight: bold; white-space: nowrap; }
+.month-jump a:hover { text-decoration: underline; }
+.month-jump .sep   { color: #ccc; font-weight: normal; }
+.month-jump .slink { color: #555; font-weight: normal; }
+
+/* --- filter panel --- */
+.filter-panel {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+.filter-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    background: #f8f8f8;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid #eee;
+}
+.filter-header:hover { background: #f0f0f0; }
+.filter-toggle-icon { font-size: 12px; color: #555; width: 12px; flex-shrink: 0; }
+.filter-label { font-size: 13px; font-weight: bold; color: #333; }
+.filter-count { font-size: 12px; color: #888; margin-left: 2px; }
+.filter-actions {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 6px;
+    flex-shrink: 0;
+}
+.filter-action-btn {
+    font-size: 12px; color: #1a73e8;
+    text-decoration: none; cursor: pointer;
+}
+.filter-action-btn:hover { text-decoration: underline; }
+.filter-actions-sep { font-size: 12px; color: #ccc; }
+.filter-body {
+    padding: 10px 14px 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+}
+.filter-cb {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #333;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.filter-cb input[type=checkbox] { cursor: pointer; margin: 0; }
+.filter-swatch {
+    width: 12px; height: 12px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+/* --- legend --- */
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-bottom: 8px; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; white-space: nowrap; }
+.legend-swatch { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+.legend-note { font-size: 11px; color: #999; font-style: italic; margin-top: 4px; margin-bottom: 28px; }
+
+/* --- month section --- */
+.month-section { margin-bottom: 44px; scroll-margin-top: 52px; }
+.month-heading {
+    font-size: 22px; font-weight: bold;
+    margin-bottom: 8px; padding-bottom: 6px;
+    border-bottom: 2px solid #ddd; color: #222;
+}
+
+/* --- 5-column day-of-week header --- */
+.dow-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    margin-bottom: 2px;
+}
+.dow-cell {
+    font-size: 11px; font-weight: bold; letter-spacing: 0.05em;
+    color: #bbb; text-align: center; padding: 2px 0 3px;
+}
+.dow-cell.wknd { color: #d88; }
+
+/* --- week block --- */
+.week-block { margin-bottom: 3px; }
+
+/* 5-column CSS grid */
+.week-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    row-gap: 2px;
+    column-gap: 0;
+    border-bottom: 1px solid #efefef;
+    padding-bottom: 3px;
+}
+
+/* day number cells */
+.dn {
+    grid-row: 1;
+    font-size: 11px; text-align: center;
+    color: #ddd; padding: 2px 3px 5px;
+    border-right: 1px solid #f2f2f2;
+}
+.dn.in-mo  { color: #bbb; }
+.dn.wknd   { background: #fffaf8; }
+.dn.has-ev { color: #555; font-weight: bold; }
+.dn-mw { font-size: 10px; letter-spacing: 0.02em; }
+.dn-lbl { font-size: 9px; color: #aaa; font-weight: normal; margin-right: 1px; }
+
+.today-circle {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: #1a73e8; color: white; border-radius: 50%;
+    width: 17px; height: 17px; font-size: 10px; font-weight: bold;
+}
+
+/* event bars */
+.ev {
+    display: flex; align-items: center;
+    height: 20px; color: white;
+    font-size: 11px; font-weight: bold;
+    text-decoration: none; overflow: hidden; cursor: pointer;
+}
+.ev.starts { border-top-left-radius:  4px; border-bottom-left-radius:  4px; }
+.ev.ends   { border-top-right-radius: 4px; border-bottom-right-radius: 4px; }
+.ev:hover  { filter: brightness(1.18); text-decoration: none; }
+.ev.approx { opacity: 0.42; }
+
+.ev-name {
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    padding: 0 6px; pointer-events: none;
+}
+
+/* --- home nav dropdown --- */
+.home-nav { position: relative; display: inline-block; vertical-align: middle; }
+.home-nav-arrow {
+    background: none; border: none; padding: 0 1px 0 3px; cursor: pointer;
+    font-size: 9px; color: currentColor; opacity: 0.55; vertical-align: middle;
+    line-height: 1; font-family: inherit;
+}
+.home-nav-arrow:hover { opacity: 1; }
+.home-nav-dropdown {
+    display: none;
+    position: fixed;
+    background: white; border: 1px solid #ddd; border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    white-space: nowrap; z-index: 2000; min-width: 145px;
+}
+.home-nav-dropdown.open { display: block; }
+.home-nav-dropdown a {
+    display: block; padding: 8px 14px;
+    color: #333 !important; font-weight: normal !important;
+    text-decoration: none; font-size: 13px;
+}
+.home-nav-dropdown a:first-child { border-radius: 5px 5px 0 0; }
+.home-nav-dropdown a:last-child  { border-radius: 0 0 5px 5px; }
+.home-nav-dropdown a:hover { background: #f5f5f5; color: #1a73e8 !important; }
+</style>
+<script id="perf-data">
+const PERF_DATA = {"programs": [{"company": "MEMPHIS", "title": "Memphis Sounds", "start": "2026-10-16", "end": "2026-10-18", "url": "https://balletmemphis.org/memphis-sounds", "has_exact": true}, {"company": "MEMPHIS", "title": "The Nutcracker", "start": "2026-12-12", "end": "2026-12-18", "url": "https://balletmemphis.org/nutcracker", "has_exact": true}, {"company": "MEMPHIS", "title": "Winter Mix: Celebration", "start": "2027-02-19", "end": "2027-02-21", "url": "https://balletmemphis.org/celebration", "has_exact": true}, {"company": "MEMPHIS", "title": "Peter Pan", "start": "2027-04-09", "end": "2027-04-11", "url": "https://balletmemphis.org/peter-pan", "has_exact": true}, {"company": "ABT", "title": "Swan Lake", "start": "2026-06-17", "end": "2026-07-18", "url": "https://www.abt.org/events/swan-lake/", "has_exact": true}, {"company": "ABT", "title": "Onegin", "start": "2026-06-23", "end": "2026-06-27", "url": "https://www.abt.org/events/onegin/", "has_exact": true}, {"company": "ABT", "title": "Don Quixote", "start": "2026-06-29", "end": "2026-07-07", "url": "https://www.abt.org/events/don-quixote/", "has_exact": true}, {"company": "ABT", "title": "Sylvia", "start": "2026-07-09", "end": "2026-07-11", "url": "https://www.abt.org/events/sylvia/", "has_exact": true}, {"company": "NYCB", "title": "Jewels", "start": "2026-09-22", "end": "2026-09-27", "url": "https://www.nycballet.com/season-and-tickets/fall-2026/jewels", "has_exact": true}, {"company": "NYCB", "title": "Masters at Work I", "start": "2026-09-29", "end": "2026-10-10", "url": "https://www.nycballet.com/season-and-tickets/fall-2026/masters-at-work-i", "has_exact": true}, {"company": "NYCB", "title": "Fall Fashion Gala", "start": "2026-10-01", "end": "2026-10-01", "url": "https://www.nycballet.com/season-and-tickets/fall-2026/fall-fashion-gala", "has_exact": true}, {"company": "NYCB", "title": "Contemporary Choreography I", "start": "2026-10-02", "end": "2026-10-14", "url": "https://www.nycballet.com/season-and-tickets/fall-2026/contemporary-choreography-i", "has_exact": true}, {"company": "NYCB", "title": "Eclectic NYCB I", "start": "2026-10-07", "end": "2026-10-16", "url": "https://www.nycballet.com/season-and-tickets/fall-2026/eclectic-nycb-i", "has_exact": true}, {"company": "NYCB", "title": "All Balanchine I", "start": "2026-10-08", "end": "2026-10-17", "url": "https://www.nycballet.com/season-and-tickets/fall-2026/all-balanchine-i", "has_exact": true}, {"company": "NYCB", "title": "Adrian Danchig-Waring Farewell", "start": "2026-10-18", "end": "2026-10-18", "url": "https://www.nycballet.com/season-and-tickets/fall-2026/adrian-danchig-waring-farewell", "has_exact": true}, {"company": "NYCB", "title": "Romeo & Juliet", "start": "2027-01-19", "end": "2027-01-31", "url": "https://www.nycballet.com/season-and-tickets/winter-2027/romeo-and-juliet", "has_exact": true}, {"company": "NYCB", "title": "All Balanchine II", "start": "2027-02-02", "end": "2027-02-11", "url": "https://www.nycballet.com/season-and-tickets/winter-2027/all-balanchine-ii", "has_exact": true}, {"company": "NYCB", "title": "Contemporary Choreography II", "start": "2027-02-06", "end": "2027-02-27", "url": "https://www.nycballet.com/season-and-tickets/winter-2027/contemporary-choreography-ii", "has_exact": true}, {"company": "NYCB", "title": "Jewels", "start": "2027-02-12", "end": "2027-02-14", "url": "https://www.nycballet.com/season-and-tickets/winter-2027/jewels", "has_exact": true}, {"company": "NYCB", "title": "All Balanchine III", "start": "2027-02-16", "end": "2027-02-26", "url": "https://www.nycballet.com/season-and-tickets/winter-2027/all-balanchine-iii", "has_exact": true}, {"company": "NYCB", "title": "Contemporary Choreography III", "start": "2027-02-18", "end": "2027-02-27", "url": "https://www.nycballet.com/season-and-tickets/winter-2027/contemporary-choreography-iii", "has_exact": true}, {"company": "NYCB", "title": "Taylor Stanley Farewell", "start": "2027-02-28", "end": "2027-02-28", "url": "https://www.nycballet.com/season-and-tickets/winter-2027/taylor-stanley-farewell", "has_exact": true}, {"company": "NYCB", "title": "All Balanchine IV", "start": "2027-04-20", "end": "2027-04-29", "url": "https://www.nycballet.com/season-and-tickets/spring-2027/all-balanchine-iv", "has_exact": true}, {"company": "NYCB", "title": "All Balanchine V", "start": "2027-04-21", "end": "2027-05-02", "url": "https://www.nycballet.com/season-and-tickets/spring-2027/all-balanchine-v", "has_exact": true}, {"company": "NYCB", "title": "Masters at Work II", "start": "2027-04-27", "end": "2027-05-07", "url": "https://www.nycballet.com/season-and-tickets/spring-2027/masters-at-work-ii", "has_exact": true}, {"company": "NYCB", "title": "Spring Gala", "start": "2027-05-06", "end": "2027-05-06", "url": "https://www.nycballet.com/season-and-tickets/spring-2027/spring-gala-27", "has_exact": true}, {"company": "NYCB", "title": "Eclectic NYCB II", "start": "2027-05-08", "end": "2027-05-14", "url": "https://www.nycballet.com/season-and-tickets/spring-2027/eclectic-nycb-ii", "has_exact": true}, {"company": "NYCB", "title": "Eclectic NYCB III", "start": "2027-05-11", "end": "2027-05-22", "url": "https://www.nycballet.com/season-and-tickets/spring-2027/eclectic-nycb-iii", "has_exact": true}, {"company": "NYCB", "title": "Copland Dance Episodes", "start": "2027-05-15", "end": "2027-05-23", "url": "https://www.nycballet.com/season-and-tickets/spring-2027/copland-dance-episodes", "has_exact": true}, {"company": "NYCB", "title": "A Midsummer Night's Dream", "start": "2027-05-25", "end": "2027-05-30", "url": "https://www.nycballet.com/season-and-tickets/spring-2027/a-midsummer-nights-dream", "has_exact": true}, {"company": "BOSTON", "title": "Fall Experience 2026", "start": "2026-09-10", "end": "2026-09-20", "url": "https://www.bostonballet.org/performances/fall-experience/", "has_exact": true}, {"company": "BOSTON", "title": "The Nutcracker", "start": "2026-11-27", "end": "2026-12-31", "url": "https://www.bostonballet.org/performances/the-nutcracker/", "has_exact": true}, {"company": "BOSTON", "title": "Winter Experience 2027", "start": "2027-02-18", "end": "2027-02-28", "url": "https://www.bostonballet.org/performances/winter-experience/", "has_exact": true}, {"company": "BOSTON", "title": "Coppélia", "start": "2027-03-11", "end": "2027-03-21", "url": "https://www.bostonballet.org/performances/coppelia/", "has_exact": true}, {"company": "BOSTON", "title": "Cinderella", "start": "2027-04-29", "end": "2027-05-09", "url": "https://www.bostonballet.org/performances/cinderella/", "has_exact": true}, {"company": "BOSTON", "title": "Spring Experience 2027", "start": "2027-05-13", "end": "2027-05-23", "url": "https://www.bostonballet.org/performances/spring-experience-2027/", "has_exact": true}, {"company": "SFB", "title": "Nutcracker", "start": "2026-12-04", "end": "2026-12-27", "url": "https://www.sfballet.org/productions/nutcracker/", "has_exact": true}, {"company": "SFB", "title": "The Sleeping Beauty", "start": "2027-01-29", "end": "2027-02-07", "url": "https://www.sfballet.org/productions/the-sleeping-beauty/", "has_exact": true}, {"company": "SFB", "title": "Titans of Choreography", "start": "2027-02-16", "end": "2027-02-21", "url": "https://www.sfballet.org/productions/titans-of-choreography/", "has_exact": true}, {"company": "SFB", "title": "Jewels", "start": "2027-02-27", "end": "2027-03-07", "url": "https://www.sfballet.org/productions/jewels/", "has_exact": true}, {"company": "SFB", "title": "A Midsummer Night's Dream", "start": "2027-03-19", "end": "2027-03-27", "url": "https://www.sfballet.org/productions/a-midsummer-nights-dream/", "has_exact": true}, {"company": "SFB", "title": "Divine Creatures", "start": "2027-04-08", "end": "2027-04-14", "url": "https://www.sfballet.org/productions/divine-creatures/", "has_exact": true}, {"company": "SFB", "title": "Manon", "start": "2027-04-23", "end": "2027-05-02", "url": "https://www.sfballet.org/productions/manon/", "has_exact": true}, {"company": "HOUSTON", "title": "Pecos Bill", "start": "2026-09-11", "end": "2026-09-20", "url": "https://www.houstonballet.org/seasontickets/2026-2027-season/pecos-bill/", "has_exact": true}, {"company": "HOUSTON", "title": "Manon", "start": "2026-09-24", "end": "2026-10-04", "url": "https://www.houstonballet.org/seasontickets/2026-2027-season/manon/", "has_exact": true}, {"company": "HOUSTON", "title": "The Nutcracker", "start": "2026-11-27", "end": "2026-12-28", "url": "https://www.houstonballet.org/seasontickets/2026-2027-season/", "has_exact": false}, {"company": "HOUSTON", "title": "Where's Alice?", "start": "2027-02-25", "end": "2027-03-07", "url": "https://www.houstonballet.org/seasontickets/2026-2027-season/wheres-alice/", "has_exact": true}, {"company": "HOUSTON", "title": "Madame Butterfly", "start": "2027-03-11", "end": "2027-03-21", "url": "https://www.houstonballet.org/seasontickets/2026-2027-season/madame-butterfly/", "has_exact": true}, {"company": "HOUSTON", "title": "The Rite of Spring", "start": "2027-05-27", "end": "2027-06-06", "url": "https://www.houstonballet.org/seasontickets/2026-2027-season/the-rite-of-spring/", "has_exact": true}, {"company": "HOUSTON", "title": "Swan Lake", "start": "2027-06-10", "end": "2027-06-27", "url": "https://www.houstonballet.org/seasontickets/2026-2027-season/swan-lake/", "has_exact": true}, {"company": "JOFFREY", "title": "Liliom", "start": "2026-09-17", "end": "2026-09-27", "url": "https://joffrey.org/performances-and-tickets/26-27-season/liliom/", "has_exact": true}, {"company": "JOFFREY", "title": "The Nutcracker", "start": "2026-12-04", "end": "2026-12-27", "url": "https://joffrey.org/performances-and-tickets/26-27-season/the-nutcracker-3/", "has_exact": false}, {"company": "JOFFREY", "title": "Notes on Love", "start": "2027-02-04", "end": "2027-02-14", "url": "https://joffrey.org/performances-and-tickets/26-27-season/notes-on-love/", "has_exact": true}, {"company": "JOFFREY", "title": "The Sleeping Beauty", "start": "2027-05-13", "end": "2027-05-23", "url": "https://joffrey.org/performances-and-tickets/26-27-season/the-sleeping-beauty/", "has_exact": true}, {"company": "PNB", "title": "Serenade", "start": "2026-09-25", "end": "2026-10-04", "url": "https://www.pnb.org/season/serenade/", "has_exact": true}, {"company": "PNB", "title": "Ghost Stories", "start": "2026-11-06", "end": "2026-11-15", "url": "https://www.pnb.org/season/ghost-stories/", "has_exact": true}, {"company": "PNB", "title": "The Nutcracker", "start": "2026-11-27", "end": "2026-12-28", "url": "https://www.pnb.org/nutcracker/", "has_exact": false}, {"company": "PNB", "title": "Swan Lake", "start": "2027-02-05", "end": "2027-02-21", "url": "https://www.pnb.org/season/swan-lake/", "has_exact": true}, {"company": "PNB", "title": "Director's Choice", "start": "2027-03-19", "end": "2027-03-28", "url": "https://www.pnb.org/season/directors-choice/", "has_exact": true}, {"company": "PNB", "title": "Snow White", "start": "2027-03-27", "end": "2027-04-04", "url": "https://www.pnb.org/season/snow-white/", "has_exact": false}, {"company": "PNB", "title": "A Midsummer Night's Dream", "start": "2027-04-16", "end": "2027-04-25", "url": "https://www.pnb.org/season/a-midsummer-nights-dream/", "has_exact": true}, {"company": "PNB", "title": "Ballet on Broadway", "start": "2027-06-04", "end": "2027-06-13", "url": "https://www.pnb.org/season/ballet-on-broadway/", "has_exact": true}, {"company": "B_WEST", "title": "Dracula", "start": "2026-10-23", "end": "2026-10-31", "url": "https://www.balletwest.org/events/detail/dracula", "has_exact": true}, {"company": "B_WEST", "title": "Rolling with the Stones", "start": "2026-11-06", "end": "2026-11-14", "url": "https://www.balletwest.org/events/detail/rolling-with-the-stones", "has_exact": true}, {"company": "B_WEST", "title": "The Nutcracker", "start": "2026-12-04", "end": "2026-12-12", "url": "https://www.balletwest.org/events/detail/the-nutcracker-1", "has_exact": true}, {"company": "B_WEST", "title": "Don Quixote", "start": "2027-02-12", "end": "2027-02-20", "url": "https://www.balletwest.org/events/detail/don-quixote", "has_exact": true}, {"company": "B_WEST", "title": "The Glass Slipper", "start": "2027-04-02", "end": "2027-04-03", "url": "https://www.balletwest.org/events/detail/the-glass-slipper", "has_exact": true}, {"company": "B_WEST", "title": "Carmina Burana", "start": "2027-04-09", "end": "2027-04-17", "url": "https://www.balletwest.org/events/detail/carmina-burana", "has_exact": true}, {"company": "B_WEST", "title": "Works from Within", "start": "2027-05-12", "end": "2027-05-15", "url": "https://www.balletwest.org/events/detail/works-from-within", "has_exact": true}, {"company": "AILEY", "title": "Ailey at New York City Center", "start": "2026-12-02", "end": "2027-01-03", "url": "https://ailey.org/series/ailey-new-york-city-center", "has_exact": false}, {"company": "CHARLOTTE", "title": "Black Box Series", "start": "2026-10-02", "end": "2026-10-17", "url": "https://charlotteballet.org/black-box-series/", "has_exact": true}, {"company": "CHARLOTTE", "title": "Nutcracker", "start": "2026-12-04", "end": "2026-12-23", "url": "https://charlotteballet.org/nutcracker-2026/", "has_exact": true}, {"company": "CHARLOTTE", "title": "Knight Theater Series", "start": "2027-03-11", "end": "2027-03-13", "url": "https://charlotteballet.org/knight-theater-series/", "has_exact": true}, {"company": "CHARLOTTE", "title": "Alice in Wonderland", "start": "2027-05-07", "end": "2027-05-16", "url": "https://charlotteballet.org/alice-in-wonderland/", "has_exact": true}, {"company": "CHARLOTTE", "title": "FLIP", "start": "2027-06-10", "end": "2027-06-16", "url": "https://charlotteballet.org/flip/", "has_exact": true}, {"company": "COLORADO", "title": "Don Quixote", "start": "2026-10-02", "end": "2026-10-11", "url": "https://coloradoballet.org/26-27-Season-Productions", "has_exact": true}, {"company": "COLORADO", "title": "The Nutcracker", "start": "2026-11-28", "end": "2026-12-27", "url": "https://coloradoballet.org/26-27-Season-Productions", "has_exact": true}, {"company": "COLORADO", "title": "Romeo & Juliet", "start": "2027-01-29", "end": "2027-02-07", "url": "https://coloradoballet.org/26-27-Season-Productions", "has_exact": true}, {"company": "COLORADO", "title": "The Wizard of Oz", "start": "2027-03-05", "end": "2027-03-14", "url": "https://coloradoballet.org/26-27-Season-Productions", "has_exact": true}, {"company": "COLORADO", "title": "Masterworks", "start": "2027-04-09", "end": "2027-04-18", "url": "https://coloradoballet.org/26-27-Season-Productions", "has_exact": true}, {"company": "MCB", "title": "Fall Mix", "start": "2026-10-16", "end": "2026-10-25", "url": "https://www.miamicityballet.org/tickets-and-events/202627-season/fall/", "has_exact": true}, {"company": "MCB", "title": "George Balanchine's The Nutcracker", "start": "2026-12-11", "end": "2026-12-27", "url": "https://www.miamicityballet.org/tickets-and-events/202627-season/nutcracker/", "has_exact": true}, {"company": "MCB", "title": "Alice's Adventures in Wonderland", "start": "2027-02-25", "end": "2027-03-21", "url": "https://www.miamicityballet.org/tickets-and-events/202627-season/alice/", "has_exact": true}, {"company": "MCB", "title": "Spring Mix", "start": "2027-03-26", "end": "2027-04-18", "url": "https://www.miamicityballet.org/tickets-and-events/202627-season/spring/", "has_exact": true}, {"company": "MCB", "title": "Alexei Ratmansky's Swan Lake", "start": "2027-04-29", "end": "2027-05-23", "url": "https://www.miamicityballet.org/tickets-and-events/202627-season/swan/", "has_exact": true}, {"company": "PHILADELPHIA", "title": "Stars and Stripes Forever!", "start": "2026-10-08", "end": "2026-10-11", "url": "https://philadelphiaballet.org/26-27-season/stars-and-stripes-forever/", "has_exact": true}, {"company": "PHILADELPHIA", "title": "Dance at Great Velocity", "start": "2026-10-15", "end": "2026-10-18", "url": "https://philadelphiaballet.org/26-27-season/dance-at-great-velocity/", "has_exact": true}, {"company": "PHILADELPHIA", "title": "George Balanchine's The Nutcracker", "start": "2026-12-04", "end": "2026-12-31", "url": "https://philadelphiaballet.org/26-27-season/george-balanchines-the-nutcracker/", "has_exact": true}, {"company": "PHILADELPHIA", "title": "Cinderella", "start": "2027-03-04", "end": "2027-03-14", "url": "https://philadelphiaballet.org/26-27-season/cinderella/", "has_exact": true}, {"company": "PHILADELPHIA", "title": "Don Quixote", "start": "2027-04-29", "end": "2027-05-09", "url": "https://philadelphiaballet.org/26-27-season/don-quixote/", "has_exact": true}, {"company": "CINCINNATI", "title": "The Kaplan New Works Series", "start": "2026-09-18", "end": "2026-09-27", "url": "https://cballet.org/performances/the-kaplan-new-works-series-2/", "has_exact": true}, {"company": "CINCINNATI", "title": "LIVE!", "start": "2026-11-06", "end": "2026-11-07", "url": "https://cballet.org/performances/live/", "has_exact": true}, {"company": "CINCINNATI", "title": "The Nutcracker", "start": "2026-12-17", "end": "2026-12-27", "url": "https://cballet.org/performances/the-nutcracker-2026/", "has_exact": true}, {"company": "CINCINNATI", "title": "Romeo and Juliet", "start": "2027-02-12", "end": "2027-02-20", "url": "https://cballet.org/performances/romeo-and-juliet/", "has_exact": true}, {"company": "CINCINNATI", "title": "Director's Vision: Two Voices", "start": "2027-04-02", "end": "2027-04-04", "url": "https://cballet.org/performances/directors-vision-two-voices/", "has_exact": true}, {"company": "CINCINNATI", "title": "Family Series: Hansel and Gretel", "start": "2027-04-09", "end": "2027-04-11", "url": "https://cballet.org/performances/the-family-series-hansel-and-gretel/", "has_exact": true}, {"company": "PITTSBURGH", "title": "Giselle with the PBT Orchestra", "start": "2026-10-23", "end": "2026-10-25", "url": "https://pbt.org/performances/giselle-with-the-pbt-orchestra-2/", "has_exact": true}, {"company": "PITTSBURGH", "title": "The Nutcracker", "start": "2026-12-04", "end": "2026-12-27", "url": "https://pbt.org/performances/nutcracker/", "has_exact": true}, {"company": "PITTSBURGH", "title": "Alice in Wonderland", "start": "2027-02-12", "end": "2027-02-21", "url": "https://pbt.org/performances/alice-in-wonderland/", "has_exact": true}, {"company": "PITTSBURGH", "title": "Spring Mix: World Premieres", "start": "2027-04-09", "end": "2027-04-11", "url": "https://pbt.org/performances/spring-mix-world-premieres/", "has_exact": true}, {"company": "PITTSBURGH", "title": "The Sleeping Beauty with the PBT Orchestra", "start": "2027-05-07", "end": "2027-05-09", "url": "https://pbt.org/performances/the-sleeping-beauty/", "has_exact": true}, {"company": "ATLANTA", "title": "September Program", "start": "2026-09-18", "end": "2026-09-20", "url": "https://www.atlantaballet.com/performances/september-program", "has_exact": true}, {"company": "ATLANTA", "title": "The Nutcracker", "start": "2026-12-05", "end": "2026-12-26", "url": "https://www.atlantaballet.com/performances/nutcracker", "has_exact": false}, {"company": "ATLANTA", "title": "The Great Gatsby", "start": "2027-02-13", "end": "2027-02-21", "url": "https://www.atlantaballet.com/performances/the-great-gatsby", "has_exact": true}, {"company": "ATLANTA", "title": "Swan Lake", "start": "2027-04-02", "end": "2027-04-04", "url": "https://www.atlantaballet.com/performances/swan-lake", "has_exact": true}, {"company": "ATLANTA", "title": "May Program", "start": "2027-05-14", "end": "2027-05-16", "url": "https://www.atlantaballet.com/performances/may-program-3", "has_exact": true}, {"company": "KCB", "title": "The Wizard of Oz", "start": "2026-10-16", "end": "2026-10-25", "url": "https://kcballet.org/events/the-wizard-of-oz/", "has_exact": true}, {"company": "KCB", "title": "The Nutcracker", "start": "2026-11-28", "end": "2026-12-24", "url": "https://kcballet.org/events/the-nutcracker/", "has_exact": true}, {"company": "KCB", "title": "New Moves", "start": "2027-01-28", "end": "2027-01-31", "url": "https://kcballet.org/events/new-moves/", "has_exact": true}, {"company": "KCB", "title": "Pinocchio", "start": "2027-02-19", "end": "2027-02-21", "url": "https://kcballet.org/events/pinocchio/", "has_exact": true}, {"company": "KCB", "title": "Romeo & Juliet", "start": "2027-03-12", "end": "2027-03-21", "url": "https://kcballet.org/events/romeo-and-juliet/", "has_exact": true}, {"company": "KCB", "title": "PULSE", "start": "2027-05-14", "end": "2027-05-23", "url": "https://kcballet.org/events/pulse/", "has_exact": true}, {"company": "AUSTIN", "title": "A Midsummer Night's Dream", "start": "2026-09-25", "end": "2026-09-27", "url": "https://balletaustin.org/performances/seasontickets/", "has_exact": true}, {"company": "AUSTIN", "title": "The Nutcracker", "start": "2026-12-04", "end": "2026-12-23", "url": "https://balletaustin.org/performances/seasontickets/", "has_exact": true}, {"company": "AUSTIN", "title": "Director's Choice / Rhythm of the Heart", "start": "2027-02-12", "end": "2027-02-14", "url": "https://balletaustin.org/performances/seasontickets/", "has_exact": true}, {"company": "AUSTIN", "title": "Roses for the Last Dance", "start": "2027-03-19", "end": "2027-03-21", "url": "https://balletaustin.org/performances/seasontickets/", "has_exact": true}, {"company": "AUSTIN", "title": "Giselle", "start": "2027-05-07", "end": "2027-05-09", "url": "https://balletaustin.org/performances/seasontickets/", "has_exact": true}, {"company": "TEXAS", "title": "Casanova", "start": "2026-09-18", "end": "2026-10-04", "url": "https://texasballettheater.org/performance/casanova/", "has_exact": false}, {"company": "TEXAS", "title": "The Nutcracker", "start": "2026-11-27", "end": "2026-12-27", "url": "https://texasballettheater.org/performance/the-nutcracker-2026/", "has_exact": false}, {"company": "TEXAS", "title": "Unbound", "start": "2027-02-19", "end": "2027-02-28", "url": "https://texasballettheater.org/performance/unbound/", "has_exact": false}, {"company": "TEXAS", "title": "Coppelia", "start": "2027-05-14", "end": "2027-05-23", "url": "https://texasballettheater.org/performance/coppelia/", "has_exact": false}, {"company": "SARASOTA", "title": "Program Two", "start": "2026-11-20", "end": "2026-11-21", "url": "https://www.sarasotaballet.org/season-overview-2026-2027/", "has_exact": false}, {"company": "SARASOTA", "title": "Program Three", "start": "2026-12-18", "end": "2026-12-19", "url": "https://www.sarasotaballet.org/season-overview-2026-2027/", "has_exact": false}, {"company": "SARASOTA", "title": "Program Five", "start": "2027-02-26", "end": "2027-03-01", "url": "https://www.sarasotaballet.org/season-overview-2026-2027/", "has_exact": false}, {"company": "SARASOTA", "title": "Program Six", "start": "2027-03-26", "end": "2027-03-27", "url": "https://www.sarasotaballet.org/season-overview-2026-2027/", "has_exact": false}, {"company": "CAROLINA", "title": "Dracula", "start": "2026-10-15", "end": "2026-11-01", "url": "https://carolinaballet.com/program/dracula/", "has_exact": true}, {"company": "CAROLINA", "title": "Jewels", "start": "2026-11-19", "end": "2026-11-22", "url": "https://carolinaballet.com/program/jewels/", "has_exact": true}, {"company": "CAROLINA", "title": "The Nutcracker", "start": "2026-12-10", "end": "2026-12-24", "url": "https://carolinaballet.com/program/the-nutcracker-2/", "has_exact": true}, {"company": "CAROLINA", "title": "Giselle", "start": "2027-02-04", "end": "2027-02-14", "url": "https://carolinaballet.com/program/giselle/", "has_exact": true}, {"company": "CAROLINA", "title": "The Little Mermaid", "start": "2027-03-04", "end": "2027-03-21", "url": "https://carolinaballet.com/program/the-little-mermaid/", "has_exact": true}, {"company": "CAROLINA", "title": "The Rite of Spring", "start": "2027-04-22", "end": "2027-04-25", "url": "https://carolinaballet.com/program/the-rite-of-spring-and-ophelia/", "has_exact": true}, {"company": "CAROLINA", "title": "Sleeping Beauty", "start": "2027-05-13", "end": "2027-05-16", "url": "https://carolinaballet.com/program/sleeping-beauty/", "has_exact": true}, {"company": "OREGON", "title": "Swan Lake", "start": "2026-10-10", "end": "2026-10-17", "url": "https://www.obt.org/event/swan-lake-2026-27/", "has_exact": true}, {"company": "OREGON", "title": "George Balanchine's The Nutcracker", "start": "2026-12-05", "end": "2026-12-24", "url": "https://www.obt.org/event/the-nutcracker-2026-27/", "has_exact": true}, {"company": "OREGON", "title": "Dominic Walsh's Storybook Nutcracker", "start": "2026-12-23", "end": "2026-12-23", "url": "https://www.obt.org/event/storybook-nutcracker-2026-27/", "has_exact": true}, {"company": "OREGON", "title": "ALICE (in wonderland)", "start": "2027-02-13", "end": "2027-02-21", "url": "https://www.obt.org/event/alice-in-wonderland-2026-27/", "has_exact": true}, {"company": "OREGON", "title": "MADCAP", "start": "2027-04-02", "end": "2027-04-10", "url": "https://www.obt.org/event/madcap-2026-27/", "has_exact": true}, {"company": "OREGON", "title": "Annual School Performance", "start": "2027-04-10", "end": "2027-04-11", "url": "https://www.obt.org/event/annual-school-performance-2026-27/", "has_exact": true}, {"company": "OREGON", "title": "OBT2: OBT By Design", "start": "2027-05-09", "end": "2027-05-09", "url": "https://www.obt.org/event/obt-by-design-2026-27/", "has_exact": true}, {"company": "OREGON", "title": "The OBT Collection", "start": "2027-06-10", "end": "2027-06-12", "url": "https://www.obt.org/event/the-obt-collection-2026-27/", "has_exact": true}, {"company": "BALLETMET", "title": "Future Icons: A Choreographic Project", "start": "2026-09-10", "end": "2026-09-12", "url": "https://www.balletmet.org/performances/future-icons/", "has_exact": true}, {"company": "BALLETMET", "title": "Marilyn", "start": "2026-10-16", "end": "2026-10-24", "url": "https://www.balletmet.org/performances/marilyn/", "has_exact": true}, {"company": "BALLETMET", "title": "The Nutcracker", "start": "2026-12-10", "end": "2026-12-27", "url": "https://www.balletmet.org/performances/the-nutcracker/", "has_exact": true}, {"company": "BALLETMET", "title": "Swan Lake", "start": "2027-02-19", "end": "2027-02-21", "url": "https://www.balletmet.org/performances/swan-lake/", "has_exact": true}, {"company": "BALLETMET", "title": "For the Love of Dance 2.0", "start": "2027-04-02", "end": "2027-04-10", "url": "https://www.balletmet.org/performances/for-the-love-of-dance/", "has_exact": true}, {"company": "BALLETMET", "title": "My First Sleeping Beauty", "start": "2027-04-17", "end": "2027-04-18", "url": "https://www.balletmet.org/performances/my-first-sleeping-beauty/", "has_exact": true}, {"company": "BALLETMET", "title": "CARMEN.maquia", "start": "2027-05-14", "end": "2027-05-22", "url": "https://www.balletmet.org/performances/carmen-maquia/", "has_exact": true}, {"company": "ORLANDO", "title": "The Sleeping Beauty", "start": "2026-10-15", "end": "2026-10-18", "url": "https://orlandoballet.org/performances-events/the-sleeping-beauty/", "has_exact": true}, {"company": "ORLANDO", "title": "The Nutcracker", "start": "2026-12-04", "end": "2026-12-27", "url": "https://orlandoballet.org/performances-events/the-nutcracker/", "has_exact": true}, {"company": "ORLANDO", "title": "Alice in Wonderland", "start": "2027-02-11", "end": "2027-02-14", "url": "https://orlandoballet.org/performances-events/alice-in-wonderland/", "has_exact": true}, {"company": "ORLANDO", "title": "Director's Collection", "start": "2027-04-02", "end": "2027-04-04", "url": "https://orlandoballet.org/performances-events/directors-collection/", "has_exact": true}, {"company": "ORLANDO", "title": "Moulin Rouge", "start": "2027-05-06", "end": "2027-05-09", "url": "https://orlandoballet.org/performances-events/moulin-rouge-the-ballet/", "has_exact": true}, {"company": "ORLANDO", "title": "Uncorked", "start": "2026-09-25", "end": "2027-03-12", "url": "https://orlandoballet.org/performances-events/uncorked/", "has_exact": true}, {"company": "MILWAUKEE", "title": "Mirror Mirror", "start": "2026-11-06", "end": "2026-11-08", "url": "https://milwaukeeballet.org/Mirror-Mirror", "has_exact": true}, {"company": "MILWAUKEE", "title": "The Nutcracker", "start": "2026-12-05", "end": "2026-12-26", "url": "https://milwaukeeballet.org/The-Nutcracker", "has_exact": true}, {"company": "MILWAUKEE", "title": "MKE MIX: Art Moves", "start": "2027-01-22", "end": "2027-01-31", "url": "https://milwaukeeballet.org/MKE-MIX", "has_exact": true}, {"company": "MILWAUKEE", "title": "Dorian Gray", "start": "2027-03-05", "end": "2027-03-07", "url": "https://milwaukeeballet.org/Dorian-Gray", "has_exact": true}, {"company": "MILWAUKEE", "title": "A Midsummer Night's Dream", "start": "2027-04-23", "end": "2027-05-02", "url": "https://milwaukeeballet.org/Midsummer", "has_exact": true}, {"company": "RICHMOND", "title": "Stars & Stripes / Moving Art One", "start": "2026-09-10", "end": "2026-09-20", "url": "https://richmondballet.com/performances/", "has_exact": true}, {"company": "RICHMOND", "title": "Elevation / Moving Art Two", "start": "2026-10-22", "end": "2026-11-01", "url": "https://richmondballet.com/performances/", "has_exact": true}, {"company": "RICHMOND", "title": "The Nutcracker", "start": "2026-12-05", "end": "2026-12-23", "url": "https://richmondballet.com/performances/", "has_exact": true}, {"company": "RICHMOND", "title": "Tchaikovsky: The Man Behind the Music", "start": "2027-02-12", "end": "2027-02-14", "url": "https://richmondballet.com/performances/", "has_exact": true}, {"company": "RICHMOND", "title": "New Works / Moving Art Three", "start": "2027-03-11", "end": "2027-03-21", "url": "https://richmondballet.com/performances/", "has_exact": true}, {"company": "RICHMOND", "title": "Director's Choice / Moving Art Four", "start": "2027-05-13", "end": "2027-05-23", "url": "https://richmondballet.com/performances/", "has_exact": true}, {"company": "OK_CITY", "title": "Ballet Under the Stars", "start": "2026-09-11", "end": "2026-09-11", "url": "https://www.okcballet.org/performance/ballet-under-the-stars-26/", "has_exact": true}, {"company": "OK_CITY", "title": "SHORTS", "start": "2026-10-23", "end": "2026-10-25", "url": "https://www.okcballet.org/performance/shorts-27/", "has_exact": true}, {"company": "OK_CITY", "title": "The Nutcracker", "start": "2026-12-11", "end": "2026-12-21", "url": "https://www.okcballet.org/performance/the-nutcracker-26/", "has_exact": true}, {"company": "OK_CITY", "title": "Don Quixote", "start": "2027-02-12", "end": "2027-02-14", "url": "https://www.okcballet.org/performance/don-quixote/", "has_exact": true}, {"company": "OK_CITY", "title": "Future Voices: A Choreographic Showcase", "start": "2027-03-12", "end": "2027-03-21", "url": "https://www.okcballet.org/performance/future-voices-27/", "has_exact": true}, {"company": "OK_CITY", "title": "Alice in Wonderland", "start": "2027-04-30", "end": "2027-05-09", "url": "https://www.okcballet.org/performance/alice-27/", "has_exact": true}, {"company": "LOUISVILLE", "title": "Hamlet & Ophelia", "start": "2026-08-05", "end": "2026-08-09", "url": "https://louisvilleballet.org/hamlet-ophelia/", "has_exact": true}, {"company": "LOUISVILLE", "title": "Frankenstein", "start": "2026-10-30", "end": "2026-10-31", "url": "https://louisvilleballet.org/frankenstein/", "has_exact": true}, {"company": "LOUISVILLE", "title": "The Brown-Forman Nutcracker", "start": "2026-12-11", "end": "2026-12-21", "url": "https://louisvilleballet.org/holidaymagic/", "has_exact": true}, {"company": "LOUISVILLE", "title": "Carmen", "start": "2027-02-12", "end": "2027-02-13", "url": "https://louisvilleballet.org/carmen/", "has_exact": true}, {"company": "LOUISVILLE", "title": "Bourbon & Ballet", "start": "2027-03-19", "end": "2027-03-21", "url": "https://louisvilleballet.org/bourbon-ballet/", "has_exact": true}, {"company": "LOUISVILLE", "title": "Momentum", "start": "2027-05-21", "end": "2027-05-23", "url": "https://louisvilleballet.org/momentum/", "has_exact": true}, {"company": "SACRAMENTO", "title": "Long and Winding Road", "start": "2026-10-23", "end": "2026-10-25", "url": "https://www.sacballet.org/performances/", "has_exact": true}, {"company": "SACRAMENTO", "title": "The Nutcracker", "start": "2026-12-12", "end": "2026-12-24", "url": "https://www.sacballet.org/performances/", "has_exact": false}, {"company": "SACRAMENTO", "title": "Wild Sweet Love", "start": "2027-03-05", "end": "2027-03-07", "url": "https://www.sacballet.org/performances/", "has_exact": true}, {"company": "SACRAMENTO", "title": "Giselle", "start": "2027-04-09", "end": "2027-04-11", "url": "https://www.sacballet.org/performances/", "has_exact": true}, {"company": "SACRAMENTO", "title": "Beer & Ballet", "start": "2027-05-27", "end": "2027-05-30", "url": "https://www.sacballet.org/performances/", "has_exact": true}, {"company": "NASHVILLE", "title": "Live in Studio A", "start": "2026-09-11", "end": "2026-09-20", "url": "https://www.nashvilleballet.com/live-in-studio-a", "has_exact": false}, {"company": "NASHVILLE", "title": "Giselle", "start": "2026-10-02", "end": "2026-10-04", "url": "https://www.nashvilleballet.com/giselle", "has_exact": false}, {"company": "NASHVILLE", "title": "Dia de los Muertos", "start": "2026-10-28", "end": "2026-11-01", "url": "https://www.nashvilleballet.com/dia-de-los-muertos", "has_exact": false}, {"company": "NASHVILLE", "title": "Nashville's Nutcracker", "start": "2026-11-27", "end": "2026-12-27", "url": "https://www.nashvilleballet.com/nashvilles-nutcracker", "has_exact": false}, {"company": "NASHVILLE", "title": "Cinderella", "start": "2027-02-26", "end": "2027-02-28", "url": "https://www.nashvilleballet.com/cinderella", "has_exact": false}, {"company": "NASHVILLE", "title": "Attitude", "start": "2027-05-07", "end": "2027-05-09", "url": "https://www.nashvilleballet.com/attitude", "has_exact": false}, {"company": "NEVADA", "title": "Carmina Burana", "start": "2026-10-02", "end": "2026-10-04", "url": "https://nevadaballet.org/performances/carmina-burana-26-27/", "has_exact": true}, {"company": "NEVADA", "title": "George Balanchine's The Nutcracker", "start": "2026-12-12", "end": "2026-12-27", "url": "https://nevadaballet.org/performances/nutcracker-26-27/", "has_exact": true}, {"company": "NEVADA", "title": "Balanchine & Kylian", "start": "2027-02-20", "end": "2027-02-21", "url": "https://nevadaballet.org/performances/balanchine-kylian-26-27/", "has_exact": true}, {"company": "NEVADA", "title": "Alice (in Wonderland)", "start": "2027-04-09", "end": "2027-04-18", "url": "https://nevadaballet.org/performances/alice-in-wonderland-26-27/", "has_exact": true}, {"company": "NEVADA", "title": "Dance Lab", "start": "2027-05-05", "end": "2027-05-08", "url": "https://nevadaballet.org/performances/dance-lab-26-27/", "has_exact": true}, {"company": "VAIL", "title": "Opening Night", "start": "2026-07-31", "end": "2026-07-31", "url": "https://vaildance.org/event/opening-night/", "has_exact": true}, {"company": "VAIL", "title": "Martha Graham Dance Company", "start": "2026-08-01", "end": "2026-08-01", "url": "https://vaildance.org/event/martha-graham/", "has_exact": true}, {"company": "VAIL", "title": "UpClose with Damian Woetzel", "start": "2026-08-02", "end": "2026-08-02", "url": "https://vaildance.org/event/upclose/", "has_exact": true}, {"company": "VAIL", "title": "State of Grace", "start": "2026-08-03", "end": "2026-08-03", "url": "https://vaildance.org/event/stateofgrace/", "has_exact": true}, {"company": "VAIL", "title": "Dance for $20.26", "start": "2026-08-04", "end": "2026-08-04", "url": "https://vaildance.org/event/dance-for-2026/", "has_exact": true}, {"company": "VAIL", "title": "Watching Dance with Heather Watts", "start": "2026-08-05", "end": "2026-08-05", "url": "https://vaildance.org/event/watching-dance-with-heather-watts/", "has_exact": true}, {"company": "VAIL", "title": "Rennie Harris Puremovement American Street Dance Theater: Nuttin but a Word", "start": "2026-08-05", "end": "2026-08-05", "url": "https://vaildance.org/event/rennie-harris/", "has_exact": true}, {"company": "VAIL", "title": "Dancing in the Park", "start": "2026-08-06", "end": "2026-08-06", "url": "https://vaildance.org/event/dancing-in-the-park/", "has_exact": true}, {"company": "VAIL", "title": "International Evenings of Dance I", "start": "2026-08-07", "end": "2026-08-07", "url": "https://vaildance.org/event/ie1/", "has_exact": true}, {"company": "VAIL", "title": "International Evenings of Dance II", "start": "2026-08-08", "end": "2026-08-08", "url": "https://vaildance.org/event/ie2/", "has_exact": true}, {"company": "VAIL", "title": "International Evenings of Dance III", "start": "2026-08-08", "end": "2026-08-08", "url": "https://vaildance.org/event/ie3/", "has_exact": true}, {"company": "VAIL", "title": "Colorado Dances", "start": "2026-08-09", "end": "2026-08-09", "url": "https://vaildance.org/event/colorado-dances/", "has_exact": true}, {"company": "VAIL", "title": "NOW: Premieres", "start": "2026-08-10", "end": "2026-08-10", "url": "https://vaildance.org/event/now-premieres/", "has_exact": true}, {"company": "JOYCE", "title": "The Migration: Reflections on Jacob Lawrence", "start": "2026-06-10", "end": "2026-06-21", "url": "https://www.joyce.org/performances/step-afrika-1g2r", "has_exact": false}, {"company": "JOYCE", "title": "Trips", "start": "2026-06-23", "end": "2026-07-12", "url": "https://www.joyce.org/performances/pilobolus-n86f", "has_exact": false}, {"company": "JOYCE", "title": "Dances to American Music", "start": "2026-07-14", "end": "2026-07-25", "url": "https://www.joyce.org/performances/mark-morris-dance-group-qj1t", "has_exact": false}, {"company": "JOYCE", "title": "State of Darkness / Bardo", "start": "2026-07-19", "end": "2026-07-19", "url": "https://www.joyce.org/performances/state-of-darkness-bardo-84vs", "has_exact": false}, {"company": "JOYCE", "title": "PHILADANCO!", "start": "2026-07-29", "end": "2026-08-02", "url": "https://www.joyce.org/performances/philadanco-qj8t", "has_exact": false}, {"company": "JOYCE", "title": "Ballet Festival", "start": "2026-08-04", "end": "2026-08-16", "url": "https://www.joyce.org/performances/ballet-festival-rg17", "has_exact": false}, {"company": "JOYCE", "title": "The Surge", "start": "2026-09-16", "end": "2026-09-27", "url": "https://www.joyce.org/performances/the-surge-b1jd", "has_exact": false}, {"company": "JOYCE", "title": "The Sarasota Ballet", "start": "2026-09-29", "end": "2026-10-04", "url": "https://www.joyce.org/performances/the-sarasota-ballet-typc", "has_exact": false}, {"company": "JOYCE", "title": "Limón Dance Company", "start": "2026-10-06", "end": "2026-10-11", "url": "https://www.joyce.org/performances/limon-dance-company-ns9f", "has_exact": false}, {"company": "JOYCE", "title": "Khaṅkhaṇā", "start": "2026-10-13", "end": "2026-10-18", "url": "https://www.joyce.org/performances/nrityagram-dance-ensemble-clk1", "has_exact": false}, {"company": "JOYCE", "title": "London City Ballet", "start": "2026-10-27", "end": "2026-11-01", "url": "https://www.joyce.org/performances/london-city-ballet-tykc", "has_exact": false}, {"company": "JOYCE", "title": "Garth Fagan Dance", "start": "2026-11-04", "end": "2026-11-08", "url": "https://www.joyce.org/performances/garth-fagan-dance-f2nq", "has_exact": false}, {"company": "JOYCE", "title": "GALLIM", "start": "2026-11-11", "end": "2026-11-15", "url": "https://www.joyce.org/performances/gallim-rhr7", "has_exact": false}, {"company": "JOYCE", "title": "Complexions Contemporary Ballet", "start": "2026-11-17", "end": "2026-11-29", "url": "https://www.joyce.org/performances/complexions-contemporary-ballet-zb34", "has_exact": false}, {"company": "JOYCE", "title": "A Very SW!NG OUT Holiday", "start": "2026-12-01", "end": "2026-12-06", "url": "https://www.joyce.org/performances/a-very-sw-ng-out-holiday-mqyx", "has_exact": false}, {"company": "JOYCE", "title": "TAO Dance Theater", "start": "2026-12-08", "end": "2026-12-13", "url": "https://www.joyce.org/performances/tao-dance-theater-jwfy", "has_exact": false}, {"company": "JOYCE", "title": "Les Ballets Trockadero de Monte Carlo", "start": "2026-12-15", "end": "2027-01-03", "url": "https://www.joyce.org/performances/les-ballets-trockadero-de-monte-carlo-yktl", "has_exact": false}, {"company": "JOYCE", "title": "Palladium Nights", "start": "2027-01-05", "end": "2027-01-10", "url": "https://www.joyce.org/performances/sekou-mcmiller-and-friends-7z58", "has_exact": false}, {"company": "JOYCE", "title": "WOLF", "start": "2027-01-12", "end": "2027-01-24", "url": "https://www.joyce.org/performances/circa-xt46", "has_exact": false}, {"company": "JOYCE", "title": "Charlotte Ballet", "start": "2027-01-27", "end": "2027-01-31", "url": "https://www.joyce.org/performances/charlotte-ballet-5sqn", "has_exact": false}, {"company": "JOYCE", "title": "Black Grace", "start": "2027-02-02", "end": "2027-02-07", "url": "https://www.joyce.org/performances/black-grace-s3t2", "has_exact": false}, {"company": "JOYCE", "title": "Flamenco Legacy", "start": "2027-02-16", "end": "2027-02-21", "url": "https://www.joyce.org/performances/sergio-bernal-dance-company-nsbf", "has_exact": false}, {"company": "JOYCE", "title": "Ronald K. Brown / EVIDENCE", "start": "2027-02-23", "end": "2027-02-28", "url": "https://www.joyce.org/performances/ronald-k-brown-evidence-58bn", "has_exact": false}, {"company": "PAH", "title": "Dance Me: The Music of Leonard Cohen", "start": "2026-06-12", "end": "2026-06-13", "url": "https://performingartshouston.org/events/ballets-jazz-montreal-dance-me-the-music-of-leonard-cohen-2026-06-12-730-pm", "has_exact": false}, {"company": "PAH", "title": "Riverdance", "start": "2026-06-19", "end": "2026-06-21", "url": "https://performingartshouston.org/events/riverdance-2026-06-19-730-pm", "has_exact": false}, {"company": "PAH", "title": "Harrison Guy: Dear Prairie View", "start": "2026-09-04", "end": "2026-09-05", "url": "https://performingartshouston.org/events/harrison-guy-dear-prairie-view-2026-09-04-730-pm", "has_exact": false}, {"company": "PAH", "title": "Ekman's Midsummer Night's Dream", "start": "2026-10-23", "end": "2026-10-24", "url": "https://performingartshouston.org/events/the-joffrey-ballet-ekmans-midsummer-nights-dream-2026-10-23-730-pm", "has_exact": false}, {"company": "PAH", "title": "Duck Pond", "start": "2026-11-06", "end": "2026-11-07", "url": "https://performingartshouston.org/events/duck-pond-by-circa-2026-11-06-730-pm", "has_exact": false}, {"company": "PAH", "title": "Alvin Ailey American Dance Theater", "start": "2027-04-16", "end": "2027-04-18", "url": "https://performingartshouston.org/events/alvin-ailey-american-dance-theater-2027-04-16-730-pm", "has_exact": false}, {"company": "PAH", "title": "Divine Comedy Reloaded", "start": "2027-04-23", "end": "2027-04-24", "url": "https://performingartshouston.org/events/nogravity-theatre-divine-comedy-reloaded-2027-04-23-730-pm", "has_exact": false}, {"company": "PAH", "title": "MOMIX: Botanica", "start": "2027-06-18", "end": "2027-06-19", "url": "https://performingartshouston.org/events/momix-botanica-2027-06-18-730-pm", "has_exact": false}, {"company": "ARIZONA", "title": "Romeo & Juliet", "start": "2026-10-22", "end": "2026-10-25", "url": "https://balletaz.org/performance/romeo-and-juliet/2026-10-25/", "has_exact": false}, {"company": "ARIZONA", "title": "The Nutcracker", "start": "2026-12-11", "end": "2026-12-27", "url": "https://balletaz.org/performance/the-nutcracker/2026-12-27/", "has_exact": false}, {"company": "ARIZONA", "title": "Don Quixote", "start": "2027-02-11", "end": "2027-02-14", "url": "https://balletaz.org/performance/don-quixote/2027-02-14/", "has_exact": false}, {"company": "ARIZONA", "title": "Pulse", "start": "2027-04-01", "end": "2027-04-04", "url": "https://balletaz.org/performance/pulse/2027-04-04/", "has_exact": false}, {"company": "ARIZONA", "title": "Desert Lines", "start": "2027-05-12", "end": "2027-05-29", "url": "https://balletaz.org/performance/desert-lines/2027-05-29/", "has_exact": false}, {"company": "ARIZONA", "title": "Ballet in the Making", "start": "2027-06-12", "end": "2027-06-12", "url": "https://balletaz.org/performance/ballet-in-the-making/2027-06-12/", "has_exact": false}, {"company": "TULSA", "title": "Creations in Studio K", "start": "2026-09-10", "end": "2026-09-20", "url": "https://tulsaballet.org/event/creations-in-studio-k-2026/", "has_exact": true}, {"company": "TULSA", "title": "The Ugly Duckling – Fall 2026", "start": "2026-10-02", "end": "2026-10-03", "url": "https://tulsaballet.org/event/uglyducklingfall/", "has_exact": true}, {"company": "TULSA", "title": "Swan Lake", "start": "2026-10-22", "end": "2026-10-25", "url": "https://tulsaballet.org/event/swanlake/", "has_exact": true}, {"company": "TULSA", "title": "The Nutcracker", "start": "2026-12-05", "end": "2026-12-20", "url": "https://tulsaballet.org/event/thenutcracker2026/", "has_exact": true}, {"company": "TULSA", "title": "Cinderella", "start": "2027-02-18", "end": "2027-02-21", "url": "https://tulsaballet.org/event/cinderella2027/", "has_exact": true}, {"company": "TULSA", "title": "The Ugly Duckling – Spring 2027", "start": "2027-03-06", "end": "2027-03-06", "url": "https://tulsaballet.org/event/uglyducklingspring/", "has_exact": true}, {"company": "TULSA", "title": "Romeo & Juliet", "start": "2027-04-01", "end": "2027-04-04", "url": "https://tulsaballet.org/event/romeoandjuliet2027/", "has_exact": true}, {"company": "TULSA", "title": "Carmen", "start": "2027-05-06", "end": "2027-05-09", "url": "https://tulsaballet.org/event/carmen2027/", "has_exact": true}, {"company": "LINES", "title": "LINES Ballet in Philadelphia", "start": "2026-09-25", "end": "2026-09-26", "url": "https://linesballet.org/event/lines-ballet-in-philadelphia/", "has_exact": true}, {"company": "LINES", "title": "LINES Ballet in Modesto", "start": "2027-01-23", "end": "2027-01-23", "url": "https://linesballet.org/event/lines-ballet-in-modesto/", "has_exact": true}, {"company": "LINES", "title": "LINES Ballet in Palm Desert", "start": "2027-03-06", "end": "2027-03-06", "url": "https://linesballet.org/event/lines-ballet-in-palm-desert/", "has_exact": true}, {"company": "LINES", "title": "LINES Ballet in Chicago", "start": "2027-05-01", "end": "2027-05-02", "url": "https://linesballet.org/event/lines-ballet-in-chicago/", "has_exact": true}, {"company": "LOS_ANGELES", "title": "Los Angeles Ballet at the Hollywood Bowl", "start": "2026-09-08", "end": "2026-09-08", "url": "https://www.losangelesballet.org/hollywood-bowl", "has_exact": false}, {"company": "LOS_ANGELES", "title": "American Icons", "start": "2026-09-24", "end": "2026-09-27", "url": "https://www.losangelesballet.org/2026-2027-season/american-icons", "has_exact": false}, {"company": "LOS_ANGELES", "title": "The Nutcracker", "start": "2026-12-11", "end": "2026-12-27", "url": "https://www.losangelesballet.org/2026-2027-season/the-nutcracker", "has_exact": false}, {"company": "LOS_ANGELES", "title": "Movers & Shakers", "start": "2027-02-04", "end": "2027-02-06", "url": "https://www.losangelesballet.org/2026-2027-season/movers-and-shakers", "has_exact": false}, {"company": "LOS_ANGELES", "title": "Coppélia", "start": "2027-06-10", "end": "2027-06-13", "url": "https://www.losangelesballet.org/2025-2026-season/coppelia", "has_exact": false}, {"company": "LA_BALLET", "title": "Los Angeles Ballet at the Hollywood Bowl", "start": "2026-09-08", "end": "2026-09-08", "url": "https://www.losangelesballet.org/hollywood-bowl", "has_exact": true}, {"company": "LA_BALLET", "title": "American Icons", "start": "2026-09-24", "end": "2026-09-26", "url": "https://www.losangelesballet.org/2026-2027-season/american-icons", "has_exact": true}, {"company": "LA_BALLET", "title": "The Nutcracker", "start": "2026-12-11", "end": "2026-12-13", "url": "https://www.losangelesballet.org/2025-2026-season/the-nutcracker", "has_exact": true}, {"company": "LA_BALLET", "title": "The Nutcracker", "start": "2026-12-18", "end": "2026-12-27", "url": "https://www.losangelesballet.org/2025-2026-season/the-nutcracker", "has_exact": true}, {"company": "LA_BALLET", "title": "Movers & Shakers", "start": "2027-02-04", "end": "2027-02-06", "url": "https://www.losangelesballet.org/2026-2027-season/movers-and-shakers", "has_exact": true}, {"company": "LA_BALLET", "title": "Coppélia", "start": "2027-06-10", "end": "2027-06-13", "url": "https://www.losangelesballet.org/2025-2026-season/coppelia", "has_exact": true}, {"company": "AILEY", "title": "Ailey at BAM", "start": "2026-06-04", "end": "2026-06-07", "url": "https://ailey.org/series/ailey-bam", "has_exact": true}, {"company": "WASHINGTON", "title": "Moving Forces", "start": "2025-10-24", "end": "2025-10-26", "url": "https://www.washingtonballet.org/events/moving-forces/", "has_exact": false}, {"company": "WASHINGTON", "title": "The Nutcracker", "start": "2025-11-29", "end": "2025-12-28", "url": "https://www.washingtonballet.org/events/the-nutcracker-2025/", "has_exact": true}, {"company": "WASHINGTON", "title": "Giselle", "start": "2026-02-27", "end": "2026-03-08", "url": "https://www.washingtonballet.org/events/giselle-2026/", "has_exact": false}, {"company": "WASHINGTON", "title": "Cinderella", "start": "2026-05-08", "end": "2026-05-10", "url": "https://www.washingtonballet.org/events/cinderella/", "has_exact": true}, {"company": "HISPANICO", "title": "BAAND Together Dance Festival", "start": "2026-07-28", "end": "2026-08-01", "url": "https://lincolncenter.org/series/summer-for-the-city/baand-together-dance-festival-401", "has_exact": true}, {"company": "HISPANICO", "title": "Jacob's Pillow", "start": "2026-08-19", "end": "2026-08-23", "url": "https://www.jacobspillow.org/whats-on/events/ballet-hispanico-new-york/", "has_exact": true}, {"company": "DTOH", "title": "BAAND Together Dance Festival", "start": "2026-07-28", "end": "2026-08-01", "url": "https://lincolncenter.org/series/summer-for-the-city/baand-together-dance-festival-401", "has_exact": false}, {"company": "DTOH", "title": "2026 Fall Tour", "start": "2026-08-24", "end": "2026-11-14", "url": "https://www.dancetheatreofharlem.org/tour/", "has_exact": true}, {"company": "BALLETX", "title": "Festival at Highmark Mann", "start": "2026-06-04", "end": "2026-06-05", "url": "https://www.balletx.org/seasons/festival-at-highmark-mann-2026/", "has_exact": true}, {"company": "BALLETX", "title": "Four Seasons Reimagined Tour: Saratoga", "start": "2026-06-11", "end": "2026-06-11", "url": "https://www.balletx.org/event/saratoga-performing-arts-center/", "has_exact": true}, {"company": "BALLETX", "title": "Tour: Longwood Gardens", "start": "2026-06-17", "end": "2026-06-17", "url": "https://www.balletx.org/event/longwood-gardens/", "has_exact": true}, {"company": "BALLETX", "title": "Summer Series 2026", "start": "2026-07-15", "end": "2026-07-19", "url": "https://www.balletx.org/seasons/summer-series-2026/", "has_exact": true}, {"company": "BALLETX", "title": "Tour: Cambridge", "start": "2026-11-21", "end": "2026-11-22", "url": "https://www.balletx.org/event/takeda-theater-at-the-platform-nov-21-2026/", "has_exact": true}, {"company": "AIM", "title": "Jacob's Pillow: White Space", "start": "2026-07-15", "end": "2026-07-19", "url": "https://www.jacobspillow.org/whats-on/events/aim-by-kyle-abraham/", "has_exact": true}, {"company": "CLEVELAND", "title": "Dracula & Code of Silence", "start": "2025-10-24", "end": "2025-10-25", "url": "https://www.cleveballet.org/2025-2026-season", "has_exact": true}, {"company": "CLEVELAND", "title": "The Nutcracker", "start": "2025-12-12", "end": "2025-12-21", "url": "https://www.cleveballet.org/2025-2026-season", "has_exact": true}, {"company": "CLEVELAND", "title": "Handel's Messiah", "start": "2026-03-20", "end": "2026-03-22", "url": "https://www.cleveballet.org/2025-2026-season", "has_exact": true}, {"company": "CLEVELAND", "title": "Cinderella", "start": "2026-05-15", "end": "2026-05-17", "url": "https://www.cleveballet.org/2025-2026-season", "has_exact": true}, {"company": "DBDT", "title": "DanceAfrica", "start": "2025-10-03", "end": "2025-10-04", "url": "https://www.dbdt.com/season-calendar/danceafrica", "has_exact": true}, {"company": "DBDT", "title": "CATALYST: Director's Choice Series", "start": "2025-11-07", "end": "2025-11-08", "url": "https://www.dbdt.com/season-calendar/directors-choice", "has_exact": true}, {"company": "DBDT", "title": "KALEIDOSCOPE: Cultural Awareness Series", "start": "2026-02-13", "end": "2026-02-15", "url": "https://www.dbdt.com/season-calendar/cultural-awareness", "has_exact": true}, {"company": "DBDT", "title": "Tour: Prince George's Publick Playhouse", "start": "2026-04-23", "end": "2026-04-26", "url": "https://www.dbdt.com/season-calendar/publick-playhouse-2026", "has_exact": true}, {"company": "DBDT", "title": "PRISMATIC: Spring Celebration Series", "start": "2026-05-15", "end": "2026-05-16", "url": "https://www.dbdt.com/season-calendar/spring-celebration", "has_exact": true}, {"company": "COMPLEXIONS", "title": "Summer 2026 Tour", "start": "2026-07-16", "end": "2026-07-16", "url": "https://www.complexionscontemporaryballet.org/performances", "has_exact": true}, {"company": "COMPLEXIONS", "title": "Summer 2026 Tour", "start": "2026-07-22", "end": "2026-07-22", "url": "https://www.complexionscontemporaryballet.org/performances", "has_exact": true}, {"company": "COMPLEXIONS", "title": "Summer 2026 Tour", "start": "2026-07-28", "end": "2026-07-28", "url": "https://www.complexionscontemporaryballet.org/performances", "has_exact": true}, {"company": "COMPLEXIONS", "title": "Summer 2026 Tour", "start": "2026-07-31", "end": "2026-07-31", "url": "https://www.complexionscontemporaryballet.org/performances", "has_exact": true}, {"company": "CLEOPARKER", "title": "Raise The Roof: The First Performance", "start": "2026-01-17", "end": "2026-01-17", "url": "https://cleoparkerdance.org/", "has_exact": true}, {"company": "ARB", "title": "Giselle", "start": "2025-10-10", "end": "2025-10-12", "url": "https://arballet.org/performances-events/performances/", "has_exact": true}, {"company": "ARB", "title": "The Nutcracker", "start": "2025-11-28", "end": "2025-11-30", "url": "https://arballet.org/performances-events/performances/", "has_exact": true}, {"company": "ARB", "title": "Cinderella", "start": "2026-03-06", "end": "2026-03-08", "url": "https://arballet.org/performances-events/performances/", "has_exact": true}, {"company": "ARB", "title": "Americana", "start": "2026-05-01", "end": "2026-05-03", "url": "https://arballet.org/performances-events/performances/", "has_exact": true}, {"company": "ARB", "title": "An Evening of Dance: ARB & the PSO", "start": "2026-06-07", "end": "2026-06-07", "url": "https://arballet.org/event/an-evening-of-dance-arb-the-pso/", "has_exact": true}, {"company": "SMUIN", "title": "Extremely Close", "start": "2025-09-12", "end": "2025-09-14", "url": "https://www.smuinballet.org/events/extremely-close/", "has_exact": true}, {"company": "SMUIN", "title": "Extremely Close", "start": "2025-09-19", "end": "2025-09-20", "url": "https://www.smuinballet.org/events/extremely-close/", "has_exact": true}, {"company": "SMUIN", "title": "Extremely Close", "start": "2025-09-26", "end": "2025-10-05", "url": "https://www.smuinballet.org/events/extremely-close/", "has_exact": true}, {"company": "SMUIN", "title": "Future Forward", "start": "2026-04-17", "end": "2026-04-26", "url": "https://www.smuinballet.org/events/future-forward/", "has_exact": true}, {"company": "SMUIN", "title": "Future Forward", "start": "2026-05-01", "end": "2026-05-02", "url": "https://www.smuinballet.org/events/future-forward/", "has_exact": true}, {"company": "SMUIN", "title": "Future Forward", "start": "2026-05-14", "end": "2026-05-17", "url": "https://www.smuinballet.org/events/future-forward/", "has_exact": true}, {"company": "SMUIN", "title": "The Christmas Ballet", "start": "2025-11-22", "end": "2025-11-23", "url": "https://www.smuinballet.org/events/christmas-2025/", "has_exact": true}, {"company": "SMUIN", "title": "The Christmas Ballet", "start": "2025-12-05", "end": "2025-12-06", "url": "https://www.smuinballet.org/events/christmas-2025/", "has_exact": true}, {"company": "SMUIN", "title": "The Christmas Ballet", "start": "2025-12-11", "end": "2025-12-14", "url": "https://www.smuinballet.org/events/christmas-2025/", "has_exact": true}, {"company": "SMUIN", "title": "The Christmas Ballet", "start": "2025-12-18", "end": "2025-12-28", "url": "https://www.smuinballet.org/events/christmas-2025/", "has_exact": true}, {"company": "SMUIN", "title": "Spring Point", "start": "2026-02-13", "end": "2026-02-15", "url": "https://www.smuinballet.org/events/spring-point/", "has_exact": true}, {"company": "LA_DANCE", "title": "LADP Performs: Rituel", "start": "2025-10-09", "end": "2025-10-11", "url": "https://ladanceproject.org/event-type/ladp-performances/", "has_exact": true}, {"company": "LA_DANCE", "title": "LADP Performs: Reflections", "start": "2025-10-23", "end": "2025-10-25", "url": "https://ladanceproject.org/event-type/ladp-performances/", "has_exact": true}, {"company": "LA_DANCE", "title": "LADP Performs: Reflections", "start": "2026-02-21", "end": "2026-02-22", "url": "https://ladanceproject.org/event-type/ladp-performances/", "has_exact": true}, {"company": "HUBBARD", "title": "Fall Series 2025", "start": "2025-11-14", "end": "2025-11-23", "url": "https://www.hubbardstreetdance.com/season-48/", "has_exact": false}, {"company": "HUBBARD", "title": "Winter Series 2026", "start": "2026-02-26", "end": "2026-03-01", "url": "https://www.hubbardstreetdance.com/season-48/", "has_exact": false}, {"company": "HUBBARD", "title": "Spring Series 2026", "start": "2026-05-14", "end": "2026-05-17", "url": "https://www.hubbardstreetdance.com/season-48/", "has_exact": false}, {"company": "HUBBARD", "title": "Fall for Dance 2025", "start": "2025-09-18", "end": "2025-09-19", "url": "https://www.hubbardstreetdance.com/season-48/touring/", "has_exact": false}, {"company": "HUBBARD", "title": "Fall Series 2025", "start": "2025-09-27", "end": "2025-09-27", "url": "https://www.hubbardstreetdance.com/season-48/touring/", "has_exact": false}, {"company": "HUBBARD", "title": "Fall Series 2025", "start": "2025-10-16", "end": "2025-10-16", "url": "https://www.hubbardstreetdance.com/season-48/touring/", "has_exact": false}, {"company": "HUBBARD", "title": "Winter Series 2026", "start": "2026-01-24", "end": "2026-01-25", "url": "https://www.hubbardstreetdance.com/season-48/touring/", "has_exact": false}, {"company": "HUBBARD", "title": "Spring Series 2026", "start": "2026-03-24", "end": "2026-04-05", "url": "https://www.hubbardstreetdance.com/season-48/touring/", "has_exact": false}, {"company": "HUBBARD", "title": "Winter Series 2026", "start": "2026-03-21", "end": "2026-03-21", "url": "https://www.hubbardstreetdance.com/season-48/touring/", "has_exact": false}, {"company": "HUBBARD", "title": "Spring Series 2026", "start": "2026-04-25", "end": "2026-04-25", "url": "https://www.hubbardstreetdance.com/season-48/touring/", "has_exact": false}, {"company": "GRAND_RAPIDS", "title": "Summer Series", "start": "2025-08-22", "end": "2025-09-14", "url": "", "has_exact": false}, {"company": "GRAND_RAPIDS", "title": "Sherlock", "start": "2025-10-24", "end": "2025-11-01", "url": "https://grballet.com/sherlock/", "has_exact": false}, {"company": "GRAND_RAPIDS", "title": "The Nutcracker", "start": "2025-12-12", "end": "2025-12-21", "url": "https://grballet.com/nutcracker2025/", "has_exact": false}, {"company": "GRAND_RAPIDS", "title": "Swan Lake", "start": "2026-02-27", "end": "2026-03-01", "url": "https://grballet.com/swanlake/", "has_exact": false}, {"company": "GRAND_RAPIDS", "title": "Jumpstart", "start": "2026-03-27", "end": "2026-03-29", "url": "https://grballet.com/jumpstart-2026/", "has_exact": false}, {"company": "GRAND_RAPIDS", "title": "In the Countenance of Kings", "start": "2026-04-24", "end": "2026-05-03", "url": "https://grballet.com/25-26-season/", "has_exact": false}, {"company": "MADISON", "title": "Rock the Ballet", "start": "2025-10-10", "end": "2025-10-12", "url": "https://www.madisonballet.org/rock-the-ballet", "has_exact": false}, {"company": "MADISON", "title": "The Nutcracker", "start": "2025-12-12", "end": "2025-12-21", "url": "https://www.madisonballet.org/the-nutcracker-2025", "has_exact": false}, {"company": "MADISON", "title": "Pointes of View", "start": "2026-02-13", "end": "2026-02-15", "url": "https://www.madisonballet.org/pointes-of-view", "has_exact": false}, {"company": "MADISON", "title": "ChoreograpHER", "start": "2026-04-03", "end": "2026-04-05", "url": "https://www.madisonballet.org/choreographer", "has_exact": false}, {"company": "MADISON", "title": "Innovation II", "start": "2026-05-08", "end": "2026-05-10", "url": "https://www.madisonballet.org/innovation-ii", "has_exact": false}, {"company": "GRAHAM", "title": "Summer Tour 2026", "start": "2026-08-01", "end": "2026-08-01", "url": "https://vaildance.org/event/martha-graham/", "has_exact": false}, {"company": "GRAHAM", "title": "Summer Tour 2026", "start": "2026-08-12", "end": "2026-08-16", "url": "https://www.jacobspillow.org/whats-on/events/martha-graham-dance-company/", "has_exact": false}, {"company": "GRAHAM", "title": "Summer Tour 2026", "start": "2026-08-14", "end": "2026-08-14", "url": "https://www.bso.org/events/august-14-boston-symphony-orch?performance=2026-08-14-20:00", "has_exact": false}, {"company": "MOMIX", "title": "Spring Tour 2026", "start": "2026-06-06", "end": "2026-06-06", "url": "https://attpac.org/event/momix-botanica", "has_exact": true}, {"company": "MOMIX", "title": "Summer Tour 2026", "start": "2026-07-05", "end": "2026-07-05", "url": "https://vilarpac.org/event/momix-botanica/", "has_exact": true}, {"company": "MOMIX", "title": "Summer Tour 2026", "start": "2026-07-08", "end": "2026-07-08", "url": "https://www.momix.com/botanica/", "has_exact": true}, {"company": "MOMIX", "title": "Summer Tour 2026", "start": "2026-07-11", "end": "2026-07-11", "url": "https://lensic.org/events/momix-2026/", "has_exact": true}, {"company": "NEW_JERSEY", "title": "Visionary Voices", "start": "2025-11-14", "end": "2025-11-14", "url": "https://www.mayoarts.org/shows/new-jersey-ballet-presents-visionary-voices/", "has_exact": true}, {"company": "NEW_JERSEY", "title": "The Nutcracker", "start": "2025-12-12", "end": "2025-12-27", "url": "https://www.mayoarts.org/shows/new-jersey-ballets-the-nutcracker-with-new-jersey-symphony/", "has_exact": false}, {"company": "NEW_JERSEY", "title": "Icons of American Ballet", "start": "2026-03-20", "end": "2026-03-21", "url": "https://www.njballet.org/calendar", "has_exact": true}, {"company": "NEW_JERSEY", "title": "Sleeping Beauty", "start": "2026-03-21", "end": "2026-03-22", "url": "https://www.mayoarts.org/shows/new-jersey-ballet-presents-sleeping-beauty-featuring-new-jersey-symphony/", "has_exact": true}, {"company": "NEXTGEN", "title": "The Nutcracker", "start": "2025-12-19", "end": "2025-12-23", "url": "https://www.strazcenter.org/patel-conservatory/dance/next-generation-ballet/performances-and-repertoire/", "has_exact": false}, {"company": "NEXTGEN", "title": "Coppélia", "start": "2026-05-09", "end": "2026-05-10", "url": "https://www.strazcenter.org/events/2526-season/dance/coppelia/", "has_exact": false}, {"company": "OAKLAND", "title": "Luna Mexicana", "start": "2025-11-01", "end": "2025-11-01", "url": "https://oaklandballet.org/performances-events/luna-mexicana/", "has_exact": true}, {"company": "OAKLAND", "title": "The Nutcracker", "start": "2025-12-20", "end": "2025-12-21", "url": "https://oaklandballet.org/performances-events/graham-lustigs-the-nutcracker/", "has_exact": true}, {"company": "OAKLAND", "title": "Dancing Moons Festival", "start": "2026-04-30", "end": "2026-05-02", "url": "https://oaklandballet.org/performances-events/dancing-moons-festival/", "has_exact": false}, {"company": "OAKLAND", "title": "Dancing Moons Festival", "start": "2026-05-05", "end": "2026-05-09", "url": "https://oaklandballet.org/performances-events/dancing-moons-festival/", "has_exact": false}, {"company": "TAYLOR", "title": "Summer Tour 2026", "start": "2026-06-24", "end": "2026-06-28", "url": "https://www.jacobspillow.org/whats-on/events/paul-taylor-dance-company/", "has_exact": false}, {"company": "TAYLOR", "title": "Summer Tour 2026", "start": "2026-07-15", "end": "2026-07-16", "url": "https://americandancefestival.org/event/paul-taylor-dance-company-4/2026-07-16/", "has_exact": false}, {"company": "TAYLOR", "title": "Summer Tour 2026", "start": "2026-07-22", "end": "2026-07-22", "url": "https://cityparksfoundation.org/arts/summerstage/", "has_exact": false}, {"company": "PILOBOLUS", "title": "Other Worlds Tour", "start": "2026-06-18", "end": "2026-06-18", "url": "https://pilobolus.org/tour-dates/2026/06/18/new-haven-ct", "has_exact": false}, {"company": "PILOBOLUS", "title": "Summer Residency 2026", "start": "2026-06-23", "end": "2026-07-12", "url": "https://pilobolus.org/tour-dates/2026/the-joyce", "has_exact": true}, {"company": "PORTLAND", "title": "Adventures in Wonderland", "start": "2025-10-24", "end": "2025-10-25", "url": "https://www.portlandballet.org/adventures-in-wonderland", "has_exact": true}, {"company": "PORTLAND", "title": "A Victorian Nutcracker", "start": "2025-12-06", "end": "2025-12-06", "url": "https://www.portlandballet.org/vicnut25", "has_exact": true}, {"company": "PORTLAND", "title": "A Victorian Nutcracker", "start": "2025-12-16", "end": "2025-12-16", "url": "https://www.portlandballet.org/vicnut25", "has_exact": true}, {"company": "PORTLAND", "title": "A Victorian Nutcracker", "start": "2025-12-20", "end": "2025-12-21", "url": "https://www.portlandballet.org/vicnut25", "has_exact": true}, {"company": "PORTLAND", "title": "A Very Nutty Nutcracker", "start": "2025-12-21", "end": "2025-12-21", "url": "https://www.portlandballet.org/nutty-nutcracker", "has_exact": true}, {"company": "PORTLAND", "title": "New Works", "start": "2026-03-20", "end": "2026-03-20", "url": "https://www.portlandballet.org/new-works-26", "has_exact": true}, {"company": "PORTLAND", "title": "A Midsummer Night's Dream", "start": "2026-04-24", "end": "2026-04-25", "url": "https://www.portlandballet.org/a-midsummer-nights-dream", "has_exact": true}, {"company": "RAGAMALA", "title": "ANANTA: THE ETERNAL", "start": "2025-10-25", "end": "2025-10-25", "url": "https://broadstage.org/tickets-shows/calendar/ananta-the-eternal/", "has_exact": false}, {"company": "RAGAMALA", "title": "AN EVENING OF BHARATANATYAM", "start": "2026-01-27", "end": "2026-01-27", "url": "https://www.ragamaladance.org/upcoming/carletoncollege", "has_exact": false}, {"company": "RAGAMALA", "title": "SACRED EARTH", "start": "2026-01-31", "end": "2026-02-01", "url": "https://www.ragamaladance.org/upcoming/rowanuniversitysacredearth", "has_exact": false}, {"company": "RAGAMALA", "title": "AN EVENING OF BHARATANATYAM", "start": "2026-02-17", "end": "2026-02-17", "url": "https://www.ragamaladance.org/upcoming/umnduluth", "has_exact": false}, {"company": "RAGAMALA", "title": "AN EVENING OF BHARATANATYAM", "start": "2026-02-19", "end": "2026-02-19", "url": "https://www.ragamaladance.org/upcoming/brainerd2026", "has_exact": false}, {"company": "RAGAMALA", "title": "CHILDREN OF DHARMA", "start": "2026-03-25", "end": "2026-03-25", "url": "https://www.ragamaladance.org/upcoming/codgoguecenter", "has_exact": false}, {"company": "RAGAMALA", "title": "SACRED EARTH", "start": "2026-04-30", "end": "2026-04-30", "url": "https://www.ragamaladance.org/upcoming/luminaryartscenter2026", "has_exact": false}, {"company": "RAGAMALA", "title": "AN EVENING OF BHARATANATYAM", "start": "2026-05-09", "end": "2026-05-09", "url": "https://www.ragamaladance.org/upcoming/worthington2026", "has_exact": false}, {"company": "IDAHO", "title": "Sherlock/Giselle Act II", "start": "2025-10-10", "end": "2025-10-12", "url": "https://balletidaho.org/performance/sherlock-giselle/", "has_exact": true}, {"company": "IDAHO", "title": "The Nutcracker", "start": "2025-12-13", "end": "2025-12-23", "url": "https://balletidaho.org/performance/the-nutcracker/", "has_exact": true}, {"company": "IDAHO", "title": "Anthology", "start": "2026-02-13", "end": "2026-02-21", "url": "https://balletidaho.org/performance/anthology/", "has_exact": true}, {"company": "IDAHO", "title": "Cinderella", "start": "2026-06-05", "end": "2026-06-07", "url": "https://balletidaho.org/performance/cinderella/", "has_exact": true}, {"company": "ALABAMA", "title": "Legacy in Motion", "start": "2025-09-19", "end": "2025-09-21", "url": "https://alabamaballet.org/25-26-season-announced/", "has_exact": false}, {"company": "ALABAMA", "title": "Balanchine's Nutcracker", "start": "2025-12-12", "end": "2025-12-23", "url": "https://alabamaballet.org/performance/nutcracker/", "has_exact": false}, {"company": "ALABAMA", "title": "At Home: Mixtape", "start": "2026-01-30", "end": "2026-02-01", "url": "https://alabamaballet.org/performance/at-home-mixtape/", "has_exact": false}, {"company": "ALABAMA", "title": "Sleeping Beauty", "start": "2026-03-13", "end": "2026-03-15", "url": "https://alabamaballet.org/performance/sleeping-beauty/", "has_exact": false}, {"company": "ALABAMA", "title": "Unbound: Serenade & Carmina Burana", "start": "2026-05-08", "end": "2026-05-10", "url": "https://alabamaballet.org/performance/unbound_26/", "has_exact": false}, {"company": "EUGENE", "title": "Dracula", "start": "2025-11-01", "end": "2025-11-02", "url": "https://www.eugeneballet.org/2025-26-season/dracula/", "has_exact": false}, {"company": "EUGENE", "title": "The Nutcracker", "start": "2025-12-19", "end": "2025-12-24", "url": "https://www.eugeneballet.org/2025-26-season/the-nutcracker/", "has_exact": true}, {"company": "EUGENE", "title": "Cinderella", "start": "2026-02-20", "end": "2026-02-22", "url": "https://www.eugeneballet.org/2025-26-season/cinderella/", "has_exact": false}, {"company": "EUGENE", "title": "Petrushka: An AI Ballet", "start": "2026-04-11", "end": "2026-04-12", "url": "https://www.eugeneballet.org/2025-26-season/petrushka/", "has_exact": false}, {"company": "EUGENE", "title": "Alice in Wonderland", "start": "2026-05-30", "end": "2026-05-31", "url": "https://www.eugeneballet.org/2025-26-season/alice-in-wonderland/", "has_exact": true}, {"company": "JUILLIARD", "title": "Fall Festival: Opening Night", "start": "2025-09-12", "end": "2025-09-12", "url": "https://www.juilliard.edu/event/177901/opening-night", "has_exact": true}, {"company": "JUILLIARD", "title": "Fall Festival: Departing", "start": "2025-09-20", "end": "2025-09-20", "url": "https://www.juilliard.edu/event/177956/departing", "has_exact": true}, {"company": "JUILLIARD", "title": "New Dances: Edition 2025", "start": "2025-12-10", "end": "2025-12-14", "url": "https://www.juilliard.edu/event/178396/new-dances-edition-2025", "has_exact": false}, {"company": "JUILLIARD", "title": "Spring Dances 2026", "start": "2026-03-25", "end": "2026-03-28", "url": "https://www.juilliard.edu/event/178786/spring-dances-2026", "has_exact": false}, {"company": "MORRIS", "title": "Pizzica, Three Preludes, Going Away Party, You've Got to Be Modernistic", "start": "2026-07-02", "end": "2026-07-04", "url": "https://markmorrisdancegroup.org/event/american-dance-festival/", "has_exact": true}, {"company": "MORRIS", "title": "Program A | Pizzica, Three Preludes, Dancing Honeymoon, You've Got to Be Modernistic", "start": "2026-07-14", "end": "2026-07-18", "url": "https://markmorrisdancegroup.org/event/the-joyce-theater-2026-program-a/", "has_exact": true}, {"company": "MORRIS", "title": "Program B | Songs That Tell A Story, Deck of Cards, Going Away Party, Home", "start": "2026-07-16", "end": "2026-07-25", "url": "https://markmorrisdancegroup.org/event/the-joyce-theater-2026-program-b/", "has_exact": true}, {"company": "MORRIS", "title": "Program C | Prelude and Prelude, Jenn and Spencer, Pacific, Grand Duo", "start": "2026-07-21", "end": "2026-07-25", "url": "https://markmorrisdancegroup.org/event/the-joyce-theater-2026-program-c/", "has_exact": true}, {"company": "MORRIS", "title": "Three Preludes, Northwest, Jenn and Spencer, Dancing Honeymoon", "start": "2026-07-30", "end": "2026-07-30", "url": "https://markmorrisdancegroup.org/event/caramoor-7-30-26/", "has_exact": true}, {"company": "MORRIS", "title": "Holidayland", "start": "2026-12-11", "end": "2026-12-13", "url": "https://markmorrisdancegroup.org/event/cal-performances-12-11-26/", "has_exact": true}, {"company": "MORRIS", "title": "Holidayland", "start": "2027-01-29", "end": "2027-01-30", "url": "https://markmorrisdancegroup.org/event/krannert-center-for-the-performing-arts-1-29-27/", "has_exact": true}, {"company": "LINES", "title": "LINES + San Francisco Symphony", "start": "2026-11-19", "end": "2026-11-21", "url": "https://linesballet.org/fall-2026/", "has_exact": true}, {"company": "LIMON", "title": "Dance This: Seattle", "start": "2026-07-10", "end": "2026-07-10", "url": "https://www.limon.nyc/performances", "has_exact": true}, {"company": "LIMON", "title": "Windhover 2026", "start": "2026-08-14", "end": "2026-08-15", "url": "https://www.limon.nyc/performances", "has_exact": true}, {"company": "LIMON", "title": "UtahPresents 2026", "start": "2026-09-24", "end": "2026-09-24", "url": "https://www.limon.nyc/performances", "has_exact": true}, {"company": "LIMON", "title": "Fall NYC Season 2026", "start": "2026-10-06", "end": "2026-10-11", "url": "https://www.limon.nyc/performances", "has_exact": true}, {"company": "LIMON", "title": "Northrop 2027", "start": "2027-01-30", "end": "2027-01-30", "url": "https://www.limon.nyc/performances", "has_exact": true}, {"company": "LIMON", "title": "Boston 2027", "start": "2027-02-12", "end": "2027-02-13", "url": "https://www.limon.nyc/performances", "has_exact": true}, {"company": "LIMON", "title": "Austin 2027", "start": "2027-03-24", "end": "2027-03-24", "url": "https://www.limon.nyc/performances", "has_exact": true}, {"company": "TRISHA_BROWN", "title": "Dancing with Bob", "start": "2026-09-17", "end": "2026-09-17", "url": "https://trishabrowncompany.org/calendar/", "has_exact": true}, {"company": "TRISHA_BROWN", "title": "Repertory Performance", "start": "2026-11-07", "end": "2026-11-07", "url": "https://trishabrowncompany.org/calendar/", "has_exact": true}, {"company": "AUSTRALIAN", "title": "Oscar©", "start": "2026-10-08", "end": "2026-10-11", "url": "https://www.nycitycenter.org/pdps/2026-2027/the-australian-ballet/", "has_exact": true}, {"company": "BAM", "title": "Turn. Turning. TURNT. by Cynthia Oliver", "start": "2026-11-04", "end": "2026-11-07", "url": "https://www.bam.org/dance/2026/turn-turning-turnt", "has_exact": true}, {"company": "BAM", "title": "adaku, part 2", "start": "2026-11-11", "end": "2026-11-15", "url": "https://www.bam.org/dance/2026/adaku2", "has_exact": true}], "companies": {"ARIZONA": {"name": "ARIZONA", "color": "#555555", "short": " Arizona"}, "AUSTIN": {"name": "Austin Ballet", "color": "#558b2f", "short": " Austin"}, "HISPANICO": {"name": "HISPANICO", "color": "#555555", "short": " Hispanico"}, "IDAHO": {"name": "IDAHO", "color": "#555555", "short": " Idaho"}, "MEMPHIS": {"name": "Ballet Memphis", "color": "#e65100", "short": " Memphis"}, "AIM": {"name": "AIM", "color": "#555555", "short": "A.I.M."}, "ABT": {"name": "American Ballet Theatre", "color": "#b71c1c", "short": "ABT"}, "AILEY": {"name": "Alvin Ailey", "color": "#8B0000", "short": "Ailey"}, "ALABAMA": {"name": "ALABAMA", "color": "#555555", "short": "Alabama "}, "LINES": {"name": "LINES", "color": "#555555", "short": "Alonzo King LINES "}, "ARB": {"name": "ARB", "color": "#555555", "short": "American Repertory "}, "ATLANTA": {"name": "Atlanta Ballet", "color": "#ad1457", "short": "Atlanta "}, "BAM": {"name": "BAM", "color": "#555555", "short": "BAM"}, "B_WEST": {"name": "Ballet West", "color": "#37474f", "short": "Ballet West"}, "BALLETMET": {"name": "BalletMet", "color": "#4527a0", "short": "BalletMet"}, "BALLETX": {"name": "BALLETX", "color": "#555555", "short": "BalletX"}, "BOSTON": {"name": "Boston Ballet", "color": "#0277bd", "short": "Boston "}, "CAROLINA": {"name": "Carolina Ballet", "color": "#00695c", "short": "Carolina "}, "CHARLOTTE": {"name": "Charlotte Ballet", "color": "#2d6a4f", "short": "Charlotte "}, "CINCINNATI": {"name": "Cincinnati Ballet", "color": "#6d4c41", "short": "Cincinnati "}, "CLEVELAND": {"name": "CLEVELAND", "color": "#555555", "short": "Cleveland "}, "COLORADO": {"name": "Colorado Ballet", "color": "#1B4F8A", "short": "Colorado "}, "COMPLEXIONS": {"name": "COMPLEXIONS", "color": "#555555", "short": "Complexions"}, "DBDT": {"name": "DBDT", "color": "#555555", "short": "DBT"}, "DTOH": {"name": "DTOH", "color": "#555555", "short": "DTOH"}, "EUGENE": {"name": "EUGENE", "color": "#555555", "short": "Eugene "}, "GRAHAM": {"name": "GRAHAM", "color": "#555555", "short": "Graham"}, "GRAND_RAPIDS": {"name": "GRAND_RAPIDS", "color": "#555555", "short": "Grand Rapids "}, "HOUSTON": {"name": "Houston Ballet", "color": "#2e7d32", "short": "Houston "}, "HUBBARD": {"name": "HUBBARD", "color": "#555555", "short": "Hubbard Street"}, "JOFFREY": {"name": "Joffrey Ballet", "color": "#bf360c", "short": "Joffrey "}, "JOYCE": {"name": "JOYCE", "color": "#555555", "short": "Joyce Theater"}, "JUILLIARD": {"name": "JUILLIARD", "color": "#555555", "short": "Juilliard School"}, "KCB": {"name": "Kansas City Ballet", "color": "#00838f", "short": "Kansas City "}, "LA_DANCE": {"name": "LA_DANCE", "color": "#555555", "short": "LA Dance Project"}, "LA_BALLET": {"name": "LA_BALLET", "color": "#555555", "short": "LA_BALLET"}, "LIMON": {"name": "LIMON", "color": "#555555", "short": "Limon"}, "LOS_ANGELES": {"name": "LOS_ANGELES", "color": "#555555", "short": "Los Angeles "}, "LOUISVILLE": {"name": "Louisville Ballet", "color": "#78350f", "short": "Louisville "}, "MADISON": {"name": "MADISON", "color": "#555555", "short": "Madison "}, "MORRIS": {"name": "MORRIS", "color": "#555555", "short": "Mark Morris Dance"}, "MCB": {"name": "Miami City Ballet", "color": "#007c91", "short": "Miami City "}, "MILWAUKEE": {"name": "Milwaukee Ballet", "color": "#283593", "short": "Milwaukee "}, "MOMIX": {"name": "MOMIX", "color": "#555555", "short": "Momix"}, "NYCB": {"name": "New York City Ballet", "color": "#1a237e", "short": "NYCB"}, "NASHVILLE": {"name": "NASHVILLE", "color": "#555555", "short": "Nashville "}, "NEVADA": {"name": "NEVADA", "color": "#555555", "short": "Nevada"}, "NEW_JERSEY": {"name": "NEW_JERSEY", "color": "#555555", "short": "New Jersey "}, "NEXTGEN": {"name": "NEXTGEN", "color": "#555555", "short": "Next Generation "}, "OAKLAND": {"name": "OAKLAND", "color": "#555555", "short": "Oakland "}, "OK_CITY": {"name": "Oklahoma City Ballet", "color": "#4a148c", "short": "Oklahoma City "}, "OREGON": {"name": "Oregon Ballet Theatre", "color": "#880e4f", "short": "Oregon"}, "ORLANDO": {"name": "Orlando Ballet", "color": "#00695c", "short": "Orlando "}, "PNB": {"name": "Pacific Northwest Ballet", "color": "#004d40", "short": "PNB"}, "PAH": {"name": "PAH", "color": "#555555", "short": "Perf Arts Houston"}, "PHILADELPHIA": {"name": "Philadelphia Ballet", "color": "#1565c0", "short": "Philadelphia "}, "PILOBOLUS": {"name": "PILOBOLUS", "color": "#555555", "short": "Pilobolus Dance Theater"}, "PITTSBURGH": {"name": "Pittsburgh Ballet Theatre", "color": "#c62828", "short": "Pittsburgh  Theatre"}, "PORTLAND": {"name": "PORTLAND", "color": "#555555", "short": "Portland "}, "RAGAMALA": {"name": "RAGAMALA", "color": "#555555", "short": "Ragamala"}, "RICHMOND": {"name": "Richmond Ballet", "color": "#4e342e", "short": "Richmond "}, "CLEOPARKER": {"name": "CLEOPARKER", "color": "#555555", "short": "Robinson"}, "SACRAMENTO": {"name": "SACRAMENTO", "color": "#555555", "short": "Sacramento "}, "SFB": {"name": "San Francisco Ballet", "color": "#6a1b9a", "short": "San Francisco "}, "SARASOTA": {"name": "SARASOTA", "color": "#555555", "short": "Sarasota "}, "SMUIN": {"name": "SMUIN", "color": "#555555", "short": "Smuin"}, "TAYLOR": {"name": "TAYLOR", "color": "#555555", "short": "Taylor"}, "TEXAS": {"name": "TEXAS", "color": "#555555", "short": "Texas"}, "AUSTRALIAN": {"name": "AUSTRALIAN", "color": "#555555", "short": "The Australian Ballet"}, "TRISHA_BROWN": {"name": "TRISHA_BROWN", "color": "#555555", "short": "Trisha Brown"}, "TULSA": {"name": "TULSA", "color": "#555555", "short": "Tulsa "}, "VAIL": {"name": "VAIL", "color": "#555555", "short": "Vail Dance Festival"}, "WASHINGTON": {"name": "WASHINGTON", "color": "#555555", "short": "Washington "}}};
+</script>
+</head>
+<body>
+<h1>2026–27 Dance Season</h1>
+<p class="lede">Choose which companies to display. Hover any bar for the program title. Click to see the full agenda entry.</p>
+<div class="month-jump"><span class="home-nav"><a href="danceexplorer.html" class="slink">&#8592;&nbsp;Home</a><button class="home-nav-arrow" onclick="toggleHomeNav(this)" aria-label="Site navigation">&#9662;</button><div class="home-nav-dropdown"><a href="podcasts.html">Podcasts</a><a href="performances.html">Performances</a></div></span> <span class="sep">|</span> <a href="#September-2026">Sep&nbsp;26</a> <a href="#October-2026">Oct&nbsp;26</a> <a href="#November-2026">Nov&nbsp;26</a> <a href="#December-2026">Dec&nbsp;26</a> <a href="#January-2027">Jan&nbsp;27</a> <a href="#February-2027">Feb&nbsp;27</a> <a href="#March-2027">Mar&nbsp;27</a> <a href="#April-2027">Apr&nbsp;27</a> <a href="#May-2027">May&nbsp;27</a> <a href="#June-2027">Jun&nbsp;27</a> <a href="#July-2027">Jul&nbsp;27</a> <a href="#August-2027">Aug&nbsp;27</a> <span class="sep">|</span> <a href="performances_calendar.html" class="slink">All companies &#8594;</a></div>
+<div id="filter-panel" class="filter-panel">
+  <div class="filter-header" onclick="toggleFilterPanel()">
+    <span class="filter-toggle-icon" id="filter-icon">&#9660;</span>
+    <span class="filter-label">Filter companies</span>
+    <span class="filter-count" id="filter-count">0&nbsp;of&nbsp;73 companies shown</span>
+    <div class="filter-actions">
+      <a class="filter-action-btn" onclick="event.stopPropagation();showAllCompanies()">Show all</a>
+      <span class="filter-actions-sep">&middot;</span>
+      <a class="filter-action-btn" onclick="event.stopPropagation();hideAllCompanies()">Hide all</a>
+    </div>
+  </div>
+  <div class="filter-body" id="filter-body">
+    <label class="filter-cb" title="ARIZONA"><input type="checkbox" data-company="ARIZONA" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">ARIZONA</span></label>
+    <label class="filter-cb" title="Austin Ballet"><input type="checkbox" data-company="AUSTIN" onchange="onFilterChange()"><span class="filter-swatch" style="background:#558b2f"></span><span class="filter-name">Austin Ballet</span></label>
+    <label class="filter-cb" title="HISPANICO"><input type="checkbox" data-company="HISPANICO" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">HISPANICO</span></label>
+    <label class="filter-cb" title="IDAHO"><input type="checkbox" data-company="IDAHO" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">IDAHO</span></label>
+    <label class="filter-cb" title="Ballet Memphis"><input type="checkbox" data-company="MEMPHIS" onchange="onFilterChange()"><span class="filter-swatch" style="background:#e65100"></span><span class="filter-name">Ballet Memphis</span></label>
+    <label class="filter-cb" title="AIM"><input type="checkbox" data-company="AIM" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">AIM</span></label>
+    <label class="filter-cb" title="American Ballet Theatre"><input type="checkbox" data-company="ABT" onchange="onFilterChange()"><span class="filter-swatch" style="background:#b71c1c"></span><span class="filter-name">American Ballet Theatre</span></label>
+    <label class="filter-cb" title="Alvin Ailey"><input type="checkbox" data-company="AILEY" onchange="onFilterChange()"><span class="filter-swatch" style="background:#8B0000"></span><span class="filter-name">Alvin Ailey</span></label>
+    <label class="filter-cb" title="ALABAMA"><input type="checkbox" data-company="ALABAMA" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">ALABAMA</span></label>
+    <label class="filter-cb" title="LINES"><input type="checkbox" data-company="LINES" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">LINES</span></label>
+    <label class="filter-cb" title="ARB"><input type="checkbox" data-company="ARB" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">ARB</span></label>
+    <label class="filter-cb" title="Atlanta Ballet"><input type="checkbox" data-company="ATLANTA" onchange="onFilterChange()"><span class="filter-swatch" style="background:#ad1457"></span><span class="filter-name">Atlanta Ballet</span></label>
+    <label class="filter-cb" title="BAM"><input type="checkbox" data-company="BAM" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">BAM</span></label>
+    <label class="filter-cb" title="Ballet West"><input type="checkbox" data-company="B_WEST" onchange="onFilterChange()"><span class="filter-swatch" style="background:#37474f"></span><span class="filter-name">Ballet West</span></label>
+    <label class="filter-cb" title="BalletMet"><input type="checkbox" data-company="BALLETMET" onchange="onFilterChange()"><span class="filter-swatch" style="background:#4527a0"></span><span class="filter-name">BalletMet</span></label>
+    <label class="filter-cb" title="BALLETX"><input type="checkbox" data-company="BALLETX" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">BALLETX</span></label>
+    <label class="filter-cb" title="Boston Ballet"><input type="checkbox" data-company="BOSTON" onchange="onFilterChange()"><span class="filter-swatch" style="background:#0277bd"></span><span class="filter-name">Boston Ballet</span></label>
+    <label class="filter-cb" title="Carolina Ballet"><input type="checkbox" data-company="CAROLINA" onchange="onFilterChange()"><span class="filter-swatch" style="background:#00695c"></span><span class="filter-name">Carolina Ballet</span></label>
+    <label class="filter-cb" title="Charlotte Ballet"><input type="checkbox" data-company="CHARLOTTE" onchange="onFilterChange()"><span class="filter-swatch" style="background:#2d6a4f"></span><span class="filter-name">Charlotte Ballet</span></label>
+    <label class="filter-cb" title="Cincinnati Ballet"><input type="checkbox" data-company="CINCINNATI" onchange="onFilterChange()"><span class="filter-swatch" style="background:#6d4c41"></span><span class="filter-name">Cincinnati Ballet</span></label>
+    <label class="filter-cb" title="CLEVELAND"><input type="checkbox" data-company="CLEVELAND" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">CLEVELAND</span></label>
+    <label class="filter-cb" title="Colorado Ballet"><input type="checkbox" data-company="COLORADO" onchange="onFilterChange()"><span class="filter-swatch" style="background:#1B4F8A"></span><span class="filter-name">Colorado Ballet</span></label>
+    <label class="filter-cb" title="COMPLEXIONS"><input type="checkbox" data-company="COMPLEXIONS" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">COMPLEXIONS</span></label>
+    <label class="filter-cb" title="DBDT"><input type="checkbox" data-company="DBDT" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">DBDT</span></label>
+    <label class="filter-cb" title="DTOH"><input type="checkbox" data-company="DTOH" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">DTOH</span></label>
+    <label class="filter-cb" title="EUGENE"><input type="checkbox" data-company="EUGENE" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">EUGENE</span></label>
+    <label class="filter-cb" title="GRAHAM"><input type="checkbox" data-company="GRAHAM" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">GRAHAM</span></label>
+    <label class="filter-cb" title="GRAND_RAPIDS"><input type="checkbox" data-company="GRAND_RAPIDS" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">GRAND_RAPIDS</span></label>
+    <label class="filter-cb" title="Houston Ballet"><input type="checkbox" data-company="HOUSTON" onchange="onFilterChange()"><span class="filter-swatch" style="background:#2e7d32"></span><span class="filter-name">Houston Ballet</span></label>
+    <label class="filter-cb" title="HUBBARD"><input type="checkbox" data-company="HUBBARD" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">HUBBARD</span></label>
+    <label class="filter-cb" title="Joffrey Ballet"><input type="checkbox" data-company="JOFFREY" onchange="onFilterChange()"><span class="filter-swatch" style="background:#bf360c"></span><span class="filter-name">Joffrey Ballet</span></label>
+    <label class="filter-cb" title="JOYCE"><input type="checkbox" data-company="JOYCE" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">JOYCE</span></label>
+    <label class="filter-cb" title="JUILLIARD"><input type="checkbox" data-company="JUILLIARD" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">JUILLIARD</span></label>
+    <label class="filter-cb" title="Kansas City Ballet"><input type="checkbox" data-company="KCB" onchange="onFilterChange()"><span class="filter-swatch" style="background:#00838f"></span><span class="filter-name">Kansas City Ballet</span></label>
+    <label class="filter-cb" title="LA_DANCE"><input type="checkbox" data-company="LA_DANCE" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">LA_DANCE</span></label>
+    <label class="filter-cb" title="LA_BALLET"><input type="checkbox" data-company="LA_BALLET" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">LA_BALLET</span></label>
+    <label class="filter-cb" title="LIMON"><input type="checkbox" data-company="LIMON" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">LIMON</span></label>
+    <label class="filter-cb" title="LOS_ANGELES"><input type="checkbox" data-company="LOS_ANGELES" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">LOS_ANGELES</span></label>
+    <label class="filter-cb" title="Louisville Ballet"><input type="checkbox" data-company="LOUISVILLE" onchange="onFilterChange()"><span class="filter-swatch" style="background:#78350f"></span><span class="filter-name">Louisville Ballet</span></label>
+    <label class="filter-cb" title="MADISON"><input type="checkbox" data-company="MADISON" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">MADISON</span></label>
+    <label class="filter-cb" title="MORRIS"><input type="checkbox" data-company="MORRIS" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">MORRIS</span></label>
+    <label class="filter-cb" title="Miami City Ballet"><input type="checkbox" data-company="MCB" onchange="onFilterChange()"><span class="filter-swatch" style="background:#007c91"></span><span class="filter-name">Miami City Ballet</span></label>
+    <label class="filter-cb" title="Milwaukee Ballet"><input type="checkbox" data-company="MILWAUKEE" onchange="onFilterChange()"><span class="filter-swatch" style="background:#283593"></span><span class="filter-name">Milwaukee Ballet</span></label>
+    <label class="filter-cb" title="MOMIX"><input type="checkbox" data-company="MOMIX" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">MOMIX</span></label>
+    <label class="filter-cb" title="New York City Ballet"><input type="checkbox" data-company="NYCB" onchange="onFilterChange()"><span class="filter-swatch" style="background:#1a237e"></span><span class="filter-name">New York City Ballet</span></label>
+    <label class="filter-cb" title="NASHVILLE"><input type="checkbox" data-company="NASHVILLE" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">NASHVILLE</span></label>
+    <label class="filter-cb" title="NEVADA"><input type="checkbox" data-company="NEVADA" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">NEVADA</span></label>
+    <label class="filter-cb" title="NEW_JERSEY"><input type="checkbox" data-company="NEW_JERSEY" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">NEW_JERSEY</span></label>
+    <label class="filter-cb" title="NEXTGEN"><input type="checkbox" data-company="NEXTGEN" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">NEXTGEN</span></label>
+    <label class="filter-cb" title="OAKLAND"><input type="checkbox" data-company="OAKLAND" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">OAKLAND</span></label>
+    <label class="filter-cb" title="Oklahoma City Ballet"><input type="checkbox" data-company="OK_CITY" onchange="onFilterChange()"><span class="filter-swatch" style="background:#4a148c"></span><span class="filter-name">Oklahoma City Ballet</span></label>
+    <label class="filter-cb" title="Oregon Ballet Theatre"><input type="checkbox" data-company="OREGON" onchange="onFilterChange()"><span class="filter-swatch" style="background:#880e4f"></span><span class="filter-name">Oregon Ballet Theatre</span></label>
+    <label class="filter-cb" title="Orlando Ballet"><input type="checkbox" data-company="ORLANDO" onchange="onFilterChange()"><span class="filter-swatch" style="background:#00695c"></span><span class="filter-name">Orlando Ballet</span></label>
+    <label class="filter-cb" title="Pacific Northwest Ballet"><input type="checkbox" data-company="PNB" onchange="onFilterChange()"><span class="filter-swatch" style="background:#004d40"></span><span class="filter-name">Pacific Northwest Ballet</span></label>
+    <label class="filter-cb" title="PAH"><input type="checkbox" data-company="PAH" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">PAH</span></label>
+    <label class="filter-cb" title="Philadelphia Ballet"><input type="checkbox" data-company="PHILADELPHIA" onchange="onFilterChange()"><span class="filter-swatch" style="background:#1565c0"></span><span class="filter-name">Philadelphia Ballet</span></label>
+    <label class="filter-cb" title="PILOBOLUS"><input type="checkbox" data-company="PILOBOLUS" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">PILOBOLUS</span></label>
+    <label class="filter-cb" title="Pittsburgh Ballet Theatre"><input type="checkbox" data-company="PITTSBURGH" onchange="onFilterChange()"><span class="filter-swatch" style="background:#c62828"></span><span class="filter-name">Pittsburgh Ballet Theatre</span></label>
+    <label class="filter-cb" title="PORTLAND"><input type="checkbox" data-company="PORTLAND" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">PORTLAND</span></label>
+    <label class="filter-cb" title="RAGAMALA"><input type="checkbox" data-company="RAGAMALA" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">RAGAMALA</span></label>
+    <label class="filter-cb" title="Richmond Ballet"><input type="checkbox" data-company="RICHMOND" onchange="onFilterChange()"><span class="filter-swatch" style="background:#4e342e"></span><span class="filter-name">Richmond Ballet</span></label>
+    <label class="filter-cb" title="CLEOPARKER"><input type="checkbox" data-company="CLEOPARKER" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">CLEOPARKER</span></label>
+    <label class="filter-cb" title="SACRAMENTO"><input type="checkbox" data-company="SACRAMENTO" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">SACRAMENTO</span></label>
+    <label class="filter-cb" title="San Francisco Ballet"><input type="checkbox" data-company="SFB" onchange="onFilterChange()"><span class="filter-swatch" style="background:#6a1b9a"></span><span class="filter-name">San Francisco Ballet</span></label>
+    <label class="filter-cb" title="SARASOTA"><input type="checkbox" data-company="SARASOTA" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">SARASOTA</span></label>
+    <label class="filter-cb" title="SMUIN"><input type="checkbox" data-company="SMUIN" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">SMUIN</span></label>
+    <label class="filter-cb" title="TAYLOR"><input type="checkbox" data-company="TAYLOR" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">TAYLOR</span></label>
+    <label class="filter-cb" title="TEXAS"><input type="checkbox" data-company="TEXAS" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">TEXAS</span></label>
+    <label class="filter-cb" title="AUSTRALIAN"><input type="checkbox" data-company="AUSTRALIAN" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">AUSTRALIAN</span></label>
+    <label class="filter-cb" title="TRISHA_BROWN"><input type="checkbox" data-company="TRISHA_BROWN" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">TRISHA_BROWN</span></label>
+    <label class="filter-cb" title="TULSA"><input type="checkbox" data-company="TULSA" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">TULSA</span></label>
+    <label class="filter-cb" title="VAIL"><input type="checkbox" data-company="VAIL" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">VAIL</span></label>
+    <label class="filter-cb" title="WASHINGTON"><input type="checkbox" data-company="WASHINGTON" onchange="onFilterChange()"><span class="filter-swatch" style="background:#555555"></span><span class="filter-name">WASHINGTON</span></label>
+  </div>
+</div>
+<div class="legend" id="legend"><div class="legend-item" data-company="ARIZONA"><div class="legend-swatch" style="background:#555555"></div>ARIZONA</div><div class="legend-item" data-company="AUSTIN"><div class="legend-swatch" style="background:#558b2f"></div>Austin Ballet</div><div class="legend-item" data-company="HISPANICO"><div class="legend-swatch" style="background:#555555"></div>HISPANICO</div><div class="legend-item" data-company="IDAHO"><div class="legend-swatch" style="background:#555555"></div>IDAHO</div><div class="legend-item" data-company="MEMPHIS"><div class="legend-swatch" style="background:#e65100"></div>Ballet Memphis</div><div class="legend-item" data-company="AIM"><div class="legend-swatch" style="background:#555555"></div>AIM</div><div class="legend-item" data-company="ABT"><div class="legend-swatch" style="background:#b71c1c"></div>American Ballet Theatre</div><div class="legend-item" data-company="AILEY"><div class="legend-swatch" style="background:#8B0000"></div>Alvin Ailey</div><div class="legend-item" data-company="ALABAMA"><div class="legend-swatch" style="background:#555555"></div>ALABAMA</div><div class="legend-item" data-company="LINES"><div class="legend-swatch" style="background:#555555"></div>LINES</div><div class="legend-item" data-company="ARB"><div class="legend-swatch" style="background:#555555"></div>ARB</div><div class="legend-item" data-company="ATLANTA"><div class="legend-swatch" style="background:#ad1457"></div>Atlanta Ballet</div><div class="legend-item" data-company="BAM"><div class="legend-swatch" style="background:#555555"></div>BAM</div><div class="legend-item" data-company="B_WEST"><div class="legend-swatch" style="background:#37474f"></div>Ballet West</div><div class="legend-item" data-company="BALLETMET"><div class="legend-swatch" style="background:#4527a0"></div>BalletMet</div><div class="legend-item" data-company="BALLETX"><div class="legend-swatch" style="background:#555555"></div>BALLETX</div><div class="legend-item" data-company="BOSTON"><div class="legend-swatch" style="background:#0277bd"></div>Boston Ballet</div><div class="legend-item" data-company="CAROLINA"><div class="legend-swatch" style="background:#00695c"></div>Carolina Ballet</div><div class="legend-item" data-company="CHARLOTTE"><div class="legend-swatch" style="background:#2d6a4f"></div>Charlotte Ballet</div><div class="legend-item" data-company="CINCINNATI"><div class="legend-swatch" style="background:#6d4c41"></div>Cincinnati Ballet</div><div class="legend-item" data-company="CLEVELAND"><div class="legend-swatch" style="background:#555555"></div>CLEVELAND</div><div class="legend-item" data-company="COLORADO"><div class="legend-swatch" style="background:#1B4F8A"></div>Colorado Ballet</div><div class="legend-item" data-company="COMPLEXIONS"><div class="legend-swatch" style="background:#555555"></div>COMPLEXIONS</div><div class="legend-item" data-company="DBDT"><div class="legend-swatch" style="background:#555555"></div>DBDT</div><div class="legend-item" data-company="DTOH"><div class="legend-swatch" style="background:#555555"></div>DTOH</div><div class="legend-item" data-company="EUGENE"><div class="legend-swatch" style="background:#555555"></div>EUGENE</div><div class="legend-item" data-company="GRAHAM"><div class="legend-swatch" style="background:#555555"></div>GRAHAM</div><div class="legend-item" data-company="GRAND_RAPIDS"><div class="legend-swatch" style="background:#555555"></div>GRAND_RAPIDS</div><div class="legend-item" data-company="HOUSTON"><div class="legend-swatch" style="background:#2e7d32"></div>Houston Ballet</div><div class="legend-item" data-company="HUBBARD"><div class="legend-swatch" style="background:#555555"></div>HUBBARD</div><div class="legend-item" data-company="JOFFREY"><div class="legend-swatch" style="background:#bf360c"></div>Joffrey Ballet</div><div class="legend-item" data-company="JOYCE"><div class="legend-swatch" style="background:#555555"></div>JOYCE</div><div class="legend-item" data-company="JUILLIARD"><div class="legend-swatch" style="background:#555555"></div>JUILLIARD</div><div class="legend-item" data-company="KCB"><div class="legend-swatch" style="background:#00838f"></div>Kansas City Ballet</div><div class="legend-item" data-company="LA_DANCE"><div class="legend-swatch" style="background:#555555"></div>LA_DANCE</div><div class="legend-item" data-company="LA_BALLET"><div class="legend-swatch" style="background:#555555"></div>LA_BALLET</div><div class="legend-item" data-company="LIMON"><div class="legend-swatch" style="background:#555555"></div>LIMON</div><div class="legend-item" data-company="LOS_ANGELES"><div class="legend-swatch" style="background:#555555"></div>LOS_ANGELES</div><div class="legend-item" data-company="LOUISVILLE"><div class="legend-swatch" style="background:#78350f"></div>Louisville Ballet</div><div class="legend-item" data-company="MADISON"><div class="legend-swatch" style="background:#555555"></div>MADISON</div><div class="legend-item" data-company="MORRIS"><div class="legend-swatch" style="background:#555555"></div>MORRIS</div><div class="legend-item" data-company="MCB"><div class="legend-swatch" style="background:#007c91"></div>Miami City Ballet</div><div class="legend-item" data-company="MILWAUKEE"><div class="legend-swatch" style="background:#283593"></div>Milwaukee Ballet</div><div class="legend-item" data-company="MOMIX"><div class="legend-swatch" style="background:#555555"></div>MOMIX</div><div class="legend-item" data-company="NYCB"><div class="legend-swatch" style="background:#1a237e"></div>New York City Ballet</div><div class="legend-item" data-company="NASHVILLE"><div class="legend-swatch" style="background:#555555"></div>NASHVILLE</div><div class="legend-item" data-company="NEVADA"><div class="legend-swatch" style="background:#555555"></div>NEVADA</div><div class="legend-item" data-company="NEW_JERSEY"><div class="legend-swatch" style="background:#555555"></div>NEW_JERSEY</div><div class="legend-item" data-company="NEXTGEN"><div class="legend-swatch" style="background:#555555"></div>NEXTGEN</div><div class="legend-item" data-company="OAKLAND"><div class="legend-swatch" style="background:#555555"></div>OAKLAND</div><div class="legend-item" data-company="OK_CITY"><div class="legend-swatch" style="background:#4a148c"></div>Oklahoma City Ballet</div><div class="legend-item" data-company="OREGON"><div class="legend-swatch" style="background:#880e4f"></div>Oregon Ballet Theatre</div><div class="legend-item" data-company="ORLANDO"><div class="legend-swatch" style="background:#00695c"></div>Orlando Ballet</div><div class="legend-item" data-company="PNB"><div class="legend-swatch" style="background:#004d40"></div>Pacific Northwest Ballet</div><div class="legend-item" data-company="PAH"><div class="legend-swatch" style="background:#555555"></div>PAH</div><div class="legend-item" data-company="PHILADELPHIA"><div class="legend-swatch" style="background:#1565c0"></div>Philadelphia Ballet</div><div class="legend-item" data-company="PILOBOLUS"><div class="legend-swatch" style="background:#555555"></div>PILOBOLUS</div><div class="legend-item" data-company="PITTSBURGH"><div class="legend-swatch" style="background:#c62828"></div>Pittsburgh Ballet Theatre</div><div class="legend-item" data-company="PORTLAND"><div class="legend-swatch" style="background:#555555"></div>PORTLAND</div><div class="legend-item" data-company="RAGAMALA"><div class="legend-swatch" style="background:#555555"></div>RAGAMALA</div><div class="legend-item" data-company="RICHMOND"><div class="legend-swatch" style="background:#4e342e"></div>Richmond Ballet</div><div class="legend-item" data-company="CLEOPARKER"><div class="legend-swatch" style="background:#555555"></div>CLEOPARKER</div><div class="legend-item" data-company="SACRAMENTO"><div class="legend-swatch" style="background:#555555"></div>SACRAMENTO</div><div class="legend-item" data-company="SFB"><div class="legend-swatch" style="background:#6a1b9a"></div>San Francisco Ballet</div><div class="legend-item" data-company="SARASOTA"><div class="legend-swatch" style="background:#555555"></div>SARASOTA</div><div class="legend-item" data-company="SMUIN"><div class="legend-swatch" style="background:#555555"></div>SMUIN</div><div class="legend-item" data-company="TAYLOR"><div class="legend-swatch" style="background:#555555"></div>TAYLOR</div><div class="legend-item" data-company="TEXAS"><div class="legend-swatch" style="background:#555555"></div>TEXAS</div><div class="legend-item" data-company="AUSTRALIAN"><div class="legend-swatch" style="background:#555555"></div>AUSTRALIAN</div><div class="legend-item" data-company="TRISHA_BROWN"><div class="legend-swatch" style="background:#555555"></div>TRISHA_BROWN</div><div class="legend-item" data-company="TULSA"><div class="legend-swatch" style="background:#555555"></div>TULSA</div><div class="legend-item" data-company="VAIL"><div class="legend-swatch" style="background:#555555"></div>VAIL</div><div class="legend-item" data-company="WASHINGTON"><div class="legend-swatch" style="background:#555555"></div>WASHINGTON</div></div>
+<p class="legend-note">Company and program shown at start of run. Hover any bar for the program title. Faded&nbsp;= date range only; exact dates TBD. Mon&ndash;Wed column hidden for date-range programs (except Nutcracker).</p>
+<div class="month-section" id="September-2026">
+<div class="month-heading">September 2026</div>
+<div class="dow-row"><div class="dow-cell">MON&ndash;WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block" data-week-start="2026-08-31">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Aug</span>31&thinsp;&middot;&thinsp;<span class="dn-lbl">Sep</span>1&thinsp;&middot;&thinsp;2</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">3</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">4</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">5</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">6</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2026-09-07">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">7&thinsp;&middot;&thinsp;8&thinsp;&middot;&thinsp;9</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">10</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">11</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">12</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">13</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2026-09-14">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">14&thinsp;&middot;&thinsp;15&thinsp;&middot;&thinsp;16</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">17</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">18</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">19</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">20</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2026-09-21">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">21&thinsp;&middot;&thinsp;22&thinsp;&middot;&thinsp;23</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">24</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">25</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">26</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">27</div>
+</div>
+</div>
+</div>
+<div class="month-section" id="October-2026">
+<div class="month-heading">October 2026</div>
+<div class="dow-row"><div class="dow-cell">MON&ndash;WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block" data-week-start="2026-09-28">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Sep</span>28&thinsp;&middot;&thinsp;29&thinsp;&middot;&thinsp;30</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;"><span class="dn-lbl">Oct</span>1</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">2</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">3</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">4</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2026-10-05">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">5&thinsp;&middot;&thinsp;6&thinsp;&middot;&thinsp;7</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">8</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">9</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">10</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">11</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2026-10-12">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">12&thinsp;&middot;&thinsp;13&thinsp;&middot;&thinsp;14</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">15</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">16</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">17</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">18</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2026-10-19">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">19&thinsp;&middot;&thinsp;20&thinsp;&middot;&thinsp;21</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">22</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">23</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">24</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">25</div>
+</div>
+</div>
+</div>
+<div class="month-section" id="November-2026">
+<div class="month-heading">November 2026</div>
+<div class="dow-row"><div class="dow-cell">MON&ndash;WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block" data-week-start="2026-10-26">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Oct</span>26&thinsp;&middot;&thinsp;27&thinsp;&middot;&thinsp;28</div>
+<div class="dn" style="grid-column:2;grid-row:1;">29</div>
+<div class="dn" style="grid-column:3;grid-row:1;">30</div>
+<div class="dn wknd" style="grid-column:4;grid-row:1;">31</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;"><span class="dn-lbl">Nov</span>1</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2026-11-02">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">2&thinsp;&middot;&thinsp;3&thinsp;&middot;&thinsp;4</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">5</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">6</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">7</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">8</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2026-11-09">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">9&thinsp;&middot;&thinsp;10&thinsp;&middot;&thinsp;11</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">12</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">13</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">14</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">15</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2026-11-16">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">16&thinsp;&middot;&thinsp;17&thinsp;&middot;&thinsp;18</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">19</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">20</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">21</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">22</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2026-11-23">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">23&thinsp;&middot;&thinsp;24&thinsp;&middot;&thinsp;25</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">26</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">27</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">28</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">29</div>
+</div>
+</div>
+</div>
+<div class="month-section" id="December-2026">
+<div class="month-heading">December 2026</div>
+<div class="dow-row"><div class="dow-cell">MON&ndash;WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block" data-week-start="2026-11-30">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Nov</span>30&thinsp;&middot;&thinsp;<span class="dn-lbl">Dec</span>1&thinsp;&middot;&thinsp;2</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">3</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">4</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">5</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">6</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2026-12-07">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">7&thinsp;&middot;&thinsp;8&thinsp;&middot;&thinsp;9</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">10</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">11</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">12</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">13</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2026-12-14">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">14&thinsp;&middot;&thinsp;15&thinsp;&middot;&thinsp;16</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">17</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">18</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">19</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">20</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2026-12-21">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">21&thinsp;&middot;&thinsp;22&thinsp;&middot;&thinsp;23</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">24</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">25</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">26</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">27</div>
+</div>
+</div>
+</div>
+<div class="month-section" id="January-2027">
+<div class="month-heading">January 2027</div>
+<div class="dow-row"><div class="dow-cell">MON&ndash;WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block" data-week-start="2026-12-28">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Dec</span>28&thinsp;&middot;&thinsp;29&thinsp;&middot;&thinsp;30</div>
+<div class="dn" style="grid-column:2;grid-row:1;">31</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;"><span class="dn-lbl">Jan</span>1</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">2</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">3</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-01-04">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">4&thinsp;&middot;&thinsp;5&thinsp;&middot;&thinsp;6</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">7</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">8</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">9</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">10</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-01-11">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">11&thinsp;&middot;&thinsp;12&thinsp;&middot;&thinsp;13</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">14</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">15</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">16</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">17</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-01-18">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">18&thinsp;&middot;&thinsp;19&thinsp;&middot;&thinsp;20</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">21</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">22</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">23</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">24</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-01-25">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">25&thinsp;&middot;&thinsp;26&thinsp;&middot;&thinsp;27</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">28</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">29</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">30</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">31</div>
+</div>
+</div>
+</div>
+<div class="month-section" id="February-2027">
+<div class="month-heading">February 2027</div>
+<div class="dow-row"><div class="dow-cell">MON&ndash;WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block" data-week-start="2027-02-01">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">1&thinsp;&middot;&thinsp;2&thinsp;&middot;&thinsp;3</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">4</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">5</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">6</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">7</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-02-08">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">8&thinsp;&middot;&thinsp;9&thinsp;&middot;&thinsp;10</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">11</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">12</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">13</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">14</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-02-15">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">15&thinsp;&middot;&thinsp;16&thinsp;&middot;&thinsp;17</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">18</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">19</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">20</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">21</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-02-22">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">22&thinsp;&middot;&thinsp;23&thinsp;&middot;&thinsp;24</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">25</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">26</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">27</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">28</div>
+</div>
+</div>
+</div>
+<div class="month-section" id="March-2027">
+<div class="month-heading">March 2027</div>
+<div class="dow-row"><div class="dow-cell">MON&ndash;WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block" data-week-start="2027-03-01">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">1&thinsp;&middot;&thinsp;2&thinsp;&middot;&thinsp;3</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">4</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">5</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">6</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">7</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-03-08">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">8&thinsp;&middot;&thinsp;9&thinsp;&middot;&thinsp;10</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">11</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">12</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">13</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">14</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-03-15">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">15&thinsp;&middot;&thinsp;16&thinsp;&middot;&thinsp;17</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">18</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">19</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">20</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">21</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-03-22">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">22&thinsp;&middot;&thinsp;23&thinsp;&middot;&thinsp;24</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">25</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">26</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">27</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">28</div>
+</div>
+</div>
+</div>
+<div class="month-section" id="April-2027">
+<div class="month-heading">April 2027</div>
+<div class="dow-row"><div class="dow-cell">MON&ndash;WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block" data-week-start="2027-03-29">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Mar</span>29&thinsp;&middot;&thinsp;30&thinsp;&middot;&thinsp;31</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;"><span class="dn-lbl">Apr</span>1</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">2</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">3</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">4</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-04-05">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">5&thinsp;&middot;&thinsp;6&thinsp;&middot;&thinsp;7</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">8</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">9</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">10</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">11</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-04-12">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">12&thinsp;&middot;&thinsp;13&thinsp;&middot;&thinsp;14</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">15</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">16</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">17</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">18</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-04-19">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">19&thinsp;&middot;&thinsp;20&thinsp;&middot;&thinsp;21</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">22</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">23</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">24</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">25</div>
+</div>
+</div>
+</div>
+<div class="month-section" id="May-2027">
+<div class="month-heading">May 2027</div>
+<div class="dow-row"><div class="dow-cell">MON&ndash;WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block" data-week-start="2027-04-26">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Apr</span>26&thinsp;&middot;&thinsp;27&thinsp;&middot;&thinsp;28</div>
+<div class="dn" style="grid-column:2;grid-row:1;">29</div>
+<div class="dn" style="grid-column:3;grid-row:1;">30</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;"><span class="dn-lbl">May</span>1</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">2</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-05-03">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">3&thinsp;&middot;&thinsp;4&thinsp;&middot;&thinsp;5</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">6</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">7</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">8</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">9</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-05-10">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">10&thinsp;&middot;&thinsp;11&thinsp;&middot;&thinsp;12</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">13</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">14</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">15</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">16</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-05-17">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">17&thinsp;&middot;&thinsp;18&thinsp;&middot;&thinsp;19</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">20</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">21</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">22</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">23</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-05-24">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">24&thinsp;&middot;&thinsp;25&thinsp;&middot;&thinsp;26</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">27</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">28</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">29</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">30</div>
+</div>
+</div>
+</div>
+<div class="month-section" id="June-2027">
+<div class="month-heading">June 2027</div>
+<div class="dow-row"><div class="dow-cell">MON&ndash;WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block" data-week-start="2027-05-31">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;"><span class="dn-lbl">May</span>31&thinsp;&middot;&thinsp;<span class="dn-lbl">Jun</span>1&thinsp;&middot;&thinsp;2</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">3</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">4</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">5</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">6</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-06-07">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">7&thinsp;&middot;&thinsp;8&thinsp;&middot;&thinsp;9</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">10</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">11</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">12</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">13</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-06-14">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">14&thinsp;&middot;&thinsp;15&thinsp;&middot;&thinsp;16</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">17</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">18</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">19</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">20</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-06-21">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">21&thinsp;&middot;&thinsp;22&thinsp;&middot;&thinsp;23</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">24</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">25</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">26</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">27</div>
+</div>
+</div>
+</div>
+<div class="month-section" id="July-2027">
+<div class="month-heading">July 2027</div>
+<div class="dow-row"><div class="dow-cell">MON&ndash;WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block" data-week-start="2027-06-28">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Jun</span>28&thinsp;&middot;&thinsp;29&thinsp;&middot;&thinsp;30</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;"><span class="dn-lbl">Jul</span>1</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">2</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">3</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">4</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-07-05">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">5&thinsp;&middot;&thinsp;6&thinsp;&middot;&thinsp;7</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">8</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">9</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">10</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">11</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-07-12">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">12&thinsp;&middot;&thinsp;13&thinsp;&middot;&thinsp;14</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">15</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">16</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">17</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">18</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-07-19">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">19&thinsp;&middot;&thinsp;20&thinsp;&middot;&thinsp;21</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">22</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">23</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">24</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">25</div>
+</div>
+</div>
+</div>
+<div class="month-section" id="August-2027">
+<div class="month-heading">August 2027</div>
+<div class="dow-row"><div class="dow-cell">MON&ndash;WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block" data-week-start="2027-07-26">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Jul</span>26&thinsp;&middot;&thinsp;27&thinsp;&middot;&thinsp;28</div>
+<div class="dn" style="grid-column:2;grid-row:1;">29</div>
+<div class="dn" style="grid-column:3;grid-row:1;">30</div>
+<div class="dn wknd" style="grid-column:4;grid-row:1;">31</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;"><span class="dn-lbl">Aug</span>1</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-08-02">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">2&thinsp;&middot;&thinsp;3&thinsp;&middot;&thinsp;4</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">5</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">6</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">7</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">8</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-08-09">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">9&thinsp;&middot;&thinsp;10&thinsp;&middot;&thinsp;11</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">12</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">13</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">14</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">15</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-08-16">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">16&thinsp;&middot;&thinsp;17&thinsp;&middot;&thinsp;18</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">19</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">20</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">21</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">22</div>
+</div>
+</div>
+<div class="week-block" data-week-start="2027-08-23">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">23&thinsp;&middot;&thinsp;24&thinsp;&middot;&thinsp;25</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">26</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">27</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">28</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">29</div>
+</div>
+</div>
+</div>
+<script>
+// === Selectable Calendar — client-side engine ===
+// Mirrors the Python lane-assignment + week-segment logic exactly.
+
+const LS_KEY = 'perf_cal_filter_v1';
+let _filterOpen = true;
+
+// ---- Utilities ----
+function parseDate(s) {
+    // Parse ISO date "YYYY-MM-DD" as LOCAL noon to avoid UTC/DST issues.
+    const [y, m, d] = s.split('-').map(Number);
+    return new Date(y, m - 1, d, 12, 0, 0);
+}
+function addDays(d, n) {
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n, 12, 0, 0);
+}
+function escHtml(s) {
+    return String(s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function programAnchor(code, title) {
+    const slug = title.trim().toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    return 'prog-' + code + '-' + slug;
+}
+
+// ---- Date → 5-column mapping ----
+// Python: Mon=0..Sun=6  →  Mon/Tue/Wed=1, Thu=2, Fri=3, Sat=4, Sun=5
+// JS getDay(): 0=Sun, 1=Mon, ..., 6=Sat
+function dateToCol(d) {
+    const jd = d.getDay();
+    const wd = (jd === 0) ? 6 : jd - 1;   // convert to Mon=0..Sun=6
+    if (wd <= 2) return 1;                 // Mon/Tue/Wed → column 1
+    return wd - 1;                         // Thu→2, Fri→3, Sat→4, Sun→5
+}
+
+// ---- Greedy lane assignment ----
+function assignLanes(programs) {
+    const sorted = [...programs].sort((a, b) =>
+        a.startDate - b.startDate || a.endDate - b.endDate
+    );
+    const laneEnds = [];
+    const laneMap  = new Map();
+    for (const p of sorted) {
+        let placed = false;
+        for (let i = 0; i < laneEnds.length; i++) {
+            if (laneEnds[i] < p.startDate) {
+                laneEnds[i] = p.endDate;
+                laneMap.set(p, i);
+                placed = true;
+                break;
+            }
+        }
+        if (!placed) {
+            laneMap.set(p, laneEnds.length);
+            laneEnds.push(p.endDate);
+        }
+    }
+    return laneMap;
+}
+
+// ---- Week segment (mirrors Python week_segment) ----
+function weekSegment(prog, weekMon, exactSet) {
+    const weekSun = addDays(weekMon, 6);
+    const ps = prog.startDate, pe = prog.endDate;
+    if (pe < weekMon || ps > weekSun) return null;
+
+    let visS = (ps > weekMon) ? ps : weekMon;
+    let visE = (pe < weekSun) ? pe : weekSun;
+
+    const hasExact    = exactSet.has(prog.company + '|' + prog.title);
+    const isNutcracker = /nutcracker/i.test(prog.title);
+
+    // Mon-Wed rule: date-range programs (not Nutcracker) skip Mon-Wed column
+    if (!hasExact && !isNutcracker) {
+        const jd = visS.getDay();
+        const wd = (jd === 0) ? 6 : jd - 1;  // Mon=0
+        if (wd < 3) {
+            visS = addDays(visS, 3 - wd);     // advance to Thursday
+        }
+        if (visS > visE) return null;
+    }
+
+    return {
+        cs:      dateToCol(visS),
+        ce:      dateToCol(visE),
+        isStart: ps >= weekMon,
+        isEnd:   pe <= weekSun,
+    };
+}
+
+// ---- Build exact-dates set from embedded data ----
+function buildExactSet() {
+    const s = new Set();
+    for (const p of PERF_DATA.programs) {
+        if (p.has_exact) s.add(p.company + '|' + p.title);
+    }
+    return s;
+}
+
+// ---- Main render ----
+function renderBars(selectedSet) {
+    const exactSet = buildExactSet();
+
+    // Parse dates once and attach to program objects
+    const allProgs = PERF_DATA.programs.map(p => ({
+        ...p,
+        startDate: parseDate(p.start),
+        endDate:   parseDate(p.end),
+    }));
+    const visible  = allProgs.filter(p => selectedSet.has(p.company));
+    const laneMap  = assignLanes(visible);
+
+    document.querySelectorAll('.week-block').forEach(block => {
+        const weekMon = parseDate(block.dataset.weekStart);
+        const grid    = block.querySelector('.week-grid');
+
+        // Remove previous bars
+        grid.querySelectorAll('.ev').forEach(el => el.remove());
+
+        // Compute visible segments for this week
+        const segs = [];
+        for (const p of visible) {
+            const seg = weekSegment(p, weekMon, exactSet);
+            if (seg) segs.push({ p, lane: laneMap.get(p), ...seg });
+        }
+
+        // Compact lane numbers: remove gaps from finished programs.
+        // Global lanes keep relative order within a week; we remap them to
+        // consecutive rows so no blank rows appear.
+        segs.sort((a, b) => a.lane - b.lane);
+        const usedLanes = [...new Set(segs.map(s => s.lane))];
+        // usedLanes is already sorted because segs is sorted by lane
+        const laneToRow = new Map(usedLanes.map((lane, i) => [lane, i]));
+        const nLanes    = usedLanes.length;
+
+        grid.style.gridTemplateRows = nLanes > 0
+            ? '26px ' + Array(nLanes).fill('22px').join(' ')
+            : '26px';
+
+        // Insert bars
+        for (const { p, lane, cs, ce, isStart, isEnd } of segs) {
+            const meta     = PERF_DATA.companies[p.company] || {};
+            const color    = meta.color  || '#555555';
+            const sname    = meta.short  || meta.name || p.company;
+            const hasExact = exactSet.has(p.company + '|' + p.title);
+            const row      = laneToRow.get(lane) + 2;   // +2: row 1 = day numbers
+
+            const classes  = ['ev',
+                isStart  ? 'starts' : '',
+                isEnd    ? 'ends'   : '',
+                !hasExact ? 'approx' : '',
+            ].filter(Boolean).join(' ');
+
+            const a = document.createElement('a');
+            a.className = classes;
+            a.href      = 'performances_agenda.html#' + programAnchor(p.company, p.title);
+            a.title     = p.title;
+            a.style.cssText =
+                'grid-row:' + row + ';' +
+                'grid-column:' + cs + '/' + (ce + 1) + ';' +
+                'background:' + color + ';';
+            a.innerHTML = '<span class="ev-name">' +
+                escHtml(sname) + ' — ' + escHtml(p.title) +
+                '</span>';
+            grid.appendChild(a);
+        }
+    });
+
+    // Sync legend visibility
+    document.querySelectorAll('#legend .legend-item').forEach(item => {
+        item.style.display = selectedSet.has(item.dataset.company) ? '' : 'none';
+    });
+
+    // Update count badge
+    const total = Object.keys(PERF_DATA.companies).length;
+    const el    = document.getElementById('filter-count');
+    if (el) el.textContent = selectedSet.size + ' of ' + total + ' companies shown';
+}
+
+// ---- Filter panel toggle ----
+function toggleFilterPanel() {
+    _filterOpen = !_filterOpen;
+    const body = document.getElementById('filter-body');
+    const icon = document.getElementById('filter-icon');
+    if (body) body.style.display = _filterOpen ? '' : 'none';
+    if (icon) icon.innerHTML     = _filterOpen ? '&#9660;' : '&#9658;';
+}
+
+// ---- Show all / Hide all ----
+function showAllCompanies() {
+    document.querySelectorAll('.filter-cb input[type=checkbox]')
+        .forEach(cb => { cb.checked = true; });
+    onFilterChange();
+}
+function hideAllCompanies() {
+    document.querySelectorAll('.filter-cb input[type=checkbox]')
+        .forEach(cb => { cb.checked = false; });
+    onFilterChange();
+}
+
+// ---- Collect current selection ----
+function getSelectedSet() {
+    const s = new Set();
+    document.querySelectorAll('.filter-cb input[type=checkbox]:checked')
+        .forEach(cb => s.add(cb.dataset.company));
+    return s;
+}
+
+// ---- Filter-change handler ----
+function onFilterChange() {
+    const sel = getSelectedSet();
+    renderBars(sel);
+    saveFilter(sel);
+}
+
+// ---- localStorage persistence ----
+function saveFilter(selectedSet) {
+    try {
+        localStorage.setItem(LS_KEY, JSON.stringify([...selectedSet]));
+    } catch (e) {}
+}
+function loadFilter() {
+    try {
+        const raw = localStorage.getItem(LS_KEY);
+        if (!raw) return null;
+        const arr = JSON.parse(raw);
+        return Array.isArray(arr) ? new Set(arr) : null;
+    } catch (e) { return null; }
+}
+
+// ---- Initialise ----
+document.addEventListener('DOMContentLoaded', function () {
+    const stored   = loadFilter();
+    const allCodes = new Set(Object.keys(PERF_DATA.companies));
+
+    let selectedSet;
+    if (stored) {
+        // Restore checkboxes to saved state; silently drop any stale codes
+        selectedSet = new Set([...stored].filter(c => allCodes.has(c)));
+        document.querySelectorAll('.filter-cb input[type=checkbox]').forEach(cb => {
+            cb.checked = selectedSet.has(cb.dataset.company);
+        });
+    } else {
+        // First visit: start with nothing selected — user builds their own view
+        selectedSet = new Set();
+    }
+
+    renderBars(selectedSet);
+});
+</script>
+<script>
+function toggleHomeNav(btn) {
+    var dd = btn.nextElementSibling;
+    var opening = !dd.classList.contains('open');
+    document.querySelectorAll('.home-nav-dropdown.open').forEach(function(el) {
+        el.classList.remove('open');
+    });
+    if (opening) {
+        var rect = btn.getBoundingClientRect();
+        dd.style.top = (rect.bottom + 4) + 'px';
+        dd.style.left = rect.left + 'px';
+        dd.classList.add('open');
+        setTimeout(function () {
+            document.addEventListener('click', function closeDD(e) {
+                if (!btn.closest('.home-nav').contains(e.target)) {
+                    dd.classList.remove('open');
+                    document.removeEventListener('click', closeDD);
+                }
+            });
+        }, 0);
+    }
+}
+</script>
+</body>
+</html>

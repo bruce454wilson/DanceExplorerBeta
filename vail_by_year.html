@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Vail — Browse by Year</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T1W89Y447W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T1W89Y447W');
+</script>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    max-width: 1000px;
+}
+
+h1 {
+    margin-bottom: 12px;
+}
+
+.index {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+    z-index: 1000;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.index a {
+    margin-right: 10px;
+    font-size: 13px;
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.index a:hover {
+    text-decoration: underline;
+}
+
+.index-sep {
+    margin-right: 10px;
+    color: #bbb;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.letter-heading,
+.year-heading {
+    margin-top: 40px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    scroll-margin-top: 60px;
+}
+
+.guest-block {
+    margin-top: 18px;
+    margin-bottom: 24px;
+    scroll-margin-top: 60px;
+}
+
+.guest-line {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.appearance,
+.episode-block {
+    margin-left: 20px;
+    margin-bottom: 12px;
+}
+
+.row2 {
+    color: #444;
+    line-height: 1.4;
+}
+
+.desc-button {
+    margin-left: 8px;
+    font-size: 12px;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.description {
+    display: none;
+    margin-top: 6px;
+    padding: 8px 10px;
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+    color: #333;
+    line-height: 1.4;
+    white-space: pre-wrap;
+}
+
+a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.profile-badge {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #1a73e8;
+    border-radius: 3px;
+    color: #1a73e8;
+    vertical-align: middle;
+}
+
+.profile-badge:hover {
+    background: #e8f0fe;
+    text-decoration: none;
+}
+
+.patreon-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #f96854;
+    border-radius: 3px;
+    color: #f96854;
+    vertical-align: middle;
+}
+
+.patreon-badge:hover {
+    background: #fff0ee;
+    text-decoration: none;
+}
+
+.youtube-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #cc0000;
+    border-radius: 3px;
+    color: #cc0000;
+    vertical-align: middle;
+}
+
+.youtube-badge:hover {
+    background: #fff0f0;
+    text-decoration: none;
+}
+
+/* --- home nav dropdown --- */
+.home-nav { position: relative; display: inline-block; vertical-align: middle; }
+.home-nav-arrow {
+    background: none; border: none; padding: 0 1px 0 3px; cursor: pointer;
+    font-size: 9px; color: currentColor; opacity: 0.55; vertical-align: middle;
+    line-height: 1; font-family: inherit;
+}
+.home-nav-arrow:hover { opacity: 1; }
+.home-nav-dropdown {
+    display: none;
+    position: fixed;
+    background: white; border: 1px solid #ddd; border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    white-space: nowrap; z-index: 2000; min-width: 145px;
+}
+.home-nav-dropdown.open { display: block; }
+.home-nav-dropdown a {
+    display: block; padding: 8px 14px;
+    color: #333 !important; font-weight: normal !important;
+    text-decoration: none; font-size: 13px;
+}
+.home-nav-dropdown a:first-child { border-radius: 5px 5px 0 0; }
+.home-nav-dropdown a:last-child  { border-radius: 0 0 5px 5px; }
+.home-nav-dropdown a:hover { background: #f5f5f5; color: #1a73e8 !important; }
+</style>
+<script>
+function toggleDescription(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const isOpen = el.style.display === "block";
+    el.style.display = isOpen ? "none" : "block";
+    btn.textContent = isOpen ? "Show description" : "Hide description";
+    btn.setAttribute("aria-expanded", String(!isOpen));
+}
+
+function toggleHomeNav(btn) {
+    const dd = btn.nextElementSibling;
+    const opening = !dd.classList.contains('open');
+    document.querySelectorAll('.home-nav-dropdown.open').forEach(function(el) {
+        el.classList.remove('open');
+    });
+    if (opening) {
+        const rect = btn.getBoundingClientRect();
+        dd.style.top = (rect.bottom + 4) + 'px';
+        dd.style.left = rect.left + 'px';
+        dd.classList.add('open');
+        setTimeout(function () {
+            document.addEventListener('click', function closeDD(e) {
+                if (!btn.closest('.home-nav').contains(e.target)) {
+                    dd.classList.remove('open');
+                    document.removeEventListener('click', closeDD);
+                }
+            });
+        }, 0);
+    }
+}
+</script>
+</head>
+<body>
+<h1>Vail — Browse by Year</h1>
+
+<div class="index">
+<span class="home-nav"><a href="danceexplorer.html">&#8592;&nbsp;Home</a><button class="home-nav-arrow" onclick="toggleHomeNav(this)" aria-label="Site navigation">&#9662;</button><div class="home-nav-dropdown"><a href="podcasts.html">Podcasts</a><a href="performances.html">Performances</a></div></span>
+<span class="index-sep">|</span>
+<a href="#year-2025">2025</a>
+<a href="#year-2024">2024</a>
+<a href="#year-2023">2023</a>
+<a href="#year-2022">2022</a>
+<a href="#year-2021">2021</a>
+<a href="#year-2020">2020</a>
+<a href="#year-2019">2019</a>
+<a href="#year-2018">2018</a>
+<a href="#year-2017">2017</a>
+</div>
+<h2 id="year-2025" class="year-heading">2025</h2>
+<div class="episode-block">
+<div class="row2">Aug 27, 2025 — (463) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/463-dominika-afanasekov-ballerina-with-new-york-city-ballet-from-the-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Dominika Afanasenkov</strong>, ballerina with New York City Ballet, from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-1', this)">Show description</button>
+</div>
+<div id="desc-vail-year-1" class="description">Today on Conversations on Dance we are joined by Dominika Afanasenkov from the Vail Dance Festival. Dominika is a ballerina with the New York City Ballet. She talks to us about how growing up in cities all over the world impacted her training, how shes approached the breakthrough opportunities shes received so far, and what her first experience at the Vail Dance Festival was like. This episode is brought to you by Discover Vail and was recorded at the 2025 Vail Dance Festival.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 20, 2025 — (462) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/462-nikolaj-hbbe-star-dancer-of-the-new-york-city-ballet-from-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Nikolaj Hbbe</strong>, star dancer of the New York City Ballet, from The Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-2', this)">Show description</button>
+</div>
+<div id="desc-vail-year-2" class="description">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are joined by Nikolaj Hbbe, star dancer of the New York City Ballet, and both former principal and artistic director of the Royal Danish Ballet. Nikolaj takes us through his story, from his starry eyed fascination as a child with the productions in Denmark, his meteoric rise to principal and subsequent leap of faith joining the New York City Ballet, and his years as leader of the Royal Danish Ballet. He also shares his experiences in his first year as a coach at the Vail Dance Festival, highlighting what it is that makes the artistic process in Vail so special. This episode is brought to you by Discover Vail and was recorded at the 2025 Vail Dance Festival.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 3, 2025 — (460) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/460-mira-nadon-chun-wai-chan-and-gilbert-bolden-iii-nycb-principals-live-from-the-2025-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Mira Nadon</strong>, <strong>Chun Wai Chan</strong>, and <strong>Gilbert Bolden III</strong>, NYCB Principals, LIVE from the 2025 Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-3', this)">Show description</button>
+</div>
+<div id="desc-vail-year-3" class="description">Join Conversations on Dance hosts Rebecca King Ferraro and Michael Sean Breeden for a live podcast recording with New York City Ballets exciting new generation of principal dancers: Chun Wai Chan, Mira Nadon, and Gilbert Bolden III. These dynamic artists are shaping the future of classical ballet with their exceptional talent, artistry, and fresh perspectives. Hear about their paths to principal status, experiences dancing with NYCB, and their aspirations both on and off the stage. This episode is brought to you by Discover Vail and was recorded live from the Vail Dance Festival on August 3, 2025.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 2, 2025 — (459) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/459-balletx-dancers-savannah-green-and-francesca-forcella-live-from-the-2025-vail-dance-festival" target="_blank" rel="noopener noreferrer">BalletX dancers <strong>Savannah Green</strong> and <strong>Francesca Forcella</strong>, LIVE from the 2025 Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-4', this)">Show description</button>
+</div>
+<div id="desc-vail-year-4" class="description">Join Conversations on Dance hosts Rebecca King Ferraro and Michael Sean Breeden for a live podcast recording featuring BalletX dancers Savannah Green and Francesca Forcella. Known for their innovative artistry and bold performances, these talented dancers bring fresh energy and perspective from one of Americas leading contemporary ballet companies. Join us for an engaging conversation about their artistic journeys, creative process, and what it means to be part of BalletXs groundbreaking repertoire. This episode is brought to you by Discover Vail and was recorded live from the Vail Dance Festival on August 2, 2025.Tickets to Conversations on Dance at the 2025 Vail Dance Festival on sale now! https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 1, 2025 — (458) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/458-vail-dance-festivals-rising-voices-gianna-reisen-mykal-stromile-and-rachel-lockhart" target="_blank" rel="noopener noreferrer">Vail Dance Festivals Rising Voices: <strong>Gianna Reisen</strong>, <strong>MyKal Stromile</strong>, and <strong>Rachel Lockhart</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-5', this)">Show description</button>
+</div>
+<div id="desc-vail-year-5" class="description">Join Conversations on Dance hosts Rebecca King Ferraro and Michael Sean Breeden for a vibrant live podcast recording spotlighting the Vail Dance Festivals Rising Voices: Gianna Reisen, MyKal Stromile, and Rachel Lockhart. These dynamic emerging artists represent the new generation of dance innovators, each bringing a fresh voice and perspective to the art form. Hear about their journeys, creative visions, and the inspiration behind their work as they prepare to make their mark on the Festival stage. Reisen, Stromile, and Lockhart will be creating new work for this years NOW: Premieres program. This episode is brought to you by Discover Vail and was recorded live from the Vail Dance Festival on August 1, 2025.Tickets to Conversations on Dance at the 2025 Vail Dance Festival on sale now! https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 31, 2025 — (457) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/457-unity-phelan-and-calvin-royal-iii-live-from-the-2025-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Unity Phelan</strong> and <strong>Calvin Royal III</strong>, LIVE from the 2025 Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-6', this)">Show description</button>
+</div>
+<div id="desc-vail-year-6" class="description">Conversations on Dance hosts Rebecca King Ferraro and Michael Sean Breeden welcome two of the Festivals most beloved artists for a long-anticipated live podcast recording: Calvin Royal III, Principal Dancer with American Ballet Theatre, and Unity Phelan, Principal Dancer with New York City Ballet. Royal and Phelanwidely regarded as one of the most iconic duos to emerge from the Vail Dance Festivalwill reflect on their enduring partnership, born at Vail and nurtured through countless collaborations across stages and companies. This conversation explores the artistic trust, chemistry, and shared vision that have made them audience favorites. This episode is brought to you by Discover Vail and was recorded live from the Vail Dance Festival on July 31, 2025.Tickets to Conversations on Dance at the 2025 Vail Dance Festival on sale now! https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 30, 2025 — (456) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/456-isabella-boylston-and-chloe-misseldine-american-ballet-theatre-principal-ballerinas-live-from-the-2025-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Isabella Boylston</strong> and <strong>Chloe Misseldine</strong>, American Ballet Theatre principal ballerinas, LIVE from the 2025 Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-7', this)">Show description</button>
+</div>
+<div id="desc-vail-year-7" class="description">Join Conversations on Dance hosts Rebecca King Ferraro and Michael Sean Breeden for a special live recording with American Ballet Theatre principal ballerinas Isabella Boylston and Chloe Misseldine. Powerhouses on the international stage and here at home, Boylston and Misseldine will share their journeys to principal status, their experiences performing with ABT, and their artistic perspectives as leading women in classical ballet today. This episode is brought to you by Discover Vail and was recorded live from the Vail Dance Festival on July 30, 2025.Tickets to Conversations on Dance at the 2025 Vail Dance Festival on sale now! https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 29, 2025 — (455) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/455-melissa-toogood-vdf-artist-in-residence-live-from-the-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Melissa Toogood</strong>, VDF Artist-in-Residence LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-8', this)">Show description</button>
+</div>
+<div id="desc-vail-year-8" class="description">Join Conversations on Dance hosts Rebecca King Ferraro and Michael Sean Breeden for a live podcast recording with one of the Vail Dance Festivals most celebrated returning artists and this years Artist-in-Residence, Melissa Toogood. Toogood, a Bessie Award-winning dancer and former member of the Merce Cunningham Dance Company, has just been named Director of The Juilliard Schools Dance Division and will share her vision for the next chapter of one of the worlds most prestigious conservatories. She also debuts a new work for the Festivals NOW: Premieres program this year.This episode is brought to you by Discover Vail and was recorded live from the Vail Dance Festival on July 29, 2025.Tickets to Conversations on Dance at the 2025 Vail Dance Festival on sale now! https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 28, 2025 — (454) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/454-tap-visionary-michelle-dorrance-live-from-the-vail-dance-festival" target="_blank" rel="noopener noreferrer">Tap Visionary, <strong>Michelle Dorrance</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-9', this)">Show description</button>
+</div>
+<div id="desc-vail-year-9" class="description">MacArthur Fellow and tap visionary Michelle Dorrance joins Conversations on Dance for a live podcast recording with hosts Rebecca King Ferraro and Michael Sean Breeden. A festival mainstay, Dorrance shares insight into her newest work, The Center Will Not Hold, co-created with b-girl and choreographer Ephrat Asherie. Following last years sold-out performance, this new evening-length piece blends rhythm tap with a wide range of street, club, and social dancesbrought to life by an electric ensemble and live music by composer Donovan Dorrance and percussionist John Angeles. Gain a behind-the-scenes look into Dorrances creative process, her collaborative spirit, and how she continues to expand the boundaries of tap dance. This episode is brought to you by Discover Vail and was recorded live from the Vail Dance Festival on July 28, 2025.Tickets to Conversations on Dance at the 2025 Vail Dance Festival on sale now! https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 27, 2025 — (453) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/453-michael-novak-artistic-direction-of-paul-taylor-dance-company-live-from-the-2025-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Michael Novak</strong>, Artistic Direction of Paul Taylor Dance Company, LIVE from the 2025 Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-10', this)">Show description</button>
+</div>
+<div id="desc-vail-year-10" class="description">Join Conversations on Dance hosts Rebecca King Ferraro and Michael Sean Breeden for a live podcast recording with Michael Novak, Artistic Director of the legendary Paul Taylor Dance Company. As the company returns to the Vail Dance Festival for the first time since 2018, Novak reflects on honoring the legacy of Paul Taylorone of the most influential figures in American modern danceon what would have been Taylors 95th birthday.This special conversation offers insight into the companys tribute performance, featuring the beloved Company B and the 50th anniversary presentation of Esplanade, a masterwork hailed for transforming everyday movement into mythic dance. This episode is brought to you by Discover Vail and was recorded live from the Vail Dance Festival on July 27, 2025.Tickets to Conversations on Dance at the 2025 Vail Dance Festival on sale now! https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 26, 2025 — (452) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/452-lines-ballet-live-from-the-2025-vail-dance-festival" target="_blank" rel="noopener noreferrer">LINES Ballet, LIVE from the 2025 Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-11', this)">Show description</button>
+</div>
+<div id="desc-vail-year-11" class="description">It&#x27;s that time of year again! Get ready for daily drops from Conversations on Dance all throughout the 2025 Vail Dance Festival through August 3rd. Be sure to subscribe to the podcast so you don&#x27;t miss a moment.Today we are joined by four dancers from LINES Ballert: Adji Cissoko, Lorris Eichinger, Ilaria Guerra, and Shuaib Elhassan. In this mornings conversation, explore the companys return to the Vail Dance Festival with a program that includes Ode to Alice Coltranea tribute to the legendary spiritual jazz iconand Mother Goose, a mesmerizing reimagining of Ravels beloved 1912 suite, Ma mre lOye. Hear behind-the-scenes insights into the creative process behind these visionary works and get to know the artists shaping them. The conversation will be followed by an open audience Q&amp;A. This episode was recorded live from the Vail Dance Festival on July 26, 2025.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jun 18, 2025 — (448) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/448-rebecca-amp-michael-catch-up-vail-live-event-tickets-on-sale-now-clive-barnes-awards" target="_blank" rel="noopener noreferrer">Rebecca &amp; Michael Catch Up: Vail Live Event tickets on sale now + Clive Barnes Awards</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-12', this)">Show description</button>
+</div>
+<div id="desc-vail-year-12" class="description">Tickets to Conversations on Dance at the 2025 Vail Dance Festival on sale now! https://vaildance.org/conversations-on-dance/Today it&#x27;s just us as we catch up on the past few weeks: Miami City Ballet&#x27;s recent announcement of Gonzalo Garcia as the new Artistic Director, Michael&#x27;s time in Amsterdam, the Clive Barnes awards, and we go through all our events that are coming up at the 2025 Vail Dance Festival. You can support the Clive Barnes Foundation by donating here: https://www.clivebarnesfoundation.org/.SPONSOR:Felice Lesser Dance Theater celebrates its 50th Anniversary with the live documentary, I AM A DANCER 2020, a real-time journey into the effects of the pandemic on the dance world. Combining live dance, projected video, and filmed interviews depicting how dance workers navigated the COVID-19 pandemic, I AM A DANCER 2020 will have four performances, June 26th to 28th at New York Live Arts in New York City. For tickets and information, please visit newyorklivearts.org.</div>
+</div>
+<h2 id="year-2024" class="year-heading">2024</h2>
+<div class="episode-block">
+<div class="row2">Aug 14, 2024 — (413) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/413-denys-drozdyuk-and-antonina-skobina-internationally-renowned-ballroom-dancers-live-from-the-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Denys Drozdyuk</strong> and <strong>Antonina Skobina</strong>, internationally renowned ballroom dancers, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-13', this)">Show description</button>
+</div>
+<div id="desc-vail-year-13" class="description">This episode was recorded live from the Vail Dance Festival on August 3, 2024. In this final live recording of the Conversations on Dance podcast, hosts Rebecca King Ferraro and Michael Sean Breeden, chat with internationally renowned ballroom dancers: Denys Drozdyuk and Antonina Skobina. A staple of the Vail Dance Festival for a few years now, the duo delights audiences with their dazzling dancing. This conversation will center around how they came to ballroom dance, their early careers, how they came to partner together, and their collaborative, DNA.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 8, 2024 — (412) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/412-bonus-kyle-ikuma-from-the-vail-dance-festival" target="_blank" rel="noopener noreferrer">BONUS <strong>Kyle Ikuma</strong>, from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-14', this)">Show description</button>
+</div>
+<div id="desc-vail-year-14" class="description">Today we are happy to share a bonus episode from the 2024 Vail Dance Festival. In this episode we are joined by Kyle Ikuma, last year&#x27;s Scholar-In-Residence at the Vail Dance Festival. Kyle is a Mechanical and Aerospace Engineer living in California&#x27;s Bay Area and a graduate of Princeton. He is also a freelance ballet dancer. Kyle&#x27;s story is fascinating, so we hope you enjoy! https://kyleikuma.wordpress.com/Stream the closing night performance, &#x27;NOW Premieres,&#x27; from the 2024 Vail Dance Festival from August 5-13: https://www.youtube.com/watch?v=vU1-Yq_0Alc</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 5, 2024 — (411) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/411-adji-cissoko-and-youba-cissokho-live-from-the-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Adji Cissoko</strong> and <strong>Youba Cissokho</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-15', this)">Show description</button>
+</div>
+<div id="desc-vail-year-15" class="description">While artistic gifts can often run in the family, they are seldom able to cross forms in collaboration as searingly as Adji Cissoko and Youba Cissokho did at last years Vail Dance Festival. Adji is a ballerina with the LINES ballet (and last years VDF Artist-In-Residence) and Youba is a 72nd generation kora player. The two will join Conversations On Dance hosts Rebecca King Ferraro and Michael Sean Breeden in a discussion about their familys deep artistic roots, what their first collaboration meant to them and how they look forward to creating this year at the Vail Dance Festival. Stream the closing night performance, &#x27;NOW Premieres,&#x27; from the 2024 Vail Dance Festival from August 5-13: https://www.youtube.com/watch?v=vU1-Yq_0Alc</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 2, 2024 — (409) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/409-the-next-generation-live-from-the-vail-dance-festival" target="_blank" rel="noopener noreferrer">The Next Generation, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-16', this)">Show description</button>
+</div>
+<div id="desc-vail-year-16" class="description">This episode was recorded live on August 1, 2024 from the Vail Dance Festival. Today we are joined by: India Bradley (New York City Ballet), Mayfield Myers (Philadelphia Ballet), Olivia Bell (New York City Ballet), Philip Duclos (Royal Danish Ballet), and Spencer Lenain (freelance artist).Every year at the Vail Dance Festival, new budding talents from companies all over get the first opportunities to take the stage with the world class dancers who populate the cast list of VDFs performances. Watching young dancers cut their teeth in some of their early major opportunities has become as thrilling to Vail audiences as seeing its international stars. Come watch Conversations On Dance hosts Rebecca King Ferraro and Michael Sean Breeden interview some of these stars-in-the-making about their experiences at Vail before you catch them making career breakthroughs in the evenings performance. Upcoming Conversations on Dance events at the 2024 Vail Dance Festival: https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 1, 2024 — (408) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/408-sara-mearns-and-jamar-roberts-live-from-the-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Sara Mearns</strong> and <strong>Jamar Roberts</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-17', this)">Show description</button>
+</div>
+<div id="desc-vail-year-17" class="description">Every year audiences at the Vail Dance Festival watch the Artist-In-Residence delve deeply into their craft, pushing outside their comfort zone to create rapidly in the ten days the festival spans. This year audiences will be treated to two such artists, the beloved New York City Ballet ballerina Sara Mearns, and highly acclaimed and sought after choreographer Jamar Roberts. Sara and Jamar sit down with Conversations On Dance hosts Rebecca King Ferraro and Michael Sean Breeden to discuss what their artistic output at the festival will be and how the artistic direction of the festival this year is guiding them in their own creative pursuits. Upcoming Conversations on Dance events at the 2024 Vail Dance Festival: https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 31, 2024 — (407) — <a href="https://shows.acast.com/conversations-on-dance/episodes/catherine-hurlin-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Catherine Hurlin</strong>, Principal with American Ballet Theatre, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-18', this)">Show description</button>
+</div>
+<div id="desc-vail-year-18" class="description">This episode was recorded live on July 30, 2024 at the Vail Dance Festival. In part two of this episode, we are joined by American Ballet Theatre Principal Dancer, Catherine Hurlin. Look for part one of this episode, now in the feed.Conversations on Dance at the Vail Dance Festival is generously supported by the Town of Vail.Upcoming Conversations on Dance events at the 2024 Vail Dance Festival: https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 31, 2024 — (406) — <a href="https://shows.acast.com/conversations-on-dance/episodes/bonus-q-a-with-michael-rebecca-vail-dance-festival" target="_blank" rel="noopener noreferrer">BONUS: Q &amp; A with Michael &amp; Rebecca, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-19', this)">Show description</button>
+</div>
+<div id="desc-vail-year-19" class="description">This episode was recorded live on July 30, 2024 at the Vail Dance Festival. In this episode, Michael and Rebecca sit down with our Vail Dance Festival audience for a Q &amp; A before our guest, Catherine Hurlin joins us. Our episode with Catherine is now in the feed in episode 407.Conversations on Dance at the Vail Dance Festival is generously supported by the Town of Vail. Upcoming Conversations on Dance events at the 2024 Vail Dance Festival: https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 29, 2024 — (405) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/405-dante-puleio-and-joey-columbus-on-the-legacy-of-jos-limn-live-from-the-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Dante Puleio</strong> and <strong>Joey Columbus</strong> on the legacy of Jos Limn, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-20', this)">Show description</button>
+</div>
+<div id="desc-vail-year-20" class="description">This episode was recorded live on Monday, July 29th, 2024 at the Vail Dance Festival. At the vanguard of American modern dance since its inception, Limn Dance Company returns to the Vail Dance Festival after making their debut in 2022. The companys first performance at the festival earned rave reviews and now they return to celebrate the incredible dance legacy of this beloved and historic company. Join Conversations On Dance hosts Rebecca King Ferraro and Michael Sean Breeden as they sit down with Limn Dance Company Artistic Director, Dante Puleio, and company artist Joey Columbus, to dig into the legacy of Limn and what audiences can expect to see from the company.Upcoming Conversations on Dance events at the 2024 Vail Dance Festival: https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 28, 2024 — (404) — <a href="https://shows.acast.com/conversations-on-dance/episodes/choreographer-larry-kegwin-live-from-the-vail-dance-festival" target="_blank" rel="noopener noreferrer">Choreographer <strong>Larry Keigwin</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-21', this)">Show description</button>
+</div>
+<div id="desc-vail-year-21" class="description">This episode was recorded live at the Vail Dance Festival on Sunday, July 28, 2024. Larry Keigwin has the kind of versatility in his choreographic portfolio that makes him an instant fit for the Vail Dance Festival: commissions from iconic organizations like the Paul Taylor Dance Company and Martha Graham Dance Company, acclaimed work on broadway, and the founding of his own ensemble, Keigwin + Company, now in its 20th season. Conversations On Dance hosts Rebecca King Ferraro and Michael Sean Breeden sit down with Keigwin to talk about his rich personal history as a dance maker, his passion for dance education, and how his work Rhapsody, which will have its VDF premiere this year, utilizes community members alongside artists to create a harmonious celebration of humanity and shared space.See his community work, &#x27;Rhapsody,&#x27; on Tuesday July 30: https://vaildance.org/event/dance-for-2024/.Upcoming Conversations on Dance events at the 2024 Vail Dance Festival: https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 22, 2024 — (403) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/403-rebecca-amp-michael-preview-the-2024-vail-dance-festival" target="_blank" rel="noopener noreferrer">Rebecca &amp; Michael preview the 2024 Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-22', this)">Show description</button>
+</div>
+<div id="desc-vail-year-22" class="description">We are leaving for the Vail Dance Festival in just a few days, so today we sit down to talk through the performances that we will be catching during the festival and preview who we will be talking to during our live events.Conversations on Dance at the Vail Dance Festival: https://vaildance.org/conversations-on-dance/Vail Dance Festival performances: https://vaildance.org/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 16, 2024 — (402) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/402-vail-dance-festival-preview-with-herman-cornejo-abt-principal" target="_blank" rel="noopener noreferrer">Vail Dance Festival Preview with <strong>Herman Cornejo</strong>, ABT Principal</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-23', this)">Show description</button>
+</div>
+<div id="desc-vail-year-23" class="description">The Vail Dance Festival is just around the corner and our coverage starts now! Today we are joined by American Ballet Theatre Principal Dancer and friend of the pod, Herman Cornejo. Herman joins us in the midst of ABTs season where he is celebrating 25 incredible years with the company. We catch up with Herman about this season, what it means to be celebrating such an important milestone, what his plans are for the future, and what he will be dancing this year at the Vail Dance Festival. As a festival favorite, we are so looking forward to seeing him soon on the VDF stage.The Vail Dance Festival returns July 26 August 5:The Vail Dance Festival returns July 26 August 5 with THIRTEEN performances featuring dance luminaries from across the United States and around the world. This summer they welcome Dance Theatre of Harlem, Limn Dance Company, Cleo Parker Robinson Dance, Colorado Ballet, and DanceAspen, as well as artists from Alonzo King LINES Ballet, American Ballet Theatre, BalletX, New York City Ballet, and so much more. Conversations on Dance will be bringing you a behind-the-scenes look at all the action. Join us in person for 8 live events featuring incredible festival artists including Catherine Hurlin, Sara Mearns, Robert Garland, Adji Cissoko and many more. If you are not able to join us in person, be sure to subscribe to Conversations on Dance wherever you get your podcasts to listen to the live episodes after the events.Get your tickets now for festival performances and vaildance.org. And claim your tickets for COD events at vaildance.org/conversations-on-dance.</div>
+</div>
+<h2 id="year-2023" class="year-heading">2023</h2>
+<div class="episode-block">
+<div class="row2">Aug 8, 2023 — (360) — <a href="https://shows.acast.com/conversations-on-dance/episodes/nel-shelby-christopher-duggan-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Nel Shelby</strong> and <strong>Christopher Duggan</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-24', this)">Show description</button>
+</div>
+<div id="desc-vail-year-24" class="description">Thank you to friend of the pod, Kate Penner, for guest hosting this episode. Every year, the Vail Dance Festival brings in thousands of additional audience members through its social media and streaming content. For a live recording of the Conversations On Dance podcast, videographer Nel Shelby and photographer Christopher Duggan will join to talk about how they bring the Festival to life for audiences everywhere in the dizzying amount of media content they produce for the Festival every year.Stream NOW Premieres from Vail Dance Festival now through August 14th, 2023. Watch here: https://www.youtube.com/live/KrrDAMOTfXw?feature=share.This episode was recorded live on August 7th, 2023 at the Manor Vail Lodge. Conversations on Dance at the Vail Dance Festival is generously underwritten by the Town of Vail.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 7, 2023 — (359) — <a href="https://shows.acast.com/conversations-on-dance/episodes/kyle-abraham-melissa-toogood-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Kyle Abraham</strong> and <strong>Melissa Toogood</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-25', this)">Show description</button>
+</div>
+<div id="desc-vail-year-25" class="description">A major highlight for the Vail Dance Festival every year is the NOW: Premieres program, a jam-packed evening of ten newly commissioned dances with an array of artists that only the Vail Dance Festival could manage to bring together. Internationally acclaimed choreographers and artists Kyle Abraham and Melissa Toogood join this live recording of the Conversations On Dance podcast to talk about their process this year creating two brand new works for this celebrated evening.This Monday August 7th, The Vail Dance Festival comes to you! Dont miss the live stream of Mondays Now: Premieres program at 7:30pm mountain, 9:30pm Eastern. Visit vaildance.org to enjoy an evening of world premieres from the festivals all star cast of choreographers and dancers. You have heard them all right here on Conversations on Dance, now catch them live from the VDF stage on Monday August 7th. Link in the description of this episode for more info. This episode was recorded live on August 6th, 2023 at the Manor Vail Lodge. Conversations on Dance at the Vail Dance Festival is generously underwritten by the Town of Vail.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 6, 2023 — (358) — <a href="https://shows.acast.com/conversations-on-dance/episodes/jamar-roberts-caili-quan-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Jamar Roberts</strong> and <strong>Caili Quan</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-26', this)">Show description</button>
+</div>
+<div id="desc-vail-year-26" class="description">Vail Dance Festival has always been a laboratory for new creations and experimentation, and 2023 is no exception. This live recording of the Conversations On Dance podcast will feature choreographers Jamar Roberts and Caili Quan, and cover their creative processes at Vail Dance Festival and how it differs from their choreographic undertakings year round.This Monday August 7th, The Vail Dance Festival comes to you! Dont miss the live stream of Mondays Now: Premieres program at 7:30pm mountain, 9:30pm Eastern. Visit vaildance.org to enjoy an evening of world premieres from the festivals all star cast of choreographers and dancers. You have heard them all right here on Conversations on Dance, now catch them live from the VDF stage on Monday August 7th. Link in the description of this episode for more info. This episode was recorded live on August 5th, 2023 at the Manor Vail Lodge. Conversations on Dance at the Vail Dance Festival is generously underwritten by the Town of Vail.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 4, 2023 — (357) — <a href="https://shows.acast.com/conversations-on-dance/episodes/christine-cox-laurel-winton-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Christine Cox</strong> and <strong>Laurel Winton</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-27', this)">Show description</button>
+</div>
+<div id="desc-vail-year-27" class="description">Ballet X has been a Festival favorite for over a decade, while Dance Aspen had its splashy debut just last year. This live recording of the Conversations On Dance podcast will welcome the artistic directors of these respective companies, Christine Cox and Laurel Winton, to talk about their visions and missions for their organizations and why performing at the Vail Dance Festival is such a coveted experience for their dancers.This episode was recorded live on August 4th, 2023 at the Manor Vail Lodge. Conversations on Dance at the Vail Dance Festival is generously underwritten by the Town of Vail.VAIL DANCE FESTIVAL IS GOING ON NOW! Conversations on Dance events: https://vaildance.org/conversations-on-dance/Performance tickets: https://vaildance.org/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 3, 2023 — (356) — <a href="https://shows.acast.com/conversations-on-dance/episodes/james-whiteside-spencer-lenain-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>James Whiteside</strong> and <strong>Spencer Lenain</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-28', this)">Show description</button>
+</div>
+<div id="desc-vail-year-28" class="description">Vail Dance Festival has long committed to bringing artists at all different points in their journey and development, and 2023 is no different. The Conversations On Dance podcast is joined by this years Scholar-In-Residence Spencer Lenain and his childhood dance idol esteemed American Ballet Theatre principal James Whiteside for a live podcast recording. The pair will talk about how having such a range bolsters the experiences of dancers and audiences alike.This episode was recorded live on August 3rd, 2023 at the Manor Vail Lodge. Conversations on Dance at the Vail Dance Festival is generously underwritten by the Town of Vail.VAIL DANCE FESTIVAL IS GOING ON NOW! Conversations on Dance events: https://vaildance.org/conversations-on-dance/Performance tickets: https://vaildance.org/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 2, 2023 — (355) — <a href="https://shows.acast.com/conversations-on-dance/episodes/adji-cissoko-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Adji Cissoko</strong> of Alonzo King LINES Ballet, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-29', this)">Show description</button>
+</div>
+<div id="desc-vail-year-29" class="description">Adji Cissoko is an artist of striking elegance and daring, whether as a performer or choreographer. With Cissokos selection of 2023s Artist-in-Residence, Festival audiences will be treated to ample amounts of both. For this live recording of the Conversations On Dance podcast, Adji will talk about her years at the Vail Dance Festival past and what the opportunities as Artist-in-Residence mean for her creative output this year.This episode was recorded live on August 1st, 2023 at the Manor Vail Lodge. Conversations on Dance at the Vail Dance Festival is generously underwritten by the Town of Vail.VAIL DANCE FESTIVAL IS GOING ON NOW! Conversations on Dance events: https://vaildance.org/conversations-on-dance/Performance tickets: https://vaildance.org/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 1, 2023 — (354) — <a href="https://shows.acast.com/conversations-on-dance/episodes/leonardo-sandoval-gregory-richardson-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Leonardo Sandoval</strong> and <strong>Gregory Richardson</strong> of Music From The Sole, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-30', this)">Show description</button>
+</div>
+<div id="desc-vail-year-30" class="description">Tap dancing is inseparable from its relationship to music. In a live recording of the Conversations On Dance podcast, tap master Leonardo Sandoval and bassist/composer Gregory Richardson of Music From The Sole will dissect that relationship as they discuss their work on I Didnt Come To Stay, which will have its Vail Dance Festival premiere on August 2nd.This episode was recorded live on July 31st, 2023 at the Manor Vail Lodge. Conversations on Dance at the Vail Dance Festival is generously underwritten by the Town of Vail.VAIL DANCE FESTIVAL IS GOING ON NOW! Conversations on Dance events: https://vaildance.org/conversations-on-dance/Performance tickets: https://vaildance.org/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 31, 2023 — (353) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/353-janie-taylor-sebastien-marcovici" target="_blank" rel="noopener noreferrer"><strong>Janie Taylor</strong> and <strong>Sebastien Marcovici</strong> of LA Dance Project, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-31', this)">Show description</button>
+</div>
+<div id="desc-vail-year-31" class="description">Los Angeles Dance Project has been bringing a vast and varied repertoire to audiences in Los Angeles and throughout the world for over a decade, expanding the boundaries of dance and how the art interacts and relates to movement in the modern world. This live recording of the Conversations On Dance podcast feature artists of LADP discussing the companys return to the Vail Dance Festival, in its tenth anniversary, on a program of all female choreographers.This episode was recorded live on July 30th, 2023 at the Manor Vail Lodge. Conversations on Dance at the Vail Dance Festival is generously underwritten by the Town of Vail.VAIL DANCE FESTIVAL IS GOING ON NOW! Conversations on Dance events: https://vaildance.org/conversations-on-dance/Performance tickets: https://vaildance.org/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 30, 2023 — (352) — <a href="https://shows.acast.com/conversations-on-dance/episodes/jennifer-homans-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Jennifer Homans</strong>, Author and Dance Historian, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-32', this)">Show description</button>
+</div>
+<div id="desc-vail-year-32" class="description">Author Jennifer Homans first made her mark ten years ago with the release of &#x27;Apollo&#x27;s Angels&#x27;, an exhaustive work tracing ballet&#x27;s roots from the Renaissance to modern times. Now she&#x27;s back with a new release, &#x27;Mr. B: George Balanchine&#x27;s 20th Century&#x27;, following the choreographer&#x27;s life and work in one of the most comprehensive ways ever committed to the page. Homans sits down to with the hosts of the podcast &#x27;Conversations On Dance&#x27; to talk about the research she did over the course of a decade of writing, what her most surprising finds were, and what her ultimate takeaways were from getting to know the life of one of the 20th century&#x27;s artistic greats in a way few writers ever have.This episode was recorded live on Saturday July 29th, 2023 at the Gerald R Ford Amphitheater. Conversations on Dance at the Vail Dance Festival is generously underwritten by the Town of Vail.VAIL DANCE FESTIVAL IS GOING ON NOW! Conversations on Dance events: https://vaildance.org/conversations-on-dance/Performance tickets: https://vaildance.org/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 29, 2023 — (351) — <a href="https://shows.acast.com/conversations-on-dance/episodes/savannah-green-balletx" target="_blank" rel="noopener noreferrer"><strong>Janet Eilber</strong>, Artistic Director of Martha Graham Dance Company, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-33', this)">Show description</button>
+</div>
+<div id="desc-vail-year-33" class="description">Martha Graham Dance Company is one of the most storied and celebrated dance institutions in America and a Vail Dance Festival fan favorite. In recent years, the company has been steadily building its repertoire beyond the Graham classics. This live recording of the Conversations On Dance podcast will talk with the companys Artistic Director, Janet Eilber, about her storied career, working with Martha Graham, and her role as artistic director. Janet will give audiences a preview of what to expect from the companys performance in Vail and some background on the work she is doing to preserve and revive Graham works. This episode was recorded live on Saturday July 29th, 2023 at the Manor Vail Lodge. Conversations on Dance at the Vail Dance Festival is generously underwritten by the Town of Vail.VAIL DANCE FESTIVAL IS GOING ON NOW! Conversations on Dance events: https://vaildance.org/conversations-on-dance/Performance tickets: https://vaildance.org/</div>
+</div>
+<h2 id="year-2022" class="year-heading">2022</h2>
+<div class="episode-block">
+<div class="row2">Sep 6, 2022 — (305) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4e6" target="_blank" rel="noopener noreferrer"><strong>Jovani Furlan</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-34', this)">Show description</button>
+</div>
+<div id="desc-vail-year-34" class="description">In his first year at VDF, New York City Ballet soloist Jovani Furlan is set to take Vail audiences by storm. Joining the Conversations On Dance podcast, Furlan will discuss his dance upbringing in his native Brazil, the leap to american stages and what dancing at VDF for the first time has been like. Please note: Conversations On Dance co-host, Rebecca King Ferraro, will be on maternity leave this summer. These live events will be hosted by Michael Sean Breeden with special guest hosts throughout the festival. This episode was recorded on August 9, 2022 with special guest host, Mira Nadon. Special thanks to the Town of Vail for their support of Conversations on Dance and the Vail Dance Festival. This episode was recorded at the Manor Vail Lodge. Photo by Christopher Duggan. The post (305) Jovani Furlan, LIVE from the Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 30, 2022 — (304) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4e7" target="_blank" rel="noopener noreferrer"><strong>Claudia Schreier</strong> and <strong>Lauren Lovette</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-35', this)">Show description</button>
+</div>
+<div id="desc-vail-year-35" class="description">Acclaimed Choreographer Claudia Schreier returns to the Vail Dance Festival this year with a new work to commissioned music by Conrad Tao. A classic Vail success story, join the Conversations On Dance podcast as they talk to Claudia about her origins at VDF as an intern and chart her path to one of the most highly sought after choreographers in the country. Please note: Conversations On Dance co-host, Rebecca King Ferraro, will be on maternity leave this summer. These live events will be hosted by Michael Sean Breeden with special guest hosts throughout the festival. This episode was recorded on August 7, 2022 with special guest host, Kate Penner. Special thanks to the Town of Vail for their support of Conversations on Dance and the Vail Dance Festival. This episode was recorded at the Manor Vail Lodge. Photo by Christopher Duggan. The post (304) Claudia Schreier and Lauren Lovette, LIVE from the Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 23, 2022 — (303) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4e8" target="_blank" rel="noopener noreferrer">Choreographer, <strong>Justin Peck</strong>, and musician, <strong>Johnny Gandelsman</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-36', this)">Show description</button>
+</div>
+<div id="desc-vail-year-36" class="description">Join the Conversations On Dance podcast in an exploration of two art forms and how they coalesce into a single harmonious ballet. Join musician, Johnny Gandelsman of Brooklyn Rider and Choreographer Justin Peck as they will talk about how the ways in which their art forms intersect and diverge and how the collaborative process informs and elevates their own work. Please note: Conversations On Dance co-host, Rebecca King Ferraro, will be on maternity leave this summer. These live events will be hosted by Michael Sean Breeden with special guest hosts throughout the festival. This episode was recorded on August 5, 2022. Special thanks to the Town of Vail for their support of Conversations on Dance and the Vail Dance Festival. This episode was recorded at the Manor Vail Lodge. _________________________________ Join Brooklyn-based contemporary ballet company, konverjdans for their performances of Kwento on August 26 and 27 at 7:30pm at Triskelion Arts in Greenpoint, Brooklyn. Featuring three new works choreographed by each of the artistic directors, Amy Saunder, Jordan Miller and Tiffany Mangulabnan, Kwento, also the Tagalog word for story, tells stories of love, friendship, loss, and reunion through dance, live and original music, costume design, and film projection. Visit www.konverjdans.com for ticket information and more. The post (303) Choreographer, Justin Peck, and musician, Johnny Gandelsman, LIVE from the Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 17, 2022 — (302) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4e9" target="_blank" rel="noopener noreferrer">DanceAspens <strong>Laurel Winton</strong> and <strong>Kaya Wolsey</strong>, LIVE from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-37', this)">Show description</button>
+</div>
+<div id="desc-vail-year-37" class="description">Vail Dance Festival is thrilled to welcome Dance Aspen in its inaugural season. Artistic Director Laurel Winton joins the Conversations On Dance podcast in a discussion about Colorados newest dance company, and how dancers and director alike will seek to implement the companys artistic goals and identity. Please note: Conversations On Dance co-host, Rebecca King Ferraro, will be on maternity leave this summer. These live events will be hosted by Michael Sean Breeden with special guest hosts throughout the festival. This episode was recorded on August 6, 2022. Special thanks to the Town of Vail for their support of Conversations on Dance and the Vail Dance Festival. This episode was recorded at the Manor Vail Lodge. The post (302) DanceAspen&#x27;s Laurel Winton and Kaya Wolsey, LIVE from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 15, 2022 — (301) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4ea" target="_blank" rel="noopener noreferrer">Lil Buck and <strong>KJ Takahashi</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-38', this)">Show description</button>
+</div>
+<div id="desc-vail-year-38" class="description">Join the Conversations On Dance podcast in a discussion with one of Vails most celebrated mainstays, Lil Buck, and one of its newest artists, New York City Ballet dancer KJ Takahashi. Buck and KJ will take us on a tour of their own relationships with ballet and street dance and how these two forms of dance have intersected for each of them in their own artistic identity. Please note: Conversations On Dance co-host, Rebecca King Ferraro, will be on maternity leave this summer. These live events will be hosted by Michael Sean Breeden with special guest hosts throughout the festival. This episode was recorded on August 8, 2022 with special guest host, Kate Penner. Special thanks to the Town of Vail for their support of Conversations on Dance and the Vail Dance Festival. This episode was recorded at the Manor Vail Lodge. The post (301) Lil Buck and KJ Takahashi, LIVE from the Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 10, 2022 — (300) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4eb" target="_blank" rel="noopener noreferrer"><strong>Jodi Melnick</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-39', this)">Show description</button>
+</div>
+<div id="desc-vail-year-39" class="description">Choreographer Jodi Melnick has found international acclaim with her unique approach to the art form, encapsulating seemingly disparate moments of subtlety, nuance, recklessness and drama. The Conversations On Dance podcast leads a discussion with Melnick about her artistic identity, creative process and her new work premiering at VDF this year, set to a commissioned score by Andreia Pinto-Correia. Please note: Conversations On Dance co-host, Rebecca King Ferraro, will be on maternity leave this summer. These live events will be hosted by Michael Sean Breeden with special guest hosts throughout the festival. This episode was recorded on August 4, 2022 with special guest host, Patricia Delgado. Special thanks to the Town of Vail for their support of Conversations on Dance and the Vail Dance Festival. This episode was recorded at the Manor Vail Lodge. The post (300) Jodi Melnick, LIVE from the Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 9, 2022 — (299) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4ec" target="_blank" rel="noopener noreferrer"><strong>Dante Puleio</strong> and <strong>Nicholas Ruscica</strong> of Limn Dance Company, LIVE from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-40', this)">Show description</button>
+</div>
+<div id="desc-vail-year-40" class="description">At the vanguard of American modern dance since its inception, Limon Dance Company is celebrating its landmark 75th anniversary this season. Making their VDF debut this summer, come celebrate the incredible dance legacy of this beloved and historic company. Artistic Director Dance Puleio will join the Conversations On Dance podcast in a discussion about preserving the companys incredible heritage while pushing forward into the future with new commissions. Celebrating its landmark 75th anniversary season, the Limn Dance Company makes its Festival debut this summer. Please note: Conversations On Dance co-host, Rebecca King Ferraro, will be on maternity leave this summer. These live events will be hosted by Michael Sean Breeden with special guest hosts throughout the festival. This episode was recorded on August 1, 2022 with special guest host, Patricia Delgado. Special thanks to the Town of Vail for their support of Conversations on Dance and the Vail Dance Festival. This episode was recorded at the Manor Vail Lodge. Photo by Christopher Duggan The post (299) Dante Puleio and Nicholas Ruscica of Limn Dance Company, LIVE from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 7, 2022 — (298) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4ed" target="_blank" rel="noopener noreferrer"><strong>Pam Tanowitz</strong> and <strong>Sara Mearns</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-41', this)">Show description</button>
+</div>
+<div id="desc-vail-year-41" class="description">Sara Mearns and Pam Tanowitz are two of the most talked about dance artists of their generation, both regarded for their bold, fearless and personal interpretations of their respective art forms. At this years festival, Mearns will be premiering in a new work by Bobbi Jene Smith, while Tanowitz will create a new work to the music of Kate Davis. Join these mavericks of the industry for a discussion with the Conversations On Dance podcast about these premieres and the collaboration Mearns and Tanowitz most recently worked on together at the New York City Ballet. Please note: Conversations On Dance co-host, Rebecca King Ferraro, will be on maternity leave this summer. These live events will be hosted by Michael Sean Breeden with special guest hosts throughout the festival. This episode was recorded on August 3, 2022. Special thanks to the Town of Vail for their support of Conversations on Dance and the Vail Dance Festival. This episode was recorded at the Manor Vail Lodge. The post (298) Pam Tanowitz and Sara Mearns, LIVE from the Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 5, 2022 — (297) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4ee" target="_blank" rel="noopener noreferrer"><strong>Justin Peck</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-42', this)">Show description</button>
+</div>
+<div id="desc-vail-year-42" class="description">Few choreographers have impacted the dance world in the past decade the way Justin Peck has. He burst onto the scene ten years ago with major commissions for New York City Ballet, eventually becoming the companys Resident Choreographer. This was followed by his Tony Award-winning Broadway debut choreographing Carousel, and his cinematic debut for Steven Spielbergs award-winning film remake of West Side Story. Peck joins the Conversations On Dance podcast to talk about his world premiere at VDF this year, where he will collaborate with bluegrass artist Chris Thile (Punch Brothers, National Public Radio), as well as the Vail premiere of his most recent New York City Ballet work, Partita. Please note: Conversations On Dance co-host, Rebecca King Ferraro, will be on maternity leave this summer. These live events will be hosted by Michael Sean Breeden with special guest hosts throughout the festival. This episode was recorded on July 30, 2022. Special thanks to the Town of Vail for their support of Conversations on Dance and the Vail Dance Festival. This episode was recorded at the Manor Vail Lodge. Photo by Christopher Duggan The post (297) Justin Peck, LIVE from the Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 7, 2022 — (296) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4ef" target="_blank" rel="noopener noreferrer"><strong>Patricia Delgado</strong> On Her Return to The Stage at Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-43', this)">Show description</button>
+</div>
+<div id="desc-vail-year-43" class="description">Today we are joined by our friend and former colleague at Miami City Ballet, Patricia Delgado. While we have had Patricia on the podcast many times in the past, it has been a few years since we have had her back. We catch up with her on her work she did as a part of the West Side Story movie, working closely with her husband, Justin Peck. She talks about her experience as a producer on both Broadway and as a part of #QueertheBallet with friend of the pod, Adriana Pierce. This summer, Patricia will be back at the Vail Dance Festival and making her return to the stage for the first time in years and after the birth of her daughter, Lucia. She will also be stepping in as a Conversations on Dance guest host with Michael for some live events from Vail. This is our last episode before the Vail Dance Festival. Our Festival Forum events will be published on the COD feed, so be sure to subscribe to Conversations on Dance wherever you get your podcasts so that you will automatically be notified when these episodes go live. For tickets to the performances and Festival Forum events, visit, validance.org. Conversations on Dance at the Vail Dance Festival July 30 August 9: https://vaildance.org/conversations-on-dance. Tickets on sale now. ____________________________</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jun 27, 2022 — (295) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4f0" target="_blank" rel="noopener noreferrer"><strong>Ephrat Asherie</strong>, Artistic Director of <strong>Ephrat Asherie</strong> Dance, coming to the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-44', this)">Show description</button>
+</div>
+<div id="desc-vail-year-44" class="description">On today&#x27;s episode of Conversations On Dance&#x27;, we are joined by Ephrat Asherie, Bessie Award winning b-girl and choreographer. We caught up with Ephrat on her artistic output since her first appearance on the podcast in January 2021, including her work for Guggenheim Works &amp; Process, collaborating with the elders of the underground dance scene, and touring her work Odeon&#x27;. Ephrat is returning to the Vail Dance Festival this year where Odeon&#x27; and a new choreographic work will be performed. Catch Ephrat Asherie Dance at the festival on July 31st. Tickets available at vaildance.org. SPONSORS: Conversations on Dance at the Vail Dance Festival July 30 August 9: https://vaildance.org/conversations-on-dance. Tickets on sale now. Ali Phillips Embodied Leadership Coach aliphillips.org. For Conversations on Dance listeners only- mention that you heard about Ali through the podcast, and if you sign up in the month of June youll receive 20% off her new 10 week coaching program. ____________________________</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jun 16, 2022 — (292) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4f3" target="_blank" rel="noopener noreferrer">Vail Dance Festival 2022 Preview with Artistic Director, <strong>Damian Woetzel</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-45', this)">Show description</button>
+</div>
+<div id="desc-vail-year-45" class="description">Today we are joined by Vail Dance Festival&#x27;s Artistic Director, Damian Woetzel. While we have had Damian on the podcast many times, we ask him about his earliest memories in Vail as a dancer, we talk about some of his memories from over the years, and what to expect from this year&#x27;s festival coming to the stage July 29 August 9. Audiences are in for another great year of new works, classics, new artists, familiar faces, and new collaborations. For more information on performances, programming, and festival artists, visit the Vail Dance Festival website. Tickets are on sale now at validance.org, or click the link in the description of this episode. SPONSORS: Conversations on Dance at the Vail Dance Festival July 30 August 9: https://vaildance.org/conversations-on-dance. Tickets on sale now. Special thanks to the Town of Vail for their support of the Vail Dance Festival and this episode of Conversations on Dance. ____________________________</div>
+</div>
+<h2 id="year-2021" class="year-heading">2021</h2>
+<div class="episode-block">
+<div class="row2">Nov 22, 2021 — (261) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a513" target="_blank" rel="noopener noreferrer"><strong>India Bradley</strong>, dancer with NYCB, from the 2021 Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-46', this)">Show description</button>
+</div>
+<div id="desc-vail-year-46" class="description">This week we talk with New York City Ballet dancer, India Bradley, from the 2021 Vail Dance Festival this past summer, before the company returned to work. India last appeared on the podcast at the Vail Dance Festival prior to beginning her first season at NYCB as a member of the corps de ballet. You can listen to our chat with her in episode 159. Today, India talks about giving herself grace during the pandemic to step away from dance, how she has found her way back, and what she has most enjoyed about returning to the studio and stage. Photo credit: Christopher Duggan __________________________________</div>
+</div>
+<div class="episode-block">
+<div class="row2">Nov 15, 2021 — (260) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a514" target="_blank" rel="noopener noreferrer"><strong>Caroline Shaw</strong>: Vocalist, Violinist, Composer, and Producer from the 2021 Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-47', this)">Show description</button>
+</div>
+<div id="desc-vail-year-47" class="description">Today we are revisiting the 2021 Vail Dance Festival and one of our favorite chats from the summer. This week on the pod, we sit down with NYC-based Musician, Caroline Shaw. Caroline is a vocalist, violinist, composer, and producers. She was the youngest recipient of the Pulitzer Prize for Music in 2013 for Partita for 8 Voices, written for the Grammy-winning Roomful of Teeth, of which she is a member. She has collaborated with incredible artists including Kayne West, Nas, Renee Fleming, the National, and so many others. Check out her website, carolineshaw.com for a full list of her work. Caroline has been an integral part of the Vail Dance Festival for years now, collaborating with dancers, choreographers, and making new works. We had so much fun getting the opportunity to sit down to nerd out with her about all things dance and music. At the end of the episode, we are including Caroline&#x27;s track that she created in collaboration with Jookin dancer, Lil Buck for a piece called 38109. This work debuted at the 2018 Vail Dance Festival, ran again this year, and was just a part of City Center&#x27;s Fall for Dance. We talk about this track in the episode and even embarrass ourselves by singing it for her. Enjoy. __________________________________</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 16, 2021 — (246) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a523" target="_blank" rel="noopener noreferrer"><strong>Justin Peck</strong> and <strong>Robbie Fairchild</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-48', this)">Show description</button>
+</div>
+<div id="desc-vail-year-48" class="description">Today we are sharing with you our final LIVE event recording from the 2021 Vail Dance Festival. In this episode, we are joined by New York City Ballet Resident Choreographer, Justin Peck, and dancer and actor, Robbie Fairchild. These two have been friends since they were students at the School of American Ballet, working together throughout their time with New York City Ballet. They talk about how they first became inspired by the theatre, their aspirations for Broadway, and their forays into film. This episode was recorded LIVE from the Vail Dance Festival on August 7, 2021 at the Manor Vail Lodge. Please note, we did have some technical difficulties with the sound on one of the microphones during this recording. We apologize in advance. Special thanks to the Town of Vail for their support of the Vail Dance Festival and Conversations on Dance live podcast recordings. This episode was recorded at the Manor Vail Lodge. Conversations on Dance is proud to have YUMIKO as a continued partner in 2021. yumiko.com Thank you to Tom Boyd for producing this episode. The post (246) Justin Peck and Robbie Fairchild, LIVE from the Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 10, 2021 — (244) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a525" target="_blank" rel="noopener noreferrer"><strong>Cleo Parker Robinson</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-49', this)">Show description</button>
+</div>
+<div id="desc-vail-year-49" class="description">LIVE from the Vail Dance Festival, we are joined by choreographer, Cleo Parker Robinson. Cleo is the found of Cleo Parker Robinson Dance. She gives us background on her career, coming, and her choreography. She also tells us about the work that she created for the 2021 Vail Dance Festival. This episode was recorded LIVE from the Vail Dance Festival, This episode was recorded on August 8, 2021 at the Manor Vail Lodge. Experience the Vail Dance Festival from wherever you are. Enjoy a live-streamed event of the festivals closing evening: NOW Premieres, which we discuss in this episode. Access will be available for one week on VDFs YouTube Channel. More information on VDFs social media channels. Special thanks to the Town of Vail for their support of the Vail Dance Festival and Conversations on Dance live podcast recordings. This episode was recorded at the Manor Vail Lodge. Conversations on Dance is proud to have YUMIKO as a continued partner in 2021. yumiko.com Thank you to Tom Boyd for producing this episode. Photo by Christopher Duggan The post (244) Cleo Parker Robinson, LIVE from the Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 9, 2021 — (243) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a526" target="_blank" rel="noopener noreferrer"><strong>Lauren Lovette</strong> and <strong>Lil Buck LIVE</strong> from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-50', this)">Show description</button>
+</div>
+<div id="desc-vail-year-50" class="description">In our next installment of LIVE from the Vail Dance Festival, we are joined by New York City Ballet principal dancer, Lauren Lovette, and Memphis Jookin star, Lil Buck. We chat with the pair about what this past year has been like for them, how they continued to find inspiration, about their friendship, and their new work they have created just for the festival. This episode was recorded LIVE from the Vail Dance Festival, This episode was recorded on August 9, 2021 at the Manor Vail Lodge. Experience the Vail Dance Festival from wherever you are this Monday, August 9th, 2021. Enjoy a live-streamed event of the festivals closing evening: NOW Premieres, which we discuss in this episode. Access will be available for one week on VDFs YouTube Channel. More information on VDFs social media channels. Special thanks to the Town of Vail for their support of the Vail Dance Festival and Conversations on Dance live podcast recordings. This episode was recorded at the Manor Vail Lodge. Conversations on Dance is proud to have YUMIKO as a continued partner in 2021. yumiko.com Thank you to Tom Boyd for producing this episode. Photo by Christopher Duggan The post (243) Lauren Lovette and Lil Buck LIVE from the Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 7, 2021 — (242) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a527" target="_blank" rel="noopener noreferrer"><strong>Cameron Grant</strong>, Pianist, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-51', this)">Show description</button>
+</div>
+<div id="desc-vail-year-51" class="description">In our next installment of LIVE from the Vail Dance Festival, we are joined by New York City Ballet pianist, Cameron Grant. Cameron has played for the ballet for nearly 40 years, and shares with us some of his wealth of experiences and stories. This episode was recorded LIVE from the Vail Dance Festival, This episode was recorded on August 6, 2021 at the Manor Vail Lodge. Experience the Vail Dance Festival from wherever you are this Monday, August 9th, 2021. Enjoy a live-streamed event of the festivals closing evening: NOW Premieres, which we discuss in this episode. Access will be available for one week on VDFs YouTube Channel. More information on VDFs social media channels. Special thanks to the Town of Vail for their support of the Vail Dance Festival and Conversations on Dance live podcast recordings. This episode was recorded at the Manor Vail Lodge. Conversations on Dance is proud to have YUMIKO as a continued partner in 2021. yumiko.com Thank you to Tom Boyd for producing this episode. The post (242) Cameron Grant, Pianist, LIVE from the Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 6, 2021 — (241) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a528" target="_blank" rel="noopener noreferrer"><strong>Jamar Roberts</strong>, Resident Choreographer at Alvin Ailey American Dance Theater, LIVE from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-52', this)">Show description</button>
+</div>
+<div id="desc-vail-year-52" class="description">We are joined today by Jamar Roberts, dancer and Resident Choreographer at Alvin Ailey American Dance Theater, LIVE from the Vail Dance Festival. We talk with Jamar about his origins in dance, his love for visual art, how he got into choreography, and about his world premiere coming to the Vail Dance Festival this year. This episode was recorded LIVE from the Vail Dance Festival, This episode was recorded on August 5, 2021 at the Manor Vail Lodge. Experience the Vail Dance Festival from wherever you are this Monday, August 9th, 2021. Enjoy a live-streamed event of the festivals closing evening: NOW Premieres, which we discuss in this episode. Access will be available for one week on VDFs YouTube Channel. More information on VDFs social media channels. Special thanks to the Town of Vail for their support of the Vail Dance Festival and Conversations on Dance live podcast recordings. This episode was recorded at the Manor Vail Lodge. Conversations on Dance is proud to have YUMIKO as a continued partner in 2021. yumiko.com Thank you to Tom Boyd for producing this episode. The post (241) Jamar Roberts, Resident Choreographer at Alvin Ailey American Dance Theater, LIVE from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 5, 2021 — (240) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a529" target="_blank" rel="noopener noreferrer"><strong>Tiler Peck</strong> and <strong>Herman Cornejo</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-53', this)">Show description</button>
+</div>
+<div id="desc-vail-year-53" class="description">We are joined today by Tiler Peck, principal dancer with New York City Ballet and Herman Cornejo, principal dancer with American Ballet Theatre. The pair tell us about their partnership here at the festival and Justin Peck&#x27;s newest work. This episode was recorded LIVE from the Vail Dance Festival, This episode was recorded on August 4, 2021 at the Manor Vail Lodge. Experience the Vail Dance Festival from wherever you are this Monday, August 9th, 2021. Enjoy a live-streamed event of the festival&#x27;s closing evening: NOW Premieres, which we discuss in this episode. Access will be available for one week on VDF&#x27;s YouTube Channel. More information on VDF&#x27;s social media channels. Special thanks to the Town of Vail for their support of the Vail Dance Festival and Conversations on Dance live podcast recordings. This episode was recorded at the Manor Vail Lodge. Conversations on Dance is proud to have YUMIKO as a continued partner in 2021. yumiko.com Thank you to Tom Boyd for producing this episode. The post (240) Tiler Peck and Herman Cornejo, LIVE from the Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 4, 2021 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a52a" target="_blank" rel="noopener noreferrer">BONUS: Livestream the Vail Dance Festival on August 9, 2021 with <strong>Kate Penner</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-54', this)">Show description</button>
+</div>
+<div id="desc-vail-year-54" class="description">Today we are joined by Kate Penner, social media manager for the Vail Dance Festival. Kate tells us how her role has evolved since her first year at the festival, how the marketing team works with photographers and videographers, and we delve into how rights and permissions work. Then she announces that the NOW Premieres performance on August 9th will be available to livestream for FREE on Vail Dance Festival&#x27;s YouTube channel. Be sure to follow VDF on social media for more information. This episode was recorded at the Manor Vail Lodge. Special thanks to Bruce Wilson for his generous support of our new sound equipment. Conversations on Dance is proud to have YUMIKO as a continued partner in 2021. yumiko.com. The post BONUS: Livestream the Vail Dance Festival on August 9, 2021 with Kate Penner appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 2, 2021 — (239) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a52b" target="_blank" rel="noopener noreferrer"><strong>Christine Cox</strong>, Artistic &amp; Executive Director of BalletX, LIVE from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-55', this)">Show description</button>
+</div>
+<div id="desc-vail-year-55" class="description">We are joined today by Christine Cox, Artistic &amp; Executive Director of BalletX. This episode was recorded LIVE from the Vail Dance Festival, where BalletX is the resident company. We chat with Christine about her career, founding the company, her ambitious programming, and her entrepreneurial approach to building the company from the ground up. This episode was recorded on August 1, 2021 at the Manor Vail Lodge. Special thanks to the Town of Vail for their support of the Vail Dance Festival and Conversations on Dance live podcast recordings. This episode was recorded at the Manor Vail Lodge. Conversations on Dance is proud to have YUMIKO as a continued partner in 2021. yumiko.com Thank you to Tom Boyd for producing this episode. The post (239) Christine Cox, Artistic &amp; Executive Director of BalletX, LIVE from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 1, 2021 — (238) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a52c" target="_blank" rel="noopener noreferrer"><strong>Calvin Royal III</strong>, Principal with ABT, LIVE from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-56', this)">Show description</button>
+</div>
+<div id="desc-vail-year-56" class="description">LIVE from Vail Dance Festival, today we chat with American Ballet Theatre Principal Dancer and Vail Dance Festival Artist in Residence, Calvin Royal III. We hear from Calvin about his beginnings in dance, his promotion to principal, how he stayed inspired during the pandemic, and being artist in residence at this year&#x27;s festival. This episode was recorded on July 31, 2021 at the Manor Vail Lodge. Special thanks to the Town of Vail for their support of the Vail Dance Festival and Conversations on Dance live podcast recordings. This episode was recorded at the Manor Vail Lodge. Conversations on Dance is proud to have YUMIKO as a continued partner in 2021. yumiko.com Thank you to Tom Boyd for producing this episode. Photo by Chris Kendig. The post (238) Calvin Royal III, Principal with ABT, LIVE from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 30, 2021 — (237) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a52d" target="_blank" rel="noopener noreferrer"><strong>Jonathan Stafford</strong>, Artistic Director of NYCB, LIVE from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-57', this)">Show description</button>
+</div>
+<div id="desc-vail-year-57" class="description">Welcome to our first live podcast recording from the Vail Dance Festival. First up, we chat with New York City Ballet Artistic Director, Jonathan Stafford. We talk with Jon about his pathway to NYCB, some of the leadership roles he held while he was still dancing, the NYCB Interim Transition Team, his role as Artistic Director, leading the company through this past unprecedented year, and what comes next. This episode was recorded on July 30th, 2021 at the Manor Vail Lodge. Special thanks to the Town of Vail for their support of the Vail Dance Festival and Conversations on Dance live podcast recordings. This episode was recorded at the Manor Vail Lodge. Conversations on Dance is proud to have YUMIKO as a continued partner in 2021. yumiko.com Thank you to Tom Boyd for producing this episode. The post (237) Jonathan Stafford, Artistic Director of NYCB, LIVE from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 7, 2021 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a530" target="_blank" rel="noopener noreferrer">COD July Update + Come see us at Vail Dance Festival!</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-58', this)">Show description</button>
+</div>
+<div id="desc-vail-year-58" class="description">Rebecca pops in today to share some COD updates, including live events and master classes at Vail Dance Festival, and publishing schedule this month. Links: Live events: https://vaildance.org/festival-forums-2021/ Master classes: https://vaildance.org/master-class-series-2021/ Thank you to Yumiko for their continued support of COD. Shop online at Yumiko.com. Follow us on social media @conversationsondance The post COD July Update + Come see us at Vail Dance Festival! appeared first on tendusunderapalmtree.com.</div>
+</div>
+<h2 id="year-2020" class="year-heading">2020</h2>
+<div class="episode-block">
+<div class="row2">Aug 13, 2020 — (196) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a558" target="_blank" rel="noopener noreferrer"><strong>Calvin Royal III</strong>, Soloist with American Ballet Theatre</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=jVcSp0lGI5w" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-59', this)">Show description</button>
+</div>
+<div id="desc-vail-year-59" class="description">Today, on the Conversations on Dance podcast, we are sharing our chat with American Ballet Theatre Soloist, Calvin Royal III, that was recorded as a part of the 2020 Vail Dance Festival: Digital Edition. Through August 15th, you can watch our Zoom chat with Calvin on the Vail Dance Festival Facebook page or on their YouTube Channel. While you are there, we encourage you to explore the incredible 8 evenings of content that truly highlights what makes this festival so special! But hurry, videos are only available through August 15th. Conversations on Dance is generously supported by Yumiko (yumiko.com). The post (196) Calvin Royal III, Soloist with American Ballet Theatre appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 10, 2020 — (195) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a559" target="_blank" rel="noopener noreferrer"><strong>Isabella Boylston</strong> and James Whiteside  2020 Vail Dance Festival</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=foN4IS-7_NU" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-60', this)">Show description</button>
+</div>
+<div id="desc-vail-year-60" class="description">Today, on the Conversations on Dance podcast, we are sharing our chat with American Ballet Theatre Principal Dancers, Isabella Boylston and James Whiteside, that was recorded as a part of the 2020 Vail Dance Festival: Digital Edition. Through August 15th, you can watch our Zoom chat with James and Bella on the Vail Dance Festival Facebook page or on their YouTube Channel. While you are there, we encourage you to explore the incredible 8 evenings of content that truly highlights what makes this festival so special! But hurry, videos are only available through August 15th. Conversations on Dance is generously supported by Yumiko (yumiko.com). The post (195) Isabella Boylston and James Whiteside 2020 Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 27, 2020 — (193) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a55b" target="_blank" rel="noopener noreferrer">Preview of 2020 Vail Dance Festival: Digital Edition with <strong>Damian Woetzel</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-61', this)">Show description</button>
+</div>
+<div id="desc-vail-year-61" class="description">Today we chat with Vail Dance Festival Artistic Director Damian Woetzel to get a preview of what is in store for their eight night digital festival, July 31 August 7, 2020. Damian tells us what it was like to have to decide to cancel the in person festival and move to a digital format, how they have chosen what the audience will get to see, offers us some previews of different pieces, and shares what he hopes audiences will take away from these incredible eight evenings of VDF content. As a part of the festival, you can catch three full evenings of Conversations on Dance. On August 3rd, we chat with Lil Buck, August 5th with James Whiteside and Isabella Boylston of American Ballet Theatre, and on August 6th with Calvin Royal III, the festival&#x27;s Artist in Residence for 2020 and 2021. Don&#x27;t miss a moment of the action. For more information on these free digital events, visit vaildance.org and be sure to connect with them on social media. This episode is brought to you by Yumiko (yumiko.com). The post (193) Preview of 2020 Vail Dance Festival: Digital Edition with Damian Woetzel appeared first on tendusunderapalmtree.com.</div>
+</div>
+<h2 id="year-2019" class="year-heading">2019</h2>
+<div class="episode-block">
+<div class="row2">Nov 26, 2019 — (163) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a57a" target="_blank" rel="noopener noreferrer"><strong>Kenneth Parris III</strong> and <strong>Melissa Toogood</strong>, LIVE from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-62', this)">Show description</button>
+</div>
+<div id="desc-vail-year-62" class="description">This week we are sharing with you a live podcast recording from the 2019 Vail Dance Festival. Here we speak with Visual Artist Kenneth Parris III and dancer Melissa Toogood on Tuesday July 30th, 2019. Kenneth had many of his Merce Cunningham paintings and drawings featured throughout the festival this year, and many of these pieces feature Cunningham dancer and his wife, Melissa Toogood. We sit down to chat with this duo about their artistic partnership and their relationship to the works of Merce Cunningham. This episode is brought to you by Yumiko (yumiko.com) and the Town of Vail. The post (163) Kenneth Parris III and Melissa Toogood, LIVE from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 19, 2019 — (151) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a586" target="_blank" rel="noopener noreferrer"><strong>Lauren Lovette</strong> LIVE From Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-63', this)">Show description</button>
+</div>
+<div id="desc-vail-year-63" class="description">Today we are bringing you a live podcast recording from the Vail Dance Festival with New York City Ballet Principal Dancer Lauren Lovette. We catch up on what she has been up to since we saw her last summer, talk about her choreography, and her position of Artist in Residence this year at the festival. Unfortunately, we again had a technology glitch during this episode and are bringing you an iphone audio recording of the event. As you know, this audio is not up to our usual quality, but Laurens chat with us was just too good not to bring to the masses. Thank you for your understanding. This episode was recorded live on August 4th, 2019. This episode is brought to you by Yumiko and The Town of Vail. The post (151) Lauren Lovette LIVE From Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 12, 2019 — (150) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a587" target="_blank" rel="noopener noreferrer">Lil Buck LIVE From Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-64', this)">Show description</button>
+</div>
+<div id="desc-vail-year-64" class="description">Today we are bringing you a live podcast recording from the Vail Dance Festival with Jookin superstar, Lil Buck. Charles Lil Buck Riley is an dancer, actor and model from Memphis, Tennessee who specializes in a style of street dance called jookin. He gained popularity after director Spike Jonze used his cell phone to record an interpretive performance of The Dying Swan by Lil Buck and Yo-Yo Ma. Li&#x27; Buck has been a long time favorite of the festival since 2011. Lil Buck is the founder of Movement Art Is, an organization focused on using movement artistry to inspire change in the world. This episode was recorded live on July 31st, 2019. Watch the video of this live event here: https://bit.ly/2MRqcNs This episode is brought to you by Yumiko and The Town of Vail. This live podcast was recorded at Manor Vail Lodge. The post (150) Lil Buck LIVE From Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 9, 2019 — (149) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a588" target="_blank" rel="noopener noreferrer"><strong>Damian Woetzel</strong> &amp; <strong>Janet Eilber</strong> LIVE from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-65', this)">Show description</button>
+</div>
+<div id="desc-vail-year-65" class="description">Today we are bringing you a live podcast recording from the Vail Dance Festival with Festival Artistic Director Damian Woetzel and Janet Eilber, Martha Graham Dance Company Artistic Director. The pair talks with us about the Graham legacy, their roles as artistic directors of their respective organizations, and what audiences can expect to see from the Martha Graham Dance Company this year in Vail. This episode was recorded live on August 8th, 2019. This episode is brought to you by Yumiko and the Town of Vail. This episode was recorded at Manor Vail Lodge. The post (149) Damian Woetzel &amp; Janet Eilber LIVE from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 6, 2019 — (148) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a589" target="_blank" rel="noopener noreferrer"><strong>Tiler Peck</strong> LIVE from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-66', this)">Show description</button>
+</div>
+<div id="desc-vail-year-66" class="description">Today we are bringing you a live podcast recording from the Vail Dance Festival with New York City Ballet Principal Tiler Peck. In her 11th year at the Vail Dance Festival, Tiler continues to explore her work as a choreographer with a revival of last year&#x27;s premiere Lincoln Square&#x27; and new premiere to Caroline Shaw&#x27;s Thousandth Orange&#x27;. We talk to her about her choreographic inspirations, and the thought process behind her latest work. This episode was recorded on August 6, 2019. This episode is brought to you by Yumiko and the Town of Vail. This episode was recorded at Manor Vail Lodge. The post (148) Tiler Peck LIVE from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 4, 2019 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a58a" target="_blank" rel="noopener noreferrer">BONUS: Choreographer <strong>Pam Tanowitz</strong> from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-67', this)">Show description</button>
+</div>
+<div id="desc-vail-year-67" class="description">Today we sit down with choreographer Pam Tanowitz from the Vail Dance Festival. We spoke with Pam from a Live event at Washington DCs Kennedy Center in episode 140 and today we get to chat with her about her new creation for Vail. This is a small excerpt of a longer conversation on her work that we will be publishing in the coming weeks. In this bonus episode, Pam gives us some insight into her new piece she is creating here at Vail Dance Festival that will premiere on Monday August 5, 2019 for NOW Premieres. This is book Pam references Pas de Deux: A Textbook on Partnering. This episode is brought to you by Yumiko and the Town of Vail. This episode was recorded at Manor Vail Lodge. The post BONUS: Choreographer Pam Tanowitz from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 1, 2019 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a58b" target="_blank" rel="noopener noreferrer">BONUS: <strong>Roman Mejia</strong> of NYCB from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-68', this)">Show description</button>
+</div>
+<div id="desc-vail-year-68" class="description">New York City Ballet up-and-coming corps member, Roman Mejia, sits down with us from the Vail Dance Festival. We talk about his year of dance since we last saw him in Vail, working with Edward Villella, and on performing Alexei Ratmansky&#x27;s Fandango&#x27; here at Vail Dance Festival on August 2nd, 2019. This episode is brought to you by Yumiko and the Town of Vail. This episode was recorded at Manor Vail Lodge. The post BONUS: Roman Mejia of NYCB from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 31, 2019 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a58c" target="_blank" rel="noopener noreferrer">BONUS: <strong>Herman Cornejo</strong> of ABT From Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-69', this)">Show description</button>
+</div>
+<div id="desc-vail-year-69" class="description">American Ballet Theatre Principal Dancer, Herman Cornejo, sits down with us from the Vail Dance Festival. We talk about his year of dance since we last saw him in Vail, his 20th anniversary with ABT, and about what he is dancing this year at the festival. You will want to listen to the end where he shares some BIG news with us! This episode is brought to you by Yumiko and the Town of Vail. The post BONUS: Herman Cornejo of ABT From Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 27, 2019 — (146) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a58e" target="_blank" rel="noopener noreferrer"><strong>James Whiteside</strong> LIVE From Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-70', this)">Show description</button>
+</div>
+<div id="desc-vail-year-70" class="description">Today we are brining you a live podcast recording from the Vail Dance Festival with American Ballet Theatre Principal Dancer, James Whiteside. This episode was recorded on July 27th, the morning before the premier of his newest work, New American Dream. Unfortunately, we did come up against some technical difficulties, so we are sharing this episode from a backup file, with a little lower quality than we are used to. We appologize for the inconvenience, but we felt that this conversation with James was too enjoyable for our audience to miss. Enjoy. The post (146) James Whiteside LIVE From Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 2, 2019 — (144) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a590" target="_blank" rel="noopener noreferrer">Rebecca and Michael: Catching Up &amp; Vail Dance Festival Preview</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-71', this)">Show description</button>
+</div>
+<div id="desc-vail-year-71" class="description">It&#x27;s just Rebecca and Michael this week on the pod. We talk about looking forward to this year&#x27;s Vail Dance Festival, our 3 year anniversary, what Michael has been up to, and we answer your questions from social media. This episode is brought to you by Yumiko (yumiko.com.) The post (144) Rebecca and Michael: Catching Up &amp; Vail Dance Festival Preview appeared first on tendusunderapalmtree.com.</div>
+</div>
+<h2 id="year-2018" class="year-heading">2018</h2>
+<div class="episode-block">
+<div class="row2">Sep 10, 2018 — (106) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5b7" target="_blank" rel="noopener noreferrer"><strong>Isabella Boylston</strong>, ABT Principal, from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-72', this)">Show description</button>
+</div>
+<div id="desc-vail-year-72" class="description">On this week&#x27;s episode of Conversations On Dance, we are thrilled to be joined once again by American Ballet Theatre principal Isabella Boylston. We caught up with her at the Vail Dance Festival, where we talked about her most recent season at the Met with ABT, how her second year running the Ballet Sun Valley Festival differed from the first, and her preparations for her first performances dancing Justin Peck&#x27;s In Creases&#x27;. This episode is sponsored by Yumiko (yumiko.com) and Quarter Marks (quartermarksquarterly.com) The post (106) Isabella Boylston, ABT Principal, from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 9, 2018 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5bc" target="_blank" rel="noopener noreferrer">Vail Festival Forum Bonus Content: <strong>Damian Woetzel</strong> and <strong>Claudia Schreier</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-73', this)">Show description</button>
+</div>
+<div id="desc-vail-year-73" class="description">Join us for another live Festival Forum panel discussion with Damian Woetzel and Claudia Schreier. Damian Woetzel is the Artistic Director of The Vail Dance Festival and Claudia Schreier is back creating work at the festival for a third time. We talk about Damian&#x27;s beginnings at the festival and how he developed it&#x27;s mission. We talk with Claudia about her roots in the Vail Dance Festival as a young intern that grew into a burgeoning career as a choreographer noticed by major companies and critics alike. (Note: This episode was recorded on August 5th, 2018.) Photo: Dandara Veiga and Chris Bloom in Contra at the 2018 Vail Dance Festival. Choreography by Claudia Schreier. Photo by Erin Baiano The post Vail Festival Forum Bonus Content: Damian Woetzel and Claudia Schreier appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 7, 2018 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5bd" target="_blank" rel="noopener noreferrer">BONUS: <strong>Lauren Lovette</strong> on her new work for Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-74', this)">Show description</button>
+</div>
+<div id="desc-vail-year-74" class="description">Today we talk with New York City Ballet Principal, Lauren Lovette. The last time we chatted with her was last year at the Vail Dance Festival, so this year we catch up with her, talk about her guesting gig with Royal Danish Ballet, and hear about her new work Papillons that premiered on August 6th, 2018 at the Vail Dance Festival. (Note: This episode was recorded on August 6th, 2018.) Photo: Unity Phelan and cast in Papillons at the 2018 Vail Dance Festival. Choreography by Lauren Lovette. Photo by Erin Baiano The post BONUS: Lauren Lovette on her new work for Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 6, 2018 — (101) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5be" target="_blank" rel="noopener noreferrer"><strong>Roman Mejia</strong> LIVE From Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-75', this)">Show description</button>
+</div>
+<div id="desc-vail-year-75" class="description">Roman Mejia is one of the newest members of the New York City Ballet, having burst onto the scene at the Vail Dance Festival fresh out of the School of American Ballet. In just his first year at the company, hes garnered critical acclaim for numerous solo roles, and is quickly gathering momentum as a dancer to be seen. We talk with Roman about the pressures of being thrust into the spotlight so soon into his career, how he prepares for these challenges, and how coming from a ballet family has prepared him in his career. (Note: This episode was recorded on August 4th, 2018) Photo: Roman Mejia in Pas de Deux from William Tell at the 2018 Vail Dance Festival. Photo by Erin Baiano The post (101) Roman Mejia LIVE From Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 5, 2018 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5bf" target="_blank" rel="noopener noreferrer">Vail Festival Forum Bonus Content: Merce Cunningham Centennial</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-76', this)">Show description</button>
+</div>
+<div id="desc-vail-year-76" class="description">Merce Cunningham is one of the greatest and most influential choreographers of the 20th century. In honor of the Merce Cunningham centennial, we were pleased to host Melissa Toogood, a dancer of his works and Abi Sebaly, a Cunningham scholar. We discuss Merces work methods, collaborations with artists like John Cage and Robert Rauschenberg, broad influence in the avant-garde in dance and beyond, and his Scenario, excerpts of which were performed at the Vail Dance Festival on August 3, 2018. (Note: This episode was recorded on August 3rd.) Photo: Scenario (an excerpt), International Evenings of Dance I, Vail Dance Festival, Friday, August 3, 2018, Gerald R. Ford Amphitheater. Credit Photo: Erin Baiano The post Vail Festival Forum Bonus Content: Merce Cunningham Centennial appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 4, 2018 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5c0" target="_blank" rel="noopener noreferrer">BONUS: <strong>Alastair Macaulay</strong> from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-77', this)">Show description</button>
+</div>
+<div id="desc-vail-year-77" class="description">We sit down in Vail to catch up with The New York Times Chief Dance Critic Alastair Macaulay and discuss the Vail Dance Festival. We discuss what makes the festival so special, how it has evolved, dancers who he has watched flourish in Vail, and what makes him keep coming back for more. (Note: This episode was recorded on August 3, 2018.) Photo: Erin Baiano The post BONUS: Alastair Macaulay from the Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 2, 2018 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5c1" target="_blank" rel="noopener noreferrer">Vail Festival Forum Bonus Content: Justin Peck and <strong>Caroline Shaw</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-78', this)">Show description</button>
+</div>
+<div id="desc-vail-year-78" class="description">Welcome to our first episode from the 2018 Vail Dance Festival. For our first live event we spoke with Justin Peck and Caroline Shaw. Justin Peck, one of the worlds most sought after and celebrated working ballet choreographers, and fresh off a Tony nomination for his work on the Broadway musical Carousel, will be premiering his first work at the Vail Dance Festival. Caroline Shaw, composer-in-residence at VDF, has been commissioned to create the score for this work. In conversation together with these artists, we will explore the possibilities of such a collaboration, from the first moments of mutual inspiration to bringing the premiere to the stage. This episode is brought to you by the Town of Vail, a sponsor helping to host the Vail Dance Festival in our community. The post Vail Festival Forum Bonus Content: Justin Peck and Caroline Shaw appeared first on tendusunderapalmtree.com.</div>
+</div>
+<h2 id="year-2017" class="year-heading">2017</h2>
+<div class="episode-block">
+<div class="row2">Aug 23, 2017 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5f5" target="_blank" rel="noopener noreferrer">Vail Festival Forum Bonus Content: LIVE with <strong>Damian Woetzel</strong>, Lil Buck, and <strong>Janet Eilber</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vail-year-79', this)">Show description</button>
+</div>
+<div id="desc-vail-year-79" class="description">Welcome to Conversations on Dance, our final bonus episode from the Vail Dance Festival with Damian Woetzel, Lil&#x27; Buck, and Janet Eilber. This episode is quite special because we have a guest host, Vail Dance Festival Artistic Director, Damian Woetzel. After we had left, there was one final live event to give audiences an inside look at the artists and the performance. In this episode, Damian is joined by Jookin dancer, Lil Buck and Janet Eilber, the Artistic Director of Martha Graham Dance Company. As a side note, Buck is the cousin of this weeks Conversations on Dance guest, Ron Myles. Check out our chat with him in episode 56. The recording starts slightly into the event, so we join them just as Lil Buck begins to explain how he became involved in creating a Lamentation Variation with the Martha Graham Dance Company. They go on to have a great conversation on Martha Graham, tap, and collaboration at the Vail Dance Festival and beyond. The first voice you will hear is Damians. This recording was provided to us by the Vail Dance Festival. The post Vail Festival Forum Bonus Content: LIVE with Damian Woetzel, Lil&#x27; Buck, and Janet Eilber appeared first on tendusunderapalmtree.com.</div>
+</div>
+</body>
+</html>

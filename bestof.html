@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Annual Best Of</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T1W89Y447W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T1W89Y447W');
+</script>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    max-width: 1000px;
+}
+
+h1 {
+    margin-bottom: 12px;
+}
+
+.index {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+    z-index: 1000;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.index a {
+    margin-right: 10px;
+    font-size: 13px;
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.index a:hover {
+    text-decoration: underline;
+}
+
+.index-sep {
+    margin-right: 10px;
+    color: #bbb;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.letter-heading,
+.year-heading {
+    margin-top: 40px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    scroll-margin-top: 60px;
+}
+
+.guest-block {
+    margin-top: 18px;
+    margin-bottom: 24px;
+    scroll-margin-top: 60px;
+}
+
+.guest-line {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.appearance,
+.episode-block {
+    margin-left: 20px;
+    margin-bottom: 12px;
+}
+
+.row2 {
+    color: #444;
+    line-height: 1.4;
+}
+
+.desc-button {
+    margin-left: 8px;
+    font-size: 12px;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.description {
+    display: none;
+    margin-top: 6px;
+    padding: 8px 10px;
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+    color: #333;
+    line-height: 1.4;
+    white-space: pre-wrap;
+}
+
+a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.profile-badge {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #1a73e8;
+    border-radius: 3px;
+    color: #1a73e8;
+    vertical-align: middle;
+}
+
+.profile-badge:hover {
+    background: #e8f0fe;
+    text-decoration: none;
+}
+
+.patreon-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #f96854;
+    border-radius: 3px;
+    color: #f96854;
+    vertical-align: middle;
+}
+
+.patreon-badge:hover {
+    background: #fff0ee;
+    text-decoration: none;
+}
+
+.youtube-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #cc0000;
+    border-radius: 3px;
+    color: #cc0000;
+    vertical-align: middle;
+}
+
+.youtube-badge:hover {
+    background: #fff0f0;
+    text-decoration: none;
+}
+
+/* --- home nav dropdown --- */
+.home-nav { position: relative; display: inline-block; vertical-align: middle; }
+.home-nav-arrow {
+    background: none; border: none; padding: 0 1px 0 3px; cursor: pointer;
+    font-size: 9px; color: currentColor; opacity: 0.55; vertical-align: middle;
+    line-height: 1; font-family: inherit;
+}
+.home-nav-arrow:hover { opacity: 1; }
+.home-nav-dropdown {
+    display: none;
+    position: fixed;
+    background: white; border: 1px solid #ddd; border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    white-space: nowrap; z-index: 2000; min-width: 145px;
+}
+.home-nav-dropdown.open { display: block; }
+.home-nav-dropdown a {
+    display: block; padding: 8px 14px;
+    color: #333 !important; font-weight: normal !important;
+    text-decoration: none; font-size: 13px;
+}
+.home-nav-dropdown a:first-child { border-radius: 5px 5px 0 0; }
+.home-nav-dropdown a:last-child  { border-radius: 0 0 5px 5px; }
+.home-nav-dropdown a:hover { background: #f5f5f5; color: #1a73e8 !important; }
+</style>
+<script>
+function toggleDescription(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const isOpen = el.style.display === "block";
+    el.style.display = isOpen ? "none" : "block";
+    btn.textContent = isOpen ? "Show description" : "Hide description";
+    btn.setAttribute("aria-expanded", String(!isOpen));
+}
+
+function toggleHomeNav(btn) {
+    const dd = btn.nextElementSibling;
+    const opening = !dd.classList.contains('open');
+    document.querySelectorAll('.home-nav-dropdown.open').forEach(function(el) {
+        el.classList.remove('open');
+    });
+    if (opening) {
+        const rect = btn.getBoundingClientRect();
+        dd.style.top = (rect.bottom + 4) + 'px';
+        dd.style.left = rect.left + 'px';
+        dd.classList.add('open');
+        setTimeout(function () {
+            document.addEventListener('click', function closeDD(e) {
+                if (!btn.closest('.home-nav').contains(e.target)) {
+                    dd.classList.remove('open');
+                    document.removeEventListener('click', closeDD);
+                }
+            });
+        }, 0);
+    }
+}
+</script>
+</head>
+<body>
+<h1>Annual Best Of</h1>
+
+<div class="index">
+<span class="home-nav"><a href="danceexplorer.html">&#8592;&nbsp;Home</a><button class="home-nav-arrow" onclick="toggleHomeNav(this)" aria-label="Site navigation">&#9662;</button><div class="home-nav-dropdown"><a href="podcasts.html">Podcasts</a><a href="performances.html">Performances</a></div></span>
+</div>
+<div class="episode-block">
+<div class="row2">Dec 18, 2025 — (477) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/477-the-best-of-2025-with-michael-and-rebecca" target="_blank" rel="noopener noreferrer">The Best of 2025 with Michael and Rebecca</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/477-best-of-2025-146148900" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-bo-1', this)">Show description</button>
+</div>
+<div id="desc-bo-1" class="description">Today it&#x27;s just Michael and Rebecca for our annual look back over the year. Enjoy! Happy Holidays and Happy New Year everyone! We will be back with a new episode on January 7th, 2026.Listen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondanceMiami City Ballet Nutcracker running through 12/28: https://www.miamicityballet.org/tickets-and-events/202526-season/nutcracker/#e214Miami City Ballet world premiere by Alexei Ratmansky: https://www.miamicityballet.org/tickets-and-events/202526-season/winter/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Dec 18, 2024 — (426) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/426-best-of-2024" target="_blank" rel="noopener noreferrer">Best of 2024</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-bo-2', this)">Show description</button>
+</div>
+<div id="desc-bo-2" class="description">Today, we sit down for our annual &quot;Best of&quot; episode! We saw great dance this year and talked with amazing guests. Cheers to another year with all of you. Thank you for coming on this ride with us! Please take 5 mins to take our listener survey. We want to hear from you.Episodes referenced:Maria Calegari - Part 1 Part 2Jennifer Lin - (382) The story of George Lee, the original Tea in Balanchine&#x27;s &#x27;Nutcracker&#x27;, with Jennifer LinGeorge Lee &amp; Jennifer Lin - (396) Jennifer Lin and George Lee, the original Tea in Balanchine&#x27;s &#x27;Nutcracker&#x27;Michael Vernon - (391) Michael Vernon, Professor of Music (Ballet) at Indiana University Jacobs School of MusicKatlyn Addison - (383) Katlyn Addison, Principal Dancer with Ballet WestLimon at VDF - (405) Dante Puleio and Joey Columbus on the legacy of Jos Limn, LIVE from the Vail Dance FestivalGolden State Ballet&#x27;s Nutcracker: https://www.goldenstateballet.org/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Dec 27, 2023 — (378) — <a href="https://shows.acast.com/conversations-on-dance/episodes/378-michael-and-rebeccas-best-of-2023" target="_blank" rel="noopener noreferrer">Michael and Rebecca&#x27;s Best of 2023</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-bo-3', this)">Show description</button>
+</div>
+<div id="desc-bo-3" class="description">Michael and Rebecca sit down for our annual &quot;Best of 2023.&quot; Hop over to our Instagram account to comment and share with us some of your fave dance moments you experienced this year: @conversationsondance.Happy New Year and thank you for your support of Conversations on Dance this past year!LINKS FOR THIS EPISODE:Janet Eilber on Martha Graham Dance Company in &#x27;Cave&#x27;: https://www.conversationsondancepod.com/episodes-transcripts/janet-eilber-vail-dance-festivalRussell Janzen &#x27;On Leaving the Life of the Body: A Dancer Reports&#x27;: https://www.nytimes.com/2023/09/20/arts/dance/dancer-retirement-new-york-city-ballet.htmlRussell Janzen on Conversations on Dance: https://www.conversationsondancepod.com/episodes-transcripts/russell-janzen-new-york-city-ballet-principal-dancerMira Nadon on &#x27;Copland Dance Episodes&#x27;: https://www.conversationsondancepod.com/episodes-transcripts/mira-nadon-copland-dance-episodes&#x27;The Boy From Kyiv&#x27; audiobook: https://amzn.to/41Alurw&#x27;Mr. B&#x27; audiobook: https://amzn.to/3REOcmAWebsite: conversationsondancepod.comInstagram: @conversationsondanceMerch: https://bit.ly/cod-merchYouTube: https://bit.ly/youtube-CODJoin our email list: https://bit.ly/mail-COD</div>
+</div>
+<div class="episode-block">
+<div class="row2">Dec 20, 2022 — (320) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4d7" target="_blank" rel="noopener noreferrer">Best of 2022 with Michael and Rebecca</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-bo-4', this)">Show description</button>
+</div>
+<div id="desc-bo-4" class="description">It&#x27;s just us this week for our annual year-end wrap up. What a year 2022 has been! We list our favorite episodes from this year, our favorite performances we saw, our FOMO list of what we didn&#x27;t get to see but wished we had, and we share what we learned this year. Check out our COD Reading List for some last minute gift ideas for the dance lover in your life: https://conversationsondancepod.com/cod-reading-list/ Support COD: https://conversationsondancepod.com/support/ This episodes sponsors: Just in time for holiday gift-giving, DANCIO, the online dance instruction provider, has announced an expansion of its line-up of classes, teachers, and menu of subscriptions. Dancio is run by dancers for dancers, and makes a memorable holiday gift. To gift Dancio, Go to dancio.com and click on subscribe. The Frederick Quinney Lawson Ballet West Academy is excited to announce announce their summer programs. Come explore Salt Lake City and all that Ballet West has to offer. We are launching an exciting chapter in 2023 under Academy Director, Evelyn Cisneros-Legate, with the return of our strong summer programs and year-round Professional Training Division. Start your journey to Ballet West Academy today at acadmey.balletwest.org and use code BWPOD for $5 off your audition fee. _____________________________</div>
+</div>
+<div class="episode-block">
+<div class="row2">Dec 16, 2021 — (264) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a50f" target="_blank" rel="noopener noreferrer">Best of 2021 with <strong>Evelyn Kocak</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-bo-5', this)">Show description</button>
+</div>
+<div id="desc-bo-5" class="description">It&#x27;s our last episode of 2021 and we are looking back over the year with our friend, Evelyn Kocak. Thank you to all of our listeners and our partners for joining us for another year of COD! We will be back in 2022 with some exciting new episodes and thrilling guests. We love you all! Thank you for listening. Happy Holidays! Photo: Mira Nadon in Movements for Piano and Orchestra&#x27; __________________________________</div>
+</div>
+<div class="episode-block">
+<div class="row2">Dec 3, 2020 — (207) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a54d" target="_blank" rel="noopener noreferrer">CODs Best of 2020</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-bo-6', this)">Show description</button>
+</div>
+<div id="desc-bo-6" class="description">We are back! It&#x27;s been a minute, but unfortunately some work obligations took us away from the pod last month. Now, we are back and ready to get back to it! Today we catch up and go through our Conversations on Dance Best of 2020. Brought to you by Yumiko (Yumiko.com.) YUMIKOs holiday collection, comprised of festive ready-to-wear options, will be available in-stores and online this month! Receive a first chance to shop the new items at their Instagram LIVE shopping event on December 15th, plus for the very first time the new 2021 colors will be revealed! These events are a lot of fun and discounts are offered, so be sure to tune in @yumiko on Instagram on the 15th. Links: instagram.com/conversationsondance facebook.com/conversationsondance twitter.com/convoondance conversationsondancepod.com The post (207) COD&#x27;s Best of 2020 appeared first on tendusunderapalmtree.com.</div>
+</div>
+</body>
+</html>

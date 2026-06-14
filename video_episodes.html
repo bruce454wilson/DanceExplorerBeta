@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Episodes with Video</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T1W89Y447W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T1W89Y447W');
+</script>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    max-width: 1000px;
+}
+
+h1 {
+    margin-bottom: 12px;
+}
+
+.index {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+    z-index: 1000;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.index a {
+    margin-right: 10px;
+    font-size: 13px;
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.index a:hover {
+    text-decoration: underline;
+}
+
+.index-sep {
+    margin-right: 10px;
+    color: #bbb;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.letter-heading,
+.year-heading {
+    margin-top: 40px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    scroll-margin-top: 60px;
+}
+
+.guest-block {
+    margin-top: 18px;
+    margin-bottom: 24px;
+    scroll-margin-top: 60px;
+}
+
+.guest-line {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.appearance,
+.episode-block {
+    margin-left: 20px;
+    margin-bottom: 12px;
+}
+
+.row2 {
+    color: #444;
+    line-height: 1.4;
+}
+
+.desc-button {
+    margin-left: 8px;
+    font-size: 12px;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.description {
+    display: none;
+    margin-top: 6px;
+    padding: 8px 10px;
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+    color: #333;
+    line-height: 1.4;
+    white-space: pre-wrap;
+}
+
+a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.profile-badge {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #1a73e8;
+    border-radius: 3px;
+    color: #1a73e8;
+    vertical-align: middle;
+}
+
+.profile-badge:hover {
+    background: #e8f0fe;
+    text-decoration: none;
+}
+
+.patreon-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #f96854;
+    border-radius: 3px;
+    color: #f96854;
+    vertical-align: middle;
+}
+
+.patreon-badge:hover {
+    background: #fff0ee;
+    text-decoration: none;
+}
+
+.youtube-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #cc0000;
+    border-radius: 3px;
+    color: #cc0000;
+    vertical-align: middle;
+}
+
+.youtube-badge:hover {
+    background: #fff0f0;
+    text-decoration: none;
+}
+
+/* --- home nav dropdown --- */
+.home-nav { position: relative; display: inline-block; vertical-align: middle; }
+.home-nav-arrow {
+    background: none; border: none; padding: 0 1px 0 3px; cursor: pointer;
+    font-size: 9px; color: currentColor; opacity: 0.55; vertical-align: middle;
+    line-height: 1; font-family: inherit;
+}
+.home-nav-arrow:hover { opacity: 1; }
+.home-nav-dropdown {
+    display: none;
+    position: fixed;
+    background: white; border: 1px solid #ddd; border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    white-space: nowrap; z-index: 2000; min-width: 145px;
+}
+.home-nav-dropdown.open { display: block; }
+.home-nav-dropdown a {
+    display: block; padding: 8px 14px;
+    color: #333 !important; font-weight: normal !important;
+    text-decoration: none; font-size: 13px;
+}
+.home-nav-dropdown a:first-child { border-radius: 5px 5px 0 0; }
+.home-nav-dropdown a:last-child  { border-radius: 0 0 5px 5px; }
+.home-nav-dropdown a:hover { background: #f5f5f5; color: #1a73e8 !important; }
+</style>
+<script>
+function toggleDescription(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const isOpen = el.style.display === "block";
+    el.style.display = isOpen ? "none" : "block";
+    btn.textContent = isOpen ? "Show description" : "Hide description";
+    btn.setAttribute("aria-expanded", String(!isOpen));
+}
+
+function toggleHomeNav(btn) {
+    const dd = btn.nextElementSibling;
+    const opening = !dd.classList.contains('open');
+    document.querySelectorAll('.home-nav-dropdown.open').forEach(function(el) {
+        el.classList.remove('open');
+    });
+    if (opening) {
+        const rect = btn.getBoundingClientRect();
+        dd.style.top = (rect.bottom + 4) + 'px';
+        dd.style.left = rect.left + 'px';
+        dd.classList.add('open');
+        setTimeout(function () {
+            document.addEventListener('click', function closeDD(e) {
+                if (!btn.closest('.home-nav').contains(e.target)) {
+                    dd.classList.remove('open');
+                    document.removeEventListener('click', closeDD);
+                }
+            });
+        }, 0);
+    }
+}
+</script>
+</head>
+<body>
+<h1>Episodes with Video</h1>
+
+<div class="index">
+<span class="home-nav"><a href="danceexplorer.html">&#8592;&nbsp;Home</a><button class="home-nav-arrow" onclick="toggleHomeNav(this)" aria-label="Site navigation">&#9662;</button><div class="home-nav-dropdown"><a href="podcasts.html">Podcasts</a><a href="performances.html">Performances</a></div></span>
+</div>
+<div class="episode-block">
+<div class="row2">Feb 11, 2026 — (480) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/480-live-with-alexei-ratmansky-amp-gonzalo-garcia-works-amp-process-at-the-guggenheim-with-miami-city-ballet" target="_blank" rel="noopener noreferrer">LIVE with <strong>Alexei Ratmansky</strong> &amp; <strong>Gonzalo Garcia</strong>, Works &amp; Process at the Guggenheim with Miami City Ballet</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=oFt-FjXGGNA&amp;t=43s" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/480-live-with-at-150529836" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-1', this)">Show description</button>
+</div>
+<div id="desc-vid-1" class="description">WATCH the program on YouTube here.On February 7, 2026, Miami City Ballet presented a first look of world-renowned choreographer Alexei Ratmanskys new commission celebrating MCB founder Toby Lerner Ansins 85th birthday, before its February premiere in Florida. This work blends history, tradition, and forward-thinking creativity, with a score by Johann Strauss. Ratmansky and Miami City Ballets new artistic director Gonzalo Garcia will participate in the discussion, and MCB dancers perform excerpts.Miami City Ballet&#x27;s &#x27;Into The Magic City&#x27; program runs February 20th - March 1 in Miami and West Palm Beach. The program includes the World Premiere of &#x27;Roses from the South, Three Waltzes for Toby&#x27; as discussed here, as well as George Balanchine&#x27;s &#x27;Serenade&#x27; and &#x27;Tarantella&#x27;. Tickets available here.Works &amp; Process at the Guggenheim is a non-profit organization dedicated to championing the creative process from studio to stage, with programs just like this one. Find more information and ways to support on their website: https://www.worksandprocess.org/.Listen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondance</div>
+</div>
+<div class="episode-block">
+<div class="row2">Oct 29, 2025 — (471) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/471-live-from-miami-city-ballet-with-justin-peck-and-gonzalo-garcia" target="_blank" rel="noopener noreferrer">LIVE from Miami City Ballet with <strong>Justin Peck</strong> and <strong>Gonzalo Garcia</strong></a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=je6FADBH-eQ" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/471-live-from-142415635" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-2', this)">Show description</button>
+</div>
+<div id="desc-vid-2" class="description">This episode was recorded live on October 18, 2025 at The Adrienne Arsht Center for the Performing Arts in Miami before the opening of Miami City Ballet&#x27;s 40th anniversary season. Guests in this episode are is Tony Award winning choreographer, Justin Peck, and Miami City Ballet Artistic Director, Gonzalo Garcia. The pre-performance talk coordinated with the all Peck program that the company opened their season with, which included &quot;Year of The Rabbit,&quot; &quot;Chutes and Ladders,&quot; and &quot;Heatscape.&quot; WATCH this episode on YouTube! Click here: https://www.youtube.com/watch?v=je6FADBH-eQListen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondance</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 13, 2020 — (196) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a558" target="_blank" rel="noopener noreferrer"><strong>Calvin Royal III</strong>, Soloist with American Ballet Theatre</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=jVcSp0lGI5w" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-3', this)">Show description</button>
+</div>
+<div id="desc-vid-3" class="description">Today, on the Conversations on Dance podcast, we are sharing our chat with American Ballet Theatre Soloist, Calvin Royal III, that was recorded as a part of the 2020 Vail Dance Festival: Digital Edition. Through August 15th, you can watch our Zoom chat with Calvin on the Vail Dance Festival Facebook page or on their YouTube Channel. While you are there, we encourage you to explore the incredible 8 evenings of content that truly highlights what makes this festival so special! But hurry, videos are only available through August 15th. Conversations on Dance is generously supported by Yumiko (yumiko.com). The post (196) Calvin Royal III, Soloist with American Ballet Theatre appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 10, 2020 — (195) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a559" target="_blank" rel="noopener noreferrer"><strong>Isabella Boylston</strong> and James Whiteside  2020 Vail Dance Festival</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=foN4IS-7_NU" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-4', this)">Show description</button>
+</div>
+<div id="desc-vid-4" class="description">Today, on the Conversations on Dance podcast, we are sharing our chat with American Ballet Theatre Principal Dancers, Isabella Boylston and James Whiteside, that was recorded as a part of the 2020 Vail Dance Festival: Digital Edition. Through August 15th, you can watch our Zoom chat with James and Bella on the Vail Dance Festival Facebook page or on their YouTube Channel. While you are there, we encourage you to explore the incredible 8 evenings of content that truly highlights what makes this festival so special! But hurry, videos are only available through August 15th. Conversations on Dance is generously supported by Yumiko (yumiko.com). The post (195) Isabella Boylston and James Whiteside 2020 Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Feb 25, 2019 — (127) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5a0" target="_blank" rel="noopener noreferrer"><strong>Skylar Brandt</strong> of American Ballet Theatre LIVE from the Kennedy Center</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=N6FlxJV3mZc" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-5', this)">Show description</button>
+</div>
+<div id="desc-vid-5" class="description">BONUS: San Francisco Ballet Dancers Ep. 1. Welcome to our 1st of two bonus episode wrap ups of San Francisco Ballets Unbound festival. In each episode we will be talking with 3 different dancers in the company about what ultimately led them to SFB and abo</div>
+</div>
+<div class="episode-block">
+<div class="row2">Oct 23, 2018 — (112) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5b0" target="_blank" rel="noopener noreferrer">LIVE from the Kennedy Center: <strong>Helgi Tomasson</strong>, Artistic Director of San Francisco Ballet</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=N6FlxJV3mZc" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-6', this)">Show description</button>
+</div>
+<div id="desc-vid-6" class="description">This weeks episode of Conversations On Dance was recorded live at the Kennedy Center in Washington, DC. Our guest is former New York City Ballet principal and Artistic Director of the San Francisco Ballet, Helgi Tomasson. The San Francisco Ballet is performing at the Kennedy Center this week, from October 23 28, 2018. They will be performing six works that premiered earlier this year at the Unbound festival in San Francisco. You can purchase tickets online at www.kennedy-center.org. This episode is supported by the Kennedy Center and Yumiko. Watch the full video of this event now: https://youtu.be/N6FlxJV3mZc The post (112) LIVE from the Kennedy Center: Helgi Tomasson, Artistic Director of San Francisco Ballet appeared first on tendusunderapalmtree.com.</div>
+</div>
+</body>
+</html>

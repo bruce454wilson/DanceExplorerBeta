@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Works — Dances, Books &amp; Films</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T1W89Y447W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T1W89Y447W');
+</script>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    max-width: 1000px;
+}
+
+h1 {
+    margin-bottom: 12px;
+}
+
+.index {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+    z-index: 1000;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.index a {
+    margin-right: 10px;
+    font-size: 13px;
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.index a:hover {
+    text-decoration: underline;
+}
+
+.index-sep {
+    margin-right: 10px;
+    color: #bbb;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.letter-heading,
+.year-heading {
+    margin-top: 40px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    scroll-margin-top: 60px;
+}
+
+.guest-block {
+    margin-top: 18px;
+    margin-bottom: 24px;
+    scroll-margin-top: 60px;
+}
+
+.guest-line {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.appearance,
+.episode-block {
+    margin-left: 20px;
+    margin-bottom: 12px;
+}
+
+.row2 {
+    color: #444;
+    line-height: 1.4;
+}
+
+.desc-button {
+    margin-left: 8px;
+    font-size: 12px;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.description {
+    display: none;
+    margin-top: 6px;
+    padding: 8px 10px;
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+    color: #333;
+    line-height: 1.4;
+    white-space: pre-wrap;
+}
+
+a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.profile-badge {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #1a73e8;
+    border-radius: 3px;
+    color: #1a73e8;
+    vertical-align: middle;
+}
+
+.profile-badge:hover {
+    background: #e8f0fe;
+    text-decoration: none;
+}
+
+.patreon-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #f96854;
+    border-radius: 3px;
+    color: #f96854;
+    vertical-align: middle;
+}
+
+.patreon-badge:hover {
+    background: #fff0ee;
+    text-decoration: none;
+}
+
+.youtube-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #cc0000;
+    border-radius: 3px;
+    color: #cc0000;
+    vertical-align: middle;
+}
+
+.youtube-badge:hover {
+    background: #fff0f0;
+    text-decoration: none;
+}
+
+/* --- home nav dropdown --- */
+.home-nav { position: relative; display: inline-block; vertical-align: middle; }
+.home-nav-arrow {
+    background: none; border: none; padding: 0 1px 0 3px; cursor: pointer;
+    font-size: 9px; color: currentColor; opacity: 0.55; vertical-align: middle;
+    line-height: 1; font-family: inherit;
+}
+.home-nav-arrow:hover { opacity: 1; }
+.home-nav-dropdown {
+    display: none;
+    position: fixed;
+    background: white; border: 1px solid #ddd; border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    white-space: nowrap; z-index: 2000; min-width: 145px;
+}
+.home-nav-dropdown.open { display: block; }
+.home-nav-dropdown a {
+    display: block; padding: 8px 14px;
+    color: #333 !important; font-weight: normal !important;
+    text-decoration: none; font-size: 13px;
+}
+.home-nav-dropdown a:first-child { border-radius: 5px 5px 0 0; }
+.home-nav-dropdown a:last-child  { border-radius: 0 0 5px 5px; }
+.home-nav-dropdown a:hover { background: #f5f5f5; color: #1a73e8 !important; }
+</style>
+<script>
+function toggleDescription(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const isOpen = el.style.display === "block";
+    el.style.display = isOpen ? "none" : "block";
+    btn.textContent = isOpen ? "Show description" : "Hide description";
+    btn.setAttribute("aria-expanded", String(!isOpen));
+}
+
+function toggleHomeNav(btn) {
+    const dd = btn.nextElementSibling;
+    const opening = !dd.classList.contains('open');
+    document.querySelectorAll('.home-nav-dropdown.open').forEach(function(el) {
+        el.classList.remove('open');
+    });
+    if (opening) {
+        const rect = btn.getBoundingClientRect();
+        dd.style.top = (rect.bottom + 4) + 'px';
+        dd.style.left = rect.left + 'px';
+        dd.classList.add('open');
+        setTimeout(function () {
+            document.addEventListener('click', function closeDD(e) {
+                if (!btn.closest('.home-nav').contains(e.target)) {
+                    dd.classList.remove('open');
+                    document.removeEventListener('click', closeDD);
+                }
+            });
+        }, 0);
+    }
+}
+</script>
+</head>
+<body>
+<h1>Works — Dances, Books &amp; Films</h1>
+
+<style>
+.section-heading {
+    margin-top: 36px;
+    border-top: 1px solid #ccc;
+    padding-top: 8px;
+    scroll-margin-top: 60px;
+}
+.work-entry {
+    margin-top: 14px;
+    margin-bottom: 18px;
+}
+.row1 {
+    line-height: 1.5;
+}
+.work-name {
+    font-weight: bold;
+}
+.work-title {
+    color: #333;
+}
+.meta-line {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+.desc-text {
+    white-space: pre-wrap;
+}
+</style>
+<div class="index">
+<span class="home-nav"><a href="danceexplorer.html">&#8592;&nbsp;Home</a><button class="home-nav-arrow" onclick="toggleHomeNav(this)" aria-label="Site navigation">&#9662;</button><div class="home-nav-dropdown"><a href="podcasts.html">Podcasts</a><a href="performances.html">Performances</a></div></span>
+<span class="index-sep">|</span>
+<a href="#sec-dances">Dances (14)</a>
+<a href="#sec-books">Books (14)</a>
+<a href="#sec-films">Films (12)</a>
+</div>
+<h2 class="section-heading" id="sec-dances">Dances</h2>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Copland Dance Episodes</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4d3" target="_blank" rel="noopener noreferrer">Mira Nadon, NYCB soloist, on Justin Pecks new full length work, Copland Dance Episodes</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('dances-1-details', this)">Show description</button>
+</div>
+<div class="description" id="dances-1-details">
+<div class="meta-line">Jan 19, 2023 — (324)</div>
+<div class="desc-text">On today&#x27;s episode of Conversations On Dance&#x27;, we are joined by New York City Ballet soloist Mira Nadon. Mira joins us for a special bonus episode discussing her role as the central ballerina in Justin Peck&#x27;s upcoming premiere Copland Dance Episodes&#x27;. She gives us an inside view of NYCB&#x27;s first non-narrative full length premiere since George Balanchine&#x27;s Jewels&#x27;, discussing the creative process, her character&#x27;s emotional arc and what audiences can expect to see at the premiere this January 26th at the David H. Koch theater. This Episodes Sponsors: The Frederick Quinney Lawson Ballet West Academy is excited to announce announce their summer programs. Come explore Salt Lake City and all that Ballet West has to offer. We are launching an exciting chapter in 2023 under Academy Director, Evelyn Cisneros-Legate, with the return of our strong summer programs and year-round Professional Training Division. Start your journey to Ballet West Academy today at academy.balletwest.org and use code BWPOD for $5 off your audition fee. Works &amp; Process moderated by Michael Sean Breeden: The Night Falls by Karen Russell, Ellis Ludwig-Leone, and Troy Schumacher (January 22, 2023) TICKETS Inside NYCB moderated by Michael Sean Breeden, with guest Justin Peck (January 23, 2023) TICKETS</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Counterpoint</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/415-caleb-teicher-on-counterpoint-at-performing-arts-houston" target="_blank" rel="noopener noreferrer">Caleb Teicher on &#x27;Counterpoint&#x27; at Performing Arts Houston</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('dances-2-details', this)">Show description</button>
+</div>
+<div class="description" id="dances-2-details">
+<div class="meta-line">Aug 27, 2024 — (415)</div>
+<div class="desc-text">Today on &#x27;Conversations On Dance&#x27;, we are joined by dancing extraordinaire Caleb Teicher. Caleb takes us on the journey of their artistic self discovery, from tap to lindy hop and most recently jazz piano. Caleb is pairing up with their friend and frequent collaborator pianist and composer Conrad Tao for &#x27;Counterpoint&#x27;, an evening length work musically exploring and reimagining everything from Bach&#x27;s &#x27;Goldberg Variations&#x27; to Gershwin&#x27;s &#x27;Rhapsody in Blue&#x27;. If you are in the Houston area, visit performingartshouston.org to grab tickets to this one night only, unique and thrilling partnership: September 14, 2024.Tickets: https://performingartshouston.org/events/counterpoint-conrad-tao-caleb-teicher-2024-09-14-730-pm/.Opening Night Party: https://performingartshouston.org/opening-night-party-2024/Conrad Tao And Caleb Teicher: Tiny Desk Concert: https://www.youtube.com/watch?v=61q6JoGLTc0&amp;t=345s</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Dona Peron</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/335-videographer-nel-shelby-talks-next-at-the-kennedy-center" target="_blank" rel="noopener noreferrer">Videographer Nel Shelby talks NEXT AT THE KENNEDY CENTER &#x27;Ballet Hispnicos Doa Pern&#x27;</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('dances-3-details', this)">Show description</button>
+</div>
+<div class="description" id="dances-3-details">
+<div class="meta-line">Apr 6, 2023 — (335)</div>
+<div class="desc-text">On today&#x27;s episode of &#x27;Conversations On Dance&#x27;, we are joined by dance videographer, director and producer Nel Shelby. Nel takes us through the entire creative process of filming Ballet Hispanico&#x27;s performance of Annabelle Lopez Ochoa&#x27;s &#x27;Doa Peron&#x27; at the Kennedy Center. She shares with us the challenges and rewards of helming this 15 camera project.The filming will premiere on PBS as part of the &#x27;NEXT AT THE KENNEDY CENTER&#x27; series this April 14 at 10 PM EST, the same date it becomes available to stream on the PBS app and pbs.org. NEXT AT THE KENNEDY CENTER Ballet Hispnicos Doa Pern premieres Friday, April 14 at 10-11:30 p.m. ET (check local listings) on PBS, PBS.org, and the PBS app.</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Giselle</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/374-the-history-of-giselle-with-alastair-macaulay" target="_blank" rel="noopener noreferrer">The History of &#x27;Giselle&#x27; with Alastair Macaulay</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('dances-4-details', this)">Show description</button>
+</div>
+<div class="description" id="dances-4-details">
+<div class="meta-line">Nov 27, 2023 — (374)</div>
+<div class="desc-text">On today&#x27;s episode of &#x27;Conversations On Dance&#x27;, we are joined by Alastair Macaulay, esteemed critic and historian for the performing arts. Alastair previously joined us for a deep dive into the history of Balanchine&#x27;s classic &#x27;Serenade&#x27;; today he returns for critical analysis of one of the oldest and most beloved full lengths in ballet history, &#x27;Giselle&#x27;. Alastair will be presenting a seminar on the same subject at the New York Public Library Bruno Walter Auditorium on Friday, December 1st. Tickets are sold out, but a standby line will form 45 minutes before with available seats distributed on a first come first served basis. Explore Alastair&#x27;s dance musings on his website, alastairmacaulay.com.Try Audible Plus free for 30 daysGive the gift of Audible Plus</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Lady Macbeth</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/488-choreographer-akram-khan-on-his-new-lady-macbeth-for-royal-danish-ballet" target="_blank" rel="noopener noreferrer">Choreographer Akram Khan, on his new &#x27;Lady Macbeth&#x27; for Royal Danish Ballet</a></span>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/488-akram-khan-155187523" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('dances-5-details', this)">Show description</button>
+</div>
+<div class="description" id="dances-5-details">
+<div class="meta-line">Apr 9, 2026 — (488)</div>
+<div class="desc-text">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are joined by acclaimed choreographer Akram Khan, weeks before his brand new full length production &quot;Lady Macbeth&quot; premieres at the Royal Danish Ballet. He tells us how the dancers of the company have immersed themselves through months of singular focus, how the work&#x27;s plot has evolved since its inception, and how much his own dance language has fused with classical ballet vernacular to create the world of this ballet. &quot;Lady Macbeth&quot; runs April 24th through June 4th at the opera house mainstage in Copenhagen.</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Mercurial Son</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/419-choreographer-kyle-abraham-on-his-upcoming-premiere-at-abt" target="_blank" rel="noopener noreferrer">Choreographer Kyle Abraham on his upcoming premiere at ABT</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('dances-6-details', this)">Show description</button>
+</div>
+<div class="description" id="dances-6-details">
+<div class="meta-line">Oct 8, 2024 — (419)</div>
+<div class="desc-text">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are joined by renowned choreographer Kyle Abraham. Kyle sits down with us to talk about his upcoming first work for American Ballet Theatre, &quot;Mercurial Son&quot;, including the casting process, the creative environment and how working on several projects concurrently fuels his creativity. To catch &quot;Mercurial Son&quot;, premiering on October 16th and running through the 24th, visit abt.org to purchase tickets.</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Raymonda</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/445-stanton-welch-on-houston-ballets-raymonda" target="_blank" rel="noopener noreferrer">Stanton Welch on Houston Ballet&#x27;s &#x27;Raymonda&#x27;</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('dances-7-details', this)">Show description</button>
+</div>
+<div class="description" id="dances-7-details">
+<div class="meta-line">May 21, 2025 — (445)</div>
+<div class="desc-text">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are joined by Stanton Welch, Artistic Director of Houston Ballet and choreographer of the company&#x27;s upcoming premiere of the full length classic &quot;Raymonda&quot;. Stanton talks about his deep love of the glorious Glazunov score, his approach to creating full length narrative works, and how he sculpts these ballets in a years long process. Houston Ballet&#x27;s &quot;Raymonda&quot; runs May 29th through June 8th. Tickets can be purchased at houstonballet.org. Also available on their website, subscriptions for Houston Ballet&#x27;s recently announced 25-26 season, a journey across centuries of composers, choreographers and ballet&#x27;s greatest stories.</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Requiem: Fire In the Air Of the Earth</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a512" target="_blank" rel="noopener noreferrer">Kyle Abraham, Choreographer and Artistic Director of A.I.M. by Kyle Abraham</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('dances-8-details', this)">Show description</button>
+</div>
+<div class="description" id="dances-8-details">
+<div class="meta-line">Nov 29, 2021 — (262)</div>
+<div class="desc-text">This week on Conversations On Dance&#x27; we are joined by award winning choreographer Kyle Abraham. Kyle&#x27;s choreographic talents garnered attention quickly in works he created for his company A.I.M., leading to a MacArthur Fellowship in 2013 and commissions from some of the most respected dance institutions in the world. We talk to Kyle about his creative process leading up to his new work Requiem: Fire In the Air Of the Earth&#x27; that will premiere at Stanford Live this December 4th. Tickets and more information: https://live.stanford.edu/calendar/december-2021/requiem-fire-air-earth __________________________________</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Rodeo</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/michael-and-rebecca-catching-up-january" target="_blank" rel="noopener noreferrer">Michael and Rebecca, catching up after Michael&#x27;s staging of &#x27;Rodeo&#x27; at Semperoper Ballett</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('dances-9-details', this)">Show description</button>
+</div>
+<div class="description" id="dances-9-details">
+<div class="meta-line">Jan 23, 2024 — (381)</div>
+<div class="desc-text">This week, Michael and Rebecca sit down to catch up. Michael tells Rebecca about his experience over the past 3 weeks in Dresden, Germany setting Justin Peck&#x27;s &#x27;Rodeo.&#x27; We also chat about miscellaneous items including Johan Inger&#x27;s Swan Lake, auditions for Golden State Ballet, and the Artistic Director opening at Lexington Ballet Company.</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Serenade</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/343-the-history-of-balanchines-serenade-with-alastair-macaulay" target="_blank" rel="noopener noreferrer">The History of Balanchine&#x27;s &#x27;Serenade&#x27; with Alastair Macaulay</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('dances-10-details', this)">Show description</button>
+</div>
+<div class="description" id="dances-10-details">
+<div class="meta-line">Jun 6, 2023 — (343)</div>
+<div class="desc-text">Today we are joined by critic, dance scholar, and former chief dance critic to the New York Times, Alastair Macaulay. We talk with Alastair about the incredible legacy of George Balanchine&#x27;s &#x27;Serenade&#x27;. Originally choreographed in 1934 for students at the School Of American Ballet, &#x27;Serenade&#x27; has gone on to become one of the most beloved works of the 20th century. Alastair takes us through the history of the ballet, including the myths surrounding its creation, the many changes it has gone through over the years, and why we should really all be pronouncing it &#x27;Seren-AYDE&#x27;.THIS EPISODE&#x27;S SPONSORS:?Energetiks specialize in creating sustainable, world class dancewear for the stars of tomorrow. Perform and feel your best at every stage of your dance journey in Energetiks premium, high performance fabrics. Try them out with a 20% discount site-wide using the code COD20 at the checkout [available until the end of September 2023]. Shop their extensive range online at energetiks.com and enjoy free express shipping on orders over $75.If you&#x27;re in the southern California area this June, join Golden State Ballet as they present &#x27;From New York, With Love&#x27;, an evening featuring world premieres by Gabrielle Lamb and Norbert De La Cruz III, and the kaleidoscopic, heart-pumping work &#x27;In Creases&#x27; by Tony-Award winner Justin Peck. You won&#x27;t want to miss out on a chance to experience California&#x27;s newest ballet company in three world class ballets. Performances are this June 6 at the Barclay Center in Irvine, CA and June 9 &amp; 10 at the Poway Center For the Performing Arts. Tickets are available at goldenstateballet.org</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Star on the Rise: La Bayadere Reimagined</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/394-phil-chan-on-star-on-the-rise-la-bayadre-reimagined" target="_blank" rel="noopener noreferrer">Phil Chan on &#x27;Star on the rise : La Bayadre ... reimagined!&#x27;</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('dances-11-details', this)">Show description</button>
+</div>
+<div class="description" id="dances-11-details">
+<div class="meta-line">Apr 26, 2024 — (394)</div>
+<div class="desc-text">Today on Conversations on Dance, we welcome back Phil Chan, author and co-founder of &#x27;Final Bow for Yellowface.&#x27; Back in May of 2023 in episode 339, we had Phil on the podcast with Doug Fullington and Sarah Wroth to tell us about how the idea for &#x27;Star on the rise : La Bayadre ... reimagined!&#x27; came about, and what made Indiana University a great place to mount this production. Now, following the premiere, Phil joins us again to tell us about the finished product and what the reactions have been.We are thrilled to share that &#x27;Star on the rise&#x27; is now streaming on IU&#x27;s website. Click here to watch now for free: https://media.dlib.indiana.edu/media_objects/gb19g015j/section/1g05g3541Episode 339 with Phil, Doug, and Sarah: https://www.conversationsondancepod.com/episodes-transcripts/339-la-bayadere</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">States of Hope</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/choreographer-hope-boykin-on-her-new-work-states-of-hope" target="_blank" rel="noopener noreferrer">Choreographer Hope Boykin, on her new work &#x27;States Of Hope&#x27;</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('dances-12-details', this)">Show description</button>
+</div>
+<div class="description" id="dances-12-details">
+<div class="meta-line">Oct 10, 2023 — (368)</div>
+<div class="desc-text">On today&#x27;s episode of &#x27;Conversations On Dance&#x27;, we are joined by choreographer Hope Boykin. We catch up with Hope about her retirement and transition to full time choreographer, as well as her process and preparation for her new work &#x27;States Of Hope&#x27; that will premiere at the Joyce Theater this October 17th and run through October 22nd. If you are in the New York area and would like to purchase tickets, visit joyce.org/performances. Listen to our first episode with Hope from the 2019 Vail Dance Festival: https://www.conversationsondancepod.com/episodes-transcripts/hope-boykin-2019-vail-dance-festival.THIS EPISODE&#x27;S SPONSOR:The BFA Dance program at the Peabody Conservatory of the Johns Hopkins University prepares students to be at the forefront of dance innovation through performance, choreographic and critical historical and theoretical exploration. Studying dance at Johns Hopkins, one of the worlds premier research institutions, gives students the opportunity to make connections between dance, science, technology, and the humanities. Submit your application by December 1st. Learn more at Peabody.jhu.edu/dancebfa</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">The Nutcracker</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/372-adam-sklute-artistic-director-of-ballet-west-on-willam-christensens-the-nutcracker" target="_blank" rel="noopener noreferrer">Adam Sklute, Artistic Director of Ballet West, on Willam Christensen&#x27;s &#x27;The Nutcracker&#x27;</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('dances-13-details', this)">Show description</button>
+</div>
+<div class="description" id="dances-13-details">
+<div class="meta-line">Nov 7, 2023 — (372)</div>
+<div class="desc-text">On today&#x27;s episode of &#x27;Conversations On Dance&#x27;, we are joined by the Artistic Director of Ballet West, Adam Sklute. Adam sits down with us to tell us about his journey from dancer to director, the positive changes he&#x27;s enacted since he took over the role of Artistic Director in 2007 and to give us a deep look into the company&#x27;s production of Willam Christensen&#x27;s &#x27;Nutcracker&#x27;, the very first full length production of the holiday classic ever performed in America. Ballet West will be performing &#x27;The Nutcracker&#x27; at the Kennedy Center in Washington, DC from Nov 22-26 and in Salt Lake City from Dec 8-27. Tickets for the Kennedy Center can be purchased at kennedy-center.org, while Ballet West&#x27;s hometown performances can be found at balletwest.org. Try Audible Plus free for 30 daysGive the gift of Audible Plus</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Year of the Rabbit</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/bonus-michael-on-staging-justin-pecks-year-of-the-rabbit-at-" target="_blank" rel="noopener noreferrer">BONUS: Michael on Staging Justin Peck&#x27;s &#x27;Year of the Rabbit&#x27; at Nashville Ballet</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('dances-14-details', this)">Show description</button>
+</div>
+<div class="description" id="dances-14-details">
+<div class="meta-line">Sep 21, 2023</div>
+<div class="desc-text">Today&#x27;s episode is a special bonus episode and cross over with Nashville Ballet&#x27;s Inside the Ballet Podcast. In this episode, Michael takes the guest chair and chats with two members of the Nashville Ballet team, Briona Richardson, Senior Manager of Community Engagement and Nick Mullikin, Artistic Director. This episode gives a behind the scenes look at the work Michael did helping bring JustinPeck&#x27;s &#x27;Year Of the Rabbit&#x27; to Nashville Ballet. If you&#x27;re in the Nashville area, visit nashvilleballet.com to purchase tickets for performances Sep 22-24. Listen to Nashville Ballet&#x27;s Inside the Ballet Podcast here.</div>
+</div>
+</div>
+<h2 class="section-heading" id="sec-books">Books</h2>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Apollo&#x27;s Angels</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/re-release-jennifer-homans-author-of-apollos-angels" target="_blank" rel="noopener noreferrer">RE-RELEASE: Jennifer Homans, Author of Apollo&#x27;s Angels</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('books-1-details', this)">Show description</button>
+</div>
+<div class="description" id="books-1-details">
+<div class="meta-line">May 25, 2023</div>
+<div class="desc-text">Today we are bringing you another re-release from the early days of &#x27;Conversations On Dance&#x27;, this time with author Jennifer Homans. In this episode today, first recorded in June 2017, we spoke with Jennifer about the book she prior to &#x27;Mr. B&#x27; titled &#x27;Apollo&#x27;s Angels&#x27; which chronicles ballet&#x27;s entire history, as well as her own history as a dancer and her founding of Center for Ballet and the Arts in NYC.Listen to episode 318 with Jennifer on her book &#x27;Mr. B&#x27;Get your copy of Jennifer&#x27;s books:Apollo&#x27;s Angels - https://amzn.to/3WD9h2TMr. B - https://amzn.to/3IInO7L</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Balanchine Finds His America: A Tale Of Love Lost And Ballet Reborn</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/475-author-elizabeth-kendall-on-her-new-book-balanchine-finds-his-america-a-tale-of-love-lost-and-ballet-reborn" target="_blank" rel="noopener noreferrer">Author, Elizabeth Kendall, on her new book &quot;Balanchine Finds His America: A Tale Of Love Lost And Ballet Reborn&quot;</a></span>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/475-author-on-of-144996634" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('books-2-details', this)">Show description</button>
+</div>
+<div class="description" id="books-2-details">
+<div class="meta-line">Dec 3, 2025 — (475)</div>
+<div class="desc-text">On today&#x27;s episode of Conversations On Dance, we are joined by author Elizabeth Kendall. Elizabeth has written numerous books on dance, her most recent, &quot;Balanchine Finds His America: A Tale Of Love Lost And Ballet Reborn&quot; is on shelves now. Elizabeth takes us through her journey to writing on dance, why Balanchine has become such an important figure to her as a writer, and the varied processes through which she researches, writes and edits her work. To purchase &quot;Balanchine Finds His America&quot;, perhaps as a holiday gift or some excellent solo travel reading material, grab your copy on Amazon: https://amzn.to/49QmfDa.Listen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondanceSPONSOR:Did you know you can train with The Royal Ballet School anywhere, anytime with their online library of pre-recorded classes? And this Cyber Monday, theyre offering two classes for the price of one! Explore a collection of over 50 unique classes, including ballet, contemporary, character, pilates and adult classes with this limited-time offer. Learn from the Schools expert artistic faculty and guest teachers from the comfort of your home and receive lifetime access to your purchased classes.Go to ondemand.royalballetschool.org.uk, add two or more classes to your cart and enter code CODOFFER to receive a 12 discount, equivalent to the price of one class.* But be quick, offer ends this Sunday 7 December 2025. *Excludes all bundles and new Junior Associate insight classes.</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Being a Ballerina: The Power and Perfection of a Dancing Life</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a53b" target="_blank" rel="noopener noreferrer">Being a Ballerina: The Power and Perfection of a Dancing Life with Gavin Larsen</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('books-3-details', this)">Show description</button>
+</div>
+<div class="description" id="books-3-details">
+<div class="meta-line">Apr 21, 2021 — (225)</div>
+<div class="desc-text">Today we are re-joined by friend of the pod, Gavin Larsen, former principal dancer with Oregon Ballet Theatre. We first spoke with Gavin in May 2020 in episode 185 about her career and the then timely topic, teaching ballet on Zoom. Today, Gavin returns to talk with us about her book that is officially being released on April 27, 2021. We got advanced copies of the book, which is truly so wonderful and beautifully written. We talk with Gavin about her writing style, her process, and we share and react to small excerpts. If you would like to get Gavin&#x27;s book, Being a Ballerina: The Power and Perfection of a Dancing Life,&#x27; it is available on Amazon, Indiebound, and Bookshop. Links are available in the description of this episode. A note: We were deeply saddened by the news last week of the passing of our friend, Liam Scarlett. The world has lost a special talent and a bright light. He will be missed by many within the ballet world, as he impacted so many dancers and their careers. We are sending love to his family and his friends around the world, as we mourn with them. This episode is brought to you by Yumiko (yumiko.com). Links: Join our email list: https://bit.ly/3basX5g instagram.com/conversationsondance facebook.com/conversationsondance twitter.com/convoondance conversationsondancepod.com The post (225) Being a Ballerina: The Power and Perfection of a Dancing Life&#x27; with Gavin Larsen appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Center Center</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a521" target="_blank" rel="noopener noreferrer">James Whiteside on his new book, Center Center</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('books-4-details', this)">Show description</button>
+</div>
+<div class="description" id="books-4-details">
+<div class="meta-line">Aug 23, 2021 — (247)</div>
+<div class="desc-text">Today, we are chatting with friend of the pod and American Ballet Theatre Principal Dancer, James Whiteside, from the 2021 Vail Dance Festival. James tells us all about his new (self-proclaimed) almost-memoir that just hit bookshelves called Center Center. We hear about how long he has dreamt of writing a book, how the idea came about, what the writing process was like, and what he hopes readers will take away. At the end of the episode he tells us a little bit about his newest ballet that he created for the Vail Dance Festival that was a part of the festival&#x27;s closing night performance. Center Center is available wherever books are sold, and in hardcover, ebook, and audiobook. Get your copy now: https://amzn.to/3ymmrnr This episode is brought to you by Yumiko (yumiko.com) and the Town of Vail. This episode was recorded at the Manor Vail Lodge. Links: Join our email list: https://bit.ly/3basX5g instagram.com/conversationsondance facebook.com/conversationsondance twitter.com/convoondance conversationsondancepod.com The post (247) James Whiteside on his new book, Center Center appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Don&#x27;t Think, Dear: On Loving and Leaving Ballet</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/340-alice-robb-author-of-dont-think-dear-on-loving-and-leaving-ballet" target="_blank" rel="noopener noreferrer">Alice Robb, author of &#x27;Don&#x27;t Think, Dear: On Loving and Leaving Ballet&#x27;</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('books-5-details', this)">Show description</button>
+</div>
+<div class="description" id="books-5-details">
+<div class="meta-line">May 16, 2023 — (340)</div>
+<div class="desc-text">This week on Conversations on Dance, we are joined by author, Alice Robb, whose memoir, Dont Think, Dear, chronicles her experiences as a young ballet student. We talk about the creative process for the book, her decision to include far reaching studies on pain tolerance, dancer psychology, and other subjects to give context to a dancers life and experience, and the books place in recent high profile conversations that have arisen about whether, or how, problematic ballets past and present really are. Alices book is available on Amazon: https://amzn.to/3nZkYEtTHIS EPISODE&#x27;S SPONSORS:?Ballet Bird is a streaming site designed by former Pacific Northwest Ballet principal dancer Julie Tobiason. Ballet Bird offers ballet classes for anyone at any level of training that you can do from the comfort of your home or studio. Ballet Bird is a great addition to your regular in-studio training too. Take advantage of the ten day free trial and use the discount code COD25 to get 25% off through June 30th 2023 at balletbird.com.Energetiks are a sustainable, Australian Made brand that specialise in creating world class dancewear for the stars of tomorrow. Perform and feel your best at every stage of your dance journey in Energetiks premium, high performance fabrics. See their entire range online at energetiks.com and for all listeners there&#x27;s a 20% discount on all Energetiks products using the code COD20 at the checkout [available until the end of September 2023].After a nearly-decade-long hiatus from live performance, ChrisMastersDance returns with Mausoleum, at Brooklyn Academy of Musics Fishman Space, June 2nd to 4th. Reckoning with the dance fields history of systematic exploitation, ChrisMastersDance is building a Mausoleum a place to acknowledge and remember a past that has been laid to rest making way for a tomorrow that sets aside unsustainable forms of life and work. Dont miss Mausoleum at BAM this is June 2- 4. Tickets are available at bam.org/Mausoleum or click the link in the show notes.</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Final Bow for Yellowface: Dancing between Intention and Impact</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a562" target="_blank" rel="noopener noreferrer">Phil Chan, co-founder of Final Bow for Yellowface</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('books-6-details', this)">Show description</button>
+</div>
+<div class="description" id="books-6-details">
+<div class="meta-line">May 26, 2020 — (186)</div>
+<div class="desc-text">Today we are joined by Phil Chan, a co-founder of Final Bow for Yellowface. Phil is a graduate of Carleton College and an alumnus of the Ailey School and is now an arts administrator and educator. Phil was the founding General Manager of the Buck Hill Skytop Music Festival, and was the General Manager for Armitage Gone! Dance and Youth America Grand Prix. He served multiple years on the National Endowment for the Arts dance panel and the Jadin Wong Award panel presented by the Asian American Arts Alliance, and is on the advisory committee for the Parsons Dance Company. In 2017, he teamed up with NYCB dancer, and friend of the pod, Georgina Pazcoguin, to found Final Bow for Yellowface. Phil tells us about how this initiative came about, what work he is currently doing as a part of this organization, and tells us about his new book, Final Bow for Yellowface: Dancing between Intention and Impact. You can access Phil&#x27;s e-book online at yellowface.org. This episode is brought to you by Yumiko. The post (186) Phil Chan, co-founder of Final Bow for Yellowface appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Illusions of Camelot: A Memoir</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/peter-boal-illusions-of-camelot-a-memoir" target="_blank" rel="noopener noreferrer">Peter Boal, on his new book, &#x27;Illusions of Camelot: A Memoir&#x27;</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('books-7-details', this)">Show description</button>
+</div>
+<div class="description" id="books-7-details">
+<div class="meta-line">Jul 11, 2023 — (349)</div>
+<div class="desc-text">Today we are joined by the Artistic Director of Pacific Northwest Ballet, Peter Boal. We have had the pleasure of having Peter on the podcast a handful of times in the past, but today we were happy to get to speak with him about his new memoir which was released in June, &#x27;Illusions of Camelot: A Memoir.&#x27; Peter tells us about how he built the concept of the book, what he wanted to convey, and the experience of writing such personal essays about his life. &#x27;Illusions of Camelot&#x27; is now available at your local book store or online on Amazon. Get Peter&#x27;s book here: https://amzn.to/43ntRGlVAIL DANCE FESTIVAL TICKETS ON SALE NOW! Conversations on Dance events: https://bit.ly/3NQwoDjPerformance tickets: https://vaildance.org/</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">La Nijinska: Choreographer of the Modern</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a508" target="_blank" rel="noopener noreferrer">Lynn Garafola, Dance Historian, on Bronislava Nijinska</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('books-8-details', this)">Show description</button>
+</div>
+<div class="description" id="books-8-details">
+<div class="meta-line">Feb 23, 2022 — (271)</div>
+<div class="desc-text">Today we are joined by Lynn Garafola, dance historian and author of La Nijinska: Choreographer of the Modern.&#x27; Ms. Garafola is Professor Emerita of Dance at Barnard College, Columbia University. A dance historian and critic, she is the author of Diaghilev&#x27;s Ballets Russes and Legacies of Twentieth-Century Dance, and the editor of several books, including The Diaries of Marius Petipa, Andr Levinson on Dance (with Joan Acocella), Jos Limn: An Unfinished Memoir, and The Ballets Russes and Its World. She has curated several exhibitions, including Dance for a City: Fifty Years of the New York City Ballet, New York Story: Jerome Robbins and His World, Diaghilev&#x27;s Theater of Marvels: The Ballets Russes and Its Aftermath, and, most recently, Arthur Mitchell: Harlem&#x27;s Ballet Trailblazer. We talk with Lynn about her new biography of Bronislava Nijinska. Overshadowed in life and legend by her brother Vaslav Nijinsky, Garafola has written the first book to document the full scope of Nijinska&#x27;s creative work. Nijinska was a remarkable dancer in her own right with a bravura technique, a teacher, and a prolific choreographer, working with leading figures of twentieth-century art, music, and ballet, including Stravinsky, Diaghilev, Frederick Ashton, Alicia Markova, and Maria Tallchief. La Nijinska: Choreographer of the Modern&#x27; will be released next month, wherever books are sold. Pre-order now on Amazon: https://amzn.to/3BYWi1r. _________________________</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Lauren in the Limelight</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/376-miriam-landis-author-and-pacific-northwest-ballet-school" target="_blank" rel="noopener noreferrer">Miriam Landis, Author and Pacific Northwest Ballet School faculty member</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('books-9-details', this)">Show description</button>
+</div>
+<div class="description" id="books-9-details">
+<div class="meta-line">Dec 13, 2023 — (376)</div>
+<div class="desc-text">The holidays are right around the corner, so today we are featuring some dance reads that make the perfect last minute gift for the dance lover in your life. On today&#x27;s episode of &#x27;Conversations On Dance&#x27;, we are joined by Miriam Landis, former Miami City Ballet dancer, Pacific Northwest Ballet School Faculty member, and author of the recently published book &#x27;Lauren in the Limelight&#x27;. Miriam talks to us about overcoming adversity as a student and professional, stepping away from ballet for years to pursue other interests and returning to the world as an author capturing dance in young adult fiction, incorporating her own experiences and tying in themes that can help young dancers everywhere better understand their world and excel in their artistic journeys. Browse our Amazon list of favorite dance reads, including Miriams book, Lauren in the Limelight&#x27; -&gt; https://www.amazon.com/shop/conversationsondance</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Martha Graham Dance Company, 100 Years</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/485-ken-browar-and-deborah-ory-of-nyc-dance-project-on-photographing-martha-graham-dance-companys-100-years" target="_blank" rel="noopener noreferrer">Ken Browar and Deborah Ory of NYC Dance Project on Photographing Martha Graham Dance Company&#x27;s 100 Years</a></span>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/485-ken-browar-153341945" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('books-10-details', this)">Show description</button>
+</div>
+<div class="description" id="books-10-details">
+<div class="meta-line">Mar 18, 2026 — (485)</div>
+<div class="desc-text">Today, on &quot;Conversations on Dance&quot;, we talk with Ken Browar and Deborah Ory, the minds (and cameras) behind NYC Dance Project. We talk with Ken and Deborah about their book, Martha Graham Dance Company, 100 years, and how their backgrounds in dance and editorial fashion shaped their approach. They explain how early dancer sessions evolved into a slow, highly collaborative process focused on a few images that suggest continuing movement rather than freezing it. For the Graham centennial, they installed a studio setup at the company for three years, photographed 25 works from largely current repertory, combined studio and location shoots, used historical research and images as references. The resulting book, Martha Graham Dance Company, 100 Years&quot; is available for purchase here.00:00 Welcome and Guest Intro01:24 Deborah Dance to Camera02:28 Ken Fashion Roots03:55 First Dancers and Launch05:50 Instagram and Early Growth06:18 Fashion Meets Dance Craft08:48 Shooting Movement Not Freeze10:41 Slow Shoots and Safe Space14:04 Dancer Perfection and Control15:21 Graham Company Shift17:17 Why the Centennial Book18:31 Building the Studio Setup19:30 Building the Book Archive19:46 Choosing 25 Iconic Works21:15 Studio Shoots and Coaching22:05 Editing and Page Sequencing23:07 Outdoor Locations Strategy24:15 Researching Graham Repertory25:52 No Reshoots and Costume Logistics26:26 Group Shots and Precision28:45 Costumes and Fabric Movement31:47 Where to Buy and Signed Copies33:10 Future Projects and Farewell</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Mr. B</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4d9" target="_blank" rel="noopener noreferrer">Jennifer Homans, author and historian, on her new book, Mr. B</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('books-11-details', this)">Show description</button>
+</div>
+<div class="description" id="books-11-details">
+<div class="meta-line">Dec 6, 2022 — (318)</div>
+<div class="desc-text">On today&#x27;s episode of Conversations On Dance&#x27; we are joined by author, Jennifer Homans. Jennifer received critical acclaim for her 2011 book Apollo&#x27;s Angels&#x27;, a historical documentation of ballet from its creation to the present day. She has spent the past ten years working on Mr. B&#x27;, a biography of George Balanchine that was published this November. We talk to Jennifer about the research process, her most fascinating finds and what her final takeaways are from spending a decade getting to know the life of George Balanchine. Get your copy of Mr. B&#x27;: https://amzn.to/3VRCKEH. This episode&#x27;s sponsor: Just in time for holiday gift-giving, DANCIO, the online dance instruction provider, has announced an expansion of its line-up of classes, teachers, and menu of subscriptions. Led by world-renowned teachers, Dancios library now includes over 100 classes in a wide range of dance and fitness genres from Ballet, Modern, Contemporary, and West African dance, to yoga and body conditioning. Available in monthly and yearly subscriptions and ala carte individual classes, Dancio offers high-quality instruction at affordable prices from the comfort of your home or studio. Aspiring dancers of all ages can turn to Dancio to improve their technique, develop artistry, or simply participate in the joy of dance. Best of all, Dancio is run by dancers for dancers, and makes a memorable holiday gift. To gift Dancio, Go to dancio.com and click on subscribe.</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Swan Dive</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a519" target="_blank" rel="noopener noreferrer">Georgina Pazcoguin on her new book Swan Dive</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('books-12-details', this)">Show description</button>
+</div>
+<div class="description" id="books-12-details">
+<div class="meta-line">Oct 12, 2021 — (255)</div>
+<div class="desc-text">Today on Conversations on Dance, we are joined by friend of the pod and New York City Ballet Soloist, Georgina Pazcoguin. This summer, Georgina&#x27;s new book, Swan Dive was released, so we caught up with her between rehearsals and performances to chat. While she sat outside of the David H Koch Theater, she told us about the inspiration behind the book, her writing process, what she hopes readers take away from Swan Dive, and what her return to stage this past month has felt like. You can get your copy of Swan Dive wherever books or sold, or click here: https://amzn.to/3AA34YQ. ________________________________</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">The Ballerina Mindset: How to Protect Your Mental Health While Striving for Excellence</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a50c" target="_blank" rel="noopener noreferrer">Megan Fairchild, principal dancer with New York City Ballet</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('books-13-details', this)">Show description</button>
+</div>
+<div class="description" id="books-13-details">
+<div class="meta-line">Jan 24, 2022 — (267)</div>
+<div class="desc-text">Today we are joined by New York City Ballet principal dancer, Megan Fairchild. Megan was born in Salt Lake City, Utah, and began her dance training at the age of four. She went on to train at Ballet West Conservatory, where she was also a Ballet West trainee. In 2000, Megan continued training at the School of American Ballet and in November 2001, she became an apprentice with New York City Ballet. In October 2002 she joined the Company as a member of the corps de ballet, was promoted to the rank of soloist in February 2004, and in January 2005, she was promoted to principal dancer. Megan made her Broadway stage debut playing the role of Ivy Smith in the 2014 revival of On the Town, which opened on October 16, 2014 at the Lyric Theatre. She received the 2015 Theatre World Award for her performance. We chat with Megan about her origins in dance, her early years with the company, receiving featured opportunities at a young age, a quick rise through the ranks, dealing with performance anxiety, and returning to dance after having children. In 2021, Megan published a book, The Ballerina Mindset: How to Protect Your Mental Health While Striving for Excellence. Megan tells us about how the idea for this book came about and what she hopes that readers will take away. Get The Ballerina Mindset at book retailers nationwide and on Amazon: https://amzn.to/3tV6LbW. ___________________________</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">The Boy From Kyiv: Alexei Ratmansky&#x27;s Life in Ballet</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/marina-harss-alexei-ratmansky-the-boy-from-kyiv" target="_blank" rel="noopener noreferrer">Marina Harss, on her new book &#x27;The Boy From Kyiv: Alexei Ratmansky&#x27;s Life in Ballet&#x27;</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('books-14-details', this)">Show description</button>
+</div>
+<div class="description" id="books-14-details">
+<div class="meta-line">Oct 17, 2023 — (369)</div>
+<div class="desc-text">On today&#x27;s episode of &#x27;Conversations On Dance&#x27;, we are joined by Marina Harss, author of &#x27;The Boy From Kyiv&#x27;, the life story of the great choreographer Alexei Ratmansky. We talk to Marina about her own journey to writing dance, how she came to admire and love Ratmansky&#x27;s work and what her process was researching and developing the book. You can purchase &#x27;The Boy From Kyiv&#x27; at your local bookstore or on Amazon: https://amzn.to/3Ql3WMa.THIS EPISODE&#x27;S SPONSOR:The BFA Dance program at the Peabody Conservatory of the Johns Hopkins University prepares students to be at the forefront of dance innovation through performance, choreographic and critical historical and theoretical exploration. Studying dance at Johns Hopkins, one of the worlds premier research institutions, gives students the opportunity to make connections between dance, science, technology, and the humanities. Submit your application by December 1st. Learn more at Peabody.jhu.edu/dancebfa</div>
+</div>
+</div>
+<h2 class="section-heading" id="sec-films">Films</h2>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">About Face: Disrupting Ballet</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/478-the-new-documentary-film-about-face-disrupting-ballet-with-jennifer-lin-and-cory-stieg" target="_blank" rel="noopener noreferrer">The new documentary film &quot;About Face: Disrupting Ballet&quot; with Jennifer Lin and Cory Stieg</a></span>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/478-new-film-lin-149359992" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('films-1-details', this)">Show description</button>
+</div>
+<div class="description" id="films-1-details">
+<div class="meta-line">Jan 28, 2026 — (478)</div>
+<div class="desc-text">Today on &quot;Conversations On Dance&quot;, our episode centers on the new documentary film &quot;About Face: Disrupting Ballet&quot;, which follows two asian dancers, Phil Chan and Georgina Pazcougin, in their effort to eliminate racial stereotypes pervasive in ballet performances across the world. Director/Producer Jennifer Lin and Producer Cory Stieg join us to talk about their personal experiences with racial caricatures in dance, how their initial introduction to Phil and Gina led to the idea for the film, and the work they do and the film itself will be a catalyst for change in the dance world. &quot;About Face&quot; will be the spotlight feature of the closing night of the Dance On Camera Festival, this February 8th at Symphony Space in New York City. Follow updates on the film on Instagram: https://www.instagram.com/aboutface_film/Listen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondanceSPONSOR:Get audition ready with The Royal Ballet Schools new bundle of online audition classes. Whether you are auditioning for entry into The Royal Ballet School or seeking insights into general audition preparation to conquer those nerves, this brand-new series of online classes is the perfect tool for you. From artistic expression and musicality to improving your strength and flexibility, these classes will help you feel confident for whenever and wherever you audition. To get started go to ondemand.royalballetschool.org.uk</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Daytripper</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/336-james-whiteside-on-his-directorial-debut-film-daytripper" target="_blank" rel="noopener noreferrer">James Whiteside on his directorial debut film &#x27;Daytripper&#x27;</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('films-2-details', this)">Show description</button>
+</div>
+<div class="description" id="films-2-details">
+<div class="meta-line">Apr 12, 2023 — (336)</div>
+<div class="desc-text">On today&#x27;s episode of &#x27;Conversations On Dance&#x27; we are joined by principal dancer with American Ballet Theatre James Whiteside to discuss his upcoming directorial debut film &#x27;Daytripper&#x27;. James catches up to speed about his recovery from knee surgery, transforming his book &#x27;Center Center&#x27; into a play and the creative concept and filming process for &#x27;Daytripper&#x27;. You can stream &#x27;Daytripper&#x27; as part of the All Arts Artist In Residence series this April 23rd at 10:55pm on PBS or stream the film on the All Arts app. THIS EPISODE&#x27;S SPONSORS:Ballet Bird is a streaming site designed by former Pacific Northwest Ballet principal dancer Julie Tobiason. Ballet Bird offers ballet classes for anyone at any level of training that you can do from the comfort of your home or studio. Ballet Bird is a great addition to your regular in-studio training too. Take advantage of the ten day free trial and use the discount code COD25 to get 25% off through June 30th 2023 at balletbird.com.Dimensions Dance Theatre of Miami open auditions on April 23, 2023 in Miami. More information and register early: dimensionsdancemia.com/auditions</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Everybody Dance</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/348-dan-watt-director-of-the-documentary-everybody-dance" target="_blank" rel="noopener noreferrer">Dan Watt, director of the documentary, &#x27;Everybody Dance&#x27;</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('films-3-details', this)">Show description</button>
+</div>
+<div class="description" id="films-3-details">
+<div class="meta-line">Jul 6, 2023 — (348)</div>
+<div class="desc-text">Today we are joined by Dan Watt, director of the documentary, &#x27;Everybody Dance.&#x27; After his career as a dancer and choreographer, Dan ventured towards a career in film and television, working with stars like Bea Arthur, Carol Channing, and Simon Cowell, as well as working at Colombia Pictures in film development for years. Dan tells us about his beginnings in dance, how he decided that he had stories that he wanted to tell, and how he connected with the Ballet For All Kids dance studio in California, that became the centerpiece of his documentary. In &#x27;Everybody Dance,&#x27; Dan follows five children, with different disabilities, their families and dance teacher for 10 months on their journey through life and toward their recital. As a part of Disability Pride month this July, &#x27;Everybody Dance&#x27; is available now on Amazon Freevee. Watch now.VAIL DANCE FESTIVAL TICKETS ON SALE NOW! Conversations on Dance events: https://bit.ly/3NQwoDjPerformance tickets: https://vaildance.org/</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Flower</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/misty-copeland-leyla-fayyaz-flower-film" target="_blank" rel="noopener noreferrer">Misty Copeland and Leyla Fayyaz on their film, &#x27;Flower&#x27;</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('films-4-details', this)">Show description</button>
+</div>
+<div class="description" id="films-4-details">
+<div class="meta-line">Jun 27, 2023 — (347)</div>
+<div class="desc-text">Today on Conversations On Dance, we are joined by acclaimed ballerina, Misty Copeland, and Emmy Award winning TV producer and writer, Leyla Fayyaz. We talk to Misty and Leyla about how they first met as young ballerinas at American Ballet Theatre, reconnecting to create Life In Motion Productions, the stories they want to tell in their new work and their first short film &#x27;Flower&#x27;, which recently premiered at the Tribeca Film Festival. For my information on &#x27;Flower&#x27; and Life In Motion Productions, follow @oaklandflowerfilm on Instagram. If youd like to host a free screening of Life in Motion&#x27;s new film Flower starring Misty Copeland please email flower@picturemotion.com.VAIL DANCE FESTIVAL TICKETS ON SALE NOW! Conversations on Dance events: https://bit.ly/3NQwoDjPerformance tickets: https://vaildance.org/</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">No Dancing Allowed</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/417-jared-harbour-aiden-gibney-no-dancing-allowed-documentary" target="_blank" rel="noopener noreferrer">Jared Harbour and Aidan Gibney, the minds behind the upcoming dance documentary &#x27;No Dancing Allowed&#x27;</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('films-5-details', this)">Show description</button>
+</div>
+<div class="description" id="films-5-details">
+<div class="meta-line">Sep 17, 2024 — (417)</div>
+<div class="desc-text">On today&#x27;s episode of &#x27;Conversations on Dance&#x27;, we are joined by Jared Harbour and Aidan Gibney, the minds behind the upcoming dance documentary &#x27;No Dancing Allowed&#x27;. The film explores the intersectionality of Street Dance Culture and governmental policies through the 20th century in New York City, weaving a story of ingenuity, culture, erasure and resilience. Aidan and Jared will be joined by other members of the creative team on Monday, September 23rd for a Works &amp; Process event at the Guggenheim that will explore the work they&#x27;ve done on the documentary.Tickets to Works &amp; Process: Documentary Preview and Discussion: No Dancing AllowedMore info on &#x27;No Dancing Allowed&#x27;</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Persian Swan</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/346-tara-ghassemieh-on-honoring-the-untold-story-of-the-iranian-national-ballet" target="_blank" rel="noopener noreferrer">Tara Ghassemieh on honoring the untold story of the Iranian National Ballet</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('films-6-details', this)">Show description</button>
+</div>
+<div class="description" id="films-6-details">
+<div class="meta-line">Jun 21, 2023 — (346)</div>
+<div class="desc-text">This week we are joined by Tara Ghassemieh, Principal dancer with Golden State Ballet. Tara talks with us as she discovers her place within the world of ballet and uncovers a forgotten piece of Iranian history. She tells us about her film &#x27;Persian Swan&#x27; which is her tribute to the Iranian National Ballet and how this mission has evolved onto the stage with &#x27;The White Feather.&#x27; If you are in the Southern California area, see &#x27;The White Feather, A Persian Ballet Tale&#x27; June 29th at The Eli and Edythe Broad Stage in Santa Monica. Tickets are available on EventBrite.VAIL DANCE FESTIVAL TICKETS ON SALE NOW! Conversations on Dance events: https://bit.ly/3NQwoDjPerformance tickets: https://vaildance.org/</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Reframing the Narrative: Blacks in Ballet</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/400-theresa-ruth-howard-and-katlyn-addison-on-pathways-to-performance-exercises-in-reframing-the-narrative" target="_blank" rel="noopener noreferrer">Theresa Ruth Howard and Katlyn Addison on &quot;Pathways to Performance: Exercises in Reframing the Narrative&quot;</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('films-7-details', this)">Show description</button>
+</div>
+<div class="description" id="films-7-details">
+<div class="meta-line">Jun 12, 2024 — (400)</div>
+<div class="desc-text">Today on Conversations on Dance, we welcome Theresa Ruth Howard, founder of Memoirs of Blacks in Ballet, and Katlyn Addison, principal dancer with Ballet West. We first had Katlyn on the podcast in February of 2024 in episode 383, where we talk all about her career. We are happy to welcome Katlyn back on to talk about the upcoming &quot;Pathways to Performance: Exercises in Reframing the Narrative&quot; performance at the Kennedy Center. Theresa was the guest curator of &quot;Reframing the Narrative&quot; at the Kennedy Center for it&#x27;s inaugural season in 2022 and Theresa is returning again this year with her hand-picked group of dancers coming together from all across the country to feature a newly commissioned ballet and excerpts of recently premiered works by Black choreographers. Katlyn was selected by Theresa in 2022 to be a part of this project and is returning again this year. The pair tell us about &quot;Pathways to Performance: Exercises in Reframing the Narrative,&quot; how the project came about, what was so special about the experience in 2022, and how they will be expanding upon the work now in 2024. Don&#x27;t miss &quot;Pathways to Performance: Exercises in Reframing the Narrative&quot; July 2 and 3 at the Kennedy Center. Tickets are available at kennedy-center.org.WATCH:Reframing the Narrative: Blacks in Ballet | A Kennedy Center Digital Stage Original (2022 documentary)Donald Byrd&#x27;s &quot;From Other Suns&quot; | A World Premiere Ballet from The Kennedy Center</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Ten Times Better</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/jennifer-lin-george-lee-ten-times-better" target="_blank" rel="noopener noreferrer">Jennifer Lin and George Lee, the original Tea in Balanchine&#x27;s &#x27;Nutcracker&#x27;</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('films-8-details', this)">Show description</button>
+</div>
+<div class="description" id="films-8-details">
+<div class="meta-line">May 8, 2024 — (396)</div>
+<div class="desc-text">Today we are so pleased to bring you our interview with George Lee, the original &#x27;Tea&#x27; dancer in George Balanchine&#x27;s &#x27;The Nutcracker.&#x27; Also joining us for the second time, is documentary filmmaker Jennifer Lin. Jennifer&#x27;s latest film &#x27;Ten Times Better&#x27; explores the life and legacy of George. Jennifer talked to us about this film in episode 382, before it&#x27;s premiere. Today, George tells us about his story and the pair talk about how they came to connect and what filming the documentary was like. We hear about the response to the film and what it has meant to George to know so many people are touched by his story.For information about upcoming screenings or to get in touch with Jennifer, visit tentimesbetterfilm.com.Episode 382 with Jennifer Lin: Listen here.</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Ten Times Better</span> — 
+<span class="work-title"><a href="https://shows.acast.com/conversations-on-dance/episodes/george-lee-the-original-tea-in-balanchines-nutcracker" target="_blank" rel="noopener noreferrer">The story of George Lee, the original Tea in Balanchine&#x27;s &#x27;Nutcracker&#x27;, with Jennifer Lin</a></span>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('films-9-details', this)">Show description</button>
+</div>
+<div class="description" id="films-9-details">
+<div class="meta-line">Jan 29, 2024 — (382)</div>
+<div class="desc-text">On today&#x27;s episode of &#x27;Conversations On Dance&#x27; we are joined by documentary filmmaker Jennifer Lin. Jennifer&#x27;s latest film &#x27;Ten Times Better&#x27; explores the life and legacy of dancer George Lee, who originated the role of tea in &#x27;George Balanchine&#x27;s The Nutcracker&#x27;. She tells us the inspiring story of George&#x27;s experience as an immigrant, performing as a child in nightclubs and shuffling across countries before ultimately landing in New York City, and his experience working with theater luminaries like Balanchine and Gene Kelly. If you are in the New York City area, check out the Works and Process event on Wednesday, February 7th at the NYPL for the Performing Arts featuring a discussion about the film with both Jennifer Lin and George Lee. (More info) And be sure to catch the premiere of &#x27;Ten Times Better&#x27; on February 10th at the Dance On Camera Festival at Lincoln Center. (Tickets)More information on the film: https://www.tentimesbetterfilm.com</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">The Nutcracker At Wethersfield</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/476-the-nutcracker-at-wethersfield-with-troy-schumacher-amp-ashley-laracey-soloists-with-the-new-york-city-ballet" target="_blank" rel="noopener noreferrer">&quot;The Nutcracker At Wethersfield&quot; with Troy Schumacher &amp; Ashley Laracey, soloists with The New York City Ballet</a></span>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/476-nutcracker-145541259" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('films-10-details', this)">Show description</button>
+</div>
+<div class="description" id="films-10-details">
+<div class="meta-line">Dec 10, 2025 — (476)</div>
+<div class="desc-text">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we dive into the new documentary &quot;The Nutcracker At Wethersfield&quot;, a film that explores the chaotic, thrilling experience of a huge team of dancers, artists and volunteers coming together to ensure that the &quot;Nutcracker&quot; holiday tradition could continue during the COVID-19 pandemic. We are joined by the choreographer Troy Schumacher and ballerina Ashley Laracey, the Sugar Plum Fairy in this production, both veteran NYCB soloists who had not had a year without Nutcracker in their lives for more than two decades. They take us through the numerous complications to consider while mounting the production, from legal constraints, health concerns and the logistics of building a massive production in just five weeks, and how this experience ultimately came to be a documentary that perfectly encapsulates a moment unlike any of us shall ever experience again in our lives. &quot;The Nutcracker At Wethersfield&quot; will be available to stream on demand from December 21st through January 5th through the website nutcrackerfilm.com. Listen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondance</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">The Sky Was On Fire</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/473-the-sky-was-on-fire-ballet-and-war-in-ukraine" target="_blank" rel="noopener noreferrer">&quot;The Sky Was On Fire&quot; - Ballet and War in Ukraine</a></span>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/473-sky-was-on-143437323" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('films-11-details', this)">Show description</button>
+</div>
+<div class="description" id="films-11-details">
+<div class="meta-line">Nov 12, 2025 — (473)</div>
+<div class="desc-text">Today on Conversations on Dance, we hear about a new documentary film about ballet and war in Ukraine, &quot;The Sky Was On Fire.&quot; We are joined by the film&#x27;s Producer Julie Meyer and EP/DP Michael Murray. Julie and Michael tell us about how this story came to them, how they built trust with the subject&#x27;s of the film, why they feel these stories are important to tell, and how they hope the film will make an impact. At the end, Michael talks about an organization that is raising money for Ukraine called, Razom for Ukraine. You can find more information and make a donation at https://www.razomforukraine.org/Watch the trailer here. Adrenaline Films: https://adrenalinefilms.com/Listen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondance</div>
+</div>
+</div>
+<div class="work-entry">
+<div class="row1">
+<span class="work-name">Tiler Peck: Suspending Time</span> — 
+<span class="work-title"><a href="https://www.conversationsondancepod.com/episodes-transcripts/469-tiler-peck-and-garen-scribner-on-the-new-documentary-tiler-peck-suspending-time" target="_blank" rel="noopener noreferrer">Tiler Peck and Garen Scribner, on the new documentary, &quot;Tiler Peck: Suspending Time&quot;</a></span>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/469-tiler-peck-141798059" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('films-12-details', this)">Show description</button>
+</div>
+<div class="description" id="films-12-details">
+<div class="meta-line">Oct 15, 2025 — (469)</div>
+<div class="desc-text">On today&#x27;s episode of &quot;Conversations On Dance&quot; we are joined by superstar NYCB ballerina Tiler Peck and Garen Scribner, former SFB soloist and the Artistic Director of the San Francisco Dance Film Festival. Tiler recounts how her harrowing recovery from a potentially life altering injury was captured on film after Garen suggested the process be turned into a documentary. The resulting project is &quot;Tiler Peck: Suspending Time&quot;, a documentary film making its premiere at the SF Dance Film Festival this October 24th at the Lucasfilm Premier Theater. To purchase tickets, visit sfdancefilmfest.org. Get Tiler&#x27;s new book: https://amzn.to/4oXookXAnnouncement:We are thrilled to announce that we will be returning to Miami City Ballet October 17th-19th to host live pre-performance talks for the opening weekend of the companys 40th anniversary season. For each talk, we will be joined by Gonzalo Garcia as he ushers the company into its first season under his direction. Full details below. This program is truly not to be missed: the all Peck program includes Year of the Rabbit, Chutes and Ladders, and Heatscape. If you are in the Miami area come join us.DETAILS:FRI October 17 with Gonzalo Garcia at 6:30pmSAT October 18 with Gonzalo and Justin Peck at 6:30pmSUN October 19 with Gonzalo and Patricia Delgado at 1pmAdmission to pre-performance talks at the Arsht Center is complimentary with ticket purchase. Tickets available here: https://www.miamicityballet.org/tickets-and-events/202526-season/peck/. If you are unable to join us in person, subscribe to the Conversations on Dance podcast feed through your favorite podcast app, where we will be publishing recordings of the events.</div>
+</div>
+</div>
+</body>
+</html>

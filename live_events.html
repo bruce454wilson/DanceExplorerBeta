@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Live Events</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T1W89Y447W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T1W89Y447W');
+</script>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    max-width: 1000px;
+}
+
+h1 {
+    margin-bottom: 12px;
+}
+
+.index {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+    z-index: 1000;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.index a {
+    margin-right: 10px;
+    font-size: 13px;
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.index a:hover {
+    text-decoration: underline;
+}
+
+.index-sep {
+    margin-right: 10px;
+    color: #bbb;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.letter-heading,
+.year-heading {
+    margin-top: 40px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    scroll-margin-top: 60px;
+}
+
+.guest-block {
+    margin-top: 18px;
+    margin-bottom: 24px;
+    scroll-margin-top: 60px;
+}
+
+.guest-line {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.appearance,
+.episode-block {
+    margin-left: 20px;
+    margin-bottom: 12px;
+}
+
+.row2 {
+    color: #444;
+    line-height: 1.4;
+}
+
+.desc-button {
+    margin-left: 8px;
+    font-size: 12px;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.description {
+    display: none;
+    margin-top: 6px;
+    padding: 8px 10px;
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+    color: #333;
+    line-height: 1.4;
+    white-space: pre-wrap;
+}
+
+a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.profile-badge {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #1a73e8;
+    border-radius: 3px;
+    color: #1a73e8;
+    vertical-align: middle;
+}
+
+.profile-badge:hover {
+    background: #e8f0fe;
+    text-decoration: none;
+}
+
+.patreon-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #f96854;
+    border-radius: 3px;
+    color: #f96854;
+    vertical-align: middle;
+}
+
+.patreon-badge:hover {
+    background: #fff0ee;
+    text-decoration: none;
+}
+
+.youtube-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #cc0000;
+    border-radius: 3px;
+    color: #cc0000;
+    vertical-align: middle;
+}
+
+.youtube-badge:hover {
+    background: #fff0f0;
+    text-decoration: none;
+}
+
+/* --- home nav dropdown --- */
+.home-nav { position: relative; display: inline-block; vertical-align: middle; }
+.home-nav-arrow {
+    background: none; border: none; padding: 0 1px 0 3px; cursor: pointer;
+    font-size: 9px; color: currentColor; opacity: 0.55; vertical-align: middle;
+    line-height: 1; font-family: inherit;
+}
+.home-nav-arrow:hover { opacity: 1; }
+.home-nav-dropdown {
+    display: none;
+    position: fixed;
+    background: white; border: 1px solid #ddd; border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    white-space: nowrap; z-index: 2000; min-width: 145px;
+}
+.home-nav-dropdown.open { display: block; }
+.home-nav-dropdown a {
+    display: block; padding: 8px 14px;
+    color: #333 !important; font-weight: normal !important;
+    text-decoration: none; font-size: 13px;
+}
+.home-nav-dropdown a:first-child { border-radius: 5px 5px 0 0; }
+.home-nav-dropdown a:last-child  { border-radius: 0 0 5px 5px; }
+.home-nav-dropdown a:hover { background: #f5f5f5; color: #1a73e8 !important; }
+</style>
+<script>
+function toggleDescription(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const isOpen = el.style.display === "block";
+    el.style.display = isOpen ? "none" : "block";
+    btn.textContent = isOpen ? "Show description" : "Hide description";
+    btn.setAttribute("aria-expanded", String(!isOpen));
+}
+
+function toggleHomeNav(btn) {
+    const dd = btn.nextElementSibling;
+    const opening = !dd.classList.contains('open');
+    document.querySelectorAll('.home-nav-dropdown.open').forEach(function(el) {
+        el.classList.remove('open');
+    });
+    if (opening) {
+        const rect = btn.getBoundingClientRect();
+        dd.style.top = (rect.bottom + 4) + 'px';
+        dd.style.left = rect.left + 'px';
+        dd.classList.add('open');
+        setTimeout(function () {
+            document.addEventListener('click', function closeDD(e) {
+                if (!btn.closest('.home-nav').contains(e.target)) {
+                    dd.classList.remove('open');
+                    document.removeEventListener('click', closeDD);
+                }
+            });
+        }, 0);
+    }
+}
+</script>
+</head>
+<body>
+<h1>Live Events</h1>
+
+<div class="index">
+<span class="home-nav"><a href="danceexplorer.html">&#8592;&nbsp;Home</a><button class="home-nav-arrow" onclick="toggleHomeNav(this)" aria-label="Site navigation">&#9662;</button><div class="home-nav-dropdown"><a href="podcasts.html">Podcasts</a><a href="performances.html">Performances</a></div></span>
+</div>
+<div class="episode-block">
+<div class="row2">Apr 27, 2026 — (490) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/490-live-from-works-amp-process-philadelphia-ballet-romeo-and-juliet-by-juliano-nunes" target="_blank" rel="noopener noreferrer">LIVE from Works &amp; Process: Philadelphia Ballet: Romeo and Juliet by <strong>Juliano Nunes</strong></a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/490-live-from-by-157617488" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-1', this)">Show description</button>
+</div>
+<div id="desc-live-1" class="description">Welcome to a special episode of Conversations on Dance recorded live at Works &amp; Process at the Guggenheim. In the conversation, we sit down with Philadelphia Ballet resident choreographer Juliano Nunes to discuss his brand new &#x27;Romeo and Juliet&#x27; that is having it&#x27;s world premiere at the Academy of Music in Philadelphia on April 30th. Throughout the event, we take moments to pause and watch the artists of Philadelphia Ballet dance and be coached by Juliano. You can watch the event in it&#x27;s entirety on YouTube here.Romeo and Juliet runs for 11 performances at the Academy of Music this season, from April 30 through May 10. For tickets and more information, visit philadelphiaballet.org.Watch the full event on Youtube: https://www.youtube.com/watch?v=FpE3tF7eOpk</div>
+</div>
+<div class="episode-block">
+<div class="row2">Feb 11, 2026 — (480) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/480-live-with-alexei-ratmansky-amp-gonzalo-garcia-works-amp-process-at-the-guggenheim-with-miami-city-ballet" target="_blank" rel="noopener noreferrer">LIVE with <strong>Alexei Ratmansky</strong> &amp; <strong>Gonzalo Garcia</strong>, Works &amp; Process at the Guggenheim with Miami City Ballet</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=oFt-FjXGGNA&amp;t=43s" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/480-live-with-at-150529836" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-2', this)">Show description</button>
+</div>
+<div id="desc-live-2" class="description">WATCH the program on YouTube here.On February 7, 2026, Miami City Ballet presented a first look of world-renowned choreographer Alexei Ratmanskys new commission celebrating MCB founder Toby Lerner Ansins 85th birthday, before its February premiere in Florida. This work blends history, tradition, and forward-thinking creativity, with a score by Johann Strauss. Ratmansky and Miami City Ballets new artistic director Gonzalo Garcia will participate in the discussion, and MCB dancers perform excerpts.Miami City Ballet&#x27;s &#x27;Into The Magic City&#x27; program runs February 20th - March 1 in Miami and West Palm Beach. The program includes the World Premiere of &#x27;Roses from the South, Three Waltzes for Toby&#x27; as discussed here, as well as George Balanchine&#x27;s &#x27;Serenade&#x27; and &#x27;Tarantella&#x27;. Tickets available here.Works &amp; Process at the Guggenheim is a non-profit organization dedicated to championing the creative process from studio to stage, with programs just like this one. Find more information and ways to support on their website: https://www.worksandprocess.org/.Listen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondance</div>
+</div>
+<div class="episode-block">
+<div class="row2">Nov 5, 2025 — (472) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/472-live-from-miami-city-ballet-with-patricia-delgado-and-gonzalo-garcia" target="_blank" rel="noopener noreferrer">LIVE from Miami City Ballet with <strong>Patricia Delgado</strong> and <strong>Gonzalo Garcia</strong></a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/472-live-from-142919766" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-3', this)">Show description</button>
+</div>
+<div id="desc-live-3" class="description">This episode was recorded live on October 19, 2025 at The Adrienne Arsht Center for the Performing Arts in Miami before the opening of Miami City Ballet&#x27;s 40th anniversary season. Guests in this episode are Tony Award winning choreographer and former Miami City Ballet Principal Dancer, Patricia Delgado, and Miami City Ballet Artistic Director, Gonzalo Garcia.Listen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondance</div>
+</div>
+<div class="episode-block">
+<div class="row2">Oct 29, 2025 — (471) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/471-live-from-miami-city-ballet-with-justin-peck-and-gonzalo-garcia" target="_blank" rel="noopener noreferrer">LIVE from Miami City Ballet with <strong>Justin Peck</strong> and <strong>Gonzalo Garcia</strong></a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=je6FADBH-eQ" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/471-live-from-142415635" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-4', this)">Show description</button>
+</div>
+<div id="desc-live-4" class="description">This episode was recorded live on October 18, 2025 at The Adrienne Arsht Center for the Performing Arts in Miami before the opening of Miami City Ballet&#x27;s 40th anniversary season. Guests in this episode are is Tony Award winning choreographer, Justin Peck, and Miami City Ballet Artistic Director, Gonzalo Garcia. The pre-performance talk coordinated with the all Peck program that the company opened their season with, which included &quot;Year of The Rabbit,&quot; &quot;Chutes and Ladders,&quot; and &quot;Heatscape.&quot; WATCH this episode on YouTube! Click here: https://www.youtube.com/watch?v=je6FADBH-eQListen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondance</div>
+</div>
+<div class="episode-block">
+<div class="row2">Oct 22, 2025 — (470) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/470-live-from-miami-city-ballet-with-gonzalo-garcia-artistic-director-of-miami-city-ballet" target="_blank" rel="noopener noreferrer">LIVE from Miami City Ballet with <strong>Gonzalo Garcia</strong>, Artistic Director of Miami City Ballet</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/470-live-from-of-141821053" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-5', this)">Show description</button>
+</div>
+<div id="desc-live-5" class="description">This episode was recorded live on October 17, 2025 at The Adrienne Arsht Center for the Performing Arts in Miami before the opening of Miami City Ballet&#x27;s 40th anniversary season. This pre-performance talk coordinated with the all Peck program that the company opened their season with, which included &quot;Year of The Rabbit,&quot; &quot;Chutes and Ladders,&quot; and &quot;Heatscape.&quot;Listen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondance</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jan 30, 2023 — (325) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4d2" target="_blank" rel="noopener noreferrer">LIVE from Works &amp; Process at the Guggenheim: The Night Falls</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-6', this)">Show description</button>
+</div>
+<div id="desc-live-6" class="description">Today&#x27;s episode of Conversations On Dance&#x27; is a live podcast from the Guggenheim&#x27;s Works &amp; Process series. We explore the creation of a new dance driven music theater production The Night Falls&#x27;, which is set to run February 9th through 12th at Montclair State University. The Night Falls&#x27; is a new myth for our fractured era, depicting the metamorphosis of atomized individuals into a true community, with choreography that dramatizes the leap of empathy between bodies and music that channels the polarities of surrender and resistance. In this interview, we are joined by the show&#x27;s creative team, choreographer and director Troy Schumacher, composer and co-lyricist Ellis Ludwig-Leone and librettist and co-lyricist Karen Russell. Tickets for The Night Falls&#x27; can be found at peakperfs.org. We are happy to be able to share a visual companion to this episode. To watch the full interview including the dancing and signing segments, visit Works &amp; Process&#x27; YouTube Channel, or click here: https://youtu.be/FfidIh8pi0o.This episode was recorded live on January 22, 2023 as a part of Guggenheim&#x27;s Works &amp; Process.The Night Falls&#x27;: Co-produced by BalletCollective, Inc., and PEAK Performances at Montclair State University. The Night Falls was developed during a 2018 residency for Project Springboard: Developing Dance Musicals with further support provided during a virtual creative residency in 2021. This season was made possible, in part, by the Alexander Kasser Theater Endowment Fund, PEAK Patrons, and the New Jersey State Council on the Arts. This Episodes Sponsors: Pittsburgh Ballet Theatre School is training the next generation of professional dancers by providing ballet and dance education of the highest caliber that prepares students for professional careers in dance. Learn more about Pittsburgh Ballet Theatre School and their Intensive Summer Program at https://www.pbt.org/pbts/isp2023/. Fill your summer with technique, learning and fun at Charlotte Ballets Summer Intensive! Register for one of Charlotte Ballets 11 audition locations or submit a video audition at charlotteballet.org.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jun 3, 2019 — (140) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a594" target="_blank" rel="noopener noreferrer">LIVE from The Kennedy Center: Women Leading the Way in Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-7', this)">Show description</button>
+</div>
+<div id="desc-live-7" class="description">Todays episode was recorded live at The Kennedy Center on Saturday June 1, 2019 before the matinee performance of Miami City Ballet as a part of Ballet Across America. We were joined by Virginia Johnson, the Artistic Director of Dance Theatre of Harlem (who had been performing earlier in the week), Lourdes Lopez, Artistic Director of Miami City Ballet, and celebrated choreographer, Pam Tanowitz. This panel was put together to discuss women leading the way in ballet. Be sure to explore all the happenings at the Kennedy Center by visiting, kennedy-center.org. This episode is sponsored by The Kennedy Center (kennedy-center.org), Yumiko (yumiko.com), and Lake Tahoe Dance Festival (laketahoedancecollective.org). The post (140) LIVE from The Kennedy Center: Women Leading the Way in Ballet appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Feb 25, 2019 — (127) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5a0" target="_blank" rel="noopener noreferrer"><strong>Skylar Brandt</strong> of American Ballet Theatre LIVE from the Kennedy Center</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=N6FlxJV3mZc" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-8', this)">Show description</button>
+</div>
+<div id="desc-live-8" class="description">BONUS: San Francisco Ballet Dancers Ep. 1. Welcome to our 1st of two bonus episode wrap ups of San Francisco Ballets Unbound festival. In each episode we will be talking with 3 different dancers in the company about what ultimately led them to SFB and abo</div>
+</div>
+<div class="episode-block">
+<div class="row2">Dec 11, 2018 — (119) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5a8" target="_blank" rel="noopener noreferrer"><strong>Juliet Doherty</strong>, LIVE from Yumikos New York Flagship Boutique</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-9', this)">Show description</button>
+</div>
+<div id="desc-live-9" class="description">This episode was recorded live on Saturday, December 8th, 2018 at the Yumiko New York Flagship Boutique. We sit down with dancer and actress, Juliet Doherty. Juliet comes from a family of dancers, spending her entire childhood in the studio. Always active in musical theater, Juliet toured the world playing the coveted role of Clara alongside the renowned Radio City Rockettes in the Radio City Christmas Spectacular and would later go on to dance alongside Tiler Peck in Susan Stromans Little Dancer musical. Most recently she has stared in the film On Pointe and the movie High Strung, Free Dance. In her professional dance career she danced with San Francisco Ballet. This episode is generously brought to you by Yumiko USA. The post (119) Juliet Doherty, LIVE from Yumiko&#x27;s New York Flagship Boutique appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Oct 23, 2018 — (112) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5b0" target="_blank" rel="noopener noreferrer">LIVE from the Kennedy Center: <strong>Helgi Tomasson</strong>, Artistic Director of San Francisco Ballet</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=N6FlxJV3mZc" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-10', this)">Show description</button>
+</div>
+<div id="desc-live-10" class="description">This weeks episode of Conversations On Dance was recorded live at the Kennedy Center in Washington, DC. Our guest is former New York City Ballet principal and Artistic Director of the San Francisco Ballet, Helgi Tomasson. The San Francisco Ballet is performing at the Kennedy Center this week, from October 23 28, 2018. They will be performing six works that premiered earlier this year at the Unbound festival in San Francisco. You can purchase tickets online at www.kennedy-center.org. This episode is supported by the Kennedy Center and Yumiko. Watch the full video of this event now: https://youtu.be/N6FlxJV3mZc The post (112) LIVE from the Kennedy Center: Helgi Tomasson, Artistic Director of San Francisco Ballet appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">May 7, 2018 — (91) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5cd" target="_blank" rel="noopener noreferrer"><strong>Sofiane Sylve</strong>, LIVE From SF MOMA</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-11', this)">Show description</button>
+</div>
+<div id="desc-live-11" class="description">This week we are happy to be sharing with you a recording of our live event at SF MOMA last month. We were pleased to be able to sit down and talk with San Francisco Ballet Principal Dancer, Sofiane Sylve, as a part of a live lecture put together by the San Francisco Based organization, Words on Dance. We talk with Sofiane about launching her career at only 14, her time dancing with New York City Ballet, what brought her to San Francisco Ballet, and about her aspirations to be an Artistic Director. Just before we started recording, Words on Dance founder Deborah Kaufman introduced us to the audience. This episode is sponsored by Body Wrappers/Angelo Luzio, Dimensions Dance Theatre of Miami, and Words on Dance. Learn more about the work Words on Dance is doing at wordsondance.org. The post (91) Sofiane Sylve, LIVE From SF MOMA appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Apr 30, 2018 — (90) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5cf" target="_blank" rel="noopener noreferrer"><strong>Annabelle Lopez Ochoa</strong>, LIVE from San Francisco Ballets Unbound Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-12', this)">Show description</button>
+</div>
+<div id="desc-live-12" class="description">Welcome to another live podcast from San Francisco Ballet. In this episode we are joined by festival choreographer Annabelle Lopez Ochoa. This episode is a recording of a live Meet the Artist event that took place before a performance of the Unbound festival on April 22nd. For more live content like this from other San Francisco Ballet performances, please check out San Francisco Ballets podcast network on iTunes. Stay tuned to Conversations on Dance for regularly programmed Monday episodes, as well as continued bonus content from our time in San Francisco. Enjoy, Annabelle Lopez Ochoa, LIVE from San Francisco Ballet&#x27;s Unbound Festival. We are back from San Francisco where we recorded a massive 26 episodes that are waiting to be published on your feed. We chatted with world class choreographers about their careers and work including Christopher Wheeldon, Stanton Welch, and Edwaard Liang, ballet master Katita Waldo, as well as some of the remarkable dancers of San Francisco Ballet, like Sarah Van Patten, Ana Sophia Scheller, and Sofiane Sylve. Subscribe now on iTunes to recieve notifications of new episodes when they are published. Follow us on Instagram, Twitter, and Facebook for some behind the scenes content and new episode alerts Episode sponsored by Body Wrappers Angelo Luzio The post (90) Annabelle Lopez Ochoa, LIVE from San Francisco Ballet&#x27;s Unbound Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Apr 26, 2018 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5d0" target="_blank" rel="noopener noreferrer">BONUS: <strong>Myles Thatcher</strong>, LIVE from San Francisco Ballets Unbound Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-13', this)">Show description</button>
+</div>
+<div id="desc-live-13" class="description">This week we are joined by choreographer and dancer, Myles Thatcher, LIVE from San Francisco Ballet&#x27;s Unbound Festival, and his collaborators for his new ballet Otherness, costume designer Sylvie Rood, and nonbinary artist, Kersh Branz. This episode was recorded from a live Meet The Artist event before the opening of Myles ballet at the Unbound festival at San Francisco Ballet. For more live content like this from these events, please check out San Francisco Ballets podcast network on iTunes. Stay tuned to Conversations on Dance as we continue to bring more content to you directly from the festival. The post BONUS: Myles Thatcher, LIVE from San Francisco Ballet&#x27;s Unbound Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Apr 23, 2018 — (89) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5d1" target="_blank" rel="noopener noreferrer"><strong>Justin Peck</strong>, LIVE from San Francisco Ballets Unbound Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-14', this)">Show description</button>
+</div>
+<div id="desc-live-14" class="description">This week we are with Justin Peck, LIVE from San Francisco Ballet&#x27;s Unbound Festival in a live Meet The Artist event before the opening night of San Francisco Ballet&#x27;s Unbound Festival. We talk about his career, his process, and about the concept behind his new ballet for SFB, Hurry Up, We&#x27;re Dreaming. Stay tuned this week for more from the festival coming soon! The post (89) Justin Peck, LIVE from San Francisco Ballet&#x27;s Unbound Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jan 29, 2018 — (77) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5de" target="_blank" rel="noopener noreferrer">Ashton and Balanchine: Parallel Lives with <strong>Alastair Macaulay</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-15', this)">Show description</button>
+</div>
+<div id="desc-live-15" class="description">Today we have a wonderful bunhead episode in store, with one of our favorite guests, The Chief Dance Critic of the New York Times, Alastair Macaulay. Alastair and Michael are together in Michaels New York City apartment, while I call in to join the conversation. Today we are focusing on two of the most important choreographers of the 20th century: George Balanchine and Frederick Ashton. If you listen to the pod, you have heard us speak of Balanchine, and are likely a fan yourself, but we havent covered Ashton much, until today. Mr. Macaulay has been preparing for a lecture he will be presenting at the New York Public Library on February 5th on the subject of these two choreographers. Alastair offers us a wonderful preview of the content he will cover, tells stories of the two choreographic greats, and compares and contrasts their work. Alastair will be presenting the annual Lincoln Kirstein Lecture, Ashton and Balanchine: Parallel Lives at the New York Public Library on February 5th at 6pm. This event is co-presented by The Center for Ballet and the Arts at New York University and The New York Public Library for the Performing Arts. For more information, visit NYPL.org. The post (77) Ashton and Balanchine: Parallel Lives with Alastair Macaulay appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Nov 13, 2017 — (68) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5e9" target="_blank" rel="noopener noreferrer">Live From The Kennedy Center: Mariinsky Ballet Director <strong>Yuri Fateev</strong> and Dancer <strong>Timur Askerov</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-16', this)">Show description</button>
+</div>
+<div id="desc-live-16" class="description">Welcome to Live From The Kennedy Center: Mariinsky Ballet Director Yuri Fateev and Dancer Timur Askerov. A few weeks ago we were in Washington, DC to cover a busy weekend of ballet at the Kennedy Center. While we were there, the Mariinsky Ballet was in town performing La Bayadre. We had the pleasure of sitting down with the acting director of the Mariinsky, Yuri Fateev and one of their star dancers, Timur Askerov. Mr. Fateev graduated from the Leningrad Academic Vaganova Choreography School in 1982 and joined the Mariinsky Ballet the same year. In 1996 he became a coach with the Mariinsky and has been a guest coach with the Royal Ballet in London, ABT, and Russias Bolshoi Theatre. He has been Acting Head of the Mariinsky Ballet since 2008. Mr. Askerov was born in Azerbaijan and graduated from the Baku School of Dance in 2008. From 20092011 he danced in Ukraine before joining the Mariinsky in 2011. He has danced lead roles in the majority of the companys repetoire and has toured with the Mariinsky to Europe, Asia, and America. Timur prefered to answer our questions in Russian, so Yuri was nice enough to translate for us. In this version of the interview we have done a voice over to translate for Timur. If you would like to listen to Timurs complete answers in Russian, we have tacked that interview on in its entirety to the end of this episode. To listen to that version, please fast forward to 50 minutes and 30 seconds in the time stamp now. We really enjoyed chatting with these two to get a better idea of what is happening at the Mariinsky, so we hope you enjoy this interview as much as we did. This episode is sponsored by Body Wrappers and The Kennedy Center. For more on the events happening at the Kennedy Center, visit kennedy-center.org. The post (68) Live From The Kennedy Center: Mariinsky Ballet Director Yuri Fateev and Dancer Timur Askerov appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Nov 4, 2017 — (67) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5ea" target="_blank" rel="noopener noreferrer">Live From the Kennedy Center: <strong>Damian Woetzel</strong> &amp; <strong>Tiler Peck</strong> on Jerome Robbins</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-live-17', this)">Show description</button>
+</div>
+<div id="desc-live-17" class="description">Welcome to Live From the Kennedy Center: Damian Woetzel &amp; Tiler Peck on Jerome Robbins. Two weeks ago we were in Washington, DC to cover a busy weekend of ballet at the Kennedy Center. We arrived on Friday night just in time to watch an exceptional performance entitled DEMO: Jerome Robbins- An American Dance Genius. These DEMO programs are curated by former New York City Ballet Principal, Artistic Director of the Vail Dance Festival, and incoming president of Julliard, Damian Woetzel. Damian hosted the evening, which gave audiences an educational behind the scenes look at working with Jermone Robbins and dancing his ballets. He brought 5 New York City Ballet dancers with him to demonstrate multiple excerpts of Robbins ballets: Tyler Angle, Tiler Peck, Unity Phelan, Amar Ramasar, and Daniel Ulbricht. Damians wife, and former New York City Ballet Principal, (also a former Conversations on Dance guest) Heather Watts, was a special guest for the evening. The dancers were all clad in rehearsal attire, the stage was bare, with the exceptions of a few barres to constitue sets, organized onstage just as they are in the studios for rehearsals. The evening started with Robbins&#x27; first work Fancy Free, and moved in mostly chronological order, to include his Broadway work, his return to NYCB in 1969, and his interest in choreographing to Chopins music. One highlight of the evening was when Ms. Watts coached Ms. Peck in Afternoon of a Faun. The evening included so much history, details, and background on these ballets, that we invited Damian and Tiler Peck to join us the next day for a debrief of the performance. For more information on performances and events at the Kennedy Center, visit kennedy-center.org. The post (67) Live From the Kennedy Center: Damian Woetzel &amp; Tiler Peck on Jerome Robbins appeared first on tendusunderapalmtree.com.</div>
+</div>
+</body>
+</html>

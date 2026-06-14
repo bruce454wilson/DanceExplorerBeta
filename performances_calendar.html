@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026–27 Dance Season — Calendar</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T1W89Y447W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T1W89Y447W');
+</script>
+<style>
+* { box-sizing: border-box; }
+body { font-family: Arial, sans-serif; margin: 40px; max-width: 1100px; }
+h1 { margin-bottom: 6px; }
+.lede { color: #555; margin-top: 4px; margin-bottom: 20px; }
+
+/* --- sticky nav --- */
+.month-jump {
+    position: sticky; top: 0; background: white;
+    padding: 7px 0; border-bottom: 1px solid #ddd;
+    font-size: 13px; z-index: 100; margin-bottom: 22px;
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 14px;
+}
+.month-jump a { color: #1a73e8; text-decoration: none; font-weight: bold; white-space: nowrap; }
+.month-jump a:hover { text-decoration: underline; }
+.month-jump .sep   { color: #ccc; font-weight: normal; }
+.month-jump .slink { color: #555; font-weight: normal; }
+
+/* --- legend --- */
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-bottom: 8px; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; white-space: nowrap; }
+.legend-swatch { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+.legend-note { font-size: 11px; color: #999; font-style: italic; margin-top: 4px; margin-bottom: 28px; }
+
+/* --- month section --- */
+.month-section { margin-bottom: 44px; scroll-margin-top: 52px; }
+.month-heading {
+    font-size: 22px; font-weight: bold;
+    margin-bottom: 8px; padding-bottom: 6px;
+    border-bottom: 2px solid #ddd; color: #222;
+}
+
+/* --- 5-column day-of-week header --- */
+.dow-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    margin-bottom: 2px;
+}
+.dow-cell {
+    font-size: 11px; font-weight: bold; letter-spacing: 0.05em;
+    color: #bbb; text-align: center; padding: 2px 0 3px;
+}
+.dow-cell.wknd { color: #d88; }
+
+/* --- week block --- */
+.week-block { margin-bottom: 3px; }
+
+/* 5-column CSS grid: row 1 = day numbers, rows 2+ = event bars */
+.week-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    row-gap: 2px;
+    column-gap: 0;
+    border-bottom: 1px solid #efefef;
+    padding-bottom: 3px;
+}
+
+/* day number cells */
+.dn {
+    grid-row: 1;
+    font-size: 11px; text-align: center;
+    color: #ddd; padding: 2px 3px 5px;
+    border-right: 1px solid #f2f2f2;
+}
+.dn.in-mo  { color: #bbb; }
+.dn.wknd   { background: #fffaf8; }
+.dn.has-ev { color: #555; font-weight: bold; }
+
+/* Mon-Wed combined day cell */
+.dn-mw { font-size: 10px; letter-spacing: 0.02em; }
+
+/* Inline month-name label shown on crossover weeks */
+.dn-lbl { font-size: 9px; color: #aaa; font-weight: normal; margin-right: 1px; }
+
+.today-circle {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: #1a73e8; color: white; border-radius: 50%;
+    width: 17px; height: 17px; font-size: 10px; font-weight: bold;
+}
+
+/* event bars */
+.ev {
+    display: flex; align-items: center;
+    height: 20px; color: white;
+    font-size: 11px; font-weight: bold;
+    text-decoration: none; overflow: hidden; cursor: pointer;
+}
+.ev.starts { border-top-left-radius:  4px; border-bottom-left-radius:  4px; }
+.ev.ends   { border-top-right-radius: 4px; border-bottom-right-radius: 4px; }
+.ev:hover  { filter: brightness(1.18); text-decoration: none; }
+.ev.approx { opacity: 0.42; }
+
+.ev-name {
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    padding: 0 6px; pointer-events: none;
+}
+
+/* --- home nav dropdown --- */
+.home-nav { position: relative; display: inline-block; vertical-align: middle; }
+.home-nav-arrow {
+    background: none; border: none; padding: 0 1px 0 3px; cursor: pointer;
+    font-size: 9px; color: currentColor; opacity: 0.55; vertical-align: middle;
+    line-height: 1; font-family: inherit;
+}
+.home-nav-arrow:hover { opacity: 1; }
+.home-nav-dropdown {
+    display: none;
+    position: fixed;
+    background: white; border: 1px solid #ddd; border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    white-space: nowrap; z-index: 2000; min-width: 145px;
+}
+.home-nav-dropdown.open { display: block; }
+.home-nav-dropdown a {
+    display: block; padding: 8px 14px;
+    color: #333 !important; font-weight: normal !important;
+    text-decoration: none; font-size: 13px;
+}
+.home-nav-dropdown a:first-child { border-radius: 5px 5px 0 0; }
+.home-nav-dropdown a:last-child  { border-radius: 0 0 5px 5px; }
+.home-nav-dropdown a:hover { background: #f5f5f5; color: #1a73e8 !important; }
+</style>
+</head>
+<body>
+<h1>2026–27 Dance Season</h1>
+<p class="lede">Month-by-month calendar. Hover any bar for the program title. Click to see the full agenda entry.</p>
+<div class="month-jump"><span class="home-nav"><a href="danceexplorer.html" class="slink">&#8592;&nbsp;Home</a><button class="home-nav-arrow" onclick="toggleHomeNav(this)" aria-label="Site navigation">&#9662;</button><div class="home-nav-dropdown"><a href="podcasts.html">Podcasts</a><a href="performances.html">Performances</a></div></span> <span class="sep">|</span> <a href="#September-2026">Sep&nbsp;26</a> <a href="#October-2026">Oct&nbsp;26</a> <a href="#November-2026">Nov&nbsp;26</a> <a href="#December-2026">Dec&nbsp;26</a> <a href="#January-2027">Jan&nbsp;27</a> <a href="#February-2027">Feb&nbsp;27</a> <a href="#March-2027">Mar&nbsp;27</a> <a href="#April-2027">Apr&nbsp;27</a> <a href="#May-2027">May&nbsp;27</a> <a href="#June-2027">Jun&nbsp;27</a> <a href="#July-2027">Jul&nbsp;27</a> <a href="#August-2027">Aug&nbsp;27</a> <span class="sep">|</span> <a href="performances_agenda.html" class="slink">Agenda view &#8594;</a></div>
+<div class="legend"><div class="legend-item"><div class="legend-swatch" style="background:#555"></div> Arizona</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div> Austin</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div> Hispanico</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div> Idaho</div><div class="legend-item"><div class="legend-swatch" style="background:#e65100"></div> Memphis</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>A.I.M.</div><div class="legend-item"><div class="legend-swatch" style="background:#b71c1c"></div>ABT</div><div class="legend-item"><div class="legend-swatch" style="background:#8B0000"></div>Ailey</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Alabama </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Alonzo King LINES </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>American Repertory </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Atlanta </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>BAM</div><div class="legend-item"><div class="legend-swatch" style="background:#37474f"></div>Ballet West</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>BalletMet</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>BalletX</div><div class="legend-item"><div class="legend-swatch" style="background:#0277bd"></div>Boston </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Carolina </div><div class="legend-item"><div class="legend-swatch" style="background:#2d6a4f"></div>Charlotte </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Cincinnati </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Cleveland </div><div class="legend-item"><div class="legend-swatch" style="background:#1B4F8A"></div>Colorado </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Complexions</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>DBT</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>DTOH</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Eugene </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Graham</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Grand Rapids </div><div class="legend-item"><div class="legend-swatch" style="background:#2e7d32"></div>Houston </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Hubbard Street</div><div class="legend-item"><div class="legend-swatch" style="background:#bf360c"></div>Joffrey </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Joyce Theater</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Juilliard School</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Kansas City </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>LA Dance Project</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>LA_BALLET</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Limon</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Los Angeles </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Louisville </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Madison </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Mark Morris Dance</div><div class="legend-item"><div class="legend-swatch" style="background:#00838f"></div>Miami City </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Milwaukee </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Momix</div><div class="legend-item"><div class="legend-swatch" style="background:#1a237e"></div>NYCB</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Nashville </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Nevada</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>New Jersey </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Next Generation </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Oakland </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Oklahoma City </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Oregon</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Orlando </div><div class="legend-item"><div class="legend-swatch" style="background:#00695c"></div>PNB</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Perf Arts Houston</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Philadelphia </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Pilobolus Dance Theater</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Pittsburgh  Theatre</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Portland </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Ragamala</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Richmond </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Robinson</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Sacramento </div><div class="legend-item"><div class="legend-swatch" style="background:#6a1b9a"></div>San Francisco </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Sarasota </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Smuin</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Taylor</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Texas</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>The Australian Ballet</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Trisha Brown</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Tulsa </div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Vail Dance Festival</div><div class="legend-item"><div class="legend-swatch" style="background:#555"></div>Washington </div></div>
+<p class="legend-note">Company and program shown at start of run. Hover any bar for the program title. Faded = date range only; exact dates TBD. Mon–Wed column hidden for date-range programs (except Nutcracker).</p>
+<div class="month-section" id="September-2026">
+<div class="month-heading">September 2026</div>
+<div class="dow-row"><div class="dow-cell">MON–WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Aug</span>31&thinsp;·&thinsp;<span class="dn-lbl">Sep</span>1&thinsp;·&thinsp;2</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">3</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">4</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">5</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">6</div>
+<a class="ev" href="performances_agenda.html#prog-DTOH-2026-fall-tour" title="2026 Fall Tour" style="grid-row:2;grid-column:1/6;background:#555;"><span class="ev-name">DTOH — 2026 Fall Tour</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-PAH-harrison-guy-dear-prairie-view" title="Harrison Guy: Dear Prairie View" style="grid-row:3;grid-column:3/5;background:#555;"><span class="ev-name">Perf Arts Houston — Harrison Guy: Dear Prairie View</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">7&thinsp;·&thinsp;8&thinsp;·&thinsp;9</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">10</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">11</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">12</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">13</div>
+<a class="ev" href="performances_agenda.html#prog-DTOH-2026-fall-tour" title="2026 Fall Tour" style="grid-row:2;grid-column:1/6;background:#555;"><span class="ev-name">DTOH — 2026 Fall Tour</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-BALLETMET-future-icons-a-choreographic-project" title="Future Icons: A Choreographic Project" style="grid-row:3;grid-column:2/5;background:#555;"><span class="ev-name">BalletMet — Future Icons: A Choreographic Project</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-BOSTON-fall-experience-2026" title="Fall Experience 2026" style="grid-row:4;grid-column:2/6;background:#0277bd;"><span class="ev-name">Boston  — Fall Experience 2026</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LA_BALLET-los-angeles-ballet-at-the-hollywood-bowl" title="Los Angeles Ballet at the Hollywood Bowl" style="grid-row:4;grid-column:1/2;background:#555;"><span class="ev-name">LA_BALLET — Los Angeles Ballet at the Hollywood Bowl</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-RICHMOND-stars-stripes-moving-art-one" title="Stars &amp; Stripes / Moving Art One" style="grid-row:5;grid-column:2/6;background:#555;"><span class="ev-name">Richmond  — Stars &amp; Stripes / Moving Art One</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-TULSA-creations-in-studio-k" title="Creations in Studio K" style="grid-row:6;grid-column:2/6;background:#555;"><span class="ev-name">Tulsa  — Creations in Studio K</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-OK_CITY-ballet-under-the-stars" title="Ballet Under the Stars" style="grid-row:7;grid-column:3/4;background:#555;"><span class="ev-name">Oklahoma City  — Ballet Under the Stars</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-HOUSTON-pecos-bill" title="Pecos Bill" style="grid-row:8;grid-column:3/6;background:#2e7d32;"><span class="ev-name">Houston  — Pecos Bill</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-NASHVILLE-live-in-studio-a" title="Live in Studio A" style="grid-row:9;grid-column:3/6;background:#555;"><span class="ev-name">Nashville  — Live in Studio A</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">14&thinsp;·&thinsp;15&thinsp;·&thinsp;16</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">17</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">18</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">19</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">20</div>
+<a class="ev" href="performances_agenda.html#prog-DTOH-2026-fall-tour" title="2026 Fall Tour" style="grid-row:2;grid-column:1/6;background:#555;"><span class="ev-name">DTOH — 2026 Fall Tour</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-JOYCE-the-surge" title="The Surge" style="grid-row:3;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — The Surge</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-BOSTON-fall-experience-2026" title="Fall Experience 2026" style="grid-row:4;grid-column:1/6;background:#0277bd;"><span class="ev-name">Boston  — Fall Experience 2026</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-RICHMOND-stars-stripes-moving-art-one" title="Stars &amp; Stripes / Moving Art One" style="grid-row:5;grid-column:1/6;background:#555;"><span class="ev-name">Richmond  — Stars &amp; Stripes / Moving Art One</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-TULSA-creations-in-studio-k" title="Creations in Studio K" style="grid-row:6;grid-column:1/6;background:#555;"><span class="ev-name">Tulsa  — Creations in Studio K</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-ATLANTA-september-program" title="September Program" style="grid-row:7;grid-column:3/6;background:#555;"><span class="ev-name">Atlanta  — September Program</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-TRISHA_BROWN-dancing-with-bob" title="Dancing with Bob" style="grid-row:7;grid-column:2/3;background:#555;"><span class="ev-name">Trisha Brown — Dancing with Bob</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-HOUSTON-pecos-bill" title="Pecos Bill" style="grid-row:8;grid-column:1/6;background:#2e7d32;"><span class="ev-name">Houston  — Pecos Bill</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-NASHVILLE-live-in-studio-a" title="Live in Studio A" style="grid-row:9;grid-column:2/6;background:#555;"><span class="ev-name">Nashville  — Live in Studio A</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-JOFFREY-liliom" title="Liliom" style="grid-row:10;grid-column:2/6;background:#bf360c;"><span class="ev-name">Joffrey  — Liliom</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-CINCINNATI-the-kaplan-new-works-series" title="The Kaplan New Works Series" style="grid-row:11;grid-column:3/6;background:#555;"><span class="ev-name">Cincinnati  — The Kaplan New Works Series</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-TEXAS-casanova" title="Casanova" style="grid-row:12;grid-column:3/6;background:#555;"><span class="ev-name">Texas — Casanova</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">21&thinsp;·&thinsp;22&thinsp;·&thinsp;23</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">24</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">25</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">26</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">27</div>
+<a class="ev" href="performances_agenda.html#prog-DTOH-2026-fall-tour" title="2026 Fall Tour" style="grid-row:2;grid-column:1/6;background:#555;"><span class="ev-name">DTOH — 2026 Fall Tour</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-JOYCE-the-surge" title="The Surge" style="grid-row:3;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — The Surge</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-NYCB-jewels" title="Jewels" style="grid-row:4;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — Jewels</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LINES-lines-ballet-in-philadelphia" title="LINES Ballet in Philadelphia" style="grid-row:5;grid-column:3/5;background:#555;"><span class="ev-name">Alonzo King LINES  — LINES Ballet in Philadelphia</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LIMON-utahpresents-2026" title="UtahPresents 2026" style="grid-row:5;grid-column:2/3;background:#555;"><span class="ev-name">Limon — UtahPresents 2026</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LA_BALLET-american-icons" title="American Icons" style="grid-row:6;grid-column:2/5;background:#555;"><span class="ev-name">LA_BALLET — American Icons</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-LOS_ANGELES-american-icons" title="American Icons" style="grid-row:7;grid-column:2/6;background:#555;"><span class="ev-name">Los Angeles  — American Icons</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-HOUSTON-manon" title="Manon" style="grid-row:8;grid-column:2/6;background:#2e7d32;"><span class="ev-name">Houston  — Manon</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-AUSTIN-a-midsummer-night-s-dream" title="A Midsummer Night&#x27;s Dream" style="grid-row:9;grid-column:3/6;background:#555;"><span class="ev-name"> Austin — A Midsummer Night&#x27;s Dream</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-JOFFREY-liliom" title="Liliom" style="grid-row:10;grid-column:1/6;background:#bf360c;"><span class="ev-name">Joffrey  — Liliom</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-CINCINNATI-the-kaplan-new-works-series" title="The Kaplan New Works Series" style="grid-row:11;grid-column:1/6;background:#555;"><span class="ev-name">Cincinnati  — The Kaplan New Works Series</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-TEXAS-casanova" title="Casanova" style="grid-row:12;grid-column:2/6;background:#555;"><span class="ev-name">Texas — Casanova</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-PNB-serenade" title="Serenade" style="grid-row:13;grid-column:3/6;background:#00695c;"><span class="ev-name">PNB — Serenade</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:14;grid-column:3/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+</div>
+</div>
+</div>
+<div class="month-section" id="October-2026">
+<div class="month-heading">October 2026</div>
+<div class="dow-row"><div class="dow-cell">MON–WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw has-ev" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Sep</span>28&thinsp;·&thinsp;29&thinsp;·&thinsp;30</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;"><span class="dn-lbl">Oct</span>1</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">2</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">3</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">4</div>
+<a class="ev" href="performances_agenda.html#prog-DTOH-2026-fall-tour" title="2026 Fall Tour" style="grid-row:2;grid-column:1/6;background:#555;"><span class="ev-name">DTOH — 2026 Fall Tour</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-JOYCE-the-sarasota-ballet" title="The Sarasota Ballet" style="grid-row:3;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — The Sarasota Ballet</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-NYCB-masters-at-work-i" title="Masters at Work I" style="grid-row:4;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — Masters at Work I</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-NYCB-fall-fashion-gala" title="Fall Fashion Gala" style="grid-row:5;grid-column:2/3;background:#1a237e;"><span class="ev-name">NYCB — Fall Fashion Gala</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-TULSA-the-ugly-duckling-fall-2026" title="The Ugly Duckling – Fall 2026" style="grid-row:5;grid-column:3/5;background:#555;"><span class="ev-name">Tulsa  — The Ugly Duckling – Fall 2026</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-NASHVILLE-giselle" title="Giselle" style="grid-row:6;grid-column:3/6;background:#555;"><span class="ev-name">Nashville  — Giselle</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-NEVADA-carmina-burana" title="Carmina Burana" style="grid-row:7;grid-column:3/6;background:#555;"><span class="ev-name">Nevada — Carmina Burana</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-HOUSTON-manon" title="Manon" style="grid-row:8;grid-column:1/6;background:#2e7d32;"><span class="ev-name">Houston  — Manon</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-COLORADO-don-quixote" title="Don Quixote" style="grid-row:9;grid-column:3/6;background:#1B4F8A;"><span class="ev-name">Colorado  — Don Quixote</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-NYCB-contemporary-choreography-i" title="Contemporary Choreography I" style="grid-row:10;grid-column:3/6;background:#1a237e;"><span class="ev-name">NYCB — Contemporary Choreography I</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-CHARLOTTE-black-box-series" title="Black Box Series" style="grid-row:11;grid-column:3/6;background:#2d6a4f;"><span class="ev-name">Charlotte  — Black Box Series</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-TEXAS-casanova" title="Casanova" style="grid-row:12;grid-column:2/6;background:#555;"><span class="ev-name">Texas — Casanova</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-PNB-serenade" title="Serenade" style="grid-row:13;grid-column:1/6;background:#00695c;"><span class="ev-name">PNB — Serenade</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:14;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">5&thinsp;·&thinsp;6&thinsp;·&thinsp;7</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">8</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">9</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">10</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">11</div>
+<a class="ev" href="performances_agenda.html#prog-DTOH-2026-fall-tour" title="2026 Fall Tour" style="grid-row:2;grid-column:1/6;background:#555;"><span class="ev-name">DTOH — 2026 Fall Tour</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-JOYCE-lim-n-dance-company" title="Limón Dance Company" style="grid-row:3;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — Limón Dance Company</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-NYCB-masters-at-work-i" title="Masters at Work I" style="grid-row:4;grid-column:1/5;background:#1a237e;"><span class="ev-name">NYCB — Masters at Work I</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LIMON-fall-nyc-season-2026" title="Fall NYC Season 2026" style="grid-row:5;grid-column:1/6;background:#555;"><span class="ev-name">Limon — Fall NYC Season 2026</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-NYCB-eclectic-nycb-i" title="Eclectic NYCB I" style="grid-row:6;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — Eclectic NYCB I</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-PHILADELPHIA-stars-and-stripes-forever" title="Stars and Stripes Forever!" style="grid-row:7;grid-column:2/6;background:#555;"><span class="ev-name">Philadelphia  — Stars and Stripes Forever!</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-AUSTRALIAN-oscar" title="Oscar©" style="grid-row:8;grid-column:2/6;background:#555;"><span class="ev-name">The Australian Ballet — Oscar©</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-COLORADO-don-quixote" title="Don Quixote" style="grid-row:9;grid-column:1/6;background:#1B4F8A;"><span class="ev-name">Colorado  — Don Quixote</span></a>
+<a class="ev" href="performances_agenda.html#prog-NYCB-contemporary-choreography-i" title="Contemporary Choreography I" style="grid-row:10;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — Contemporary Choreography I</span></a>
+<a class="ev" href="performances_agenda.html#prog-CHARLOTTE-black-box-series" title="Black Box Series" style="grid-row:11;grid-column:1/6;background:#2d6a4f;"><span class="ev-name">Charlotte  — Black Box Series</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-NYCB-all-balanchine-i" title="All Balanchine I" style="grid-row:12;grid-column:2/6;background:#1a237e;"><span class="ev-name">NYCB — All Balanchine I</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-OREGON-swan-lake" title="Swan Lake" style="grid-row:13;grid-column:4/6;background:#555;"><span class="ev-name">Oregon — Swan Lake</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:14;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">12&thinsp;·&thinsp;13&thinsp;·&thinsp;14</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">15</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">16</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">17</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">18</div>
+<a class="ev" href="performances_agenda.html#prog-DTOH-2026-fall-tour" title="2026 Fall Tour" style="grid-row:2;grid-column:1/6;background:#555;"><span class="ev-name">DTOH — 2026 Fall Tour</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-JOYCE-kha-kha" title="Khaṅkhaṇā" style="grid-row:3;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — Khaṅkhaṇā</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-PHILADELPHIA-dance-at-great-velocity" title="Dance at Great Velocity" style="grid-row:4;grid-column:2/6;background:#555;"><span class="ev-name">Philadelphia  — Dance at Great Velocity</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-ORLANDO-the-sleeping-beauty" title="The Sleeping Beauty" style="grid-row:5;grid-column:2/6;background:#555;"><span class="ev-name">Orlando  — The Sleeping Beauty</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-NYCB-eclectic-nycb-i" title="Eclectic NYCB I" style="grid-row:6;grid-column:1/4;background:#1a237e;"><span class="ev-name">NYCB — Eclectic NYCB I</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-NYCB-adrian-danchig-waring-farewell" title="Adrian Danchig-Waring Farewell" style="grid-row:6;grid-column:5/6;background:#1a237e;"><span class="ev-name">NYCB — Adrian Danchig-Waring Farewell</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-CAROLINA-dracula" title="Dracula" style="grid-row:7;grid-column:2/6;background:#555;"><span class="ev-name">Carolina  — Dracula</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-MEMPHIS-memphis-sounds" title="Memphis Sounds" style="grid-row:8;grid-column:3/6;background:#e65100;"><span class="ev-name"> Memphis — Memphis Sounds</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-BALLETMET-marilyn" title="Marilyn" style="grid-row:9;grid-column:3/6;background:#555;"><span class="ev-name">BalletMet — Marilyn</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-NYCB-contemporary-choreography-i" title="Contemporary Choreography I" style="grid-row:10;grid-column:1/2;background:#1a237e;"><span class="ev-name">NYCB — Contemporary Choreography I</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-MCB-fall-mix" title="Fall Mix" style="grid-row:10;grid-column:3/6;background:#00838f;"><span class="ev-name">Miami City  — Fall Mix</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-CHARLOTTE-black-box-series" title="Black Box Series" style="grid-row:11;grid-column:1/5;background:#2d6a4f;"><span class="ev-name">Charlotte  — Black Box Series</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-NYCB-all-balanchine-i" title="All Balanchine I" style="grid-row:12;grid-column:1/5;background:#1a237e;"><span class="ev-name">NYCB — All Balanchine I</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-OREGON-swan-lake" title="Swan Lake" style="grid-row:13;grid-column:1/5;background:#555;"><span class="ev-name">Oregon — Swan Lake</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:14;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-KCB-the-wizard-of-oz" title="The Wizard of Oz" style="grid-row:15;grid-column:3/6;background:#555;"><span class="ev-name">Kansas City  — The Wizard of Oz</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">19&thinsp;·&thinsp;20&thinsp;·&thinsp;21</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">22</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">23</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">24</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">25</div>
+<a class="ev" href="performances_agenda.html#prog-DTOH-2026-fall-tour" title="2026 Fall Tour" style="grid-row:2;grid-column:1/6;background:#555;"><span class="ev-name">DTOH — 2026 Fall Tour</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-ARIZONA-romeo-juliet" title="Romeo &amp; Juliet" style="grid-row:3;grid-column:2/6;background:#555;"><span class="ev-name"> Arizona — Romeo &amp; Juliet</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-TULSA-swan-lake" title="Swan Lake" style="grid-row:4;grid-column:2/6;background:#555;"><span class="ev-name">Tulsa  — Swan Lake</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-RICHMOND-elevation-moving-art-two" title="Elevation / Moving Art Two" style="grid-row:5;grid-column:2/6;background:#555;"><span class="ev-name">Richmond  — Elevation / Moving Art Two</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-PAH-ekman-s-midsummer-night-s-dream" title="Ekman&#x27;s Midsummer Night&#x27;s Dream" style="grid-row:6;grid-column:3/5;background:#555;"><span class="ev-name">Perf Arts Houston — Ekman&#x27;s Midsummer Night&#x27;s Dream</span></a>
+<a class="ev" href="performances_agenda.html#prog-CAROLINA-dracula" title="Dracula" style="grid-row:7;grid-column:1/6;background:#555;"><span class="ev-name">Carolina  — Dracula</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-PITTSBURGH-giselle-with-the-pbt-orchestra" title="Giselle with the PBT Orchestra" style="grid-row:8;grid-column:3/6;background:#555;"><span class="ev-name">Pittsburgh  Theatre — Giselle with the PBT Orchestra</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-BALLETMET-marilyn" title="Marilyn" style="grid-row:9;grid-column:1/5;background:#555;"><span class="ev-name">BalletMet — Marilyn</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-MCB-fall-mix" title="Fall Mix" style="grid-row:10;grid-column:1/6;background:#00838f;"><span class="ev-name">Miami City  — Fall Mix</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-OK_CITY-shorts" title="SHORTS" style="grid-row:11;grid-column:3/6;background:#555;"><span class="ev-name">Oklahoma City  — SHORTS</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-SACRAMENTO-long-and-winding-road" title="Long and Winding Road" style="grid-row:12;grid-column:3/6;background:#555;"><span class="ev-name">Sacramento  — Long and Winding Road</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-B_WEST-dracula" title="Dracula" style="grid-row:13;grid-column:3/6;background:#37474f;"><span class="ev-name">Ballet West — Dracula</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:14;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-KCB-the-wizard-of-oz" title="The Wizard of Oz" style="grid-row:15;grid-column:1/6;background:#555;"><span class="ev-name">Kansas City  — The Wizard of Oz</span></a>
+</div>
+</div>
+</div>
+<div class="month-section" id="November-2026">
+<div class="month-heading">November 2026</div>
+<div class="dow-row"><div class="dow-cell">MON–WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw has-ev" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Oct</span>26&thinsp;·&thinsp;27&thinsp;·&thinsp;28</div>
+<div class="dn has-ev" style="grid-column:2;grid-row:1;">29</div>
+<div class="dn has-ev" style="grid-column:3;grid-row:1;">30</div>
+<div class="dn wknd has-ev" style="grid-column:4;grid-row:1;">31</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;"><span class="dn-lbl">Nov</span>1</div>
+<a class="ev" href="performances_agenda.html#prog-DTOH-2026-fall-tour" title="2026 Fall Tour" style="grid-row:2;grid-column:1/6;background:#555;"><span class="ev-name">DTOH — 2026 Fall Tour</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-JOYCE-london-city-ballet" title="London City Ballet" style="grid-row:3;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — London City Ballet</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-NASHVILLE-dia-de-los-muertos" title="Dia de los Muertos" style="grid-row:4;grid-column:2/6;background:#555;"><span class="ev-name">Nashville  — Dia de los Muertos</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-RICHMOND-elevation-moving-art-two" title="Elevation / Moving Art Two" style="grid-row:5;grid-column:1/6;background:#555;"><span class="ev-name">Richmond  — Elevation / Moving Art Two</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LOUISVILLE-frankenstein" title="Frankenstein" style="grid-row:6;grid-column:3/5;background:#555;"><span class="ev-name">Louisville  — Frankenstein</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-CAROLINA-dracula" title="Dracula" style="grid-row:7;grid-column:1/6;background:#555;"><span class="ev-name">Carolina  — Dracula</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-B_WEST-dracula" title="Dracula" style="grid-row:8;grid-column:1/5;background:#37474f;"><span class="ev-name">Ballet West — Dracula</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:9;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">2&thinsp;·&thinsp;3&thinsp;·&thinsp;4</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">5</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">6</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">7</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">8</div>
+<a class="ev" href="performances_agenda.html#prog-DTOH-2026-fall-tour" title="2026 Fall Tour" style="grid-row:2;grid-column:1/6;background:#555;"><span class="ev-name">DTOH — 2026 Fall Tour</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-BAM-turn-turning-turnt-by-cynthia-oliver" title="Turn. Turning. TURNT. by Cynthia Oliver" style="grid-row:3;grid-column:1/5;background:#555;"><span class="ev-name">BAM — Turn. Turning. TURNT. by Cynthia Oliver</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-JOYCE-garth-fagan-dance" title="Garth Fagan Dance" style="grid-row:4;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — Garth Fagan Dance</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-CINCINNATI-live" title="LIVE!" style="grid-row:5;grid-column:3/5;background:#555;"><span class="ev-name">Cincinnati  — LIVE!</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-PAH-duck-pond" title="Duck Pond" style="grid-row:6;grid-column:3/5;background:#555;"><span class="ev-name">Perf Arts Houston — Duck Pond</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-MILWAUKEE-mirror-mirror" title="Mirror Mirror" style="grid-row:7;grid-column:3/6;background:#555;"><span class="ev-name">Milwaukee  — Mirror Mirror</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-B_WEST-rolling-with-the-stones" title="Rolling with the Stones" style="grid-row:8;grid-column:3/6;background:#37474f;"><span class="ev-name">Ballet West — Rolling with the Stones</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-PNB-ghost-stories" title="Ghost Stories" style="grid-row:9;grid-column:3/6;background:#00695c;"><span class="ev-name">PNB — Ghost Stories</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-TRISHA_BROWN-repertory-performance" title="Repertory Performance" style="grid-row:10;grid-column:4/5;background:#555;"><span class="ev-name">Trisha Brown — Repertory Performance</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:11;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">9&thinsp;·&thinsp;10&thinsp;·&thinsp;11</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">12</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">13</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">14</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">15</div>
+<a class="ev ends" href="performances_agenda.html#prog-DTOH-2026-fall-tour" title="2026 Fall Tour" style="grid-row:2;grid-column:1/5;background:#555;"><span class="ev-name">DTOH — 2026 Fall Tour</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-JOYCE-gallim" title="GALLIM" style="grid-row:3;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — GALLIM</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-BAM-adaku-part-2" title="adaku, part 2" style="grid-row:4;grid-column:1/6;background:#555;"><span class="ev-name">BAM — adaku, part 2</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-B_WEST-rolling-with-the-stones" title="Rolling with the Stones" style="grid-row:5;grid-column:1/5;background:#37474f;"><span class="ev-name">Ballet West — Rolling with the Stones</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-PNB-ghost-stories" title="Ghost Stories" style="grid-row:6;grid-column:1/6;background:#00695c;"><span class="ev-name">PNB — Ghost Stories</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:7;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">16&thinsp;·&thinsp;17&thinsp;·&thinsp;18</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">19</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">20</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">21</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">22</div>
+<a class="ev starts approx" href="performances_agenda.html#prog-JOYCE-complexions-contemporary-ballet" title="Complexions Contemporary Ballet" style="grid-row:2;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — Complexions Contemporary Ballet</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LINES-lines-san-francisco-symphony" title="LINES + San Francisco Symphony" style="grid-row:3;grid-column:2/5;background:#555;"><span class="ev-name">Alonzo King LINES  — LINES + San Francisco Symphony</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-CAROLINA-jewels" title="Jewels" style="grid-row:4;grid-column:2/6;background:#555;"><span class="ev-name">Carolina  — Jewels</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-SARASOTA-program-two" title="Program Two" style="grid-row:5;grid-column:3/5;background:#555;"><span class="ev-name">Sarasota  — Program Two</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-BALLETX-tour-cambridge" title="Tour: Cambridge" style="grid-row:6;grid-column:4/6;background:#555;"><span class="ev-name">BalletX — Tour: Cambridge</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:7;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">23&thinsp;·&thinsp;24&thinsp;·&thinsp;25</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">26</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">27</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">28</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">29</div>
+<a class="ev ends approx" href="performances_agenda.html#prog-JOYCE-complexions-contemporary-ballet" title="Complexions Contemporary Ballet" style="grid-row:2;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — Complexions Contemporary Ballet</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-TEXAS-the-nutcracker" title="The Nutcracker" style="grid-row:3;grid-column:3/6;background:#555;"><span class="ev-name">Texas — The Nutcracker</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-NASHVILLE-nashville-s-nutcracker" title="Nashville&#x27;s Nutcracker" style="grid-row:4;grid-column:3/6;background:#555;"><span class="ev-name">Nashville  — Nashville&#x27;s Nutcracker</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-HOUSTON-the-nutcracker" title="The Nutcracker" style="grid-row:5;grid-column:3/6;background:#2e7d32;"><span class="ev-name">Houston  — The Nutcracker</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-PNB-the-nutcracker" title="The Nutcracker" style="grid-row:6;grid-column:3/6;background:#00695c;"><span class="ev-name">PNB — The Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-BOSTON-the-nutcracker" title="The Nutcracker" style="grid-row:7;grid-column:3/6;background:#0277bd;"><span class="ev-name">Boston  — The Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-KCB-the-nutcracker" title="The Nutcracker" style="grid-row:8;grid-column:4/6;background:#555;"><span class="ev-name">Kansas City  — The Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-COLORADO-the-nutcracker" title="The Nutcracker" style="grid-row:9;grid-column:4/6;background:#1B4F8A;"><span class="ev-name">Colorado  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:10;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+</div>
+</div>
+</div>
+<div class="month-section" id="December-2026">
+<div class="month-heading">December 2026</div>
+<div class="dow-row"><div class="dow-cell">MON–WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Nov</span>30&thinsp;·&thinsp;<span class="dn-lbl">Dec</span>1&thinsp;·&thinsp;2</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">3</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">4</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">5</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">6</div>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-JOYCE-a-very-sw-ng-out-holiday" title="A Very SW!NG OUT Holiday" style="grid-row:2;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — A Very SW!NG OUT Holiday</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-TEXAS-the-nutcracker" title="The Nutcracker" style="grid-row:3;grid-column:1/6;background:#555;"><span class="ev-name">Texas — The Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-NASHVILLE-nashville-s-nutcracker" title="Nashville&#x27;s Nutcracker" style="grid-row:4;grid-column:1/6;background:#555;"><span class="ev-name">Nashville  — Nashville&#x27;s Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-HOUSTON-the-nutcracker" title="The Nutcracker" style="grid-row:5;grid-column:1/6;background:#2e7d32;"><span class="ev-name">Houston  — The Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-PNB-the-nutcracker" title="The Nutcracker" style="grid-row:6;grid-column:1/6;background:#00695c;"><span class="ev-name">PNB — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-BOSTON-the-nutcracker" title="The Nutcracker" style="grid-row:7;grid-column:1/6;background:#0277bd;"><span class="ev-name">Boston  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-KCB-the-nutcracker" title="The Nutcracker" style="grid-row:8;grid-column:1/6;background:#555;"><span class="ev-name">Kansas City  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-COLORADO-the-nutcracker" title="The Nutcracker" style="grid-row:9;grid-column:1/6;background:#1B4F8A;"><span class="ev-name">Colorado  — The Nutcracker</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-AILEY-ailey-at-new-york-city-center" title="Ailey at New York City Center" style="grid-row:10;grid-column:2/6;background:#8B0000;"><span class="ev-name">Ailey — Ailey at New York City Center</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-B_WEST-the-nutcracker" title="The Nutcracker" style="grid-row:11;grid-column:3/6;background:#37474f;"><span class="ev-name">Ballet West — The Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-CHARLOTTE-nutcracker" title="Nutcracker" style="grid-row:12;grid-column:3/6;background:#2d6a4f;"><span class="ev-name">Charlotte  — Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-AUSTIN-the-nutcracker" title="The Nutcracker" style="grid-row:13;grid-column:3/6;background:#555;"><span class="ev-name"> Austin — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:14;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-SFB-nutcracker" title="Nutcracker" style="grid-row:15;grid-column:3/6;background:#6a1b9a;"><span class="ev-name">San Francisco  — Nutcracker</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-JOFFREY-the-nutcracker" title="The Nutcracker" style="grid-row:16;grid-column:3/6;background:#bf360c;"><span class="ev-name">Joffrey  — The Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-PITTSBURGH-the-nutcracker" title="The Nutcracker" style="grid-row:17;grid-column:3/6;background:#555;"><span class="ev-name">Pittsburgh  Theatre — The Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-ORLANDO-the-nutcracker" title="The Nutcracker" style="grid-row:18;grid-column:3/6;background:#555;"><span class="ev-name">Orlando  — The Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-PHILADELPHIA-george-balanchine-s-the-nutcracker" title="George Balanchine&#x27;s The Nutcracker" style="grid-row:19;grid-column:3/6;background:#555;"><span class="ev-name">Philadelphia  — George Balanchine&#x27;s The Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-TULSA-the-nutcracker" title="The Nutcracker" style="grid-row:20;grid-column:4/6;background:#555;"><span class="ev-name">Tulsa  — The Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-RICHMOND-the-nutcracker" title="The Nutcracker" style="grid-row:21;grid-column:4/6;background:#555;"><span class="ev-name">Richmond  — The Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-OREGON-george-balanchine-s-the-nutcracker" title="George Balanchine&#x27;s The Nutcracker" style="grid-row:22;grid-column:4/6;background:#555;"><span class="ev-name">Oregon — George Balanchine&#x27;s The Nutcracker</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-ATLANTA-the-nutcracker" title="The Nutcracker" style="grid-row:23;grid-column:4/6;background:#555;"><span class="ev-name">Atlanta  — The Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-MILWAUKEE-the-nutcracker" title="The Nutcracker" style="grid-row:24;grid-column:4/6;background:#555;"><span class="ev-name">Milwaukee  — The Nutcracker</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">7&thinsp;·&thinsp;8&thinsp;·&thinsp;9</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">10</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">11</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">12</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">13</div>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-JOYCE-tao-dance-theater" title="TAO Dance Theater" style="grid-row:2;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — TAO Dance Theater</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-TEXAS-the-nutcracker" title="The Nutcracker" style="grid-row:3;grid-column:1/6;background:#555;"><span class="ev-name">Texas — The Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-NASHVILLE-nashville-s-nutcracker" title="Nashville&#x27;s Nutcracker" style="grid-row:4;grid-column:1/6;background:#555;"><span class="ev-name">Nashville  — Nashville&#x27;s Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-HOUSTON-the-nutcracker" title="The Nutcracker" style="grid-row:5;grid-column:1/6;background:#2e7d32;"><span class="ev-name">Houston  — The Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-PNB-the-nutcracker" title="The Nutcracker" style="grid-row:6;grid-column:1/6;background:#00695c;"><span class="ev-name">PNB — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-BOSTON-the-nutcracker" title="The Nutcracker" style="grid-row:7;grid-column:1/6;background:#0277bd;"><span class="ev-name">Boston  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-KCB-the-nutcracker" title="The Nutcracker" style="grid-row:8;grid-column:1/6;background:#555;"><span class="ev-name">Kansas City  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-COLORADO-the-nutcracker" title="The Nutcracker" style="grid-row:9;grid-column:1/6;background:#1B4F8A;"><span class="ev-name">Colorado  — The Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-AILEY-ailey-at-new-york-city-center" title="Ailey at New York City Center" style="grid-row:10;grid-column:2/6;background:#8B0000;"><span class="ev-name">Ailey — Ailey at New York City Center</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-B_WEST-the-nutcracker" title="The Nutcracker" style="grid-row:11;grid-column:1/5;background:#37474f;"><span class="ev-name">Ballet West — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-CHARLOTTE-nutcracker" title="Nutcracker" style="grid-row:12;grid-column:1/6;background:#2d6a4f;"><span class="ev-name">Charlotte  — Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-AUSTIN-the-nutcracker" title="The Nutcracker" style="grid-row:13;grid-column:1/6;background:#555;"><span class="ev-name"> Austin — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:14;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+<a class="ev" href="performances_agenda.html#prog-SFB-nutcracker" title="Nutcracker" style="grid-row:15;grid-column:1/6;background:#6a1b9a;"><span class="ev-name">San Francisco  — Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-JOFFREY-the-nutcracker" title="The Nutcracker" style="grid-row:16;grid-column:1/6;background:#bf360c;"><span class="ev-name">Joffrey  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-PITTSBURGH-the-nutcracker" title="The Nutcracker" style="grid-row:17;grid-column:1/6;background:#555;"><span class="ev-name">Pittsburgh  Theatre — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-the-nutcracker" title="The Nutcracker" style="grid-row:18;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-PHILADELPHIA-george-balanchine-s-the-nutcracker" title="George Balanchine&#x27;s The Nutcracker" style="grid-row:19;grid-column:1/6;background:#555;"><span class="ev-name">Philadelphia  — George Balanchine&#x27;s The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-TULSA-the-nutcracker" title="The Nutcracker" style="grid-row:20;grid-column:1/6;background:#555;"><span class="ev-name">Tulsa  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-RICHMOND-the-nutcracker" title="The Nutcracker" style="grid-row:21;grid-column:1/6;background:#555;"><span class="ev-name">Richmond  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-OREGON-george-balanchine-s-the-nutcracker" title="George Balanchine&#x27;s The Nutcracker" style="grid-row:22;grid-column:1/6;background:#555;"><span class="ev-name">Oregon — George Balanchine&#x27;s The Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-ATLANTA-the-nutcracker" title="The Nutcracker" style="grid-row:23;grid-column:1/6;background:#555;"><span class="ev-name">Atlanta  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-MILWAUKEE-the-nutcracker" title="The Nutcracker" style="grid-row:24;grid-column:1/6;background:#555;"><span class="ev-name">Milwaukee  — The Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-CAROLINA-the-nutcracker" title="The Nutcracker" style="grid-row:25;grid-column:2/6;background:#555;"><span class="ev-name">Carolina  — The Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-BALLETMET-the-nutcracker" title="The Nutcracker" style="grid-row:26;grid-column:2/6;background:#555;"><span class="ev-name">BalletMet — The Nutcracker</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LA_BALLET-the-nutcracker" title="The Nutcracker" style="grid-row:27;grid-column:3/6;background:#555;"><span class="ev-name">LA_BALLET — The Nutcracker</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-MORRIS-holidayland" title="Holidayland" style="grid-row:28;grid-column:3/6;background:#555;"><span class="ev-name">Mark Morris Dance — Holidayland</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-OK_CITY-the-nutcracker" title="The Nutcracker" style="grid-row:29;grid-column:3/6;background:#555;"><span class="ev-name">Oklahoma City  — The Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-LOUISVILLE-the-brown-forman-nutcracker" title="The Brown-Forman Nutcracker" style="grid-row:30;grid-column:3/6;background:#555;"><span class="ev-name">Louisville  — The Brown-Forman Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-MCB-george-balanchine-s-the-nutcracker" title="George Balanchine&#x27;s The Nutcracker" style="grid-row:31;grid-column:3/6;background:#00838f;"><span class="ev-name">Miami City  — George Balanchine&#x27;s The Nutcracker</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-ARIZONA-the-nutcracker" title="The Nutcracker" style="grid-row:32;grid-column:3/6;background:#555;"><span class="ev-name"> Arizona — The Nutcracker</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-LOS_ANGELES-the-nutcracker" title="The Nutcracker" style="grid-row:33;grid-column:3/6;background:#555;"><span class="ev-name">Los Angeles  — The Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-MEMPHIS-the-nutcracker" title="The Nutcracker" style="grid-row:34;grid-column:4/6;background:#e65100;"><span class="ev-name"> Memphis — The Nutcracker</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-SACRAMENTO-the-nutcracker" title="The Nutcracker" style="grid-row:35;grid-column:4/6;background:#555;"><span class="ev-name">Sacramento  — The Nutcracker</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-NEVADA-george-balanchine-s-the-nutcracker" title="George Balanchine&#x27;s The Nutcracker" style="grid-row:36;grid-column:4/6;background:#555;"><span class="ev-name">Nevada — George Balanchine&#x27;s The Nutcracker</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">14&thinsp;·&thinsp;15&thinsp;·&thinsp;16</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">17</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">18</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">19</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">20</div>
+<a class="ev starts approx" href="performances_agenda.html#prog-JOYCE-les-ballets-trockadero-de-monte-carlo" title="Les Ballets Trockadero de Monte Carlo" style="grid-row:2;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — Les Ballets Trockadero de Monte Carlo</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-TEXAS-the-nutcracker" title="The Nutcracker" style="grid-row:3;grid-column:1/6;background:#555;"><span class="ev-name">Texas — The Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-NASHVILLE-nashville-s-nutcracker" title="Nashville&#x27;s Nutcracker" style="grid-row:4;grid-column:1/6;background:#555;"><span class="ev-name">Nashville  — Nashville&#x27;s Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-HOUSTON-the-nutcracker" title="The Nutcracker" style="grid-row:5;grid-column:1/6;background:#2e7d32;"><span class="ev-name">Houston  — The Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-PNB-the-nutcracker" title="The Nutcracker" style="grid-row:6;grid-column:1/6;background:#00695c;"><span class="ev-name">PNB — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-BOSTON-the-nutcracker" title="The Nutcracker" style="grid-row:7;grid-column:1/6;background:#0277bd;"><span class="ev-name">Boston  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-KCB-the-nutcracker" title="The Nutcracker" style="grid-row:8;grid-column:1/6;background:#555;"><span class="ev-name">Kansas City  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-COLORADO-the-nutcracker" title="The Nutcracker" style="grid-row:9;grid-column:1/6;background:#1B4F8A;"><span class="ev-name">Colorado  — The Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-AILEY-ailey-at-new-york-city-center" title="Ailey at New York City Center" style="grid-row:10;grid-column:2/6;background:#8B0000;"><span class="ev-name">Ailey — Ailey at New York City Center</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-CINCINNATI-the-nutcracker" title="The Nutcracker" style="grid-row:11;grid-column:2/6;background:#555;"><span class="ev-name">Cincinnati  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-CHARLOTTE-nutcracker" title="Nutcracker" style="grid-row:12;grid-column:1/6;background:#2d6a4f;"><span class="ev-name">Charlotte  — Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-AUSTIN-the-nutcracker" title="The Nutcracker" style="grid-row:13;grid-column:1/6;background:#555;"><span class="ev-name"> Austin — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:14;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+<a class="ev" href="performances_agenda.html#prog-SFB-nutcracker" title="Nutcracker" style="grid-row:15;grid-column:1/6;background:#6a1b9a;"><span class="ev-name">San Francisco  — Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-JOFFREY-the-nutcracker" title="The Nutcracker" style="grid-row:16;grid-column:1/6;background:#bf360c;"><span class="ev-name">Joffrey  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-PITTSBURGH-the-nutcracker" title="The Nutcracker" style="grid-row:17;grid-column:1/6;background:#555;"><span class="ev-name">Pittsburgh  Theatre — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-the-nutcracker" title="The Nutcracker" style="grid-row:18;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-PHILADELPHIA-george-balanchine-s-the-nutcracker" title="George Balanchine&#x27;s The Nutcracker" style="grid-row:19;grid-column:1/6;background:#555;"><span class="ev-name">Philadelphia  — George Balanchine&#x27;s The Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-TULSA-the-nutcracker" title="The Nutcracker" style="grid-row:20;grid-column:1/6;background:#555;"><span class="ev-name">Tulsa  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-RICHMOND-the-nutcracker" title="The Nutcracker" style="grid-row:21;grid-column:1/6;background:#555;"><span class="ev-name">Richmond  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-OREGON-george-balanchine-s-the-nutcracker" title="George Balanchine&#x27;s The Nutcracker" style="grid-row:22;grid-column:1/6;background:#555;"><span class="ev-name">Oregon — George Balanchine&#x27;s The Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-ATLANTA-the-nutcracker" title="The Nutcracker" style="grid-row:23;grid-column:1/6;background:#555;"><span class="ev-name">Atlanta  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-MILWAUKEE-the-nutcracker" title="The Nutcracker" style="grid-row:24;grid-column:1/6;background:#555;"><span class="ev-name">Milwaukee  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-CAROLINA-the-nutcracker" title="The Nutcracker" style="grid-row:25;grid-column:1/6;background:#555;"><span class="ev-name">Carolina  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-BALLETMET-the-nutcracker" title="The Nutcracker" style="grid-row:26;grid-column:1/6;background:#555;"><span class="ev-name">BalletMet — The Nutcracker</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-SARASOTA-program-three" title="Program Three" style="grid-row:27;grid-column:3/5;background:#555;"><span class="ev-name">Sarasota  — Program Three</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-LA_BALLET-the-nutcracker" title="The Nutcracker" style="grid-row:28;grid-column:3/6;background:#555;"><span class="ev-name">LA_BALLET — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-OK_CITY-the-nutcracker" title="The Nutcracker" style="grid-row:29;grid-column:1/6;background:#555;"><span class="ev-name">Oklahoma City  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-LOUISVILLE-the-brown-forman-nutcracker" title="The Brown-Forman Nutcracker" style="grid-row:30;grid-column:1/6;background:#555;"><span class="ev-name">Louisville  — The Brown-Forman Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-MCB-george-balanchine-s-the-nutcracker" title="George Balanchine&#x27;s The Nutcracker" style="grid-row:31;grid-column:1/6;background:#00838f;"><span class="ev-name">Miami City  — George Balanchine&#x27;s The Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-ARIZONA-the-nutcracker" title="The Nutcracker" style="grid-row:32;grid-column:1/6;background:#555;"><span class="ev-name"> Arizona — The Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-LOS_ANGELES-the-nutcracker" title="The Nutcracker" style="grid-row:33;grid-column:1/6;background:#555;"><span class="ev-name">Los Angeles  — The Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-MEMPHIS-the-nutcracker" title="The Nutcracker" style="grid-row:34;grid-column:1/4;background:#e65100;"><span class="ev-name"> Memphis — The Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-SACRAMENTO-the-nutcracker" title="The Nutcracker" style="grid-row:35;grid-column:1/6;background:#555;"><span class="ev-name">Sacramento  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-NEVADA-george-balanchine-s-the-nutcracker" title="George Balanchine&#x27;s The Nutcracker" style="grid-row:36;grid-column:1/6;background:#555;"><span class="ev-name">Nevada — George Balanchine&#x27;s The Nutcracker</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">21&thinsp;·&thinsp;22&thinsp;·&thinsp;23</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">24</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">25</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">26</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">27</div>
+<a class="ev approx" href="performances_agenda.html#prog-JOYCE-les-ballets-trockadero-de-monte-carlo" title="Les Ballets Trockadero de Monte Carlo" style="grid-row:2;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — Les Ballets Trockadero de Monte Carlo</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-TEXAS-the-nutcracker" title="The Nutcracker" style="grid-row:3;grid-column:1/6;background:#555;"><span class="ev-name">Texas — The Nutcracker</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-NASHVILLE-nashville-s-nutcracker" title="Nashville&#x27;s Nutcracker" style="grid-row:4;grid-column:1/6;background:#555;"><span class="ev-name">Nashville  — Nashville&#x27;s Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-HOUSTON-the-nutcracker" title="The Nutcracker" style="grid-row:5;grid-column:1/6;background:#2e7d32;"><span class="ev-name">Houston  — The Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-PNB-the-nutcracker" title="The Nutcracker" style="grid-row:6;grid-column:1/6;background:#00695c;"><span class="ev-name">PNB — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-BOSTON-the-nutcracker" title="The Nutcracker" style="grid-row:7;grid-column:1/6;background:#0277bd;"><span class="ev-name">Boston  — The Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-KCB-the-nutcracker" title="The Nutcracker" style="grid-row:8;grid-column:1/3;background:#555;"><span class="ev-name">Kansas City  — The Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-COLORADO-the-nutcracker" title="The Nutcracker" style="grid-row:9;grid-column:1/6;background:#1B4F8A;"><span class="ev-name">Colorado  — The Nutcracker</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-AILEY-ailey-at-new-york-city-center" title="Ailey at New York City Center" style="grid-row:10;grid-column:2/6;background:#8B0000;"><span class="ev-name">Ailey — Ailey at New York City Center</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-CINCINNATI-the-nutcracker" title="The Nutcracker" style="grid-row:11;grid-column:1/6;background:#555;"><span class="ev-name">Cincinnati  — The Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-CHARLOTTE-nutcracker" title="Nutcracker" style="grid-row:12;grid-column:1/2;background:#2d6a4f;"><span class="ev-name">Charlotte  — Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-AUSTIN-the-nutcracker" title="The Nutcracker" style="grid-row:13;grid-column:1/2;background:#555;"><span class="ev-name"> Austin — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:14;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-SFB-nutcracker" title="Nutcracker" style="grid-row:15;grid-column:1/6;background:#6a1b9a;"><span class="ev-name">San Francisco  — Nutcracker</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-JOFFREY-the-nutcracker" title="The Nutcracker" style="grid-row:16;grid-column:1/6;background:#bf360c;"><span class="ev-name">Joffrey  — The Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-PITTSBURGH-the-nutcracker" title="The Nutcracker" style="grid-row:17;grid-column:1/6;background:#555;"><span class="ev-name">Pittsburgh  Theatre — The Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-ORLANDO-the-nutcracker" title="The Nutcracker" style="grid-row:18;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — The Nutcracker</span></a>
+<a class="ev" href="performances_agenda.html#prog-PHILADELPHIA-george-balanchine-s-the-nutcracker" title="George Balanchine&#x27;s The Nutcracker" style="grid-row:19;grid-column:1/6;background:#555;"><span class="ev-name">Philadelphia  — George Balanchine&#x27;s The Nutcracker</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-OREGON-dominic-walsh-s-storybook-nutcracker" title="Dominic Walsh&#x27;s Storybook Nutcracker" style="grid-row:20;grid-column:1/2;background:#555;"><span class="ev-name">Oregon — Dominic Walsh&#x27;s Storybook Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-RICHMOND-the-nutcracker" title="The Nutcracker" style="grid-row:21;grid-column:1/2;background:#555;"><span class="ev-name">Richmond  — The Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-OREGON-george-balanchine-s-the-nutcracker" title="George Balanchine&#x27;s The Nutcracker" style="grid-row:22;grid-column:1/3;background:#555;"><span class="ev-name">Oregon — George Balanchine&#x27;s The Nutcracker</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-ATLANTA-the-nutcracker" title="The Nutcracker" style="grid-row:23;grid-column:1/5;background:#555;"><span class="ev-name">Atlanta  — The Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-MILWAUKEE-the-nutcracker" title="The Nutcracker" style="grid-row:24;grid-column:1/5;background:#555;"><span class="ev-name">Milwaukee  — The Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-CAROLINA-the-nutcracker" title="The Nutcracker" style="grid-row:25;grid-column:1/3;background:#555;"><span class="ev-name">Carolina  — The Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-BALLETMET-the-nutcracker" title="The Nutcracker" style="grid-row:26;grid-column:1/6;background:#555;"><span class="ev-name">BalletMet — The Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-LA_BALLET-the-nutcracker" title="The Nutcracker" style="grid-row:27;grid-column:1/6;background:#555;"><span class="ev-name">LA_BALLET — The Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-OK_CITY-the-nutcracker" title="The Nutcracker" style="grid-row:28;grid-column:1/2;background:#555;"><span class="ev-name">Oklahoma City  — The Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-LOUISVILLE-the-brown-forman-nutcracker" title="The Brown-Forman Nutcracker" style="grid-row:29;grid-column:1/2;background:#555;"><span class="ev-name">Louisville  — The Brown-Forman Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-MCB-george-balanchine-s-the-nutcracker" title="George Balanchine&#x27;s The Nutcracker" style="grid-row:30;grid-column:1/6;background:#00838f;"><span class="ev-name">Miami City  — George Balanchine&#x27;s The Nutcracker</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-ARIZONA-the-nutcracker" title="The Nutcracker" style="grid-row:31;grid-column:1/6;background:#555;"><span class="ev-name"> Arizona — The Nutcracker</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-LOS_ANGELES-the-nutcracker" title="The Nutcracker" style="grid-row:32;grid-column:1/6;background:#555;"><span class="ev-name">Los Angeles  — The Nutcracker</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-SACRAMENTO-the-nutcracker" title="The Nutcracker" style="grid-row:33;grid-column:1/3;background:#555;"><span class="ev-name">Sacramento  — The Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-NEVADA-george-balanchine-s-the-nutcracker" title="George Balanchine&#x27;s The Nutcracker" style="grid-row:34;grid-column:1/6;background:#555;"><span class="ev-name">Nevada — George Balanchine&#x27;s The Nutcracker</span></a>
+</div>
+</div>
+</div>
+<div class="month-section" id="January-2027">
+<div class="month-heading">January 2027</div>
+<div class="dow-row"><div class="dow-cell">MON–WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw has-ev" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Dec</span>28&thinsp;·&thinsp;29&thinsp;·&thinsp;30</div>
+<div class="dn has-ev" style="grid-column:2;grid-row:1;">31</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;"><span class="dn-lbl">Jan</span>1</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">2</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">3</div>
+<a class="ev ends approx" href="performances_agenda.html#prog-JOYCE-les-ballets-trockadero-de-monte-carlo" title="Les Ballets Trockadero de Monte Carlo" style="grid-row:2;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — Les Ballets Trockadero de Monte Carlo</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-HOUSTON-the-nutcracker" title="The Nutcracker" style="grid-row:3;grid-column:1/2;background:#2e7d32;"><span class="ev-name">Houston  — The Nutcracker</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-PNB-the-nutcracker" title="The Nutcracker" style="grid-row:4;grid-column:1/2;background:#00695c;"><span class="ev-name">PNB — The Nutcracker</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-BOSTON-the-nutcracker" title="The Nutcracker" style="grid-row:5;grid-column:1/3;background:#0277bd;"><span class="ev-name">Boston  — The Nutcracker</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-AILEY-ailey-at-new-york-city-center" title="Ailey at New York City Center" style="grid-row:6;grid-column:2/6;background:#8B0000;"><span class="ev-name">Ailey — Ailey at New York City Center</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:7;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-PHILADELPHIA-george-balanchine-s-the-nutcracker" title="George Balanchine&#x27;s The Nutcracker" style="grid-row:8;grid-column:1/3;background:#555;"><span class="ev-name">Philadelphia  — George Balanchine&#x27;s The Nutcracker</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">4&thinsp;·&thinsp;5&thinsp;·&thinsp;6</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">7</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">8</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">9</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">10</div>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-JOYCE-palladium-nights" title="Palladium Nights" style="grid-row:2;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — Palladium Nights</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:3;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">11&thinsp;·&thinsp;12&thinsp;·&thinsp;13</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">14</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">15</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">16</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">17</div>
+<a class="ev starts approx" href="performances_agenda.html#prog-JOYCE-wolf" title="WOLF" style="grid-row:2;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — WOLF</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:3;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">18&thinsp;·&thinsp;19&thinsp;·&thinsp;20</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">21</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">22</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">23</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">24</div>
+<a class="ev ends approx" href="performances_agenda.html#prog-JOYCE-wolf" title="WOLF" style="grid-row:2;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — WOLF</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-NYCB-romeo-juliet" title="Romeo &amp; Juliet" style="grid-row:3;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — Romeo &amp; Juliet</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-MILWAUKEE-mke-mix-art-moves" title="MKE MIX: Art Moves" style="grid-row:4;grid-column:3/6;background:#555;"><span class="ev-name">Milwaukee  — MKE MIX: Art Moves</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LINES-lines-ballet-in-modesto" title="LINES Ballet in Modesto" style="grid-row:5;grid-column:4/5;background:#555;"><span class="ev-name">Alonzo King LINES  — LINES Ballet in Modesto</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:6;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">25&thinsp;·&thinsp;26&thinsp;·&thinsp;27</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">28</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">29</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">30</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">31</div>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-JOYCE-charlotte-ballet" title="Charlotte Ballet" style="grid-row:2;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — Charlotte Ballet</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-NYCB-romeo-juliet" title="Romeo &amp; Juliet" style="grid-row:3;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — Romeo &amp; Juliet</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-MILWAUKEE-mke-mix-art-moves" title="MKE MIX: Art Moves" style="grid-row:4;grid-column:1/6;background:#555;"><span class="ev-name">Milwaukee  — MKE MIX: Art Moves</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-KCB-new-moves" title="New Moves" style="grid-row:5;grid-column:2/6;background:#555;"><span class="ev-name">Kansas City  — New Moves</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-MORRIS-holidayland" title="Holidayland" style="grid-row:6;grid-column:3/5;background:#555;"><span class="ev-name">Mark Morris Dance — Holidayland</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-SFB-the-sleeping-beauty" title="The Sleeping Beauty" style="grid-row:7;grid-column:3/6;background:#6a1b9a;"><span class="ev-name">San Francisco  — The Sleeping Beauty</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-COLORADO-romeo-juliet" title="Romeo &amp; Juliet" style="grid-row:8;grid-column:3/6;background:#1B4F8A;"><span class="ev-name">Colorado  — Romeo &amp; Juliet</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LIMON-northrop-2027" title="Northrop 2027" style="grid-row:9;grid-column:4/5;background:#555;"><span class="ev-name">Limon — Northrop 2027</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:10;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+</div>
+</div>
+</div>
+<div class="month-section" id="February-2027">
+<div class="month-heading">February 2027</div>
+<div class="dow-row"><div class="dow-cell">MON–WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">1&thinsp;·&thinsp;2&thinsp;·&thinsp;3</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">4</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">5</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">6</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">7</div>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-JOYCE-black-grace" title="Black Grace" style="grid-row:2;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — Black Grace</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-NYCB-all-balanchine-ii" title="All Balanchine II" style="grid-row:3;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — All Balanchine II</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-LOS_ANGELES-movers-shakers" title="Movers &amp; Shakers" style="grid-row:4;grid-column:2/5;background:#555;"><span class="ev-name">Los Angeles  — Movers &amp; Shakers</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LA_BALLET-movers-shakers" title="Movers &amp; Shakers" style="grid-row:5;grid-column:2/5;background:#555;"><span class="ev-name">LA_BALLET — Movers &amp; Shakers</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-JOFFREY-notes-on-love" title="Notes on Love" style="grid-row:6;grid-column:2/6;background:#bf360c;"><span class="ev-name">Joffrey  — Notes on Love</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-SFB-the-sleeping-beauty" title="The Sleeping Beauty" style="grid-row:7;grid-column:1/6;background:#6a1b9a;"><span class="ev-name">San Francisco  — The Sleeping Beauty</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-COLORADO-romeo-juliet" title="Romeo &amp; Juliet" style="grid-row:8;grid-column:1/6;background:#1B4F8A;"><span class="ev-name">Colorado  — Romeo &amp; Juliet</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-CAROLINA-giselle" title="Giselle" style="grid-row:9;grid-column:2/6;background:#555;"><span class="ev-name">Carolina  — Giselle</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-PNB-swan-lake" title="Swan Lake" style="grid-row:10;grid-column:3/6;background:#00695c;"><span class="ev-name">PNB — Swan Lake</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-NYCB-contemporary-choreography-ii" title="Contemporary Choreography II" style="grid-row:11;grid-column:4/6;background:#1a237e;"><span class="ev-name">NYCB — Contemporary Choreography II</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:12;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">8&thinsp;·&thinsp;9&thinsp;·&thinsp;10</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">11</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">12</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">13</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">14</div>
+<a class="ev starts ends" href="performances_agenda.html#prog-ORLANDO-alice-in-wonderland" title="Alice in Wonderland" style="grid-row:2;grid-column:2/6;background:#555;"><span class="ev-name">Orlando  — Alice in Wonderland</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-NYCB-all-balanchine-ii" title="All Balanchine II" style="grid-row:3;grid-column:1/3;background:#1a237e;"><span class="ev-name">NYCB — All Balanchine II</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LOUISVILLE-carmen" title="Carmen" style="grid-row:3;grid-column:3/5;background:#555;"><span class="ev-name">Louisville  — Carmen</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-ARIZONA-don-quixote" title="Don Quixote" style="grid-row:4;grid-column:2/6;background:#555;"><span class="ev-name"> Arizona — Don Quixote</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LIMON-boston-2027" title="Boston 2027" style="grid-row:5;grid-column:3/5;background:#555;"><span class="ev-name">Limon — Boston 2027</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-JOFFREY-notes-on-love" title="Notes on Love" style="grid-row:6;grid-column:1/6;background:#bf360c;"><span class="ev-name">Joffrey  — Notes on Love</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-NYCB-jewels" title="Jewels" style="grid-row:7;grid-column:3/6;background:#1a237e;"><span class="ev-name">NYCB — Jewels</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-AUSTIN-director-s-choice-rhythm-of-the-heart" title="Director&#x27;s Choice / Rhythm of the Heart" style="grid-row:8;grid-column:3/6;background:#555;"><span class="ev-name"> Austin — Director&#x27;s Choice / Rhythm of the Heart</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-CAROLINA-giselle" title="Giselle" style="grid-row:9;grid-column:1/6;background:#555;"><span class="ev-name">Carolina  — Giselle</span></a>
+<a class="ev" href="performances_agenda.html#prog-PNB-swan-lake" title="Swan Lake" style="grid-row:10;grid-column:1/6;background:#00695c;"><span class="ev-name">PNB — Swan Lake</span></a>
+<a class="ev" href="performances_agenda.html#prog-NYCB-contemporary-choreography-ii" title="Contemporary Choreography II" style="grid-row:11;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — Contemporary Choreography II</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-RICHMOND-tchaikovsky-the-man-behind-the-music" title="Tchaikovsky: The Man Behind the Music" style="grid-row:12;grid-column:3/6;background:#555;"><span class="ev-name">Richmond  — Tchaikovsky: The Man Behind the Music</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-OK_CITY-don-quixote" title="Don Quixote" style="grid-row:13;grid-column:3/6;background:#555;"><span class="ev-name">Oklahoma City  — Don Quixote</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:14;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-B_WEST-don-quixote" title="Don Quixote" style="grid-row:15;grid-column:3/6;background:#37474f;"><span class="ev-name">Ballet West — Don Quixote</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-CINCINNATI-romeo-and-juliet" title="Romeo and Juliet" style="grid-row:16;grid-column:3/6;background:#555;"><span class="ev-name">Cincinnati  — Romeo and Juliet</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-PITTSBURGH-alice-in-wonderland" title="Alice in Wonderland" style="grid-row:17;grid-column:3/6;background:#555;"><span class="ev-name">Pittsburgh  Theatre — Alice in Wonderland</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-ATLANTA-the-great-gatsby" title="The Great Gatsby" style="grid-row:18;grid-column:4/6;background:#555;"><span class="ev-name">Atlanta  — The Great Gatsby</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-OREGON-alice-in-wonderland" title="ALICE (in wonderland)" style="grid-row:19;grid-column:4/6;background:#555;"><span class="ev-name">Oregon — ALICE (in wonderland)</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">15&thinsp;·&thinsp;16&thinsp;·&thinsp;17</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">18</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">19</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">20</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">21</div>
+<a class="ev starts ends" href="performances_agenda.html#prog-SFB-titans-of-choreography" title="Titans of Choreography" style="grid-row:2;grid-column:1/6;background:#6a1b9a;"><span class="ev-name">San Francisco  — Titans of Choreography</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-JOYCE-flamenco-legacy" title="Flamenco Legacy" style="grid-row:3;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — Flamenco Legacy</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-NYCB-all-balanchine-iii" title="All Balanchine III" style="grid-row:4;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — All Balanchine III</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-TULSA-cinderella" title="Cinderella" style="grid-row:5;grid-column:2/6;background:#555;"><span class="ev-name">Tulsa  — Cinderella</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-NYCB-contemporary-choreography-iii" title="Contemporary Choreography III" style="grid-row:6;grid-column:2/6;background:#1a237e;"><span class="ev-name">NYCB — Contemporary Choreography III</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-BOSTON-winter-experience-2027" title="Winter Experience 2027" style="grid-row:7;grid-column:2/6;background:#0277bd;"><span class="ev-name">Boston  — Winter Experience 2027</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-MEMPHIS-winter-mix-celebration" title="Winter Mix: Celebration" style="grid-row:8;grid-column:3/6;background:#e65100;"><span class="ev-name"> Memphis — Winter Mix: Celebration</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-KCB-pinocchio" title="Pinocchio" style="grid-row:9;grid-column:3/6;background:#555;"><span class="ev-name">Kansas City  — Pinocchio</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-PNB-swan-lake" title="Swan Lake" style="grid-row:10;grid-column:1/6;background:#00695c;"><span class="ev-name">PNB — Swan Lake</span></a>
+<a class="ev" href="performances_agenda.html#prog-NYCB-contemporary-choreography-ii" title="Contemporary Choreography II" style="grid-row:11;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — Contemporary Choreography II</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-BALLETMET-swan-lake" title="Swan Lake" style="grid-row:12;grid-column:3/6;background:#555;"><span class="ev-name">BalletMet — Swan Lake</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-TEXAS-unbound" title="Unbound" style="grid-row:13;grid-column:3/6;background:#555;"><span class="ev-name">Texas — Unbound</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:14;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-B_WEST-don-quixote" title="Don Quixote" style="grid-row:15;grid-column:1/5;background:#37474f;"><span class="ev-name">Ballet West — Don Quixote</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-CINCINNATI-romeo-and-juliet" title="Romeo and Juliet" style="grid-row:16;grid-column:1/5;background:#555;"><span class="ev-name">Cincinnati  — Romeo and Juliet</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-PITTSBURGH-alice-in-wonderland" title="Alice in Wonderland" style="grid-row:17;grid-column:1/6;background:#555;"><span class="ev-name">Pittsburgh  Theatre — Alice in Wonderland</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-ATLANTA-the-great-gatsby" title="The Great Gatsby" style="grid-row:18;grid-column:1/6;background:#555;"><span class="ev-name">Atlanta  — The Great Gatsby</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-OREGON-alice-in-wonderland" title="ALICE (in wonderland)" style="grid-row:19;grid-column:1/6;background:#555;"><span class="ev-name">Oregon — ALICE (in wonderland)</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-NEVADA-balanchine-kylian" title="Balanchine &amp; Kylian" style="grid-row:20;grid-column:4/6;background:#555;"><span class="ev-name">Nevada — Balanchine &amp; Kylian</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">22&thinsp;·&thinsp;23&thinsp;·&thinsp;24</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">25</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">26</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">27</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">28</div>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-JOYCE-ronald-k-brown-evidence" title="Ronald K. Brown / EVIDENCE" style="grid-row:2;grid-column:2/6;background:#555;"><span class="ev-name">Joyce Theater — Ronald K. Brown / EVIDENCE</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-HOUSTON-where-s-alice" title="Where&#x27;s Alice?" style="grid-row:3;grid-column:2/6;background:#2e7d32;"><span class="ev-name">Houston  — Where&#x27;s Alice?</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-NYCB-all-balanchine-iii" title="All Balanchine III" style="grid-row:4;grid-column:1/4;background:#1a237e;"><span class="ev-name">NYCB — All Balanchine III</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-SFB-jewels" title="Jewels" style="grid-row:4;grid-column:4/6;background:#6a1b9a;"><span class="ev-name">San Francisco  — Jewels</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-MCB-alice-s-adventures-in-wonderland" title="Alice&#x27;s Adventures in Wonderland" style="grid-row:5;grid-column:2/6;background:#00838f;"><span class="ev-name">Miami City  — Alice&#x27;s Adventures in Wonderland</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-NYCB-contemporary-choreography-iii" title="Contemporary Choreography III" style="grid-row:6;grid-column:1/5;background:#1a237e;"><span class="ev-name">NYCB — Contemporary Choreography III</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-NYCB-taylor-stanley-farewell" title="Taylor Stanley Farewell" style="grid-row:6;grid-column:5/6;background:#1a237e;"><span class="ev-name">NYCB — Taylor Stanley Farewell</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-BOSTON-winter-experience-2027" title="Winter Experience 2027" style="grid-row:7;grid-column:1/6;background:#0277bd;"><span class="ev-name">Boston  — Winter Experience 2027</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-NASHVILLE-cinderella" title="Cinderella" style="grid-row:8;grid-column:3/6;background:#555;"><span class="ev-name">Nashville  — Cinderella</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-SARASOTA-program-five" title="Program Five" style="grid-row:9;grid-column:3/6;background:#555;"><span class="ev-name">Sarasota  — Program Five</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-NYCB-contemporary-choreography-ii" title="Contemporary Choreography II" style="grid-row:10;grid-column:1/5;background:#1a237e;"><span class="ev-name">NYCB — Contemporary Choreography II</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-TEXAS-unbound" title="Unbound" style="grid-row:11;grid-column:2/6;background:#555;"><span class="ev-name">Texas — Unbound</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:12;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+</div>
+</div>
+</div>
+<div class="month-section" id="March-2027">
+<div class="month-heading">March 2027</div>
+<div class="dow-row"><div class="dow-cell">MON–WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">1&thinsp;·&thinsp;2&thinsp;·&thinsp;3</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">4</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">5</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">6</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">7</div>
+<a class="ev starts" href="performances_agenda.html#prog-PHILADELPHIA-cinderella" title="Cinderella" style="grid-row:2;grid-column:2/6;background:#555;"><span class="ev-name">Philadelphia  — Cinderella</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-HOUSTON-where-s-alice" title="Where&#x27;s Alice?" style="grid-row:3;grid-column:1/6;background:#2e7d32;"><span class="ev-name">Houston  — Where&#x27;s Alice?</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-SFB-jewels" title="Jewels" style="grid-row:4;grid-column:1/6;background:#6a1b9a;"><span class="ev-name">San Francisco  — Jewels</span></a>
+<a class="ev" href="performances_agenda.html#prog-MCB-alice-s-adventures-in-wonderland" title="Alice&#x27;s Adventures in Wonderland" style="grid-row:5;grid-column:1/6;background:#00838f;"><span class="ev-name">Miami City  — Alice&#x27;s Adventures in Wonderland</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-CAROLINA-the-little-mermaid" title="The Little Mermaid" style="grid-row:6;grid-column:2/6;background:#555;"><span class="ev-name">Carolina  — The Little Mermaid</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-MILWAUKEE-dorian-gray" title="Dorian Gray" style="grid-row:7;grid-column:3/6;background:#555;"><span class="ev-name">Milwaukee  — Dorian Gray</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-SACRAMENTO-wild-sweet-love" title="Wild Sweet Love" style="grid-row:8;grid-column:3/6;background:#555;"><span class="ev-name">Sacramento  — Wild Sweet Love</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-COLORADO-the-wizard-of-oz" title="The Wizard of Oz" style="grid-row:9;grid-column:3/6;background:#1B4F8A;"><span class="ev-name">Colorado  — The Wizard of Oz</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-TULSA-the-ugly-duckling-spring-2027" title="The Ugly Duckling – Spring 2027" style="grid-row:10;grid-column:4/5;background:#555;"><span class="ev-name">Tulsa  — The Ugly Duckling – Spring 2027</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LINES-lines-ballet-in-palm-desert" title="LINES Ballet in Palm Desert" style="grid-row:11;grid-column:4/5;background:#555;"><span class="ev-name">Alonzo King LINES  — LINES Ballet in Palm Desert</span></a>
+<a class="ev" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:12;grid-column:1/6;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">8&thinsp;·&thinsp;9&thinsp;·&thinsp;10</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">11</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">12</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">13</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">14</div>
+<a class="ev ends" href="performances_agenda.html#prog-PHILADELPHIA-cinderella" title="Cinderella" style="grid-row:2;grid-column:1/6;background:#555;"><span class="ev-name">Philadelphia  — Cinderella</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-CHARLOTTE-knight-theater-series" title="Knight Theater Series" style="grid-row:3;grid-column:2/5;background:#2d6a4f;"><span class="ev-name">Charlotte  — Knight Theater Series</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-BOSTON-copp-lia" title="Coppélia" style="grid-row:4;grid-column:2/6;background:#0277bd;"><span class="ev-name">Boston  — Coppélia</span></a>
+<a class="ev" href="performances_agenda.html#prog-MCB-alice-s-adventures-in-wonderland" title="Alice&#x27;s Adventures in Wonderland" style="grid-row:5;grid-column:1/6;background:#00838f;"><span class="ev-name">Miami City  — Alice&#x27;s Adventures in Wonderland</span></a>
+<a class="ev" href="performances_agenda.html#prog-CAROLINA-the-little-mermaid" title="The Little Mermaid" style="grid-row:6;grid-column:1/6;background:#555;"><span class="ev-name">Carolina  — The Little Mermaid</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-HOUSTON-madame-butterfly" title="Madame Butterfly" style="grid-row:7;grid-column:2/6;background:#2e7d32;"><span class="ev-name">Houston  — Madame Butterfly</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-RICHMOND-new-works-moving-art-three" title="New Works / Moving Art Three" style="grid-row:8;grid-column:2/6;background:#555;"><span class="ev-name">Richmond  — New Works / Moving Art Three</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-COLORADO-the-wizard-of-oz" title="The Wizard of Oz" style="grid-row:9;grid-column:1/6;background:#1B4F8A;"><span class="ev-name">Colorado  — The Wizard of Oz</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-KCB-romeo-juliet" title="Romeo &amp; Juliet" style="grid-row:10;grid-column:3/6;background:#555;"><span class="ev-name">Kansas City  — Romeo &amp; Juliet</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-OK_CITY-future-voices-a-choreographic-showcase" title="Future Voices: A Choreographic Showcase" style="grid-row:11;grid-column:3/6;background:#555;"><span class="ev-name">Oklahoma City  — Future Voices: A Choreographic Showcase</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-ORLANDO-uncorked" title="Uncorked" style="grid-row:12;grid-column:1/4;background:#555;"><span class="ev-name">Orlando  — Uncorked</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">15&thinsp;·&thinsp;16&thinsp;·&thinsp;17</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">18</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">19</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">20</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">21</div>
+<a class="ev starts ends" href="performances_agenda.html#prog-AUSTIN-roses-for-the-last-dance" title="Roses for the Last Dance" style="grid-row:2;grid-column:3/6;background:#555;"><span class="ev-name"> Austin — Roses for the Last Dance</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LOUISVILLE-bourbon-ballet" title="Bourbon &amp; Ballet" style="grid-row:3;grid-column:3/6;background:#555;"><span class="ev-name">Louisville  — Bourbon &amp; Ballet</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-BOSTON-copp-lia" title="Coppélia" style="grid-row:4;grid-column:1/6;background:#0277bd;"><span class="ev-name">Boston  — Coppélia</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-MCB-alice-s-adventures-in-wonderland" title="Alice&#x27;s Adventures in Wonderland" style="grid-row:5;grid-column:1/6;background:#00838f;"><span class="ev-name">Miami City  — Alice&#x27;s Adventures in Wonderland</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-CAROLINA-the-little-mermaid" title="The Little Mermaid" style="grid-row:6;grid-column:1/6;background:#555;"><span class="ev-name">Carolina  — The Little Mermaid</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-HOUSTON-madame-butterfly" title="Madame Butterfly" style="grid-row:7;grid-column:1/6;background:#2e7d32;"><span class="ev-name">Houston  — Madame Butterfly</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-RICHMOND-new-works-moving-art-three" title="New Works / Moving Art Three" style="grid-row:8;grid-column:1/6;background:#555;"><span class="ev-name">Richmond  — New Works / Moving Art Three</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-SFB-a-midsummer-night-s-dream" title="A Midsummer Night&#x27;s Dream" style="grid-row:9;grid-column:3/6;background:#6a1b9a;"><span class="ev-name">San Francisco  — A Midsummer Night&#x27;s Dream</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-KCB-romeo-juliet" title="Romeo &amp; Juliet" style="grid-row:10;grid-column:1/6;background:#555;"><span class="ev-name">Kansas City  — Romeo &amp; Juliet</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-OK_CITY-future-voices-a-choreographic-showcase" title="Future Voices: A Choreographic Showcase" style="grid-row:11;grid-column:1/6;background:#555;"><span class="ev-name">Oklahoma City  — Future Voices: A Choreographic Showcase</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-PNB-director-s-choice" title="Director&#x27;s Choice" style="grid-row:12;grid-column:3/6;background:#00695c;"><span class="ev-name">PNB — Director&#x27;s Choice</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">22&thinsp;·&thinsp;23&thinsp;·&thinsp;24</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">25</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">26</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">27</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">28</div>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-SARASOTA-program-six" title="Program Six" style="grid-row:2;grid-column:3/5;background:#555;"><span class="ev-name">Sarasota  — Program Six</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LIMON-austin-2027" title="Austin 2027" style="grid-row:2;grid-column:1/2;background:#555;"><span class="ev-name">Limon — Austin 2027</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-MCB-spring-mix" title="Spring Mix" style="grid-row:3;grid-column:3/6;background:#00838f;"><span class="ev-name">Miami City  — Spring Mix</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-PNB-snow-white" title="Snow White" style="grid-row:4;grid-column:4/6;background:#00695c;"><span class="ev-name">PNB — Snow White</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-SFB-a-midsummer-night-s-dream" title="A Midsummer Night&#x27;s Dream" style="grid-row:5;grid-column:1/5;background:#6a1b9a;"><span class="ev-name">San Francisco  — A Midsummer Night&#x27;s Dream</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-PNB-director-s-choice" title="Director&#x27;s Choice" style="grid-row:6;grid-column:1/6;background:#00695c;"><span class="ev-name">PNB — Director&#x27;s Choice</span></a>
+</div>
+</div>
+</div>
+<div class="month-section" id="April-2027">
+<div class="month-heading">April 2027</div>
+<div class="dow-row"><div class="dow-cell">MON–WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw has-ev" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Mar</span>29&thinsp;·&thinsp;30&thinsp;·&thinsp;31</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;"><span class="dn-lbl">Apr</span>1</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">2</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">3</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">4</div>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-ARIZONA-pulse" title="Pulse" style="grid-row:2;grid-column:2/6;background:#555;"><span class="ev-name"> Arizona — Pulse</span></a>
+<a class="ev" href="performances_agenda.html#prog-MCB-spring-mix" title="Spring Mix" style="grid-row:3;grid-column:1/6;background:#00838f;"><span class="ev-name">Miami City  — Spring Mix</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-PNB-snow-white" title="Snow White" style="grid-row:4;grid-column:2/6;background:#00695c;"><span class="ev-name">PNB — Snow White</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-TULSA-romeo-juliet" title="Romeo &amp; Juliet" style="grid-row:5;grid-column:2/6;background:#555;"><span class="ev-name">Tulsa  — Romeo &amp; Juliet</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-B_WEST-the-glass-slipper" title="The Glass Slipper" style="grid-row:6;grid-column:3/5;background:#37474f;"><span class="ev-name">Ballet West — The Glass Slipper</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-CINCINNATI-director-s-vision-two-voices" title="Director&#x27;s Vision: Two Voices" style="grid-row:7;grid-column:3/6;background:#555;"><span class="ev-name">Cincinnati  — Director&#x27;s Vision: Two Voices</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-ATLANTA-swan-lake" title="Swan Lake" style="grid-row:8;grid-column:3/6;background:#555;"><span class="ev-name">Atlanta  — Swan Lake</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-ORLANDO-director-s-collection" title="Director&#x27;s Collection" style="grid-row:9;grid-column:3/6;background:#555;"><span class="ev-name">Orlando  — Director&#x27;s Collection</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-OREGON-madcap" title="MADCAP" style="grid-row:10;grid-column:3/6;background:#555;"><span class="ev-name">Oregon — MADCAP</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-BALLETMET-for-the-love-of-dance-2-0" title="For the Love of Dance 2.0" style="grid-row:11;grid-column:3/6;background:#555;"><span class="ev-name">BalletMet — For the Love of Dance 2.0</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">5&thinsp;·&thinsp;6&thinsp;·&thinsp;7</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">8</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">9</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">10</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">11</div>
+<a class="ev starts" href="performances_agenda.html#prog-SFB-divine-creatures" title="Divine Creatures" style="grid-row:2;grid-column:2/6;background:#6a1b9a;"><span class="ev-name">San Francisco  — Divine Creatures</span></a>
+<a class="ev" href="performances_agenda.html#prog-MCB-spring-mix" title="Spring Mix" style="grid-row:3;grid-column:1/6;background:#00838f;"><span class="ev-name">Miami City  — Spring Mix</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-MEMPHIS-peter-pan" title="Peter Pan" style="grid-row:4;grid-column:3/6;background:#e65100;"><span class="ev-name"> Memphis — Peter Pan</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-CINCINNATI-family-series-hansel-and-gretel" title="Family Series: Hansel and Gretel" style="grid-row:5;grid-column:3/6;background:#555;"><span class="ev-name">Cincinnati  — Family Series: Hansel and Gretel</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-PITTSBURGH-spring-mix-world-premieres" title="Spring Mix: World Premieres" style="grid-row:6;grid-column:3/6;background:#555;"><span class="ev-name">Pittsburgh  Theatre — Spring Mix: World Premieres</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-SACRAMENTO-giselle" title="Giselle" style="grid-row:7;grid-column:3/6;background:#555;"><span class="ev-name">Sacramento  — Giselle</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-B_WEST-carmina-burana" title="Carmina Burana" style="grid-row:8;grid-column:3/6;background:#37474f;"><span class="ev-name">Ballet West — Carmina Burana</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-COLORADO-masterworks" title="Masterworks" style="grid-row:9;grid-column:3/6;background:#1B4F8A;"><span class="ev-name">Colorado  — Masterworks</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-OREGON-madcap" title="MADCAP" style="grid-row:10;grid-column:1/5;background:#555;"><span class="ev-name">Oregon — MADCAP</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-BALLETMET-for-the-love-of-dance-2-0" title="For the Love of Dance 2.0" style="grid-row:11;grid-column:1/5;background:#555;"><span class="ev-name">BalletMet — For the Love of Dance 2.0</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-NEVADA-alice-in-wonderland" title="Alice (in Wonderland)" style="grid-row:12;grid-column:3/6;background:#555;"><span class="ev-name">Nevada — Alice (in Wonderland)</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-OREGON-annual-school-performance" title="Annual School Performance" style="grid-row:13;grid-column:4/6;background:#555;"><span class="ev-name">Oregon — Annual School Performance</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">12&thinsp;·&thinsp;13&thinsp;·&thinsp;14</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">15</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">16</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">17</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">18</div>
+<a class="ev ends" href="performances_agenda.html#prog-SFB-divine-creatures" title="Divine Creatures" style="grid-row:2;grid-column:1/2;background:#6a1b9a;"><span class="ev-name">San Francisco  — Divine Creatures</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-PAH-alvin-ailey-american-dance-theater" title="Alvin Ailey American Dance Theater" style="grid-row:2;grid-column:3/6;background:#555;"><span class="ev-name">Perf Arts Houston — Alvin Ailey American Dance Theater</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-MCB-spring-mix" title="Spring Mix" style="grid-row:3;grid-column:1/6;background:#00838f;"><span class="ev-name">Miami City  — Spring Mix</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-PNB-a-midsummer-night-s-dream" title="A Midsummer Night&#x27;s Dream" style="grid-row:4;grid-column:3/6;background:#00695c;"><span class="ev-name">PNB — A Midsummer Night&#x27;s Dream</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-BALLETMET-my-first-sleeping-beauty" title="My First Sleeping Beauty" style="grid-row:5;grid-column:4/6;background:#555;"><span class="ev-name">BalletMet — My First Sleeping Beauty</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-B_WEST-carmina-burana" title="Carmina Burana" style="grid-row:6;grid-column:1/5;background:#37474f;"><span class="ev-name">Ballet West — Carmina Burana</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-COLORADO-masterworks" title="Masterworks" style="grid-row:7;grid-column:1/6;background:#1B4F8A;"><span class="ev-name">Colorado  — Masterworks</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-NEVADA-alice-in-wonderland" title="Alice (in Wonderland)" style="grid-row:8;grid-column:1/6;background:#555;"><span class="ev-name">Nevada — Alice (in Wonderland)</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">19&thinsp;·&thinsp;20&thinsp;·&thinsp;21</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">22</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">23</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">24</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">25</div>
+<a class="ev starts" href="performances_agenda.html#prog-NYCB-all-balanchine-iv" title="All Balanchine IV" style="grid-row:2;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — All Balanchine IV</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-NYCB-all-balanchine-v" title="All Balanchine V" style="grid-row:3;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — All Balanchine V</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-PNB-a-midsummer-night-s-dream" title="A Midsummer Night&#x27;s Dream" style="grid-row:4;grid-column:1/6;background:#00695c;"><span class="ev-name">PNB — A Midsummer Night&#x27;s Dream</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-CAROLINA-the-rite-of-spring" title="The Rite of Spring" style="grid-row:5;grid-column:2/6;background:#555;"><span class="ev-name">Carolina  — The Rite of Spring</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-PAH-divine-comedy-reloaded" title="Divine Comedy Reloaded" style="grid-row:6;grid-column:3/5;background:#555;"><span class="ev-name">Perf Arts Houston — Divine Comedy Reloaded</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-SFB-manon" title="Manon" style="grid-row:7;grid-column:3/6;background:#6a1b9a;"><span class="ev-name">San Francisco  — Manon</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-MILWAUKEE-a-midsummer-night-s-dream" title="A Midsummer Night&#x27;s Dream" style="grid-row:8;grid-column:3/6;background:#555;"><span class="ev-name">Milwaukee  — A Midsummer Night&#x27;s Dream</span></a>
+</div>
+</div>
+</div>
+<div class="month-section" id="May-2027">
+<div class="month-heading">May 2027</div>
+<div class="dow-row"><div class="dow-cell">MON–WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw has-ev" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Apr</span>26&thinsp;·&thinsp;27&thinsp;·&thinsp;28</div>
+<div class="dn has-ev" style="grid-column:2;grid-row:1;">29</div>
+<div class="dn has-ev" style="grid-column:3;grid-row:1;">30</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;"><span class="dn-lbl">May</span>1</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">2</div>
+<a class="ev ends" href="performances_agenda.html#prog-NYCB-all-balanchine-iv" title="All Balanchine IV" style="grid-row:2;grid-column:1/3;background:#1a237e;"><span class="ev-name">NYCB — All Balanchine IV</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-OK_CITY-alice-in-wonderland" title="Alice in Wonderland" style="grid-row:2;grid-column:3/6;background:#555;"><span class="ev-name">Oklahoma City  — Alice in Wonderland</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-NYCB-all-balanchine-v" title="All Balanchine V" style="grid-row:3;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — All Balanchine V</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-NYCB-masters-at-work-ii" title="Masters at Work II" style="grid-row:4;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — Masters at Work II</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-BOSTON-cinderella" title="Cinderella" style="grid-row:5;grid-column:2/6;background:#0277bd;"><span class="ev-name">Boston  — Cinderella</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-PHILADELPHIA-don-quixote" title="Don Quixote" style="grid-row:6;grid-column:2/6;background:#555;"><span class="ev-name">Philadelphia  — Don Quixote</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-SFB-manon" title="Manon" style="grid-row:7;grid-column:1/6;background:#6a1b9a;"><span class="ev-name">San Francisco  — Manon</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-MILWAUKEE-a-midsummer-night-s-dream" title="A Midsummer Night&#x27;s Dream" style="grid-row:8;grid-column:1/6;background:#555;"><span class="ev-name">Milwaukee  — A Midsummer Night&#x27;s Dream</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-MCB-alexei-ratmansky-s-swan-lake" title="Alexei Ratmansky&#x27;s Swan Lake" style="grid-row:9;grid-column:2/6;background:#00838f;"><span class="ev-name">Miami City  — Alexei Ratmansky&#x27;s Swan Lake</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LINES-lines-ballet-in-chicago" title="LINES Ballet in Chicago" style="grid-row:10;grid-column:4/6;background:#555;"><span class="ev-name">Alonzo King LINES  — LINES Ballet in Chicago</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">3&thinsp;·&thinsp;4&thinsp;·&thinsp;5</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">6</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">7</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">8</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">9</div>
+<a class="ev ends" href="performances_agenda.html#prog-OK_CITY-alice-in-wonderland" title="Alice in Wonderland" style="grid-row:2;grid-column:1/6;background:#555;"><span class="ev-name">Oklahoma City  — Alice in Wonderland</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-OREGON-obt2-obt-by-design" title="OBT2: OBT By Design" style="grid-row:3;grid-column:5/6;background:#555;"><span class="ev-name">Oregon — OBT2: OBT By Design</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-NEVADA-dance-lab" title="Dance Lab" style="grid-row:3;grid-column:1/5;background:#555;"><span class="ev-name">Nevada — Dance Lab</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-NYCB-masters-at-work-ii" title="Masters at Work II" style="grid-row:4;grid-column:1/4;background:#1a237e;"><span class="ev-name">NYCB — Masters at Work II</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-NYCB-eclectic-nycb-ii" title="Eclectic NYCB II" style="grid-row:4;grid-column:4/6;background:#1a237e;"><span class="ev-name">NYCB — Eclectic NYCB II</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-BOSTON-cinderella" title="Cinderella" style="grid-row:5;grid-column:1/6;background:#0277bd;"><span class="ev-name">Boston  — Cinderella</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-PHILADELPHIA-don-quixote" title="Don Quixote" style="grid-row:6;grid-column:1/6;background:#555;"><span class="ev-name">Philadelphia  — Don Quixote</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-NYCB-spring-gala" title="Spring Gala" style="grid-row:7;grid-column:2/3;background:#1a237e;"><span class="ev-name">NYCB — Spring Gala</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-PITTSBURGH-the-sleeping-beauty-with-the-pbt-orchestra" title="The Sleeping Beauty with the PBT Orchestra" style="grid-row:7;grid-column:3/6;background:#555;"><span class="ev-name">Pittsburgh  Theatre — The Sleeping Beauty with the PBT Orchestra</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-ORLANDO-moulin-rouge" title="Moulin Rouge" style="grid-row:8;grid-column:2/6;background:#555;"><span class="ev-name">Orlando  — Moulin Rouge</span></a>
+<a class="ev" href="performances_agenda.html#prog-MCB-alexei-ratmansky-s-swan-lake" title="Alexei Ratmansky&#x27;s Swan Lake" style="grid-row:9;grid-column:1/6;background:#00838f;"><span class="ev-name">Miami City  — Alexei Ratmansky&#x27;s Swan Lake</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-TULSA-carmen" title="Carmen" style="grid-row:10;grid-column:2/6;background:#555;"><span class="ev-name">Tulsa  — Carmen</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-AUSTIN-giselle" title="Giselle" style="grid-row:11;grid-column:3/6;background:#555;"><span class="ev-name"> Austin — Giselle</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-NASHVILLE-attitude" title="Attitude" style="grid-row:12;grid-column:3/6;background:#555;"><span class="ev-name">Nashville  — Attitude</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-CHARLOTTE-alice-in-wonderland" title="Alice in Wonderland" style="grid-row:13;grid-column:3/6;background:#2d6a4f;"><span class="ev-name">Charlotte  — Alice in Wonderland</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">10&thinsp;·&thinsp;11&thinsp;·&thinsp;12</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">13</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">14</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">15</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">16</div>
+<a class="ev starts" href="performances_agenda.html#prog-NYCB-eclectic-nycb-iii" title="Eclectic NYCB III" style="grid-row:2;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — Eclectic NYCB III</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-B_WEST-works-from-within" title="Works from Within" style="grid-row:3;grid-column:1/5;background:#37474f;"><span class="ev-name">Ballet West — Works from Within</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-NYCB-eclectic-nycb-ii" title="Eclectic NYCB II" style="grid-row:4;grid-column:1/4;background:#1a237e;"><span class="ev-name">NYCB — Eclectic NYCB II</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-NYCB-copland-dance-episodes" title="Copland Dance Episodes" style="grid-row:4;grid-column:4/6;background:#1a237e;"><span class="ev-name">NYCB — Copland Dance Episodes</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-ARIZONA-desert-lines" title="Desert Lines" style="grid-row:5;grid-column:2/6;background:#555;"><span class="ev-name"> Arizona — Desert Lines</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-CAROLINA-sleeping-beauty" title="Sleeping Beauty" style="grid-row:6;grid-column:2/6;background:#555;"><span class="ev-name">Carolina  — Sleeping Beauty</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-BOSTON-spring-experience-2027" title="Spring Experience 2027" style="grid-row:7;grid-column:2/6;background:#0277bd;"><span class="ev-name">Boston  — Spring Experience 2027</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-JOFFREY-the-sleeping-beauty" title="The Sleeping Beauty" style="grid-row:8;grid-column:2/6;background:#bf360c;"><span class="ev-name">Joffrey  — The Sleeping Beauty</span></a>
+<a class="ev" href="performances_agenda.html#prog-MCB-alexei-ratmansky-s-swan-lake" title="Alexei Ratmansky&#x27;s Swan Lake" style="grid-row:9;grid-column:1/6;background:#00838f;"><span class="ev-name">Miami City  — Alexei Ratmansky&#x27;s Swan Lake</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-RICHMOND-director-s-choice-moving-art-four" title="Director&#x27;s Choice / Moving Art Four" style="grid-row:10;grid-column:2/6;background:#555;"><span class="ev-name">Richmond  — Director&#x27;s Choice / Moving Art Four</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-ATLANTA-may-program" title="May Program" style="grid-row:11;grid-column:3/6;background:#555;"><span class="ev-name">Atlanta  — May Program</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-BALLETMET-carmen-maquia" title="CARMEN.maquia" style="grid-row:12;grid-column:3/6;background:#555;"><span class="ev-name">BalletMet — CARMEN.maquia</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-CHARLOTTE-alice-in-wonderland" title="Alice in Wonderland" style="grid-row:13;grid-column:1/6;background:#2d6a4f;"><span class="ev-name">Charlotte  — Alice in Wonderland</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-KCB-pulse" title="PULSE" style="grid-row:14;grid-column:3/6;background:#555;"><span class="ev-name">Kansas City  — PULSE</span></a>
+<a class="ev starts approx" href="performances_agenda.html#prog-TEXAS-coppelia" title="Coppelia" style="grid-row:15;grid-column:3/6;background:#555;"><span class="ev-name">Texas — Coppelia</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">17&thinsp;·&thinsp;18&thinsp;·&thinsp;19</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">20</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">21</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">22</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">23</div>
+<a class="ev ends" href="performances_agenda.html#prog-NYCB-eclectic-nycb-iii" title="Eclectic NYCB III" style="grid-row:2;grid-column:1/5;background:#1a237e;"><span class="ev-name">NYCB — Eclectic NYCB III</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LOUISVILLE-momentum" title="Momentum" style="grid-row:3;grid-column:3/6;background:#555;"><span class="ev-name">Louisville  — Momentum</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-NYCB-copland-dance-episodes" title="Copland Dance Episodes" style="grid-row:4;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — Copland Dance Episodes</span></a>
+<a class="ev approx" href="performances_agenda.html#prog-ARIZONA-desert-lines" title="Desert Lines" style="grid-row:5;grid-column:2/6;background:#555;"><span class="ev-name"> Arizona — Desert Lines</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-BOSTON-spring-experience-2027" title="Spring Experience 2027" style="grid-row:6;grid-column:1/6;background:#0277bd;"><span class="ev-name">Boston  — Spring Experience 2027</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-JOFFREY-the-sleeping-beauty" title="The Sleeping Beauty" style="grid-row:7;grid-column:1/6;background:#bf360c;"><span class="ev-name">Joffrey  — The Sleeping Beauty</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-MCB-alexei-ratmansky-s-swan-lake" title="Alexei Ratmansky&#x27;s Swan Lake" style="grid-row:8;grid-column:1/6;background:#00838f;"><span class="ev-name">Miami City  — Alexei Ratmansky&#x27;s Swan Lake</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-RICHMOND-director-s-choice-moving-art-four" title="Director&#x27;s Choice / Moving Art Four" style="grid-row:9;grid-column:1/6;background:#555;"><span class="ev-name">Richmond  — Director&#x27;s Choice / Moving Art Four</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-BALLETMET-carmen-maquia" title="CARMEN.maquia" style="grid-row:10;grid-column:1/5;background:#555;"><span class="ev-name">BalletMet — CARMEN.maquia</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-KCB-pulse" title="PULSE" style="grid-row:11;grid-column:1/6;background:#555;"><span class="ev-name">Kansas City  — PULSE</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-TEXAS-coppelia" title="Coppelia" style="grid-row:12;grid-column:2/6;background:#555;"><span class="ev-name">Texas — Coppelia</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">24&thinsp;·&thinsp;25&thinsp;·&thinsp;26</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">27</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">28</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">29</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">30</div>
+<a class="ev starts ends" href="performances_agenda.html#prog-NYCB-a-midsummer-night-s-dream" title="A Midsummer Night&#x27;s Dream" style="grid-row:2;grid-column:1/6;background:#1a237e;"><span class="ev-name">NYCB — A Midsummer Night&#x27;s Dream</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-SACRAMENTO-beer-ballet" title="Beer &amp; Ballet" style="grid-row:3;grid-column:2/6;background:#555;"><span class="ev-name">Sacramento  — Beer &amp; Ballet</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-HOUSTON-the-rite-of-spring" title="The Rite of Spring" style="grid-row:4;grid-column:2/6;background:#2e7d32;"><span class="ev-name">Houston  — The Rite of Spring</span></a>
+<a class="ev ends approx" href="performances_agenda.html#prog-ARIZONA-desert-lines" title="Desert Lines" style="grid-row:5;grid-column:2/5;background:#555;"><span class="ev-name"> Arizona — Desert Lines</span></a>
+</div>
+</div>
+</div>
+<div class="month-section" id="June-2027">
+<div class="month-heading">June 2027</div>
+<div class="dow-row"><div class="dow-cell">MON–WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;"><span class="dn-lbl">May</span>31&thinsp;·&thinsp;<span class="dn-lbl">Jun</span>1&thinsp;·&thinsp;2</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">3</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">4</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">5</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">6</div>
+<a class="ev starts" href="performances_agenda.html#prog-PNB-ballet-on-broadway" title="Ballet on Broadway" style="grid-row:2;grid-column:3/6;background:#00695c;"><span class="ev-name">PNB — Ballet on Broadway</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-HOUSTON-the-rite-of-spring" title="The Rite of Spring" style="grid-row:3;grid-column:1/6;background:#2e7d32;"><span class="ev-name">Houston  — The Rite of Spring</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px 22px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">7&thinsp;·&thinsp;8&thinsp;·&thinsp;9</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">10</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">11</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">12</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">13</div>
+<a class="ev ends" href="performances_agenda.html#prog-PNB-ballet-on-broadway" title="Ballet on Broadway" style="grid-row:2;grid-column:1/6;background:#00695c;"><span class="ev-name">PNB — Ballet on Broadway</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-OREGON-the-obt-collection" title="The OBT Collection" style="grid-row:3;grid-column:2/5;background:#555;"><span class="ev-name">Oregon — The OBT Collection</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-LOS_ANGELES-copp-lia" title="Coppélia" style="grid-row:4;grid-column:2/6;background:#555;"><span class="ev-name">Los Angeles  — Coppélia</span></a>
+<a class="ev starts ends" href="performances_agenda.html#prog-LA_BALLET-copp-lia" title="Coppélia" style="grid-row:5;grid-column:2/6;background:#555;"><span class="ev-name">LA_BALLET — Coppélia</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-CHARLOTTE-flip" title="FLIP" style="grid-row:6;grid-column:2/6;background:#2d6a4f;"><span class="ev-name">Charlotte  — FLIP</span></a>
+<a class="ev starts" href="performances_agenda.html#prog-HOUSTON-swan-lake" title="Swan Lake" style="grid-row:7;grid-column:2/6;background:#2e7d32;"><span class="ev-name">Houston  — Swan Lake</span></a>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-ARIZONA-ballet-in-the-making" title="Ballet in the Making" style="grid-row:8;grid-column:4/5;background:#555;"><span class="ev-name"> Arizona — Ballet in the Making</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px 22px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">14&thinsp;·&thinsp;15&thinsp;·&thinsp;16</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">17</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">18</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">19</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">20</div>
+<a class="ev starts ends approx" href="performances_agenda.html#prog-PAH-momix-botanica" title="MOMIX: Botanica" style="grid-row:2;grid-column:3/5;background:#555;"><span class="ev-name">Perf Arts Houston — MOMIX: Botanica</span></a>
+<a class="ev ends" href="performances_agenda.html#prog-CHARLOTTE-flip" title="FLIP" style="grid-row:3;grid-column:1/2;background:#2d6a4f;"><span class="ev-name">Charlotte  — FLIP</span></a>
+<a class="ev" href="performances_agenda.html#prog-HOUSTON-swan-lake" title="Swan Lake" style="grid-row:4;grid-column:1/6;background:#2e7d32;"><span class="ev-name">Houston  — Swan Lake</span></a>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px 22px;">
+<div class="dn dn-mw in-mo has-ev" style="grid-column:1;grid-row:1;">21&thinsp;·&thinsp;22&thinsp;·&thinsp;23</div>
+<div class="dn in-mo has-ev" style="grid-column:2;grid-row:1;">24</div>
+<div class="dn in-mo has-ev" style="grid-column:3;grid-row:1;">25</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:4;grid-row:1;">26</div>
+<div class="dn in-mo wknd has-ev" style="grid-column:5;grid-row:1;">27</div>
+<a class="ev ends" href="performances_agenda.html#prog-HOUSTON-swan-lake" title="Swan Lake" style="grid-row:2;grid-column:1/6;background:#2e7d32;"><span class="ev-name">Houston  — Swan Lake</span></a>
+</div>
+</div>
+</div>
+<div class="month-section" id="July-2027">
+<div class="month-heading">July 2027</div>
+<div class="dow-row"><div class="dow-cell">MON–WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Jun</span>28&thinsp;·&thinsp;29&thinsp;·&thinsp;30</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;"><span class="dn-lbl">Jul</span>1</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">2</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">3</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">4</div>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">5&thinsp;·&thinsp;6&thinsp;·&thinsp;7</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">8</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">9</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">10</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">11</div>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">12&thinsp;·&thinsp;13&thinsp;·&thinsp;14</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">15</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">16</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">17</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">18</div>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">19&thinsp;·&thinsp;20&thinsp;·&thinsp;21</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">22</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">23</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">24</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">25</div>
+</div>
+</div>
+</div>
+<div class="month-section" id="August-2027">
+<div class="month-heading">August 2027</div>
+<div class="dow-row"><div class="dow-cell">MON–WED</div><div class="dow-cell">THU</div><div class="dow-cell">FRI</div><div class="dow-cell wknd">SAT</div><div class="dow-cell wknd">SUN</div></div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw" style="grid-column:1;grid-row:1;"><span class="dn-lbl">Jul</span>26&thinsp;·&thinsp;27&thinsp;·&thinsp;28</div>
+<div class="dn" style="grid-column:2;grid-row:1;">29</div>
+<div class="dn" style="grid-column:3;grid-row:1;">30</div>
+<div class="dn wknd" style="grid-column:4;grid-row:1;">31</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;"><span class="dn-lbl">Aug</span>1</div>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">2&thinsp;·&thinsp;3&thinsp;·&thinsp;4</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">5</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">6</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">7</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">8</div>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">9&thinsp;·&thinsp;10&thinsp;·&thinsp;11</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">12</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">13</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">14</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">15</div>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">16&thinsp;·&thinsp;17&thinsp;·&thinsp;18</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">19</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">20</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">21</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">22</div>
+</div>
+</div>
+<div class="week-block">
+<div class="week-grid" style="grid-template-rows:26px;">
+<div class="dn dn-mw in-mo" style="grid-column:1;grid-row:1;">23&thinsp;·&thinsp;24&thinsp;·&thinsp;25</div>
+<div class="dn in-mo" style="grid-column:2;grid-row:1;">26</div>
+<div class="dn in-mo" style="grid-column:3;grid-row:1;">27</div>
+<div class="dn in-mo wknd" style="grid-column:4;grid-row:1;">28</div>
+<div class="dn in-mo wknd" style="grid-column:5;grid-row:1;">29</div>
+</div>
+</div>
+</div>
+<script>
+function toggleHomeNav(btn) {
+    var dd = btn.nextElementSibling;
+    var opening = !dd.classList.contains('open');
+    document.querySelectorAll('.home-nav-dropdown.open').forEach(function(el) {
+        el.classList.remove('open');
+    });
+    if (opening) {
+        var rect = btn.getBoundingClientRect();
+        dd.style.top = (rect.bottom + 4) + 'px';
+        dd.style.left = rect.left + 'px';
+        dd.classList.add('open');
+        setTimeout(function () {
+            document.addEventListener('click', function closeDD(e) {
+                if (!btn.closest('.home-nav').contains(e.target)) {
+                    dd.classList.remove('open');
+                    document.removeEventListener('click', closeDD);
+                }
+            });
+        }, 0);
+    }
+}
+</script>
+</body>
+</html>

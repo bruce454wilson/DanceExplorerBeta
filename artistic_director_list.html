@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Browse by Artistic Director</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T1W89Y447W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T1W89Y447W');
+</script>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    max-width: 1000px;
+}
+
+h1 {
+    margin-bottom: 12px;
+}
+
+.index {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+    z-index: 1000;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.index a {
+    margin-right: 10px;
+    font-size: 13px;
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.index a:hover {
+    text-decoration: underline;
+}
+
+.index-sep {
+    margin-right: 10px;
+    color: #bbb;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.letter-heading,
+.year-heading {
+    margin-top: 40px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    scroll-margin-top: 60px;
+}
+
+.guest-block {
+    margin-top: 18px;
+    margin-bottom: 24px;
+    scroll-margin-top: 60px;
+}
+
+.guest-line {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.appearance,
+.episode-block {
+    margin-left: 20px;
+    margin-bottom: 12px;
+}
+
+.row2 {
+    color: #444;
+    line-height: 1.4;
+}
+
+.desc-button {
+    margin-left: 8px;
+    font-size: 12px;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.description {
+    display: none;
+    margin-top: 6px;
+    padding: 8px 10px;
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+    color: #333;
+    line-height: 1.4;
+    white-space: pre-wrap;
+}
+
+a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.profile-badge {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #1a73e8;
+    border-radius: 3px;
+    color: #1a73e8;
+    vertical-align: middle;
+}
+
+.profile-badge:hover {
+    background: #e8f0fe;
+    text-decoration: none;
+}
+
+.patreon-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #f96854;
+    border-radius: 3px;
+    color: #f96854;
+    vertical-align: middle;
+}
+
+.patreon-badge:hover {
+    background: #fff0ee;
+    text-decoration: none;
+}
+
+.youtube-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #cc0000;
+    border-radius: 3px;
+    color: #cc0000;
+    vertical-align: middle;
+}
+
+.youtube-badge:hover {
+    background: #fff0f0;
+    text-decoration: none;
+}
+
+/* --- home nav dropdown --- */
+.home-nav { position: relative; display: inline-block; vertical-align: middle; }
+.home-nav-arrow {
+    background: none; border: none; padding: 0 1px 0 3px; cursor: pointer;
+    font-size: 9px; color: currentColor; opacity: 0.55; vertical-align: middle;
+    line-height: 1; font-family: inherit;
+}
+.home-nav-arrow:hover { opacity: 1; }
+.home-nav-dropdown {
+    display: none;
+    position: fixed;
+    background: white; border: 1px solid #ddd; border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    white-space: nowrap; z-index: 2000; min-width: 145px;
+}
+.home-nav-dropdown.open { display: block; }
+.home-nav-dropdown a {
+    display: block; padding: 8px 14px;
+    color: #333 !important; font-weight: normal !important;
+    text-decoration: none; font-size: 13px;
+}
+.home-nav-dropdown a:first-child { border-radius: 5px 5px 0 0; }
+.home-nav-dropdown a:last-child  { border-radius: 0 0 5px 5px; }
+.home-nav-dropdown a:hover { background: #f5f5f5; color: #1a73e8 !important; }
+</style>
+<script>
+function toggleDescription(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const isOpen = el.style.display === "block";
+    el.style.display = isOpen ? "none" : "block";
+    btn.textContent = isOpen ? "Show description" : "Hide description";
+    btn.setAttribute("aria-expanded", String(!isOpen));
+}
+
+function toggleHomeNav(btn) {
+    const dd = btn.nextElementSibling;
+    const opening = !dd.classList.contains('open');
+    document.querySelectorAll('.home-nav-dropdown.open').forEach(function(el) {
+        el.classList.remove('open');
+    });
+    if (opening) {
+        const rect = btn.getBoundingClientRect();
+        dd.style.top = (rect.bottom + 4) + 'px';
+        dd.style.left = rect.left + 'px';
+        dd.classList.add('open');
+        setTimeout(function () {
+            document.addEventListener('click', function closeDD(e) {
+                if (!btn.closest('.home-nav').contains(e.target)) {
+                    dd.classList.remove('open');
+                    document.removeEventListener('click', closeDD);
+                }
+            });
+        }, 0);
+    }
+}
+</script>
+</head>
+<body>
+<h1>Browse by Artistic Director</h1>
+
+<div class="index">
+<span class="home-nav"><a href="danceexplorer.html">&#8592;&nbsp;Home</a><button class="home-nav-arrow" onclick="toggleHomeNav(this)" aria-label="Site navigation">&#9662;</button><div class="home-nav-dropdown"><a href="podcasts.html">Podcasts</a><a href="performances.html">Performances</a></div></span>
+<span class="index-sep">|</span>
+<a href="#letter-A">A</a>
+<a href="#letter-B">B</a>
+<a href="#letter-C">C</a>
+<a href="#letter-D">D</a>
+<a href="#letter-E">E</a>
+<a href="#letter-F">F</a>
+<a href="#letter-G">G</a>
+<a href="#letter-H">H</a>
+<a href="#letter-J">J</a>
+<a href="#letter-K">K</a>
+<a href="#letter-L">L</a>
+<a href="#letter-M">M</a>
+<a href="#letter-N">N</a>
+<a href="#letter-P">P</a>
+<a href="#letter-R">R</a>
+<a href="#letter-S">S</a>
+<a href="#letter-T">T</a>
+<a href="#letter-V">V</a>
+<a href="#letter-W">W</a>
+</div>
+<h2 class="letter-heading" id="letter-A">A</h2>
+<div class="guest-block">
+<div class="guest-line">Kyle Abraham — Artistic Director — <a href="aimbykyleabraham.org/" target="_blank" rel="noopener noreferrer" title="A.I.M. by Kyle Abraham Home Page">A.I.M. by Kyle Abraham</a></div>
+<div class="appearance">
+<div class="row2">Oct 8, 2024 — (419) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/419-choreographer-kyle-abraham-on-his-upcoming-premiere-at-abt" target="_blank" rel="noopener noreferrer">Choreographer <strong>Kyle Abraham</strong> on his upcoming premiere at ABT</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-kyle-abraham-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-kyle-abraham-1">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are joined by renowned choreographer Kyle Abraham. Kyle sits down with us to talk about his upcoming first work for American Ballet Theatre, &quot;Mercurial Son&quot;, including the casting process, the creative environment and how working on several projects concurrently fuels his creativity. To catch &quot;Mercurial Son&quot;, premiering on October 16th and running through the 24th, visit abt.org to purchase tickets.</div>
+</div>
+<div class="appearance">
+<div class="row2">Aug 7, 2023 — (359) — <a href="https://shows.acast.com/conversations-on-dance/episodes/kyle-abraham-melissa-toogood-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Kyle Abraham</strong> and <strong>Melissa Toogood</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-kyle-abraham-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-kyle-abraham-2">A major highlight for the Vail Dance Festival every year is the NOW: Premieres program, a jam-packed evening of ten newly commissioned dances with an array of artists that only the Vail Dance Festival could manage to bring together. Internationally acclaimed choreographers and artists Kyle Abraham and Melissa Toogood join this live recording of the Conversations On Dance podcast to talk about their process this year creating two brand new works for this celebrated evening.This Monday August 7th, The Vail Dance Festival comes to you! Dont miss the live stream of Mondays Now: Premieres program at 7:30pm mountain, 9:30pm Eastern. Visit vaildance.org to enjoy an evening of world premieres from the festivals all star cast of choreographers and dancers. You have heard them all right here on Conversations on Dance, now catch them live from the VDF stage on Monday August 7th. Link in the description of this episode for more info. This episode was recorded live on August 6th, 2023 at the Manor Vail Lodge. Conversations on Dance at the Vail Dance Festival is generously underwritten by the Town of Vail.</div>
+</div>
+<div class="appearance">
+<div class="row2">Nov 29, 2021 — (262) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a512" target="_blank" rel="noopener noreferrer"><strong>Kyle Abraham</strong>, Choreographer and Artistic Director of A.I.M. by <strong>Kyle Abraham</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-kyle-abraham-3', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-kyle-abraham-3">This week on Conversations On Dance&#x27; we are joined by award winning choreographer Kyle Abraham. Kyle&#x27;s choreographic talents garnered attention quickly in works he created for his company A.I.M., leading to a MacArthur Fellowship in 2013 and commissions from some of the most respected dance institutions in the world. We talk to Kyle about his creative process leading up to his new work Requiem: Fire In the Air Of the Earth&#x27; that will premiere at Stanford Live this December 4th. Tickets and more information: https://live.stanford.edu/calendar/december-2021/requiem-fire-air-earth __________________________________</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Tyler Angle — Artistic Director — Nantucket Dance Festival</div>
+<div class="appearance">
+<div class="row2">Jun 17, 2019 — (142) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a592" target="_blank" rel="noopener noreferrer"><strong>Tyler Angle</strong>, NYCB Principal &amp; Nantucket Atheneum Dance Festival Artistic Director</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-tyler-angle-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-tyler-angle-1">This week we are joined by Tyler Angle, Principal Dancer with New York City Ballet and Artistic Director of the Nantucket Atheneum Dance Festival. Tyler Angle was born in Altoona, Pennsylvania, and began his dance training at the age of nine at the Allegheny Ballet Company. He entered the School of American Ballet full-time in the fall of 2001. In the fall of 2003, Mr. Angle became an apprentice with New York City Ballet. Mr. Angle joined New York City Ballet as a member of the corps de ballet in June 2004 and was promoted to the rank of principal dancers in October 2009. This will be Tyler&#x27;s fifth season as the Artistic Director of the Nantucket Dance Festival, which will be taking place this July 22-27 and feature world class stars from the New York City Ballet, LA Dance Project, Miami City Ballet, and Pacific Northwest Ballet. Tickets will go on sale for the festival July 1st and can be purchased through their website, (nantucketatheneum.org), or at the box office, located in the Great Hall of the Atheneum, during library hours. Tickets are $45, $60, or $85, with discounts offered for children under 12, students, and seniors. This episode is brought to you by the Nantucket Atheneum Dance Festival and Yumiko (yumiko.com). The post (142) Tyler Angle, NYCB Principal &amp; Nantucket Atheneum Dance Festival Artistic Director appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Karole Armitage — Artistic Director — <a href="armitagegonedance.org/" target="_blank" rel="noopener noreferrer" title="Armitage GONE! Dance Company Home Page">Armitage GONE! Dance Company</a></div>
+<div class="appearance">
+<div class="row2">Mar 1, 2022 — (272) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a507" target="_blank" rel="noopener noreferrer"><strong>Karole Armitage</strong>, Artistic Director of Armitage GONE! Dance Company</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-karole-armitage-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-karole-armitage-1">Today we are joined by Karole Armitage, Artistic Director of the New York-based Armitage GONE! Dance Company. Karole has had an extensive career as a dancer and choreographer. She began her professional career in 1973 as a member of the Ballet du Grand Thtre de Genve, Switzerland, under the direction of George Balanchine. In 1976, she was invited to join Merce Cunningham&#x27;s company, where she remained for five years, performing leading roles in Cunningham&#x27;s landmark works. She began her choreographic career in 1979, showcasing her unique voice in the dichotomy of classical and modern dance. Requests for commissions came in quickly once she started creating dance, from companies such as the Paris Opera Ballet, American Ballet Theatre, and companies throughout Europe. In 1990, she choreographed Madonna&#x27;s now iconic music video, Vogue, then went on to choreograph for Michael Jackson&#x27;s music video, In The Closet. In 2004 she founded her company, Armitage GONE! Dance, which will be onstage this month at New York Live Arts. We caught up with Karole as she was at the studios between rehearsals to hear about her expansive career, stories of working with Balanchine and Cunningham, choreographing for two of the most prolific pop stars of all time, and about her company&#x27;s upcoming shows. Don&#x27;t miss A Pandemic Notebook at New York Live Arts March 16-19, 2022. Tickets are available at https://newyorklivearts.org/live-arts-plus. _________________________</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Ephrat Asherie — Artistic Director — Ephrat Asherie Dance</div>
+<div class="appearance">
+<div class="row2">Jun 27, 2022 — (295) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4f0" target="_blank" rel="noopener noreferrer"><strong>Ephrat Asherie</strong>, Artistic Director of <strong>Ephrat Asherie</strong> Dance, coming to the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-ephrat-asherie-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-ephrat-asherie-1">On today&#x27;s episode of Conversations On Dance&#x27;, we are joined by Ephrat Asherie, Bessie Award winning b-girl and choreographer. We caught up with Ephrat on her artistic output since her first appearance on the podcast in January 2021, including her work for Guggenheim Works &amp; Process, collaborating with the elders of the underground dance scene, and touring her work Odeon&#x27;. Ephrat is returning to the Vail Dance Festival this year where Odeon&#x27; and a new choreographic work will be performed. Catch Ephrat Asherie Dance at the festival on July 31st. Tickets available at vaildance.org. SPONSORS: Conversations on Dance at the Vail Dance Festival July 30 August 9: https://vaildance.org/conversations-on-dance. Tickets on sale now. Ali Phillips Embodied Leadership Coach aliphillips.org. For Conversations on Dance listeners only- mention that you heard about Ali through the podcast, and if you sign up in the month of June youll receive 20% off her new 10 week coaching program. ____________________________</div>
+</div>
+<div class="appearance">
+<div class="row2">Jan 27, 2021 — (214) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a546" target="_blank" rel="noopener noreferrer">Isolation to Creation Docuseries from Works &amp; Process at the Guggenheim</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-ephrat-asherie-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-ephrat-asherie-2">This week we are pleased to bring you a special behind the scenes look at some of the Works &amp; Process creation that has been happening safely throughout the COVID-19 Pandemic. Today we are joined by Ephrat Asherie, New York City-based b-girl, and Duke Dang, General Manager of Works &amp; Process. We hear about Ephrat&#x27;s career and her recent work developed at a Works and Process Bubble Residency called, UnderScored.&#x27; Duke offers us an inside view into the arts administration side of this pandemic and how he and his team worked to get dancers and choreographers back to creating. A four-part docuseries called Isolation to Creation, follows the path of artists who participated in bubble residencies this summer as a part of Works &amp; Process, including Ephrat. The series will stream nationwide on January 27, 2021, and February 3, 10, and 17, at 8pm ET. Access is free on the ALL ARTS app, available at allarts.org, and also will air in the New York metro area on the ALL ARTS TV channel. You won&#x27;t want to miss this fascinating look at how dance persevered during this monumental moment in history. Conversations on Dance is brought to you by Yumiko (yumiko.com). Links: instagram.com/conversationsondance facebook.com/conversationsondance twitter.com/convoondance conversationsondancepod.com The post (214) Isolation to Creation&#x27; Docuseries from Works &amp; Process at the Guggenheim appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-B">B</h2>
+<div class="guest-block">
+<div class="guest-line">Rachel Beaujean — Artistic Director — Dutch National Ballet</div>
+<div class="appearance">
+<div class="row2">Mar 23, 2023 — (333) — <a href="https://shows.acast.com/conversations-on-dance/episodes/dutch-national-ballet-ballet-sun-valley" target="_blank" rel="noopener noreferrer"><strong>Ted Brandsen</strong> and <strong>Rachel Beaujean</strong>, Dutch National Ballet Director and Associate Artistic Director, at Ballet Sun Valley</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-rachel-beaujean-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-rachel-beaujean-1">On today&#x27;s episode of &#x27;Conversations On Dance&#x27;, we are joined by Ted Brandsen and Rachel Beaujean, Director and Associate Artistic Director of Dutch National Ballet. We are speaking to them in advance of the company&#x27;s first tour to the United States in 40 years, which is to take place at the Ballet Sun Valley festival in Sun Valley, Idaho. First, we talk with Ted briefly about his career and his directorship. Then Rachel joins the conversation to discuss how they chose the repertoire for the upcoming tour and what they hope American audiences take away from the performances. Performances and additional events will be held this July 1st and 2nd and tickets can be purchased at balletsunvalley.org. _______________________________________________This episodes sponsors: For our listeners in Hilton Head, and Charleston South Carolina, we hope you will join Dimensions Dance Theatre of Miami as they tour to your area on March 22 thru 24th. A bold, cutting edge contemporary ballet company founded in 2016 by former Miami City Ballet Principal Dancers Jennifer Kronenberg and Carlos Guerra, DDTM has established itself with a dazzling repertoire and dynamic world class dancers hailing from various Hispanic, North and South American backgrounds. On March 24th, audiences will be treated to a full evening performance a mixed bill program that will feature Gerald Arpinos masterwork, Light Rain, a main staple of the Dimensions repertoire since the company first brought the full ballet to South Florida in 2017. For tickets, visit artshhi.org.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Peter Boal — Artistic Director — <a href="pnb.org" target="_blank" rel="noopener noreferrer" title="Pacific Northwest Ballet Home Page">Pacific Northwest Ballet</a></div>
+<div class="appearance">
+<div class="row2">Jul 11, 2023 — (349) — <a href="https://shows.acast.com/conversations-on-dance/episodes/peter-boal-illusions-of-camelot-a-memoir" target="_blank" rel="noopener noreferrer"><strong>Peter Boal</strong>, on his new book, &#x27;Illusions of Camelot: A Memoir&#x27;</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-peter-boal-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-peter-boal-1">Today we are joined by the Artistic Director of Pacific Northwest Ballet, Peter Boal. We have had the pleasure of having Peter on the podcast a handful of times in the past, but today we were happy to get to speak with him about his new memoir which was released in June, &#x27;Illusions of Camelot: A Memoir.&#x27; Peter tells us about how he built the concept of the book, what he wanted to convey, and the experience of writing such personal essays about his life. &#x27;Illusions of Camelot&#x27; is now available at your local book store or online on Amazon. Get Peter&#x27;s book here: https://amzn.to/43ntRGlVAIL DANCE FESTIVAL TICKETS ON SALE NOW! Conversations on Dance events: https://bit.ly/3NQwoDjPerformance tickets: https://vaildance.org/</div>
+</div>
+<div class="appearance">
+<div class="row2">Aug 17, 2020 — (197) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a557" target="_blank" rel="noopener noreferrer"><strong>Peter Boal</strong>, Pacific Northwest Ballet Artistic Director, on Ballet Sun Valley</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-peter-boal-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-peter-boal-2">This week we welcome Pacific Northwest Ballet Artistic Director, Peter Boal, back to the podcast. We first spoke with Peter in March of 2017, for a fantastic conversation surrounding his career and directorship. (Tune into episode 36 with Peter). Today, we catch up with Peter to hear about his experience leading PNB through the COVID-19 pandemic, how the dancers are safely and creatively returning to the studios to work, and about the incredible virtual programming that PNB has been curating exclusively for Ballet Sun Valley. On August 23rd at 7pm MST (9pm EST), tune into Ballet Sun Valley&#x27;s exclusive one-night only streaming event featuring PNB. Peter tells gives us a preview of the works we will be seeing and how these pieces are being filmed especially for this event. For more information on how to register to have the performance streamed to your home, visit: balletsunvalley.org. Conversations on Dance is brought to you by Yumiko (yumiko.com). Links: instagram.com/conversationsondance facebook.com/conversationsondance twitter.com/convoondance conversationsondancepod.com The post (197) Peter Boal, Pacific Northwest Ballet Artistic Director, on Ballet Sun Valley appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Gil Boggs — Artistic Director — <a href="coloradoballet.org" target="_blank" rel="noopener noreferrer" title="Colorado Ballet Home Page">Colorado Ballet</a></div>
+<div class="appearance">
+<div class="row2">Mar 9, 2020 — (175) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a56d" target="_blank" rel="noopener noreferrer"><strong>Gil Boggs</strong>, Colorado Ballet Artistic Director</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-gil-boggs-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-gil-boggs-1">This week we bring you our final episode from the 2019 Vail Dance Festival! Today we speak with Gil Boggs, Colorado Ballet Artistic Director. Gil began his dance career with the Atlanta Ballet and he joined American Ballet Theatre in 1982. In 1991 he was promoted to Principal Dancer and danced with the company for 17 years. Boggs also performed with the Twyla Tharp Dance Company, Baryshnikov and Company, Nureyev and Friends, and made several guest appearances around the world. Boggs accepted the position of Artistic Director with Colorado Ballet in the Spring of 2006. We talk with Gil about his distinguished career, his transition after retiring from the stage, how his directorship at Colorado Ballet came about, and some of the ways he has been able to grow the company. This episode is brought to you by The Town of Vail, Yumiko (yumiko.com), and The Veyette Virtual Ballet School (veyettevirtualballetschool.com). The post (175) Gil Boggs, Colorado Ballet Artistic Director appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Diana Byer — Artistic Director — <a href="nytb.org/" target="_blank" rel="noopener noreferrer" title="New York Theatre Ballet Home Page">New York Theatre Ballet</a></div>
+<div class="appearance">
+<div class="row2">Jun 6, 2022 — (290) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4f5" target="_blank" rel="noopener noreferrer"><strong>Diana Byer</strong>, Founding Artistic Director of New York Theatre Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-diana-byer-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-diana-byer-1">Today on Conversations On Dance&#x27; we are joined by Diana Byer, founder and artistic director of New York Theatre Ballet. Diana has been at the helm of NYTB for over 4 decades, guiding the company to critical acclaim and providing a home for many nearly-lost works of master choreographers like Antony Tudor, Agnes DeMille and Frederick Ashton. We talk to Diana about the serendipitous nature of her career, her training and its impact on her own teaching methods and how preserving forgotten and infrequently performed works of genius choreographers became such an important part of NYTB&#x27;s artistic identity. Vulcan Productions and Beaufort 9 Films, in association with JustFilms | Ford Foundation and Catapult Film Fund, are pleased to present the World Premiere of LIFT at the 2022 Tribeca Festival, starting June 12, 2022. Directed by Oscar-nominated filmmaker David Petersen and counting Sam Pollard as one of its executive producers and Misty Copeland as its principal advisor, LIFT shines a spotlight on the invisible story of homelessness in America through the eyes of a group of young home-insecure ballet dancers in New York City and the mentor who inspires them. The film will be featured in the festivals Viewpoints section. SPONSORS: Conversations on Dance at the Vail Dance Festival July 30 August 9: https://vaildance.org/conversations-on-dance. Tickets on sale now. The tenth annual Lake Tahoe Dance Festival: tickets are on sale now at laketahoedancefestival.org. ________________________________</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-C">C</h2>
+<div class="guest-block">
+<div class="guest-line">Alejandro Cerrudo — Artistic Director — <a href="charlotteballet.org" target="_blank" rel="noopener noreferrer" title="Charlotte Ballet Home Page">Charlotte Ballet</a></div>
+<div class="appearance">
+<div class="row2">May 31, 2023 — (342) — <a href="https://shows.acast.com/conversations-on-dance/episodes/alejandro-cerrudo-artistic-director-of-charlotte-ballet" target="_blank" rel="noopener noreferrer"><strong>Alejandro Cerrudo</strong>, Artistic Director of Charlotte Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-alejandro-cerrudo-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-alejandro-cerrudo-1">This week on Conversations On Dance, we sit down with Charlotte Ballet director and international choreographer Alejandro Cerrudo. We spoke with Alejandro about his first season of programming for Charlotte Ballet, how important freedom and risk taking are to the choreographic process and his plans to make the company an integral part of the city&#x27;s identity. If you are in the Charlotte area, you can catch the company&#x27;s choreographic lab from June 9-17. To subscribe to the company&#x27;s 2023-24 season, visit charlotteballet.org. THIS EPISODE&#x27;S SPONSOR:?Energetiks specialize in creating sustainable, world class dancewear for the stars of tomorrow. Perform and feel your best at every stage of your dance journey in Energetiks premium, high performance fabrics. Try them out with a 20% discount site-wide using the code COD20 at the checkout [available until the end of September 2023]. Shop their extensive range online at energetiks.com and enjoy free express shipping on orders over $75.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Christine Cox — Artistic Director — <a href="balletx.org" target="_blank" rel="noopener noreferrer" title="BalletX Home Page">BalletX</a></div>
+<div class="appearance">
+<div class="row2">Aug 4, 2023 — (357) — <a href="https://shows.acast.com/conversations-on-dance/episodes/christine-cox-laurel-winton-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Christine Cox</strong> and <strong>Laurel Winton</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-christine-cox-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-christine-cox-1">Ballet X has been a Festival favorite for over a decade, while Dance Aspen had its splashy debut just last year. This live recording of the Conversations On Dance podcast will welcome the artistic directors of these respective companies, Christine Cox and Laurel Winton, to talk about their visions and missions for their organizations and why performing at the Vail Dance Festival is such a coveted experience for their dancers.This episode was recorded live on August 4th, 2023 at the Manor Vail Lodge. Conversations on Dance at the Vail Dance Festival is generously underwritten by the Town of Vail.VAIL DANCE FESTIVAL IS GOING ON NOW! Conversations on Dance events: https://vaildance.org/conversations-on-dance/Performance tickets: https://vaildance.org/</div>
+</div>
+<div class="appearance">
+<div class="row2">Aug 2, 2021 — (239) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a52b" target="_blank" rel="noopener noreferrer"><strong>Christine Cox</strong>, Artistic &amp; Executive Director of BalletX, LIVE from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-christine-cox-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-christine-cox-2">We are joined today by Christine Cox, Artistic &amp; Executive Director of BalletX. This episode was recorded LIVE from the Vail Dance Festival, where BalletX is the resident company. We chat with Christine about her career, founding the company, her ambitious programming, and her entrepreneurial approach to building the company from the ground up. This episode was recorded on August 1, 2021 at the Manor Vail Lodge. Special thanks to the Town of Vail for their support of the Vail Dance Festival and Conversations on Dance live podcast recordings. This episode was recorded at the Manor Vail Lodge. Conversations on Dance is proud to have YUMIKO as a continued partner in 2021. yumiko.com Thank you to Tom Boyd for producing this episode. The post (239) Christine Cox, Artistic &amp; Executive Director of BalletX, LIVE from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-D">D</h2>
+<div class="guest-block">
+<div class="guest-line">Alexandra Damiani — Artistic Director — <a href="bjmdanse.ca/en" target="_blank" rel="noopener noreferrer" title="Ballets Jazz Montreal Home Page">Ballets Jazz Montreal</a></div>
+<div class="appearance">
+<div class="row2">May 14, 2026 — (493) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/493-alexandra-damiani-executive-and-artistic-director-of-ballets-jazz-montral" target="_blank" rel="noopener noreferrer"><strong>Alexandra Damiani</strong>, Executive and Artistic Director of Ballets Jazz Montreal</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/493-alexandra-of-158242728" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-alexandra-damiani-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-alexandra-damiani-1">Today on the Conversations on Dance podcast we are joined by Alexandra Damiani, Artistic Director of Ballets Jazz Montreal. Alexandra traces her path from early training in France, then heading to New York, where she found healing, new technique, and artistic freedom. She recounts her wide-performing career, and the shift to rehearsal direction and leadership. She discusses moving from New York to Montreal during COVID, balancing motherhood with leadership, strengthening Ballet Jazz Montreal’s roots locally while touring, and previews BJM’s tour to Houston with Performing Arts Houston. If you are in the Houston area, see Ballets Jazz Montreal in &quot;Dance Me: The Music of Leonard Cohen&quot; June 12 and 13th. Tickets start at $29. More information at performingartshouston.org.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Michelle Dorrance — Artistic Director — Dorrance Dance</div>
+<div class="appearance">
+<div class="row2">Jul 28, 2025 — (454) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/454-tap-visionary-michelle-dorrance-live-from-the-vail-dance-festival" target="_blank" rel="noopener noreferrer">Tap Visionary, <strong>Michelle Dorrance</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-michelle-dorrance-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-michelle-dorrance-1">MacArthur Fellow and tap visionary Michelle Dorrance joins Conversations on Dance for a live podcast recording with hosts Rebecca King Ferraro and Michael Sean Breeden. A festival mainstay, Dorrance shares insight into her newest work, The Center Will Not Hold, co-created with b-girl and choreographer Ephrat Asherie. Following last years sold-out performance, this new evening-length piece blends rhythm tap with a wide range of street, club, and social dancesbrought to life by an electric ensemble and live music by composer Donovan Dorrance and percussionist John Angeles. Gain a behind-the-scenes look into Dorrances creative process, her collaborative spirit, and how she continues to expand the boundaries of tap dance. This episode is brought to you by Discover Vail and was recorded live from the Vail Dance Festival on July 28, 2025.Tickets to Conversations on Dance at the 2025 Vail Dance Festival on sale now! https://vaildance.org/conversations-on-dance/</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Fernando Duarte — Artistic Director — National Ballet of Portugal</div>
+<div class="appearance">
+<div class="row2">Mar 12, 2025 — (436) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/436-artistic-director-of-the-national-ballet-of-portugal-fernando-duarte" target="_blank" rel="noopener noreferrer">Artistic Director of the National Ballet Of Portugal, <strong>Fernando Duarte</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-fernando-duarte-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-fernando-duarte-1">On today&#x27;s episode of &quot;Conversations On Dance&quot; we are joined by the Artistic Director of the National Ballet Of Portugal, Fernando Duarte. Fernando takes us through ballet&#x27;s cultural history in Portugal, his own connection to the company as a former principal dancer, ballet master and choreographer, how this led to his appointment as director and his future plans for the company. To learn more about the company or to purchase tickets at an upcoming performance, visit www.cnb.pt. THIS EPISODE&#x27;S SPONSORSNaturally relieve pain with Jelliebend- a supportive lower back hug.Jelliebend is a sleek wearable lower back support that applies the perfect amount of balanced compression to stabilize the spine and boost blood flow to your muscles. Founded by a contortionist with scoliosis, Jelliebend was born from Ellie&#x27;s passion for spine health and injury prevention. Shop online now at https://jelliebend.com/. Use code ONDANCE all one word to receive 10% off your order.</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-E">E</h2>
+<div class="guest-block">
+<div class="guest-line">Janet Eilber — Artistic Director — <a href="marthagraham.org/" target="_blank" rel="noopener noreferrer" title="Martha Graham Dance Company Home Page">Martha Graham Dance Company</a></div>
+<div class="appearance">
+<div class="row2">Jul 29, 2023 — (351) — <a href="https://shows.acast.com/conversations-on-dance/episodes/savannah-green-balletx" target="_blank" rel="noopener noreferrer"><strong>Janet Eilber</strong>, Artistic Director of Martha Graham Dance Company, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-janet-eilber-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-janet-eilber-1">Martha Graham Dance Company is one of the most storied and celebrated dance institutions in America and a Vail Dance Festival fan favorite. In recent years, the company has been steadily building its repertoire beyond the Graham classics. This live recording of the Conversations On Dance podcast will talk with the companys Artistic Director, Janet Eilber, about her storied career, working with Martha Graham, and her role as artistic director. Janet will give audiences a preview of what to expect from the companys performance in Vail and some background on the work she is doing to preserve and revive Graham works. This episode was recorded live on Saturday July 29th, 2023 at the Manor Vail Lodge. Conversations on Dance at the Vail Dance Festival is generously underwritten by the Town of Vail.VAIL DANCE FESTIVAL IS GOING ON NOW! Conversations on Dance events: https://vaildance.org/conversations-on-dance/Performance tickets: https://vaildance.org/</div>
+</div>
+<div class="appearance">
+<div class="row2">Mar 9, 2022 — (274) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a505" target="_blank" rel="noopener noreferrer">Reimagining lost works of Martha Graham: with <strong>Janet Eilber</strong> and <strong>Christopher Rountree</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-janet-eilber-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-janet-eilber-2">Today on Conversations On Dance&#x27;, we are joined by Janet Eilber, the artistic director of the Martha Graham Dance Company and Wild Up musical director Christopher Rountree. Janet and Christopher have been working together to revive and re-envision the choreographic works of 20th century giant Martha Graham and their accompanying musical compositions. They talk to us about their process in re-envisioning these works, how they attempt to inhabit the minds of the creative geniuses who bore them, and why these works are still relevant to audiences today. The Soraya performing arts venue in Los Angeles, CA has been an integral part of these restoration projects and will be the first to present the latest project The New Canticle for Comedians&#x27;, a reimagined upgrade to a Graham work that was almost entirely lost. The premiere of New Canticle&#x27; is this March 19, 2022. If you are in the Los Angeles area, you can find tickets at thesoraya.org or click here for tickets https://www.thesoraya.org/calendar/details/mgdc-2022.2023 VAIL DANCE FESTIVAL TICKETS ON SALE NOW! Conversations on Dance events: https://bit.ly/3NQwoDjPerformance tickets: https://vaildance.org/THIS EPISODES SPONSORSCleveland School of Ballet:Trainee Program Auditions https://clevelandballet.org/trainee-program-auditions/Summer Intensive Auditions https://clevelandballet.org/summer-intensive-2022/Dimensions Dance Theatre of Miami dimensionsdancemia.comDancespiration raffle www.dancespiration.store</div>
+</div>
+<div class="appearance">
+<div class="row2">Aug 9, 2019 — (149) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a588" target="_blank" rel="noopener noreferrer"><strong>Damian Woetzel</strong> &amp; <strong>Janet Eilber</strong> LIVE from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-janet-eilber-3', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-janet-eilber-3">Today we are bringing you a live podcast recording from the Vail Dance Festival with Festival Artistic Director Damian Woetzel and Janet Eilber, Martha Graham Dance Company Artistic Director. The pair talks with us about the Graham legacy, their roles as artistic directors of their respective organizations, and what audiences can expect to see from the Martha Graham Dance Company this year in Vail. This episode was recorded live on August 8th, 2019. This episode is brought to you by Yumiko and the Town of Vail. This episode was recorded at Manor Vail Lodge. The post (149) Damian Woetzel &amp; Janet Eilber LIVE from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="appearance">
+<div class="row2">Aug 23, 2017 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5f5" target="_blank" rel="noopener noreferrer">Vail Festival Forum Bonus Content: LIVE with <strong>Damian Woetzel</strong>, Lil Buck, and <strong>Janet Eilber</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-janet-eilber-4', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-janet-eilber-4">Welcome to Conversations on Dance, our final bonus episode from the Vail Dance Festival with Damian Woetzel, Lil&#x27; Buck, and Janet Eilber. This episode is quite special because we have a guest host, Vail Dance Festival Artistic Director, Damian Woetzel. After we had left, there was one final live event to give audiences an inside look at the artists and the performance. In this episode, Damian is joined by Jookin dancer, Lil Buck and Janet Eilber, the Artistic Director of Martha Graham Dance Company. As a side note, Buck is the cousin of this weeks Conversations on Dance guest, Ron Myles. Check out our chat with him in episode 56. The recording starts slightly into the event, so we join them just as Lil Buck begins to explain how he became involved in creating a Lamentation Variation with the Martha Graham Dance Company. They go on to have a great conversation on Martha Graham, tap, and collaboration at the Vail Dance Festival and beyond. The first voice you will hear is Damians. This recording was provided to us by the Vail Dance Festival. The post Vail Festival Forum Bonus Content: LIVE with Damian Woetzel, Lil&#x27; Buck, and Janet Eilber appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-F">F</h2>
+<div class="guest-block">
+<div class="guest-line">Yuri Fateev — Artistic Director — Mariinsky Ballet</div>
+<div class="appearance">
+<div class="row2">Nov 13, 2017 — (68) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5e9" target="_blank" rel="noopener noreferrer">Live From The Kennedy Center: Mariinsky Ballet Director <strong>Yuri Fateev</strong> and Dancer <strong>Timur Askerov</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-yuri-fateev-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-yuri-fateev-1">Welcome to Live From The Kennedy Center: Mariinsky Ballet Director Yuri Fateev and Dancer Timur Askerov. A few weeks ago we were in Washington, DC to cover a busy weekend of ballet at the Kennedy Center. While we were there, the Mariinsky Ballet was in town performing La Bayadre. We had the pleasure of sitting down with the acting director of the Mariinsky, Yuri Fateev and one of their star dancers, Timur Askerov. Mr. Fateev graduated from the Leningrad Academic Vaganova Choreography School in 1982 and joined the Mariinsky Ballet the same year. In 1996 he became a coach with the Mariinsky and has been a guest coach with the Royal Ballet in London, ABT, and Russias Bolshoi Theatre. He has been Acting Head of the Mariinsky Ballet since 2008. Mr. Askerov was born in Azerbaijan and graduated from the Baku School of Dance in 2008. From 20092011 he danced in Ukraine before joining the Mariinsky in 2011. He has danced lead roles in the majority of the companys repetoire and has toured with the Mariinsky to Europe, Asia, and America. Timur prefered to answer our questions in Russian, so Yuri was nice enough to translate for us. In this version of the interview we have done a voice over to translate for Timur. If you would like to listen to Timurs complete answers in Russian, we have tacked that interview on in its entirety to the end of this episode. To listen to that version, please fast forward to 50 minutes and 30 seconds in the time stamp now. We really enjoyed chatting with these two to get a better idea of what is happening at the Mariinsky, so we hope you enjoy this interview as much as we did. This episode is sponsored by Body Wrappers and The Kennedy Center. For more on the events happening at the Kennedy Center, visit kennedy-center.org. The post (68) Live From The Kennedy Center: Mariinsky Ballet Director Yuri Fateev and Dancer Timur Askerov appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Linda-Denise Fisher-Harrell — Artistic Director — <a href="hubbardstreetdance.com/" target="_blank" rel="noopener noreferrer" title="Hubbard Street Dance Chicago Home Page">Hubbard Street Dance Chicago</a></div>
+<div class="appearance">
+<div class="row2">Sep 19, 2023 — (365) — <a href="https://shows.acast.com/conversations-on-dance/episodes/linda-denise-fisher-harrell-artistic-director-hubbard-street" target="_blank" rel="noopener noreferrer"><strong>Linda-Denise Fisher-Harrell</strong>, Artistic Director of Hubbard Street Dance Chicago</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-linda-denise-fisher-harrell-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-linda-denise-fisher-harrell-1">Today on &#x27;Conversations On Dance&#x27; we are joined by Linda-Denise Fisher-Harrell, Artistic Director of Hubbard Street Dance Chicago. We talk to Linda-Denise about her late start and quick catch up in dance, her years touring with Alvin Ailey and her plans to continue to bring Hubbard Street to all Chicago audiences through innovative programming. To purchase tickets to Hubbard Street&#x27;s 2023-24 performances, visit hubbardstreetdance.com.THIS EPISODE&#x27;S SPONSOR:New York Theatre Ballet celebrates its 45-year legacy with a Fall program of World and Company Premieres by Artistic Director Steven Melendez, Douglas Dunn, David Gordon, and Amanda Treiber, Friday, October 6 and Saturday, October 7 at Florence Gould Hall in New York City. New York Theatre Ballet performs small classic masterpieces and new contemporary works for adults and innovative hour-long ballets for young children, all at affordable prices. This seasons Once Upon a Ballet series features The Firebird and Merce Cunninghams Scramble for four family-friendly shows, Saturday, October 7 and Sunday, October 8. For tickets and information, please visit NYTB.org/tickets.</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-G">G</h2>
+<div class="guest-block">
+<div class="guest-line">Gonzalo Garcia — Artistic Director — <a href="miamicityballet.org" target="_blank" rel="noopener noreferrer" title="Miami City Ballet Home Page">Miami City Ballet</a></div>
+<div class="appearance">
+<div class="row2">Feb 11, 2026 — (480) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/480-live-with-alexei-ratmansky-amp-gonzalo-garcia-works-amp-process-at-the-guggenheim-with-miami-city-ballet" target="_blank" rel="noopener noreferrer">LIVE with <strong>Alexei Ratmansky</strong> &amp; <strong>Gonzalo Garcia</strong>, Works &amp; Process at the Guggenheim with Miami City Ballet</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=oFt-FjXGGNA&amp;t=43s" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/480-live-with-at-150529836" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-gonzalo-garcia-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-gonzalo-garcia-1">WATCH the program on YouTube here.On February 7, 2026, Miami City Ballet presented a first look of world-renowned choreographer Alexei Ratmanskys new commission celebrating MCB founder Toby Lerner Ansins 85th birthday, before its February premiere in Florida. This work blends history, tradition, and forward-thinking creativity, with a score by Johann Strauss. Ratmansky and Miami City Ballets new artistic director Gonzalo Garcia will participate in the discussion, and MCB dancers perform excerpts.Miami City Ballet&#x27;s &#x27;Into The Magic City&#x27; program runs February 20th - March 1 in Miami and West Palm Beach. The program includes the World Premiere of &#x27;Roses from the South, Three Waltzes for Toby&#x27; as discussed here, as well as George Balanchine&#x27;s &#x27;Serenade&#x27; and &#x27;Tarantella&#x27;. Tickets available here.Works &amp; Process at the Guggenheim is a non-profit organization dedicated to championing the creative process from studio to stage, with programs just like this one. Find more information and ways to support on their website: https://www.worksandprocess.org/.Listen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondance</div>
+</div>
+<div class="appearance">
+<div class="row2">Nov 5, 2025 — (472) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/472-live-from-miami-city-ballet-with-patricia-delgado-and-gonzalo-garcia" target="_blank" rel="noopener noreferrer">LIVE from Miami City Ballet with <strong>Patricia Delgado</strong> and <strong>Gonzalo Garcia</strong></a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/472-live-from-142919766" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-gonzalo-garcia-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-gonzalo-garcia-2">This episode was recorded live on October 19, 2025 at The Adrienne Arsht Center for the Performing Arts in Miami before the opening of Miami City Ballet&#x27;s 40th anniversary season. Guests in this episode are Tony Award winning choreographer and former Miami City Ballet Principal Dancer, Patricia Delgado, and Miami City Ballet Artistic Director, Gonzalo Garcia.Listen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondance</div>
+</div>
+<div class="appearance">
+<div class="row2">Oct 29, 2025 — (471) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/471-live-from-miami-city-ballet-with-justin-peck-and-gonzalo-garcia" target="_blank" rel="noopener noreferrer">LIVE from Miami City Ballet with <strong>Justin Peck</strong> and <strong>Gonzalo Garcia</strong></a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=je6FADBH-eQ" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/471-live-from-142415635" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-gonzalo-garcia-3', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-gonzalo-garcia-3">This episode was recorded live on October 18, 2025 at The Adrienne Arsht Center for the Performing Arts in Miami before the opening of Miami City Ballet&#x27;s 40th anniversary season. Guests in this episode are is Tony Award winning choreographer, Justin Peck, and Miami City Ballet Artistic Director, Gonzalo Garcia. The pre-performance talk coordinated with the all Peck program that the company opened their season with, which included &quot;Year of The Rabbit,&quot; &quot;Chutes and Ladders,&quot; and &quot;Heatscape.&quot; WATCH this episode on YouTube! Click here: https://www.youtube.com/watch?v=je6FADBH-eQListen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondance</div>
+</div>
+<div class="appearance">
+<div class="row2">Oct 22, 2025 — (470) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/470-live-from-miami-city-ballet-with-gonzalo-garcia-artistic-director-of-miami-city-ballet" target="_blank" rel="noopener noreferrer">LIVE from Miami City Ballet with <strong>Gonzalo Garcia</strong>, Artistic Director of Miami City Ballet</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/470-live-from-of-141821053" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-gonzalo-garcia-4', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-gonzalo-garcia-4">This episode was recorded live on October 17, 2025 at The Adrienne Arsht Center for the Performing Arts in Miami before the opening of Miami City Ballet&#x27;s 40th anniversary season. This pre-performance talk coordinated with the all Peck program that the company opened their season with, which included &quot;Year of The Rabbit,&quot; &quot;Chutes and Ladders,&quot; and &quot;Heatscape.&quot;Listen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondance</div>
+</div>
+<div class="appearance">
+<div class="row2">Sep 24, 2025 — (466) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/466-gonzalo-garcia-newly-appointed-artistic-director-of-miami-city-ballet" target="_blank" rel="noopener noreferrer"><strong>Gonzalo Garcia</strong>, Newly Appointed Artistic Director of Miami City Ballet</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/466-gonzalo-of-141800466" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-gonzalo-garcia-5', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-gonzalo-garcia-5">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are joined by Gonzalo Garcia, former principal dancer with San Francisco Ballet and the New York City Ballet, and the new artistic director of the Miami City Ballet. Gonzalo gives us an inside view on his plans to shape Miami City Ballet as only the third director in its 40 year history, including his thoughts on repertoire he wants to bring, honing his fundraising skills for the company&#x27;s long term financial health and how he plans to be involved in daily coaching and teaching. Miami City Ballet&#x27;s 40th anniversary season kicks off at the Arsht Center on October 17th with an all Justin Peck program. To purchase tickets, visit miamicityballet.org. SPONSOR:Chicago&#x27;s Wrightwood 659 presents Joffrey + Ballet in the U.S., a large-scale exhibition celebrating the rich history of The Joffrey Ballet and the life of Robert Joffrey. Drawing from the Joffrey archive, acquired by the Jerome Robbins Dance Division in 2017 as the Librarys largest acquisition in a decade, the exhibition offers an in-depth look at the Joffreys contributions to ballet in the U.S. Highlights include rare film from the original performance of the groundbreaking ballet Astarte and Anna Sokolows Opus 65, as well as costumes, props, pointe shoes, posters, correspondence, and other ephemera from the company and Robert Joffreys life. On view October 3rd through Dec 20th. For more information, visit wrightwood659.org</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Robert Garland — Artistic Director — <a href="dancetheatreofharlem.org" target="_blank" rel="noopener noreferrer" title="Dance Theatre of Harlem Home Page">Dance Theatre of Harlem</a></div>
+<div class="appearance">
+<div class="row2">Jan 4, 2023 — (321) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4d6" target="_blank" rel="noopener noreferrer"><strong>Robert Garland</strong>, incoming Artistic Director of Dance Theatre of Harlem</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-robert-garland-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-robert-garland-1">On today&#x27;s episode of Conversations On Dance&#x27;, we are joined by choreographer and incoming Artistic Director of Dance Theatre of Harlem (DTH) Robert Garland. Robert began his dance training in Philadelphia where he first saw DTH perform as a child. He continued his training at Juilliard before joining DTH as a company member. He eventually reached the rank of principal and began work in various leadership roles as a teacher and choreographer. We talk to Robert about having the legendary Arthur Mitchell as a mentor, the wide range of his choreographic inspirations and his appointment in June 2023 to Artistic Director of the company he has long called home. If you are in the Houston area, see Dance Theatre of Harlem with Performing Arts Houston on February 3 &amp; 4. Tickets are available at performingartshouston.org This Episode&#x27;s Sponsors: Pittsburgh Ballet Theatre School is training the next generation of professional dancers by providing ballet and dance education of the highest caliber that prepares students for professional careers in dance. PBTs school focuses on the dancer as a whole person and nurturing them into creative, confident and well-rounded individuals. Pittsburgh Ballet Theatre Schools Intensive Summer Program runs from June 25-July 29th. Auditions are held across the country January 7 Feb 12, with a virtual audition on January 13. Learn more about Pittsburgh Ballet Theatre School and their Intensive Summer Program at https://www.pbt.org/pbts/isp2023/. Visit the Performing Arts Houston website to learn more about the performance and other upcoming shows, including four multidisciplinary world premieres by Houston artists Anthony Brandt, J.E. Hernandez, Vivalda Dula, and Tazeen Zahida. All four new works will be presented in festival format at New/Now: The Houston Artist Commissioning Project on February 24 and 25. Tickets are available at performingartshouston.org ___________________________________________</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Gladisa Guadalupe — Artistic Director — <a href="cleveballet.org/" target="_blank" rel="noopener noreferrer" title="Cleveland Ballet Home Page">Cleveland Ballet</a></div>
+<div class="appearance">
+<div class="row2">Sep 13, 2021 — (250) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a51e" target="_blank" rel="noopener noreferrer">Cleveland Ballet Artistic Director, <strong>Gladisa Guadalupe</strong>, and dancer, <strong>Marla Minadeo</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-gladisa-guadalupe-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-gladisa-guadalupe-1">Today we are joined by mother-daughter duo, Gladisa Guadalupe, and Marla Minadeo. Gladisa is the co-Founder and Artistic Director of the Cleveland Ballet and her daughter, Marla, is a dancer in the company. We talk with the pair about how they each were introduced to ballet, balancing their professional life with their family life, the many incarnations of Cleveland Ballet, and what the company has coming up as they enter their 2021-2022 season. Join Cleveland Ballet for its first performance of Momentum set to the magnificent score of Felix Mendelssohn, with choreography by Gladisa, in the city of Vermilion on Saturday, September 18th, 2021. Tickets and more information on this, and the company&#x27;s full season at Playhouse Square, are available on their website, clevelandballet.org.</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-H">H</h2>
+<div class="guest-block">
+<div class="guest-line">Christin Hanna — Artistic Director — Lake Tahoe Dance Festival</div>
+<div class="appearance">
+<div class="row2">Jul 20, 2020 — (192) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a55c" target="_blank" rel="noopener noreferrer"><strong>Christin Hanna</strong>, Lake Tahoe Dance Festival Artistic Director</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-christin-hanna-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-christin-hanna-1">While all performing arts organizations are shifting their content to a digital format, so are we. Today&#x27;s episode is meant to act like a pre-performance talk for the Lake Tahoe Dance Festival, which is presented by the Lake Tahoe Dance Collective. We chat with Artistic Director Christin Hanna about their digital festival which will be shown on their website this Wednesday Friday, July 22-24. We talk about the programming for all three evenings and what we can expect from the 2020 festival. You can watch this interview as well, to give you that live event feeling, on Lake Tahoe Dance Collective&#x27;s Facebook page or Instagram (@laketahoedancecollective). This episode is brought to you by Yumiko and the Lake Tahoe Dance Festival. The post (192) Christin Hanna, Lake Tahoe Dance Festival Artistic Director appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Austin Hartel — Artistic Director — Oklahoma International Dance Festival</div>
+<div class="appearance">
+<div class="row2">Jul 8, 2020 — (190) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a55e" target="_blank" rel="noopener noreferrer"><strong>Austin Hartel</strong>, Oklahoma International Dance Festival Artistic Director</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-austin-hartel-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-austin-hartel-1">Today we speak with Austin Hartel, Oklahoma International Dance Festival Artistic Director. Austin was a soloist and co-choreographer with Pilobolus Dance Theater, making appearances worldwide and on television. After his dance career, he joined the faculty of University of Oklahoma&#x27;s School of Dance where he has coordinated the Modern Dance Program for nearly 20 years. This year was meant to welcome the inaugural Oklahoma International Dance Festival, featuring artists from around the world for performances and student workshops. The COVID-19 pandemic has forced all arts organizations to adapt to these times, and this festival is no different. Now, from July 26 August 9th, students from all over will be able to participate in their online summer intensive, learning from an incredible faculty. Registration is open until July 15th, 2020. For more information and to register, visit, okdancefest.org. This episode is brought to you by Yumiko (yumiko.com). The post (190) Austin Hartel, Oklahoma International Dance Festival Artistic Director appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-J">J</h2>
+<div class="guest-block">
+<div class="guest-line">Susan Jaffe — Artistic Director — <a href="abt.org" target="_blank" rel="noopener noreferrer" title="American Ballet Theatre Home Page">American Ballet Theatre</a></div>
+<div class="appearance">
+<div class="row2">Apr 30, 2024 — (395) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/395-susan-jaffe-american-ballet-theatre" target="_blank" rel="noopener noreferrer"><strong>Susan Jaffe</strong>, Artistic Director of American Ballet Theatre</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-susan-jaffe-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-susan-jaffe-1">Today on the Conversations on Dance podcast, we are joined once again by Susan Jaffe, Artistic Director of American Ballet Theatre. We last had Susan on the podcast in late 2022 in episode 309 as she was about to take the helm of the company. This week we get the opportunity to hear from Susan about what her first year has been like, some of the challenges she has faced, and we get a preview of what is next for the company. For more information about upcoming performances of American Ballet Theatre, visit, abt.org. Listen to episode 309.</div>
+</div>
+<div class="appearance">
+<div class="row2">Oct 3, 2022 — (309) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/309-susan-jaffe-incoming-artistic-director-of-american-ballet-theatre" target="_blank" rel="noopener noreferrer"><strong>Susan Jaffe</strong>, incoming Artistic Director of American Ballet Theatre</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-susan-jaffe-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-susan-jaffe-2">On today&#x27;s episode, we are joined by former ballerina and incoming artist director of American Ballet Theatre Susan Jaffe. Susan has previously appeared on the podcast in an interview that covered her rapid rise to stardom at ABT, the accompanying self doubts during this success, and how working through those moments affects her present day work as a coach and director. (Listen here: https://conversationsondancepod.com/2020/08/31/susan-jaffe/). Today she talks about her time directing Pittsburgh Ballet Theater through a pandemic and what her plans are for when she takes the helm of American Ballet Theatre later this year.</div>
+</div>
+<div class="appearance">
+<div class="row2">Aug 31, 2020 — (199) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a555" target="_blank" rel="noopener noreferrer"><strong>Susan Jaffe</strong>, Pittsburgh Ballet Theatres New Artistic Director</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-susan-jaffe-3', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-susan-jaffe-3">Today we chat with Pittsburgh Ballet Theatre&#x27;s newly appointed Artistic Director, Susan Jaffe. Susan was a Principal dancer with American Ballet Theatre for 22 years, appearing prominently in the international dance scene and frequently dancing with Mikhail Baryshnikov. She retired from the stage in 2002 at age 40 and went on to serve as an adviser to the chairman of the board of American Ballet Theatre. From 2003-2010, she taught in the Jacqueline Kennedy Onassis School of American Ballet Theatre and from 2010-2012, she worked with American Ballet Theatre as ballet mistress. Since 2012, Ms. Jaffe has been the dean of dance at the University of North Carolina School of the Arts in Winston-Salem. In April 2020, it was announced that Susan would be taking on the role of Artistic Director at PBT. We talk with Susan about her prolific career, dancing with and for Baryshnikov, her ambition, dealing with career stress, &amp; her new position in the dance world. Learn more about the Susan Jaffe Series: https://www.susanjaffe.com This episode is brought to you by Yumiko (yumiko.com) and Veyette Virtual Ballet School (veyettevirtualballetschool.com). Links: instagram.com/conversationsondance facebook.com/conversationsondance twitter.com/convoondance conversationsondancepod.com The post (199) Susan Jaffe, Pittsburgh Ballet Theatre&#x27;s New Artistic Director appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Virginia Johnson — Artistic Director — <a href="dancetheatreofharlem.org" target="_blank" rel="noopener noreferrer" title="Dance Theatre of Harlem Home Page">Dance Theatre of Harlem</a></div>
+<div class="appearance">
+<div class="row2">Jun 3, 2019 — (140) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a594" target="_blank" rel="noopener noreferrer">LIVE from The Kennedy Center: Women Leading the Way in Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-virginia-johnson-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-virginia-johnson-1">Todays episode was recorded live at The Kennedy Center on Saturday June 1, 2019 before the matinee performance of Miami City Ballet as a part of Ballet Across America. We were joined by Virginia Johnson, the Artistic Director of Dance Theatre of Harlem (who had been performing earlier in the week), Lourdes Lopez, Artistic Director of Miami City Ballet, and celebrated choreographer, Pam Tanowitz. This panel was put together to discuss women leading the way in ballet. Be sure to explore all the happenings at the Kennedy Center by visiting, kennedy-center.org. This episode is sponsored by The Kennedy Center (kennedy-center.org), Yumiko (yumiko.com), and Lake Tahoe Dance Festival (laketahoedancecollective.org). The post (140) LIVE from The Kennedy Center: Women Leading the Way in Ballet appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Jacob Jonas — Artistic Director — <a href="jacobjonas.org/" target="_blank" rel="noopener noreferrer" title="Jacob Jonas the Company Home Page">Jacob Jonas the Company</a></div>
+<div class="appearance">
+<div class="row2">Oct 25, 2021 — (257) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a517" target="_blank" rel="noopener noreferrer"><strong>Jacob Jonas</strong>, Director, Choreographer, and Artistic Director of <strong>Jacob Jonas</strong> the Company</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-jacob-jonas-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-jacob-jonas-1">This week on Conversations on Dance, we are joined by Jacob Jonas, Director, Choreographer, and Artistic Director of Jacob Jonas the Company. Jacob started dancing at the age of 13 when he came across a street-performing group in Venice Beach. From there, his passion for dance expanded into various technique and across many different mediums. He is the founding Artistic Director of Jacob Jonas the Company, a creative company that intersects dance across mediums to make original works and initiate nontraditional collaborations. Experience Jacob&#x27;s newest project, Films.Dance. Through non-traditional collaborations across cultures and continents, and led by Jacob&#x27;s vision, this film series connects the perspectives of diverse artists from a range of disciplines, dance genres, abilities, and experiences. The second round of films began on September 13, 2021, with a new film every Monday following for 15 weeks. All films are free and available at www.films.dance, @films.dance on Instagram and their Facebook page. Films.Dance is co-presented by four leading performing arts organizations Los Angeless Younes and Soraya Nazarian Center for the Performing Arts, Chicagos Joan W. and Irving B. Harris Theater, New Yorks Brooklyn Academy of Music and Stanford Universitys Stanford Live. ____________________________</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-K">K</h2>
+<div class="guest-block">
+<div class="guest-line">Jjulie Kent — Artistic Director — <a href="houstonballet.org" target="_blank" rel="noopener noreferrer" title="Houston Ballet Home Page">Houston Ballet</a></div>
+<div class="appearance">
+<div class="row2">Nov 1, 2023 — (371) — <a href="https://shows.acast.com/conversations-on-dance/episodes/julie-kent-and-stanton-welch-houston-ballet" target="_blank" rel="noopener noreferrer"><strong>Julie Kent</strong> and <strong>Stanton Welch</strong>, Artistic Directors of Houston Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-jjulie-kent-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-jjulie-kent-1">On today&#x27;s episode of &#x27;Conversations On Dance&#x27;, we are joined by Houston Ballet&#x27;s Artistic Directors, Stanton Welch and Julie Kent. Stanton looks back on 20 years leading the Houston Ballet, while the two of them give us an inside look at what their shared leadership roles mean to both them and the organization at large, while also offering a glimpse into what audiences can expect from the company this season and into the future. If you are in the Houston area and would like to purchase tickets to Houston Ballet&#x27;s 2023-24 season, visit houstonballet.org. Try Audible Plus free for 30 daysGive the gift of Audible Plus</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Julie Kent — Artistic Director — <a href="houstonballet.org" target="_blank" rel="noopener noreferrer" title="Houston Ballet Home Page">Houston Ballet</a></div>
+<div class="appearance">
+<div class="row2">Mar 4, 2026 — (483) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/483-stanton-welch-and-julie-kent-on-houston-ballets-creative-culture-and-the-season-ahead" target="_blank" rel="noopener noreferrer"><strong>Stanton Welch</strong> and <strong>Julie Kent</strong> on Houston Ballets Creative Culture and the Season Ahead</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/483-stanton-and-152233897" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-julie-kent-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-julie-kent-1">Stanton Welch and Julie Kent join the Conversations on Dance podcast this week and reflect on nearly three years leading Houston Ballet, praising the dancers versatility, focus, and the engaged Houston community, and describing the value of sharing leadership. They discuss how the companys identity is shaped by having a prolific choreographer as artistic director in Stanton and what they look for in dancers. Looking ahead, they highlight a variety of works still to come this season including Welchs new 12-minute piece to Mason Bates featuring electronics and live percussion, and they outline how Welchs Giselle differs musically and dramatically, with expanded characters and staging, while Kent coaches intention and relationships.For more information on performances still to come this season, visit houstonballet.org.Houston Ballet 25/27 Season announced here: https://www.houstonballet.org/seasontickets/2026-2027-season-announced/Listen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondanceTIMESTAMPS:00:00 Welcome Back Catch Up02:14 Partnership Leading Together03:01 Studio Time And Support04:21 Choreographic Hub Culture07:54 Auditions Finding Versatility13:35 Season Variety Story Ballets18:44 Programming And Identity21:39 New Work Alice Topp25:43 Staging Hazards and Effects25:57 Avatar as Ballet Pitch26:22 More Dancers on Stage27:17 New Work Mason Bates29:08 Reimagining Giselle31:32 Coaching Story Over Steps34:39 Technique vs Artistry Debate38:12 Season Highlights Dances39:50 Rehearsal Timing and Stamina41:21 Next Season Tease and Farewell</div>
+</div>
+<div class="appearance">
+<div class="row2">Nov 1, 2023 — (371) — <a href="https://shows.acast.com/conversations-on-dance/episodes/julie-kent-and-stanton-welch-houston-ballet" target="_blank" rel="noopener noreferrer"><strong>Julie Kent</strong> and <strong>Stanton Welch</strong>, Artistic Directors of Houston Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-julie-kent-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-julie-kent-2">On today&#x27;s episode of &#x27;Conversations On Dance&#x27;, we are joined by Houston Ballet&#x27;s Artistic Directors, Stanton Welch and Julie Kent. Stanton looks back on 20 years leading the Houston Ballet, while the two of them give us an inside look at what their shared leadership roles mean to both them and the organization at large, while also offering a glimpse into what audiences can expect from the company this season and into the future. If you are in the Houston area and would like to purchase tickets to Houston Ballet&#x27;s 2023-24 season, visit houstonballet.org. Try Audible Plus free for 30 daysGive the gift of Audible Plus</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Maria Kowroski — Artistic Director — <a href="njballet.org" target="_blank" rel="noopener noreferrer" title="New Jersey Ballet Home Page">New Jersey Ballet</a></div>
+<div class="appearance">
+<div class="row2">May 29, 2024 — (398) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/399-maria-kowroski-artistic-director-of-new-jersey-ballet" target="_blank" rel="noopener noreferrer"><strong>Maria Kowroski</strong>, Artistic Director of New Jersey Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-maria-kowroski-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-maria-kowroski-1">Today on Conversations on Dance we are joined by Maria Kowroski, former Principal Dancer with New York City Ballet and current Artistic Director of New Jersey Ballet. Maria chats with us about her training, her incredible career, some of her favorite memories onstage, then the opportunity to become Artistic Director of New Jersey Ballet. She tells us about her focuses for the company, the challenges she has faced, and how she is forging a new path for the company. Learn more about New Jersey Ballet and their upcoming 65th anniversary on their website njballet.org.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Jennifer Carlynn Kronenberg — Artistic Director — <a href="dimensionsdance.org/" target="_blank" rel="noopener noreferrer" title="Dimensions Dance Theatre Home Page">Dimensions Dance Theatre</a></div>
+<div class="appearance">
+<div class="row2">Oct 6, 2020 — (205) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a54f" target="_blank" rel="noopener noreferrer"><strong>Jennifer Carlynn Kronenberg</strong>, Artistic Director of Dimensions Dance Theatre of Miami &amp; former Miami City Ballet Principal</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-jennifer-carlynn-kronenberg-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-jennifer-carlynn-kronenberg-1">This week we are joined by one of our former colleagues, Jennifer Carlynn Kronenberg. Jennifer is a former Principal Dancer with the Miami City Ballet and is now the co-artistic director of Dimensions Dance Theatre of Miami. Jennifer began her dance training in her hometown of Queens, New York, before going on to study at the School of American Ballet. From there, she was spotted by Edward Villella, who asked her to join his company, Miami City Ballet, as an apprentice when she was just 17. She moved through the ranks and became a principal in 2001. She danced in the company&#x27;s vast repertoire through to her retirement from the company in 2016. She and her husband, Carlos Guerra, also a former MCB Principal, went on to found Dimensions Dance Theatre of Miami, which is continuing to grow and prosper. Today we talk with Jen about her career, share some of our favorite memories of dancing with her in the company, talk about her transitions into directorship, and what challenges she and the company have faced during the COVID-19 pandemic. This episode is brought to you by Yumiko (yumiko.com) and Trey McIntyre&#x27;s FLTPK. Learn more at FLTPK.com. The post (205) Jennifer Carlynn Kronenberg, Artistic Director of Dimensions Dance Theatre of Miami &amp; former Miami City Ballet Principal appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-L">L</h2>
+<div class="guest-block">
+<div class="guest-line">Edwaard Liang — Artistic Director — <a href="balletmet.org" target="_blank" rel="noopener noreferrer" title="BalletMet Home Page">BalletMet</a></div>
+<div class="appearance">
+<div class="row2">Mar 18, 2019 — (130) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a59d" target="_blank" rel="noopener noreferrer"><strong>Edwaard Liang</strong>, Artistic Director of BalletMet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-edwaard-liang-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-edwaard-liang-1">This week on Conversations On Dance&#x27;, we are joined by in-demand choreographer and artistic director of BalletMet, Edwaard Liang. Liang danced for the New York City Ballet, where he rose to the rank of soloist. He later joined the Netherlands Dance Theatre, and performed in the broadway show Fosse&#x27;. These influences have shaped his choregraphic talents, which are sought all of the globe. He has choreographed for the Bolshoi Ballet, the New York City Ballet, The Kirov Ballet, Shanghai Ballet, Pacific Northwest Ballet and many more. In our final episode from our time at the San Francisco Ballet&#x27;s Unbound&#x27; festival, we talk with Edwaard about his then upcoming premiere for the company. This episode is brought to you by Yumiko and San Francisco Ballet. yumiko.com sfballet.org The post (130) Edwaard Liang, Artistic Director of BalletMet appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Yaron Lifschitz — Artistic Director — <a href="circa.org.au/" target="_blank" rel="noopener noreferrer" title="Circa Home Page">Circa</a></div>
+<div class="appearance">
+<div class="row2">Sep 26, 2022 — (308) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4e3" target="_blank" rel="noopener noreferrer"><strong>Yaron Lifschitz</strong>, Artistic Director and CEO of Circa, coming to Stanford Live</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-yaron-lifschitz-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-yaron-lifschitz-1">Today we are joined by Yaron Lifschitz, Artistic Director and CEO of Circa.&#x27; Yaron is a graduate of the University of New South Wales, University of Queensland, and National Institute of Dramatic Arts, where he was the youngest director ever accepted into its prestigious graduate directors course. Since graduating, Yaron has directed over 60 productions including large-scale events, opera, theatre, physical theatre, and circus. His work has been seen in more than 40 countries and across six continents by over 1.5 million people. Yaron tells us about how he came to the circus, what he looks for in artists, and how he created a new work called Leviathan,&#x27; co-commissioned by Stanford Live. If you are in the San Francisco Bay Area, see Leviathan&#x27; at Stanford Live September 30th and October 1st, 2022. Tickets available at live.stanford.edu. The post (308) Yaron Lifschitz, Artistic Director and CEO of Circa,&#x27; coming to Stanford Live appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Lourdes Lopez — Artistic Director — <a href="miamicityballet.org" target="_blank" rel="noopener noreferrer" title="Miami City Ballet Home Page">Miami City Ballet</a></div>
+<div class="appearance">
+<div class="row2">Jun 3, 2019 — (140) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a594" target="_blank" rel="noopener noreferrer">LIVE from The Kennedy Center: Women Leading the Way in Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-lourdes-lopez-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-lourdes-lopez-1">Todays episode was recorded live at The Kennedy Center on Saturday June 1, 2019 before the matinee performance of Miami City Ballet as a part of Ballet Across America. We were joined by Virginia Johnson, the Artistic Director of Dance Theatre of Harlem (who had been performing earlier in the week), Lourdes Lopez, Artistic Director of Miami City Ballet, and celebrated choreographer, Pam Tanowitz. This panel was put together to discuss women leading the way in ballet. Be sure to explore all the happenings at the Kennedy Center by visiting, kennedy-center.org. This episode is sponsored by The Kennedy Center (kennedy-center.org), Yumiko (yumiko.com), and Lake Tahoe Dance Festival (laketahoedancecollective.org). The post (140) LIVE from The Kennedy Center: Women Leading the Way in Ballet appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="appearance">
+<div class="row2">Nov 19, 2018 — (116) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5ab" target="_blank" rel="noopener noreferrer"><strong>Lourdes Lopez</strong>, Artistic Director of Miami City Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-lourdes-lopez-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-lourdes-lopez-2">Today we are joined by Miami City Ballet Artistic Director, Lourdes Lopez, and our former boss. Born in Havana, Cuba and raised in Miami, Lopez began taking ballet lessons at the age of five and continued her training full time at the School of American Ballet when she was 14. George Balanchine chose her to join the New York City Ballet corps de ballet shortly after her 16th birthday. She danced many featured roles with the company and was promoted by Balanchine to soloist in 1981, one of the last dancers he promoted. She became a Principal under the direction of Peter Martins in 1984 and she retired from the stage in 1997. After retiring she joined WNBC-TV in New York as a cultural arts reporter. She later went on to become the Executive Director of The George Balanchine Foundation and then co-founded the dance company, Morphoses with Christopher Wheeldon in 2007. In 2012, she became the Artistic Director of Miami City Ballet. Lourdes has been named a Nominee at this years Dance Magazine Awards taking place in New York City on December 3rd. For more information on the Dance Magazine awards, visit dancemagazine.com. This episode is brought to you by Yumiko. Note: Lourdes discusses the book entitled, Bravura!: Lucia Chase and the American Ballet Theatre. The post (116) Lourdes Lopez, Artistic Director of Miami City Ballet appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-M">M</h2>
+<div class="guest-block">
+<div class="guest-line">Sebastien Marcovici — Associate Artistic Director — <a href="ladanceproject.org" target="_blank" rel="noopener noreferrer" title="LA Dance Project Home Page">LA Dance Project</a></div>
+<div class="appearance">
+<div class="row2">Jul 31, 2023 — (353) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/353-janie-taylor-sebastien-marcovici" target="_blank" rel="noopener noreferrer"><strong>Janie Taylor</strong> and <strong>Sebastien Marcovici</strong> of LA Dance Project, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-sebastien-marcovici-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-sebastien-marcovici-1">Los Angeles Dance Project has been bringing a vast and varied repertoire to audiences in Los Angeles and throughout the world for over a decade, expanding the boundaries of dance and how the art interacts and relates to movement in the modern world. This live recording of the Conversations On Dance podcast feature artists of LADP discussing the companys return to the Vail Dance Festival, in its tenth anniversary, on a program of all female choreographers.This episode was recorded live on July 30th, 2023 at the Manor Vail Lodge. Conversations on Dance at the Vail Dance Festival is generously underwritten by the Town of Vail.VAIL DANCE FESTIVAL IS GOING ON NOW! Conversations on Dance events: https://vaildance.org/conversations-on-dance/Performance tickets: https://vaildance.org/</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Kevin McKenzie — Artistic Director — <a href="abt.org" target="_blank" rel="noopener noreferrer" title="American Ballet Theatre Home Page">American Ballet Theatre</a></div>
+<div class="appearance">
+<div class="row2">Oct 23, 2017 — (65) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5ec" target="_blank" rel="noopener noreferrer"><strong>Kevin McKenzie</strong>, American Ballet Theatre Artistic Director</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-kevin-mckenzie-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-kevin-mckenzie-1">This week we have the pleasure of being joined Kevin McKenzie, American Ballet Theatre Artistic Director. A native of Vermont, McKenzie recieved his ballet trianing from the Washington School of Ballet. He was a leading dancer with the Joffrey Ballet and the National Ballet of Washington before joining American Ballet Theatre in 1979 as a soloist. He would go on to dance with the company as a Principal dancer until 1991. During his time with the company he danced many leading roles including Don Jose in Carmen, Albrecht in Giselle, and Romeo in Romeo and Juliet. In 1989 McKenzie was appointed Artistic Associate at The Washington Ballet where he was a permanent guest artist, and he also acted as Associate Artistic Director of New Amsterdam Ballet. In October of 1992, he was appointed Artistic Director of American Ballet Theatre, where he would go on to choreograph many works on the company. This year, the company is celebrating his 25th year as Artistic Director, so we were happy to get the opportunity to take a look back over his career, and the past 25 years with ABT. The post (65) Kevin McKenzie, American Ballet Theatre Artistic Director appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-N">N</h2>
+<div class="guest-block">
+<div class="guest-line">Philip Neal — Artistic Director — <a href="strazcenter.org/patel-conservatory/dance/next-generation-ballet/" target="_blank" rel="noopener noreferrer" title="Next Generation Ballet Home Page">Next Generation Ballet</a></div>
+<div class="appearance">
+<div class="row2">Jan 8, 2018 — (74) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5e1" target="_blank" rel="noopener noreferrer"><strong>Philip Neal</strong>, Artistic Director of Next Generation Ballet and Former New York City Ballet Principal</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-philip-neal-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-philip-neal-1">This week we continue our coverage of Next Generation Ballets Nutcracker by speaking with Philip Neal, Artistic Director of Next Generation Ballet. Philip began his training at the age of 11 at the School of Richmond Ballet, where he was recognized by Edward Villella and offered a scholarship to the School of American Ballet. He joined the New York City Ballet in 1987 becoming a Principal in 1992. He went on to dance lead roles in the vast majority of the companys rep, and was invited to guest with many companies including the Kirov Ballet and Paris Opera Ballet. After a 23- year tenure with City Ballet, 17 of those years as a Principal, Philip was invited by The George Balanchine Trust and The Jerome Robbins Rights Trust to become a Repetiteur, staging the ballets of both legendary choreographers throughout the world. From 2010-2013, he directed developmental efforts in Palm Beach County on behalf of Miami City Ballet before being appointed the Artistic Director of Next Generation Ballet &amp; Dance Dean of the Patel Conservatory at the Straz Center in Tampa FL, one the largest performing arts center in the United States. Today we talk with Philip about his career, how he discovered his talent for arts development, get some teaching pointers, and learn more about the great work he is doing at Next Generation Ballet. The post (74) Philip Neal, Artistic Director of Next Generation Ballet and Former New York City Ballet Principal appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Colleen Neary — Artistic Director — <a href="losangelesballet.org" target="_blank" rel="noopener noreferrer" title="Los Angeles Ballet Home Page">Los Angeles Ballet</a></div>
+<div class="appearance">
+<div class="row2">Jan 31, 2022 — (268) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a50b" target="_blank" rel="noopener noreferrer"><strong>Colleen Neary</strong>, Artistic Director of Los Angeles Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-colleen-neary-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-colleen-neary-1">Today we have the pleasure of being joined by Colleen Neary, Artistic Director of Los Angeles Ballet. Born in Miami, Florida, Neary trained in New York at both the School of American Ballet and Harkness House for Ballet Arts. From 1969 to 1979, she danced as a soloist with New York City Ballet under the direction of George Balanchine and became one of his quintessential ballerinas. Colleen&#x27;s career path led her to Europe in 1979 when she became Rehearsal Director and Choreographic Assistant at Switzerlands Zurich Ballet. In 1986 she accepted the position of Principal Dancer with Pacific Northwest Ballet, then returned to Europe in 1992 to spend a decade with The Royal Danish Ballet as Rehearsal Director, Company Teacher, and First Instructor in charge of productions. In 2004, she and her husband, Thordal Christensen, founded Los Angeles Ballet. Today we take a deep dive into Colleens career, where she shares with us what it was like dancing at SAB as a young dancer while her older sister, Pat Neary, was in the company, her relationship with Balanchine, and her unusual path to join NYCB. She shares delightful stories with us about working with Balanchine and Jerome Robbins, and where her career took her after leaving the company. You wont want to miss a moment of this chat, so we hope you all enjoy! ___________________________</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Mikko Nissinen — Artistic Director — <a href="bostonballet.org" target="_blank" rel="noopener noreferrer" title="Boston Ballet Home Page">Boston Ballet</a></div>
+<div class="appearance">
+<div class="row2">Jun 13, 2022 — (291) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4f4" target="_blank" rel="noopener noreferrer"><strong>Mikko Nissinen</strong>, on Boston Ballets Tour to Ballet Sun Valley</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-mikko-nissinen-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-mikko-nissinen-1">This week, we are joined by Mikko Nissinen, Artistic Director of Boston Ballet. We first spoke with Mikko about his career and his 20 plus years at the helm of Boston Ballet in episode 183 from May 2020. Today we catch up with Mikko to hear about how Boston Ballet weathered the pandemic, how the company reacted to COVID and the Black Lives Matter movement, and their recent ChoreograpHER program. Boston Ballet will be on tour for the first time since the pandemic hit this month at Ballet Sun Valley. Ballet Sun Valley&#x27;s Festival 2022 will feature Boston Ballet in two distinct programs. Mikko takes us through the programming for these performances and how he curated these evenings of dance that is sure to delight audiences. Catch Boston Ballet&#x27;s debut at Ballet Sun Valley June 24th and 25th, 2022 at 7pm in the Sun Valley Pavilion. Tickets are available at balletsunvalley.org or click the link in the description of this episode. SPONSORS: Conversations on Dance at the Vail Dance Festival July 30 August 9: https://vaildance.org/conversations-on-dance. Tickets on sale now. ____________________________</div>
+</div>
+<div class="appearance">
+<div class="row2">May 4, 2020 — (183) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a565" target="_blank" rel="noopener noreferrer"><strong>Mikko Nissinen</strong>, Boston Ballet Artistic Director</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-mikko-nissinen-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-mikko-nissinen-2">This week, we are joined by Mikko Nissinen, Boston Ballet Artistic Director. Born in Helsinki, Mikko began his dance training at age ten with The Finnish National Ballet School, and launched his professional dance career at age 15 with The Finnish National Ballet. He went on to continue his dance training at The Kirov Ballet School in St. Petersburg, Russia. He danced professionally for 19 years, with Dutch National Ballet, Basel Ballet and as a principal dancer with San Francisco Ballet. In 2001 he was appointed Artistic Director of Boston Ballet. Now nearly 20 years into his tenure as director, we talk with Mikko about his training and early career, his ambition to always be learning more about ballet, his aspirations to run a large company, and how he landed with his position at Boston Ballet. Mikko also talks with us about leading the organization through numerous crises, including navigating the current COVID-19 pandemic. This episode is brought to you by Yumiko. The post (183) Mikko Nissinen, Boston Ballet Artistic Director appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Michael Novak — Artistic Director — <a href="paultaylordance.org/" target="_blank" rel="noopener noreferrer" title="Paul Taylor Dance Company Home Page">Paul Taylor Dance Company</a></div>
+<div class="appearance">
+<div class="row2">Jul 27, 2025 — (453) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/453-michael-novak-artistic-direction-of-paul-taylor-dance-company-live-from-the-2025-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Michael Novak</strong>, Artistic Direction of Paul Taylor Dance Company, LIVE from the 2025 Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-michael-novak-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-michael-novak-1">Join Conversations on Dance hosts Rebecca King Ferraro and Michael Sean Breeden for a live podcast recording with Michael Novak, Artistic Director of the legendary Paul Taylor Dance Company. As the company returns to the Vail Dance Festival for the first time since 2018, Novak reflects on honoring the legacy of Paul Taylorone of the most influential figures in American modern danceon what would have been Taylors 95th birthday.This special conversation offers insight into the companys tribute performance, featuring the beloved Company B and the 50th anniversary presentation of Esplanade, a masterwork hailed for transforming everyday movement into mythic dance. This episode is brought to you by Discover Vail and was recorded live from the Vail Dance Festival on July 27, 2025.Tickets to Conversations on Dance at the 2025 Vail Dance Festival on sale now! https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="appearance">
+<div class="row2">Jul 2, 2018 — (99) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5c3" target="_blank" rel="noopener noreferrer"><strong>Michael Novak</strong>, Artistic Director Designate of the Paul Taylor Dance Foundation</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-michael-novak-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-michael-novak-2">This we we are delighted to welcome Michael Novak, the Artistic Director Designate of the Paul Taylor Dance Foundation. Raised in Rolling Meadows, IL, Michael began studying dance at age ten. In 2001, he was offered a Presidential Scholarship to attend The University of the Arts in Philadelphia to pursue training in jazz and ballet. The following year, he undertook an apprenticeship at the Pennsylvania Academy of Ballet Society, where he remained until 2004. After moving to New York City, Michael was admitted to Columbia Universitys School of General Studies where he was awarded scholarships for academic excellence. After being a freelance dancer in New York City for many years, Michael joined the Paul Taylor Dance Company in 2010. This past May, Paul Taylor chose Michael as a successor, naming him artistic director-designate of the Paul Taylor Dance Foundation. Michael is 35 and will continue on with the company as a dancer. Today we talk with Michael about what brought him to dance, finding Paul Taylor and his choreography, and what has happened since Paul called him in March with some big news. The post (99) Michael Novak, Artistic Director Designate of the Paul Taylor Dance Foundation appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-P">P</h2>
+<div class="guest-block">
+<div class="guest-line">Dante Puleio — Artistic Director — <a href="limon.nyc/" target="_blank" rel="noopener noreferrer" title="Limon Dance Company Home Page">Limon Dance Company</a></div>
+<div class="appearance">
+<div class="row2">Oct 1, 2025 — (467) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/467-dante-puleio-artistic-director-of-limn-dance-company-and-choreographer-diego-vega-solorza" target="_blank" rel="noopener noreferrer"><strong>Dante Puleio</strong>, Artistic Director of Limn Dance Company, and choreographer <strong>Diego Vega Solorza</strong></a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/467-dante-puleio-141800553" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-dante-puleio-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-dante-puleio-1">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are joined by Dante Puleio, Artistic Director of the Limn Dance Company, and esteemed choreographer Diego Vega Solorza, whose work for the company will premiere in the company&#x27;s upcoming Joyce season. Dante tells us how he became familiar with Diego&#x27;s work and why it was a natural fit for the company and the season, while Diego dives into his creative process and how the Limn dancers have shaped this particular work. The Limn Dance Company will perform at the storied Joyce theater in New York City from Tuesday, October 14th through Sunday October 19th. To purchase tickets visit joyce.org. SPONSOR:Friday through Sunday, November 7th through 9th, join Amanda Treiber and Company for their debut performances at the Mark ODonnell Theater in Brooklyn! Featuring a cast of international artists, including dancers and musicians from New York City Ballet, and a world premiere to music by Philip Glass, these performances showcase NYC-based choreographer and dancer Amanda Treiber&#x27;s ability to create worlds through unique movement vocabularies and her deep collaborations with dancers, musicians, and visual artists. You won&#x27;t want to miss it! Reserve your tickets today at amandatreiber.com.</div>
+</div>
+<div class="appearance">
+<div class="row2">Jul 29, 2024 — (405) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/405-dante-puleio-and-joey-columbus-on-the-legacy-of-jos-limn-live-from-the-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Dante Puleio</strong> and <strong>Joey Columbus</strong> on the legacy of Jos Limn, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-dante-puleio-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-dante-puleio-2">This episode was recorded live on Monday, July 29th, 2024 at the Vail Dance Festival. At the vanguard of American modern dance since its inception, Limn Dance Company returns to the Vail Dance Festival after making their debut in 2022. The companys first performance at the festival earned rave reviews and now they return to celebrate the incredible dance legacy of this beloved and historic company. Join Conversations On Dance hosts Rebecca King Ferraro and Michael Sean Breeden as they sit down with Limn Dance Company Artistic Director, Dante Puleio, and company artist Joey Columbus, to dig into the legacy of Limn and what audiences can expect to see from the company.Upcoming Conversations on Dance events at the 2024 Vail Dance Festival: https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="appearance">
+<div class="row2">Aug 9, 2022 — (299) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4ec" target="_blank" rel="noopener noreferrer"><strong>Dante Puleio</strong> and <strong>Nicholas Ruscica</strong> of Limn Dance Company, LIVE from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-dante-puleio-3', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-dante-puleio-3">At the vanguard of American modern dance since its inception, Limon Dance Company is celebrating its landmark 75th anniversary this season. Making their VDF debut this summer, come celebrate the incredible dance legacy of this beloved and historic company. Artistic Director Dance Puleio will join the Conversations On Dance podcast in a discussion about preserving the companys incredible heritage while pushing forward into the future with new commissions. Celebrating its landmark 75th anniversary season, the Limn Dance Company makes its Festival debut this summer. Please note: Conversations On Dance co-host, Rebecca King Ferraro, will be on maternity leave this summer. These live events will be hosted by Michael Sean Breeden with special guest hosts throughout the festival. This episode was recorded on August 1, 2022 with special guest host, Patricia Delgado. Special thanks to the Town of Vail for their support of Conversations on Dance and the Vail Dance Festival. This episode was recorded at the Manor Vail Lodge. Photo by Christopher Duggan The post (299) Dante Puleio and Nicholas Ruscica of Limn Dance Company, LIVE from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Dante Pulelo — Artistic Director — <a href="limon.nyc/" target="_blank" rel="noopener noreferrer" title="Limon Dance Company Home Page">Limon Dance Company</a></div>
+<div class="appearance">
+<div class="row2">Oct 29, 2024 — (422) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/422-dante-puleio-artistic-director-of-limn-dance-company" target="_blank" rel="noopener noreferrer">Dante Puleio, Artistic Director of Limon Dance Company</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-dante-pulelo-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-dante-pulelo-1">On this episode of Conversations on Dance we are thrilled to welcome back Artistic Director of the Limn Dance Company, ? Dante Puleio. Dante dives into the specifics of his role, including how he curates programming, casts the works, and protects the company&#x27;s legacy. The Limn Dance Company will have it&#x27;s New York City season at the Joyce Theater this November 5 - 10. Tickets are available at joyce.org.</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-R">R</h2>
+<div class="guest-block">
+<div class="guest-line">Aparna Ramaswamy — Artistic Director — <a href="ragamaladance.org/" target="_blank" rel="noopener noreferrer" title="Ragamala Dance Company Home Page">Ragamala Dance Company</a></div>
+<div class="appearance">
+<div class="row2">Feb 28, 2023 — (330) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4cd" target="_blank" rel="noopener noreferrer">Ragamala Dance Company in Fires of Varanasi with Performing Arts Houston</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-aparna-ramaswamy-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-aparna-ramaswamy-1">Today we are thrilled to welcome back to the pod, the ladies of Ragamala Dance Company. Today we talk with companys founder and co-artistic director, Ranee Ramaswamy, and her daughter, co-artistic director Aparna Ramaswamy. We first had Ranee and Aparna on the podcast about a year ago, with Aparna&#x27;s sister, Ashwini, in episode 275. If you haven&#x27;t heard that episode yet, we hope you will go back and tune in to hear more about the trio&#x27;s origin in dance and about the founding of Ragamala Dance Company. Ranne and Aparna join us today to talk about Fires of Varanasi,&#x27; the show that they have been touring for the last year. For our listeners in the Houston area, don&#x27;t miss Ragamala Dance Company in Fires of Varanasi&#x27; March 10th with Performing Arts Houston. For tickets and more information, visit performingartshouston.org. This Episodes Sponsor: Pittsburgh Ballet Theatre School is training the next generation of professional dancers by providing ballet and dance education of the highest caliber that prepares students for professional careers in dance. PBTs school focuses on the dancer as a whole person and nurturing them into creative, confident and well-rounded individuals. Pittsburgh Ballet Theatre Schools Intensive Summer Program runs from June 25-July 29th. Auditions for PBTs pre-professional program will be held March 6th through the 11th. Pre-professional dancers will have the opportunity to work with incoming PBT director Adam McKinney starting this summer. For more information visit pbt.org/pbts/auditions2023.</div>
+</div>
+<div class="appearance">
+<div class="row2">Mar 14, 2022 — (275) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a504" target="_blank" rel="noopener noreferrer">Ragamala Dance Company</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-aparna-ramaswamy-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-aparna-ramaswamy-2">Today we hear about the Ragamala Dance Company. We are joined by the company&#x27;s founder and co-artistic director, Ranee Ramaswamy, and her two daughters: co-artistic director Aparna Ramaswamy and Choreographic Associate Ashwini Ramaswamy. This mother-daughter run company was founded in 1992 and is rooted in the South Indian dance form of Bharatanatyam. Through multi-disciplinary dance works for the stage, engaging the community, and educating the next generation, Ragamala epitomizes intercultural and immigrant narratives that evoke a shared sense of humanity. They train the next generation of dancers through the Ragamala Training Center. We talk with this trio about their origins in dance, the style of Bharatanatyam, the founding of their company, their choreography, and what they have coming up in the next few months. The company will be performing Fires of Varanasi&#x27; at the Soraya in Los Angeles on April 9, 2022 (https://www.thesoraya.org/calendar/details/ragamala-2022). The premiere of Ashwini Ramaswamy Let the Crows Come&#x27; is April 13, 2022 at the Baryshnikov Arts Center (https://www.albany.edu/pac/news/2021-ashwini-ramaswamys-let-crows-come-march-27). _________________________</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Ranee Ramaswamy — Artistic Director — <a href="ragamaladance.org/" target="_blank" rel="noopener noreferrer" title="Ragamala Dance Company Home Page">Ragamala Dance Company</a></div>
+<div class="appearance">
+<div class="row2">Feb 28, 2023 — (330) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4cd" target="_blank" rel="noopener noreferrer">Ragamala Dance Company in Fires of Varanasi with Performing Arts Houston</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-ranee-ramaswamy-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-ranee-ramaswamy-1">Today we are thrilled to welcome back to the pod, the ladies of Ragamala Dance Company. Today we talk with companys founder and co-artistic director, Ranee Ramaswamy, and her daughter, co-artistic director Aparna Ramaswamy. We first had Ranee and Aparna on the podcast about a year ago, with Aparna&#x27;s sister, Ashwini, in episode 275. If you haven&#x27;t heard that episode yet, we hope you will go back and tune in to hear more about the trio&#x27;s origin in dance and about the founding of Ragamala Dance Company. Ranne and Aparna join us today to talk about Fires of Varanasi,&#x27; the show that they have been touring for the last year. For our listeners in the Houston area, don&#x27;t miss Ragamala Dance Company in Fires of Varanasi&#x27; March 10th with Performing Arts Houston. For tickets and more information, visit performingartshouston.org. This Episodes Sponsor: Pittsburgh Ballet Theatre School is training the next generation of professional dancers by providing ballet and dance education of the highest caliber that prepares students for professional careers in dance. PBTs school focuses on the dancer as a whole person and nurturing them into creative, confident and well-rounded individuals. Pittsburgh Ballet Theatre Schools Intensive Summer Program runs from June 25-July 29th. Auditions for PBTs pre-professional program will be held March 6th through the 11th. Pre-professional dancers will have the opportunity to work with incoming PBT director Adam McKinney starting this summer. For more information visit pbt.org/pbts/auditions2023.</div>
+</div>
+<div class="appearance">
+<div class="row2">Mar 14, 2022 — (275) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a504" target="_blank" rel="noopener noreferrer">Ragamala Dance Company</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-ranee-ramaswamy-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-ranee-ramaswamy-2">Today we hear about the Ragamala Dance Company. We are joined by the company&#x27;s founder and co-artistic director, Ranee Ramaswamy, and her two daughters: co-artistic director Aparna Ramaswamy and Choreographic Associate Ashwini Ramaswamy. This mother-daughter run company was founded in 1992 and is rooted in the South Indian dance form of Bharatanatyam. Through multi-disciplinary dance works for the stage, engaging the community, and educating the next generation, Ragamala epitomizes intercultural and immigrant narratives that evoke a shared sense of humanity. They train the next generation of dancers through the Ragamala Training Center. We talk with this trio about their origins in dance, the style of Bharatanatyam, the founding of their company, their choreography, and what they have coming up in the next few months. The company will be performing Fires of Varanasi&#x27; at the Soraya in Los Angeles on April 9, 2022 (https://www.thesoraya.org/calendar/details/ragamala-2022). The premiere of Ashwini Ramaswamy Let the Crows Come&#x27; is April 13, 2022 at the Baryshnikov Arts Center (https://www.albany.edu/pac/news/2021-ashwini-ramaswamys-let-crows-come-march-27). _________________________</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Dwight Rhoden — Artistic Director — <a href="complexionscontemporaryballet.org/" target="_blank" rel="noopener noreferrer" title="Complexions Contemporary Ballet Home Page">Complexions Contemporary Ballet</a></div>
+<div class="appearance">
+<div class="row2">Jan 15, 2025 — (428) — <a href="https://shows.acast.com/conversations-on-dance/episodes/428-dwight-rhoden-desmond-richardson-performing-arts-houston" target="_blank" rel="noopener noreferrer"><strong>Dwight Rhoden</strong> &amp; <strong>Desmond Richardson</strong> on Complexions Contemporary Ballet at Performing Arts Houston</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-dwight-rhoden-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-dwight-rhoden-1">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are joined by the co-founders of Complexions Contemporary Ballet, Dwight Rhoden and Desmond Richardson. They take us through the history of their artistic connection, the inauspicious beginnings of the company, and how they&#x27;ve built on the mission of Complexions over the course of its 30 year history. Complexions will be performing at Performing Arts Houston in Houston, TX on February 1st. To purchase tickets visit performingartshouston.org. Dwight on COD in June 2024: https://www.conversationsondancepod.com/episodes-transcripts/399-dwight-rhoden-choreographer-amp-artistic-director-of-complexions-contemporary-ballet</div>
+</div>
+<div class="appearance">
+<div class="row2">Jun 4, 2024 — (399) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/399-dwight-rhoden-choreographer-amp-artistic-director-of-complexions-contemporary-ballet" target="_blank" rel="noopener noreferrer"><strong>Dwight Rhoden</strong>, Choreographer &amp; Artistic Director of Complexions Contemporary Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-dwight-rhoden-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-dwight-rhoden-2">Today we are joined by Dwight Rhoden, Choreographer &amp; Artistic Director of Complexions Contemporary Ballet. Since it has been over six years since we last had him on the podcast, we go back to the beginning and hear about his start in dance and choreography. We dig into his process and what he looks for in dancers, both for Complexions and when he is choreographing on other companies. Dwight tells us about his new work for Houston Ballet that is running from June 6-16 as a part of a mixed bill program called, &quot;Four Seasons.&quot; This is Dwight&#x27;s first work on the company so he tells us what it has been like working with the dancers, how the work evolved from his initial vision, and what he hopes audience&#x27;s take away from his work. For more information and to get tickets, visit houstonballet.org.</div>
+</div>
+<div class="appearance">
+<div class="row2">Jun 11, 2018 — (96) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5c6" target="_blank" rel="noopener noreferrer"><strong>Dwight Rhoden</strong>, Artistic Director of Complexions Contemporary Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-dwight-rhoden-3', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-dwight-rhoden-3">Today on Conversations On Dance, we speak with Dwight Rhoden, founding artistic director and resident choreographer of Complexions Dance Company. Despite a late start in dance, Rhoden danced for numerous major companies, including as a principal with Alvin Ailey American Dance Theater. Partnering with acclaimed performer Desmond Richardson, Rhoden co-founded Complexions in 1994, a company often cited as Americas original multi-cultural dance company. With its profound commitment to diversity and new contemporary work, Complexions has achieved international acclaim. Rhoden has choreographed over 80 works for Complexions, in addition to works created for the Mariinsky Ballet, the New York City Ballet, the Joffrey Ballet, and many others. Today we talk to Dwight about his beginnings as a dancer, whats next for Complexions and the work he most recently created at San Francisco Ballets Unbound festival. The post (96) Dwight Rhoden, Artistic Director of Complexions Contemporary Ballet appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Desmond Richardson — Artistic Director — <a href="complexionscontemporaryballet.org/" target="_blank" rel="noopener noreferrer" title="Complexions Contemporary Ballet Home Page">Complexions Contemporary Ballet</a></div>
+<div class="appearance">
+<div class="row2">Jan 15, 2025 — (428) — <a href="https://shows.acast.com/conversations-on-dance/episodes/428-dwight-rhoden-desmond-richardson-performing-arts-houston" target="_blank" rel="noopener noreferrer"><strong>Dwight Rhoden</strong> &amp; <strong>Desmond Richardson</strong> on Complexions Contemporary Ballet at Performing Arts Houston</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-desmond-richardson-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-desmond-richardson-1">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are joined by the co-founders of Complexions Contemporary Ballet, Dwight Rhoden and Desmond Richardson. They take us through the history of their artistic connection, the inauspicious beginnings of the company, and how they&#x27;ve built on the mission of Complexions over the course of its 30 year history. Complexions will be performing at Performing Arts Houston in Houston, TX on February 1st. To purchase tickets visit performingartshouston.org. Dwight on COD in June 2024: https://www.conversationsondancepod.com/episodes-transcripts/399-dwight-rhoden-choreographer-amp-artistic-director-of-complexions-contemporary-ballet</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Cleo Parker Robinson — Artistic Director — <a href="cleoparkerdance.org/" target="_blank" rel="noopener noreferrer" title="Cleo Parker Robinson Dance Home Page">Cleo Parker Robinson Dance</a></div>
+<div class="appearance">
+<div class="row2">Aug 10, 2021 — (244) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a525" target="_blank" rel="noopener noreferrer"><strong>Cleo Parker Robinson</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-cleo-parker-robinson-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-cleo-parker-robinson-1">LIVE from the Vail Dance Festival, we are joined by choreographer, Cleo Parker Robinson. Cleo is the found of Cleo Parker Robinson Dance. She gives us background on her career, coming, and her choreography. She also tells us about the work that she created for the 2021 Vail Dance Festival. This episode was recorded LIVE from the Vail Dance Festival, This episode was recorded on August 8, 2021 at the Manor Vail Lodge. Experience the Vail Dance Festival from wherever you are. Enjoy a live-streamed event of the festivals closing evening: NOW Premieres, which we discuss in this episode. Access will be available for one week on VDFs YouTube Channel. More information on VDFs social media channels. Special thanks to the Town of Vail for their support of the Vail Dance Festival and Conversations on Dance live podcast recordings. This episode was recorded at the Manor Vail Lodge. Conversations on Dance is proud to have YUMIKO as a continued partner in 2021. yumiko.com Thank you to Tom Boyd for producing this episode. Photo by Christopher Duggan The post (244) Cleo Parker Robinson, LIVE from the Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Dani Rowe — Artistic Director — <a href="obt.org" target="_blank" rel="noopener noreferrer" title="Oregon Ballet Theatre Home Page">Oregon Ballet Theatre</a></div>
+<div class="appearance">
+<div class="row2">Mar 26, 2025 — (438) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/438-dani-rowe-artistic-director-of-obt-amp-shannon-rugani-composer-and-former-dancer-with-sfb" target="_blank" rel="noopener noreferrer"><strong>Dani Rowe</strong>, Artistic Director of OBT, &amp; <strong>Shannon Rugani</strong>, composer and former dancer with SFB</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-dani-rowe-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-dani-rowe-1">On today&#x27;s episode of Conversations On Dance, we are joined by Dani Rowe, choreographer and Artistic Director of Oregon Ballet Theatre and composer Shannon Rugani. The two artists are collaborating on &quot;Marilyn&quot;, a world premiere production centered on the life of immortal cinema icon Marilyn Monroe. They take us through their collaborative process and give us a sneak peak into what audiences can expect from this ambitious project. If you&#x27;re in the Portland area and want to purchase tickets to &quot;Marilyn&quot;, visit www.obt.org. Performances run April 4 through the 13th at the Newmark theater. This episode&#x27;s sponsor: Paying tribute to the groundbreaking Judson Church choreographers who radically pushed the boundaries of what dance could be, New York Theatre Ballet presents Legends &amp; Visionaries: Postmodern Dance at Judson Church, Friday, April 25 at 7:00PM and Saturday, April 26 at 3:00PM.In two programs of works by Trisha Brown, David Gordon, James Waring, Douglas Dunn, and Amanda Treiber, New York Theatre Ballet celebrates the spirit of the legendary Judson Dance Theatre of the 1960s. All seats are $30. For tickets, please visit www.nytb.org/tickets</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-S">S</h2>
+<div class="guest-block">
+<div class="guest-line">Troy Schumacher — Artistic Director — <a href="balletcollective.com/" target="_blank" rel="noopener noreferrer" title="BalletCollective Home Page">BalletCollective</a></div>
+<div class="appearance">
+<div class="row2">Dec 8, 2020 — (208) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a54c" target="_blank" rel="noopener noreferrer"><strong>Troy Schumacher</strong> on BalletCollectives The Nutcracker at Wethersfield</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-troy-schumacher-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-troy-schumacher-1">Today we sit down with BalletCollective&#x27;s Artistic Director, Troy Schumacher. Troy first came on the podcast in episode 17, back in 2016, where we chat with him about his career at New York City Ballet, his choreography, and his company, BalletCollective. Today, Troy returns to the pod to tell us about his current project, The Nutcracker at Wethersfield.&#x27; In the age of COVID, Troy has taken on the incredible task of creating an immersive live dance experience, with a pod of over 20 dancers. Troy tells us all about this enormous undertaking, how people can support this project, and how you will be able to stream it. More information about BalletCollective can be found at balletcollective.com and streaming information can be found here: https://www.nutcrackeratwethersfield.com/stream. This episode is brought to you by Yumiko (Yumiko.com) and the Dance Edit Podcast. Links: instagram.com/conversationsondance facebook.com/conversationsondance twitter.com/convoondance conversationsondancepod.com The post (208) Troy Schumacher on BalletCollective&#x27;s The Nutcracker at Wethersfield&#x27; appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Garen Scribner — Artistic Director — San Francisco Dance Film Festival</div>
+<div class="appearance">
+<div class="row2">Oct 15, 2025 — (469) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/469-tiler-peck-and-garen-scribner-on-the-new-documentary-tiler-peck-suspending-time" target="_blank" rel="noopener noreferrer"><strong>Tiler Peck</strong> and <strong>Garen Scribner</strong>, on the new documentary, &quot;<strong>Tiler Peck</strong>: Suspending Time&quot;</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/469-tiler-peck-141798059" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-garen-scribner-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-garen-scribner-1">On today&#x27;s episode of &quot;Conversations On Dance&quot; we are joined by superstar NYCB ballerina Tiler Peck and Garen Scribner, former SFB soloist and the Artistic Director of the San Francisco Dance Film Festival. Tiler recounts how her harrowing recovery from a potentially life altering injury was captured on film after Garen suggested the process be turned into a documentary. The resulting project is &quot;Tiler Peck: Suspending Time&quot;, a documentary film making its premiere at the SF Dance Film Festival this October 24th at the Lucasfilm Premier Theater. To purchase tickets, visit sfdancefilmfest.org. Get Tiler&#x27;s new book: https://amzn.to/4oXookXAnnouncement:We are thrilled to announce that we will be returning to Miami City Ballet October 17th-19th to host live pre-performance talks for the opening weekend of the companys 40th anniversary season. For each talk, we will be joined by Gonzalo Garcia as he ushers the company into its first season under his direction. Full details below. This program is truly not to be missed: the all Peck program includes Year of the Rabbit, Chutes and Ladders, and Heatscape. If you are in the Miami area come join us.DETAILS:FRI October 17 with Gonzalo Garcia at 6:30pmSAT October 18 with Gonzalo and Justin Peck at 6:30pmSUN October 19 with Gonzalo and Patricia Delgado at 1pmAdmission to pre-performance talks at the Arsht Center is complimentary with ticket purchase. Tickets available here: https://www.miamicityballet.org/tickets-and-events/202526-season/peck/. If you are unable to join us in person, subscribe to the Conversations on Dance podcast feed through your favorite podcast app, where we will be publishing recordings of the events.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Adam Sklute — Artistic Director — <a href="balletwest.org" target="_blank" rel="noopener noreferrer" title="Ballet West Home Page">Ballet West</a></div>
+<div class="appearance">
+<div class="row2">Oct 1, 2024 — (418) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/418-adam-sklute-amp-val-caniparoli-on-caniparolis-jekyll-amp-hyde" target="_blank" rel="noopener noreferrer"><strong>Adam Sklute</strong> &amp; <strong>Val Caniparoli</strong> on Caniparoli&#x27;s &#x27;Jekyll &amp; Hyde&#x27;</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-adam-sklute-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-adam-sklute-1">On today&#x27;s episode of &#x27;Conversations On Dance&#x27; we are joined by Artistic Director of Ballet West, Adam Sklute and choreographer Val Caniparoli. At the outset of Ballet West&#x27;s 2024-2025 season, Adam lays out his vision for the company, including the season opener of Val&#x27;s &quot;Jekyll and Hyde&quot;. Val and Adam talk about their long artistic relationship, how new story ballets are the lifeblood of classical ballet companies and what &quot;Jekyll and Hyde&quot; does to push dancers and audiences alike. If you are in the Salt Lake City area, performances run October 25th through November 2nd and can be purchased at Balletwest.org. New York Times article Val references regarding his time making &#x27;Jekyll &amp; Hyde&#x27; during COVID at Finnish National Ballet: https://www.nytimes.com/2020/11/17/arts/dance/finnish-national-ballet-jekyll-and-hyde.html</div>
+</div>
+<div class="appearance">
+<div class="row2">Nov 7, 2023 — (372) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/372-adam-sklute-artistic-director-of-ballet-west-on-willam-christensens-the-nutcracker" target="_blank" rel="noopener noreferrer"><strong>Adam Sklute</strong>, Artistic Director of Ballet West, on Willam Christensen&#x27;s &#x27;The Nutcracker&#x27;</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-adam-sklute-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-adam-sklute-2">On today&#x27;s episode of &#x27;Conversations On Dance&#x27;, we are joined by the Artistic Director of Ballet West, Adam Sklute. Adam sits down with us to tell us about his journey from dancer to director, the positive changes he&#x27;s enacted since he took over the role of Artistic Director in 2007 and to give us a deep look into the company&#x27;s production of Willam Christensen&#x27;s &#x27;Nutcracker&#x27;, the very first full length production of the holiday classic ever performed in America. Ballet West will be performing &#x27;The Nutcracker&#x27; at the Kennedy Center in Washington, DC from Nov 22-26 and in Salt Lake City from Dec 8-27. Tickets for the Kennedy Center can be purchased at kennedy-center.org, while Ballet West&#x27;s hometown performances can be found at balletwest.org. Try Audible Plus free for 30 daysGive the gift of Audible Plus</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Jonathan Stafford — Artistic Director — <a href="nycballet.com" target="_blank" rel="noopener noreferrer" title="New York City Ballet Home Page">New York City Ballet</a></div>
+<div class="appearance">
+<div class="row2">Jul 30, 2021 — (237) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a52d" target="_blank" rel="noopener noreferrer"><strong>Jonathan Stafford</strong>, Artistic Director of NYCB, LIVE from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-jonathan-stafford-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-jonathan-stafford-1">Welcome to our first live podcast recording from the Vail Dance Festival. First up, we chat with New York City Ballet Artistic Director, Jonathan Stafford. We talk with Jon about his pathway to NYCB, some of the leadership roles he held while he was still dancing, the NYCB Interim Transition Team, his role as Artistic Director, leading the company through this past unprecedented year, and what comes next. This episode was recorded on July 30th, 2021 at the Manor Vail Lodge. Special thanks to the Town of Vail for their support of the Vail Dance Festival and Conversations on Dance live podcast recordings. This episode was recorded at the Manor Vail Lodge. Conversations on Dance is proud to have YUMIKO as a continued partner in 2021. yumiko.com Thank you to Tom Boyd for producing this episode. The post (237) Jonathan Stafford, Artistic Director of NYCB, LIVE from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-T">T</h2>
+<div class="guest-block">
+<div class="guest-line">Pamela Tatge — Artistic Director — <a href="jacobspillow.org/" target="_blank" rel="noopener noreferrer" title="Jacob&#x27;s Pillow Home Page">Jacob&#x27;s Pillow</a></div>
+<div class="appearance">
+<div class="row2">Jun 4, 2025 — (447) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/447-pamela-tatge-jacobs-pillow-executive-and-artistic-director" target="_blank" rel="noopener noreferrer"><strong>Pamela Tatge</strong>, Jacob&#x27;s Pillow Executive and Artistic Director</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-pamela-tatge-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-pamela-tatge-1">Since 1933, Jacob&#x27;s Pillow has been a beacon for dancemakers, movers, scholars, students, and audiences. Located in Becket, Massachusetts, and founded by modern dance pioneer Ted Shawn, &quot;the Pillow&quot; (as it has affectionately come to be called) was the first dance site to be designated as a National Historic Landmark, and the first presenting organization to receive the National Medal of the Arts.Opening June 25th and running through August 24th of this year, the Pillow&#x27;s 93rd Festival season will feature nine weeks of performances, classes, workshops, events, exhibits and activations, spread across the indoor and outdoor venues of a sprawling 220-acre campus. With more than 40 dance companies lined up from around the world, this year&#x27;s Festival is particularly significant as it marks the opening of the new state-of-the-art Doris Duke Theatre - a venue poised to become one of the dance world&#x27;s most technologically advanced ever built. Here to speak with us today about all of this is Jacob&#x27;s Pillow Executive and Artistic Director, Pam Tatge. In her role, Pam is responsible for setting the artistic vision and strategic goals for all aspects of the organization, including Festival programming, education, preservation, audience engagement, residency programming and artist support, long-term planning, collaborative programming, fundraising, marketing, and more. Get tickets &amp; learn more about this summer&#x27;s programming: https://www.jacobspillow.org/festival/._____________________________Conversations on Dance is proud to be the recipient of the inaugural Clive Barnes Award for Journalism and Media Achievement. Join us for the 15th Anniversary Clive Barnes Awards, Monday, June 9 at 5:30pm at the National Arts Club in New York City. Hosted by Budd Mishkin, the Awards will feature guest presenter Tiler Peck and a special performance by Clive Barnes Award alumnus Victor Abreu of New York City Ballet. For tickets and information, please visit clivebarnesfoundation.org.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Helgi Tomasson — Artistic Director — <a href="sfballet.org" target="_blank" rel="noopener noreferrer" title="San Francisco Ballet Home Page">San Francisco Ballet</a></div>
+<div class="appearance">
+<div class="row2">Oct 23, 2018 — (112) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5b0" target="_blank" rel="noopener noreferrer">LIVE from the Kennedy Center: <strong>Helgi Tomasson</strong>, Artistic Director of San Francisco Ballet</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=N6FlxJV3mZc" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-helgi-tomasson-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-helgi-tomasson-1">This weeks episode of Conversations On Dance was recorded live at the Kennedy Center in Washington, DC. Our guest is former New York City Ballet principal and Artistic Director of the San Francisco Ballet, Helgi Tomasson. The San Francisco Ballet is performing at the Kennedy Center this week, from October 23 28, 2018. They will be performing six works that premiered earlier this year at the Unbound festival in San Francisco. You can purchase tickets online at www.kennedy-center.org. This episode is supported by the Kennedy Center and Yumiko. Watch the full video of this event now: https://youtu.be/N6FlxJV3mZc The post (112) LIVE from the Kennedy Center: Helgi Tomasson, Artistic Director of San Francisco Ballet appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Jessica Tong — Associate Artistic Director — <a href="hubbardstreetdance.com/" target="_blank" rel="noopener noreferrer" title="Hubbard Street Dance Chicago Home Page">Hubbard Street Dance Chicago</a></div>
+<div class="appearance">
+<div class="row2">May 20, 2021 — (229) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a537" target="_blank" rel="noopener noreferrer"><strong>Jessica Tong</strong>, Associate Artistic Director, Hubbard Street Dance Chicago</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-jessica-tong-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-jessica-tong-1">This week we are joined by Jessica Tong, Associate Artistic Director of Hubbard Street Dance Chicago. Jessica received her formal training at The Ballet School in Salt Lake City and University of Utah. Tong danced with BalletMet in Columbus, Ohio, Eliot Felds Ballet Tech in New York, and Hubbard Street 2 before dancing with Hubbard Street Dance Chicago for 11 years.Jessica was named one of Dance Magazines Top 25 to Watch in 2009. After retiring from the stage, she went on to become rehearsal director at Hubbard Street before recently being promoted to Associate Artistic Director. We talk with Jessica about her career, her work ethic, making the unexpected transition to being in front of the studio, what Hubbard Street has been doing in this past year of COVID, and how she got involved in Final Bow For Yellow Face&#x27;s 10,000 Dreams: Virtual Choreography Festival. More information at yellowface.org.</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-V">V</h2>
+<div class="guest-block">
+<div class="guest-line">Eduardo Vilaro — Artistic Director &amp; CEO — <a href="ballethispanico.org" target="_blank" rel="noopener noreferrer" title="Ballet Hispanico Home Page">Ballet Hispanico</a></div>
+<div class="appearance">
+<div class="row2">Apr 15, 2026 — (489) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/489-eduardo-vilaro-artist-director-of-ballet-hispnico-new-york-on-upcoming-city-center-season" target="_blank" rel="noopener noreferrer"><strong>Eduardo Vilaro</strong>, Artistic Director &amp; CEO of Ballet Hispanico New York, on upcoming City Center season</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/489-eduardo-ceo-157617396" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-eduardo-vilaro-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-eduardo-vilaro-1">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are joined by Eduardo Vilaro, Artistic Director &amp; CEO of Ballet Hispanico New York. Eduardo makes his fourth appearance on the show, running through a broad range of topics, from how the political climate is directly impacting his arts organization to viral celebrity comments on the arts. He dives into the programming for the company&#x27;s upcoming City Center season, titled &quot;Mujeres: Women in Motion&quot; featuring varied, dynamic choreographic works from four latina women. Ballet Hispanico New York&#x27;s City Center season runs from April 23rd through the 26th, and tickets can be purchased at nycitycenter.org. Come see us this weekend in NYC! On Sunday April 19th, join us as we host Works &amp; Process at the Guggenheim in NYC, featuring the talents of the Philadelphia Ballet and choreographer Juliano Nunes. We will be talking to Juliano about the process of creating a brand new full length &quot;Romeo &amp; Juliet&quot; for the company, set to premiere in Philadelphia on April 30th. Tickets for Works &amp; Process are nearly sold out, but you can catch the last few available on worksandprocess.org.</div>
+</div>
+<div class="appearance">
+<div class="row2">May 8, 2025 — (443) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/443-eduardo-vilaro-artistic-director-of-ballet-hispnico" target="_blank" rel="noopener noreferrer"><strong>Eduardo Vilaro</strong>, Artistic Director &amp; CEO of Ballet Hispanico</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-eduardo-vilaro-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-eduardo-vilaro-2">On today&#x27;s episode of &quot;Conversations On Dance&quot; we are joined by Eduardo Vilaro, Artistic Director &amp; CEO of Ballet Hispnico. In our first conversation with Eduardo in five years, we catch up him about how the company weathered the COVID years, how the dance landscape has changed since then, and the company&#x27;s upcoming 55th anniversary gala and City Center engagement, featuring performances of their stylish re-imagination of the Bizet classic &quot;Carmen&quot; titled &quot;Carmen.maquia&quot;, choreographed by Gustavo Ramierz Sansano. To purchase tickets to Ballet Hispnico&#x27;s City Center performances running May 29th through June 1st, visit nycitycenter.org.</div>
+</div>
+<div class="appearance">
+<div class="row2">Jun 27, 2020 — (189) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a55f" target="_blank" rel="noopener noreferrer"><strong>Eduardo Vilaro</strong> on Ballet Hispnicos Noche Unidos</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-eduardo-vilaro-3', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-eduardo-vilaro-3">Today we check in with Eduardo Vilaro, Artistic Director and CEO of Ballet Hispnico. We last spoke with Eduardo in November 2019 in episode 160 about his career and his directorship at Ballet Hispnico. If you want to listen to that episode, you can find the link in the description of this episode. Today we chat with Eduardo about what it has been like for him leading his organization through the challenges brought on by the COVID-19 pandemic. Ballet Hispnico is offering and creating incredible online content that they are sharing regularly. Most notably, on June 30th at 7:30 pm EST, the company will be premiering a virtual evening of dance that includes an incredible ten world premiers created by notable choreographers including Andrea Miller, Carlos Pons Guerra, and friend of the pod Annabelle Lopez Ochoa. Each new work was choreographed and filmed virtually, in many cases, from across the world. Be sure to catch this incredible evening of dance on their Facebook, Instagram, and Youtube. More information is available at ballethispanico.org. This episode is brought to you by Yumiko (yumiko.com) and Ballet Hispnico. Episode 160 with Eduardo: https://conversationsondancepod.com/2019/11/06/eduardo-vilaro/ The post (189) Eduardo Vilaro on Ballet Hispnico&#x27;s Noche Unidos&#x27; appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="appearance">
+<div class="row2">Nov 6, 2019 — (160) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a57d" target="_blank" rel="noopener noreferrer"><strong>Eduardo Vilaro</strong>, Artistic Director of Ballet Hispnico</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-eduardo-vilaro-4', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-eduardo-vilaro-4">This week, on Conversations on Dance, we are joined by Eduardo Vilaro, Artistic Director of Ballet Hispnico. Eduardo recounts his early years adjusting to New York City life as a Cuban immigrant, what it was like building his first company from the ground up, and how Ballet Hispnico has carved out an identity for itself that is unique in the dance world. Ballet Hispnico, America&#x27;s leading Latino dance organization, returns to the Apollo Theater on November 22 &amp; 23 to celebrate the power of the Latina voice with works by all female choreographers. This season includes the world premiere of Anabelle Lopez Ochoa&#x27;s Triburones,&#x27; as well as the return of Nac&#x27; by Andrea Miller and Michelle Manzanales&#x27; Con Brazos Abiertos.&#x27; Tickets begin at $13.50 and are available by phone at (800) 745-3000 or online at www.apollotheater.org. This episode is brought to you by Yumiko (yumiko.com). The post (160) Eduardo Vilaro, Artistic Director of Ballet Hispnico appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Edward Villella — former Artistic Director — <a href="miamicityballet.org" target="_blank" rel="noopener noreferrer" title="Miami City Ballet Home Page">Miami City Ballet</a></div>
+<div class="appearance">
+<div class="row2">May 5, 2023 — <a href="https://shows.acast.com/conversations-on-dance/episodes/re-release-part-two-with-edward-villella" target="_blank" rel="noopener noreferrer">RE-RELEASE: PART TWO with <strong>Edward Villella</strong>, former Artistic Director of Miami City Ballet (June 2017)</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-edward-villella-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-edward-villella-1">We are going back into our archives from the first few years of the podcast and re-releasing some of our favorite episodes. Today is part two of our June 2017 interview with Edward Villella, Balanchine dancer and founding Artistic Director of Miami City Ballet. In part two, we focus on his founding of Miami City Ballet and so much more. Listen to part one here. Subscribe to Conversations on Dance wherever you get your podcasts.THIS EPISODE&#x27;S SPONSORS:Ballet Bird is a streaming site designed by former Pacific Northwest Ballet principal dancer Julie Tobiason. Ballet Bird offers ballet classes for anyone at any level of training that you can do from the comfort of your home or studio. Ballet Bird is a great addition to your regular in-studio training too. Take advantage of the ten day free trial and use the discount code COD25 to get 25% off through June 30th 2023 at balletbird.com.</div>
+</div>
+<div class="appearance">
+<div class="row2">Apr 25, 2023 — <a href="https://shows.acast.com/conversations-on-dance/episodes/re-release-edward-villella-balanchine-dancer" target="_blank" rel="noopener noreferrer">RE-RELEASE: <strong>Edward Villella</strong>, Balanchine Dancer and former Artistic Director of Miami City Ballet (June 2017)</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-edward-villella-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-edward-villella-2">We are going back into our archives from the first few years of the podcast and re-releasing some of our favorite episodes. Today is our first re-release: our June 2017 interview with Edward Villella, Balanchine dancer and founding Artistic Director of Miami City Ballet. We talk with our former boss about his career, dancing for Balanchine, the specific roles made on him, and much more. Part Two of this re-release will be coming next week. Subscribe to Conversations on Dance wherever you get your podcasts.THIS EPISODE&#x27;S SPONSORS:Ballet Bird is a streaming site designed by former Pacific Northwest Ballet principal dancer Julie Tobiason. Ballet Bird offers ballet classes for anyone at any level of training that you can do from the comfort of your home or studio. Ballet Bird is a great addition to your regular in-studio training too. Take advantage of the ten day free trial and use the discount code COD25 to get 25% off through June 30th 2023 at balletbird.com.Each year, The Clive &amp; Valerie Barnes Foundation provides recognition, encouragement, and financial support to two talented young professionals, one in Dance and one in Theatre, thus, honoring the memory of the many years of critical work and the warm personal generosity of Clive Barnes and Valerie Taylor. This years finalists have been nominated by the Foundations 11-member Selection Committee comprised of arts journalists and accomplished professionals in each field. Finalists were selected based on live performances given in New York City between January and December of 2022. Winners in each category will be announced on May 22 at the 13th Annual Clive Barnes Awards at Florence Gould Hall in New York City. Guest presenters include Pam Tanowitz and Alex Sharp. For more information or to donate, visit cvbarnesfoundation.org/</div>
+</div>
+</div>
+<h2 class="letter-heading" id="letter-W">W</h2>
+<div class="guest-block">
+<div class="guest-line">Amy Watson — Artistic Director — Royal Danish Ballet</div>
+<div class="appearance">
+<div class="row2">May 6, 2026 — (492) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/492-amy-watson-artistic-director-of-the-royal-danish-ballet" target="_blank" rel="noopener noreferrer"><strong>Amy Watson</strong>, Artistic Director of the Royal Danish Ballet</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/492-amy-watson-157617595" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-amy-watson-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-amy-watson-1">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are joined by Amy Watson, Artistic Director of the Royal Danish Ballet. Amy relays her experience as an American born dancer adjusting to the Bournonville style in her first years with the company, before she landed major opportunities leading to her promotion to principal. Amy also opens up about her many plans for the company since securing the role of Artistic Director, including the immense care she is putting into the Bournonville legacy, building new repertoire of the company and providing the dancers with myriad opportunities to explore all avenues of styles and choreography. If you are in the Copenhagen area, you can catch Akram Khan&#x27;s &quot;Lady Macbeth&quot; until May 19th, and the final program of the season &quot;Giant Steps&quot; featuring the works of George Balanchine and Christopher Wheeldon from May 21st until June 6th.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Stanton Welch — Artistic Director — <a href="houstonballet.org" target="_blank" rel="noopener noreferrer" title="Houston Ballet Home Page">Houston Ballet</a></div>
+<div class="appearance">
+<div class="row2">Mar 4, 2026 — (483) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/483-stanton-welch-and-julie-kent-on-houston-ballets-creative-culture-and-the-season-ahead" target="_blank" rel="noopener noreferrer"><strong>Stanton Welch</strong> and <strong>Julie Kent</strong> on Houston Ballets Creative Culture and the Season Ahead</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/483-stanton-and-152233897" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-stanton-welch-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-stanton-welch-1">Stanton Welch and Julie Kent join the Conversations on Dance podcast this week and reflect on nearly three years leading Houston Ballet, praising the dancers versatility, focus, and the engaged Houston community, and describing the value of sharing leadership. They discuss how the companys identity is shaped by having a prolific choreographer as artistic director in Stanton and what they look for in dancers. Looking ahead, they highlight a variety of works still to come this season including Welchs new 12-minute piece to Mason Bates featuring electronics and live percussion, and they outline how Welchs Giselle differs musically and dramatically, with expanded characters and staging, while Kent coaches intention and relationships.For more information on performances still to come this season, visit houstonballet.org.Houston Ballet 25/27 Season announced here: https://www.houstonballet.org/seasontickets/2026-2027-season-announced/Listen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondanceTIMESTAMPS:00:00 Welcome Back Catch Up02:14 Partnership Leading Together03:01 Studio Time And Support04:21 Choreographic Hub Culture07:54 Auditions Finding Versatility13:35 Season Variety Story Ballets18:44 Programming And Identity21:39 New Work Alice Topp25:43 Staging Hazards and Effects25:57 Avatar as Ballet Pitch26:22 More Dancers on Stage27:17 New Work Mason Bates29:08 Reimagining Giselle31:32 Coaching Story Over Steps34:39 Technique vs Artistry Debate38:12 Season Highlights Dances39:50 Rehearsal Timing and Stamina41:21 Next Season Tease and Farewell</div>
+</div>
+<div class="appearance">
+<div class="row2">May 21, 2025 — (445) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/445-stanton-welch-on-houston-ballets-raymonda" target="_blank" rel="noopener noreferrer"><strong>Stanton Welch</strong> on Houston Ballet&#x27;s &#x27;Raymonda&#x27;</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-stanton-welch-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-stanton-welch-2">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are joined by Stanton Welch, Artistic Director of Houston Ballet and choreographer of the company&#x27;s upcoming premiere of the full length classic &quot;Raymonda&quot;. Stanton talks about his deep love of the glorious Glazunov score, his approach to creating full length narrative works, and how he sculpts these ballets in a years long process. Houston Ballet&#x27;s &quot;Raymonda&quot; runs May 29th through June 8th. Tickets can be purchased at houstonballet.org. Also available on their website, subscriptions for Houston Ballet&#x27;s recently announced 25-26 season, a journey across centuries of composers, choreographers and ballet&#x27;s greatest stories.</div>
+</div>
+<div class="appearance">
+<div class="row2">Nov 1, 2023 — (371) — <a href="https://shows.acast.com/conversations-on-dance/episodes/julie-kent-and-stanton-welch-houston-ballet" target="_blank" rel="noopener noreferrer"><strong>Julie Kent</strong> and <strong>Stanton Welch</strong>, Artistic Directors of Houston Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-stanton-welch-3', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-stanton-welch-3">On today&#x27;s episode of &#x27;Conversations On Dance&#x27;, we are joined by Houston Ballet&#x27;s Artistic Directors, Stanton Welch and Julie Kent. Stanton looks back on 20 years leading the Houston Ballet, while the two of them give us an inside look at what their shared leadership roles mean to both them and the organization at large, while also offering a glimpse into what audiences can expect from the company this season and into the future. If you are in the Houston area and would like to purchase tickets to Houston Ballet&#x27;s 2023-24 season, visit houstonballet.org. Try Audible Plus free for 30 daysGive the gift of Audible Plus</div>
+</div>
+<div class="appearance">
+<div class="row2">Mar 7, 2022 — (273) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a506" target="_blank" rel="noopener noreferrer">Houston Ballets Sylvia with <strong>Stanton Welch</strong>, <strong>Connor Walsh</strong>, and <strong>Karina Gonzlez</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-stanton-welch-4', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-stanton-welch-4">Today we check in with Houston Ballet to hear about their upcoming performances of Stanton Welch&#x27;s Sylvia.&#x27; We are joined by Houston Ballet Artistic Director, Stanton Welch, and Principal dancers who will be performing the leads in the ballet, Connor Walsh and Karina Gonzlez. We first spoke with Stanton Welch on the podcast in 2018 in episode 98, had Connor on in 2019 in episode 158, and are welcoming Karina on for the first time. Today we speak with this trio about what lead them each to Houston Ballet, getting back onstage this season for the first time since the beginning of the pandemic, their work and process of creating Sylvia,&#x27; and what audiences can expect from this original full length production. Houston Ballet&#x27;s Sylvia&#x27; is on stage March 10-20, 2022 at the Brown Theater in Houston, TX. For tickets and more information about Houston Ballet&#x27;s 2021-2022 season, visit houstonballet.org. _________________________</div>
+</div>
+<div class="appearance">
+<div class="row2">Jun 25, 2018 — (98) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5c4" target="_blank" rel="noopener noreferrer"><strong>Stanton Welch</strong>, Artistic Director Houston Ballet and Choreographer</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-stanton-welch-5', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-stanton-welch-5">This week on Conversations On Dance, our guest is Houston Ballet Artistic Director and acclaimed choreographer Stanton Welch. Born in Australia to two prominent ballet dancers, Welch expressed an interest in choreography almost immediately after beginning his dance training. Soon after joining the Australian Ballet as a dancer he received his first choreographic commission, and five years later he was named resident choreographer. Following major commissions at companies around the globe, Welch was appointed artistic director of the Houston Ballet. We talk to Welch about coming from a family of dancers, his choreographic inspirations, and the challenges of directing a company. The post (98) Stanton Welch, Artistic Director Houston Ballet and Choreographer appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Ashley Wheater — Artistic Director — <a href="joffrey.org" target="_blank" rel="noopener noreferrer" title="Joffrey Ballet Home Page">Joffrey Ballet</a></div>
+<div class="appearance">
+<div class="row2">May 13, 2024 — (397) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/397-ashley-wheater-artistic-director-of-the-joffrey-ballet" target="_blank" rel="noopener noreferrer"><strong>Ashley Wheater</strong>, Artistic Director of The Joffrey Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-ashley-wheater-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-ashley-wheater-1">Today on the &#x27;Conversations on Dance&#x27; podcast, we are joined by Ashley Wheater, Artistic Director of the Joffrey Ballet. Ashley takes us through his career, tells us about the important roles mentors played in his dancing, how he came to the helm of the Joffrey, and what audiences can expect to see from the company this summer at the Ballet Sun Valley festival. Ballet Sun Valley presents The Joffrey Ballet in two different programs, over two nights this June 29th and 30th. Tickets are on sale now. For more information visit balletsunvalley.org.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Laurel Winton — Artistic Director — DanceAspen</div>
+<div class="appearance">
+<div class="row2">Aug 4, 2023 — (357) — <a href="https://shows.acast.com/conversations-on-dance/episodes/christine-cox-laurel-winton-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Christine Cox</strong> and <strong>Laurel Winton</strong>, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-laurel-winton-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-laurel-winton-1">Ballet X has been a Festival favorite for over a decade, while Dance Aspen had its splashy debut just last year. This live recording of the Conversations On Dance podcast will welcome the artistic directors of these respective companies, Christine Cox and Laurel Winton, to talk about their visions and missions for their organizations and why performing at the Vail Dance Festival is such a coveted experience for their dancers.This episode was recorded live on August 4th, 2023 at the Manor Vail Lodge. Conversations on Dance at the Vail Dance Festival is generously underwritten by the Town of Vail.VAIL DANCE FESTIVAL IS GOING ON NOW! Conversations on Dance events: https://vaildance.org/conversations-on-dance/Performance tickets: https://vaildance.org/</div>
+</div>
+<div class="appearance">
+<div class="row2">Aug 17, 2022 — (302) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4e9" target="_blank" rel="noopener noreferrer">DanceAspens <strong>Laurel Winton</strong> and <strong>Kaya Wolsey</strong>, LIVE from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-laurel-winton-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-laurel-winton-2">Vail Dance Festival is thrilled to welcome Dance Aspen in its inaugural season. Artistic Director Laurel Winton joins the Conversations On Dance podcast in a discussion about Colorados newest dance company, and how dancers and director alike will seek to implement the companys artistic goals and identity. Please note: Conversations On Dance co-host, Rebecca King Ferraro, will be on maternity leave this summer. These live events will be hosted by Michael Sean Breeden with special guest hosts throughout the festival. This episode was recorded on August 6, 2022. Special thanks to the Town of Vail for their support of Conversations on Dance and the Vail Dance Festival. This episode was recorded at the Manor Vail Lodge. The post (302) DanceAspen&#x27;s Laurel Winton and Kaya Wolsey, LIVE from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Damian Woetzel — Artistic Director — <a href="vaildance.org/" target="_blank" rel="noopener noreferrer" title="Vail Dance Festival Home Page">Vail Dance Festival</a></div>
+<div class="appearance">
+<div class="row2">Jun 16, 2022 — (292) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4f3" target="_blank" rel="noopener noreferrer">Vail Dance Festival 2022 Preview with Artistic Director, <strong>Damian Woetzel</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-damian-woetzel-1', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-damian-woetzel-1">Today we are joined by Vail Dance Festival&#x27;s Artistic Director, Damian Woetzel. While we have had Damian on the podcast many times, we ask him about his earliest memories in Vail as a dancer, we talk about some of his memories from over the years, and what to expect from this year&#x27;s festival coming to the stage July 29 August 9. Audiences are in for another great year of new works, classics, new artists, familiar faces, and new collaborations. For more information on performances, programming, and festival artists, visit the Vail Dance Festival website. Tickets are on sale now at validance.org, or click the link in the description of this episode. SPONSORS: Conversations on Dance at the Vail Dance Festival July 30 August 9: https://vaildance.org/conversations-on-dance. Tickets on sale now. Special thanks to the Town of Vail for their support of the Vail Dance Festival and this episode of Conversations on Dance. ____________________________</div>
+</div>
+<div class="appearance">
+<div class="row2">Jul 27, 2020 — (193) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a55b" target="_blank" rel="noopener noreferrer">Preview of 2020 Vail Dance Festival: Digital Edition with <strong>Damian Woetzel</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-damian-woetzel-2', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-damian-woetzel-2">Today we chat with Vail Dance Festival Artistic Director Damian Woetzel to get a preview of what is in store for their eight night digital festival, July 31 August 7, 2020. Damian tells us what it was like to have to decide to cancel the in person festival and move to a digital format, how they have chosen what the audience will get to see, offers us some previews of different pieces, and shares what he hopes audiences will take away from these incredible eight evenings of VDF content. As a part of the festival, you can catch three full evenings of Conversations on Dance. On August 3rd, we chat with Lil Buck, August 5th with James Whiteside and Isabella Boylston of American Ballet Theatre, and on August 6th with Calvin Royal III, the festival&#x27;s Artist in Residence for 2020 and 2021. Don&#x27;t miss a moment of the action. For more information on these free digital events, visit vaildance.org and be sure to connect with them on social media. This episode is brought to you by Yumiko (yumiko.com). The post (193) Preview of 2020 Vail Dance Festival: Digital Edition with Damian Woetzel appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="appearance">
+<div class="row2">Aug 9, 2019 — (149) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a588" target="_blank" rel="noopener noreferrer"><strong>Damian Woetzel</strong> &amp; <strong>Janet Eilber</strong> LIVE from Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-damian-woetzel-3', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-damian-woetzel-3">Today we are bringing you a live podcast recording from the Vail Dance Festival with Festival Artistic Director Damian Woetzel and Janet Eilber, Martha Graham Dance Company Artistic Director. The pair talks with us about the Graham legacy, their roles as artistic directors of their respective organizations, and what audiences can expect to see from the Martha Graham Dance Company this year in Vail. This episode was recorded live on August 8th, 2019. This episode is brought to you by Yumiko and the Town of Vail. This episode was recorded at Manor Vail Lodge. The post (149) Damian Woetzel &amp; Janet Eilber LIVE from Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="appearance">
+<div class="row2">Aug 9, 2018 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5bc" target="_blank" rel="noopener noreferrer">Vail Festival Forum Bonus Content: <strong>Damian Woetzel</strong> and <strong>Claudia Schreier</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-damian-woetzel-4', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-damian-woetzel-4">Join us for another live Festival Forum panel discussion with Damian Woetzel and Claudia Schreier. Damian Woetzel is the Artistic Director of The Vail Dance Festival and Claudia Schreier is back creating work at the festival for a third time. We talk about Damian&#x27;s beginnings at the festival and how he developed it&#x27;s mission. We talk with Claudia about her roots in the Vail Dance Festival as a young intern that grew into a burgeoning career as a choreographer noticed by major companies and critics alike. (Note: This episode was recorded on August 5th, 2018.) Photo: Dandara Veiga and Chris Bloom in Contra at the 2018 Vail Dance Festival. Choreography by Claudia Schreier. Photo by Erin Baiano The post Vail Festival Forum Bonus Content: Damian Woetzel and Claudia Schreier appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="appearance">
+<div class="row2">Nov 4, 2017 — (67) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5ea" target="_blank" rel="noopener noreferrer">Live From the Kennedy Center: <strong>Damian Woetzel</strong> &amp; <strong>Tiler Peck</strong> on Jerome Robbins</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-damian-woetzel-5', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-damian-woetzel-5">Welcome to Live From the Kennedy Center: Damian Woetzel &amp; Tiler Peck on Jerome Robbins. Two weeks ago we were in Washington, DC to cover a busy weekend of ballet at the Kennedy Center. We arrived on Friday night just in time to watch an exceptional performance entitled DEMO: Jerome Robbins- An American Dance Genius. These DEMO programs are curated by former New York City Ballet Principal, Artistic Director of the Vail Dance Festival, and incoming president of Julliard, Damian Woetzel. Damian hosted the evening, which gave audiences an educational behind the scenes look at working with Jermone Robbins and dancing his ballets. He brought 5 New York City Ballet dancers with him to demonstrate multiple excerpts of Robbins ballets: Tyler Angle, Tiler Peck, Unity Phelan, Amar Ramasar, and Daniel Ulbricht. Damians wife, and former New York City Ballet Principal, (also a former Conversations on Dance guest) Heather Watts, was a special guest for the evening. The dancers were all clad in rehearsal attire, the stage was bare, with the exceptions of a few barres to constitue sets, organized onstage just as they are in the studios for rehearsals. The evening started with Robbins&#x27; first work Fancy Free, and moved in mostly chronological order, to include his Broadway work, his return to NYCB in 1969, and his interest in choreographing to Chopins music. One highlight of the evening was when Ms. Watts coached Ms. Peck in Afternoon of a Faun. The evening included so much history, details, and background on these ballets, that we invited Damian and Tiler Peck to join us the next day for a debrief of the performance. For more information on performances and events at the Kennedy Center, visit kennedy-center.org. The post (67) Live From the Kennedy Center: Damian Woetzel &amp; Tiler Peck on Jerome Robbins appeared first on tendusunderapalmtree.com.</div>
+</div>
+<div class="appearance">
+<div class="row2">Aug 23, 2017 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5f5" target="_blank" rel="noopener noreferrer">Vail Festival Forum Bonus Content: LIVE with <strong>Damian Woetzel</strong>, Lil Buck, and <strong>Janet Eilber</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-ad-damian-woetzel-6', this)">Show description</button>
+</div>
+<div class="description" id="desc-ad-damian-woetzel-6">Welcome to Conversations on Dance, our final bonus episode from the Vail Dance Festival with Damian Woetzel, Lil&#x27; Buck, and Janet Eilber. This episode is quite special because we have a guest host, Vail Dance Festival Artistic Director, Damian Woetzel. After we had left, there was one final live event to give audiences an inside look at the artists and the performance. In this episode, Damian is joined by Jookin dancer, Lil Buck and Janet Eilber, the Artistic Director of Martha Graham Dance Company. As a side note, Buck is the cousin of this weeks Conversations on Dance guest, Ron Myles. Check out our chat with him in episode 56. The recording starts slightly into the event, so we join them just as Lil Buck begins to explain how he became involved in creating a Lamentation Variation with the Martha Graham Dance Company. They go on to have a great conversation on Martha Graham, tap, and collaboration at the Vail Dance Festival and beyond. The first voice you will hear is Damians. This recording was provided to us by the Vail Dance Festival. The post Vail Festival Forum Bonus Content: LIVE with Damian Woetzel, Lil&#x27; Buck, and Janet Eilber appeared first on tendusunderapalmtree.com.</div>
+</div>
+</div>
+</body>
+</html>
