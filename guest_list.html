@@ -221,16 +221,50 @@ function toggleHomeNav(btn) {
 </script>
 </head>
 <body>
-<h1>Browse by Guest</h1>
+<h1></h1>
 
 
-<div class="video-banner" style="background:#000; padding:12px 0 8px; margin-bottom:1em;">
-  <iframe
-    src="https://www.youtube.com/embed/P-4tJCXrP80?autoplay=1&mute=1&rel=0"
-    style="display:block; margin:0 auto; width:min(800px,100%); aspect-ratio:16/9; border:0;"
-    allow="autoplay; encrypted-media; fullscreen"
-    allowfullscreen
-  ></iframe>
+<style>h1 { display: none; }</style>
+
+<!-- Video: paused at 21-second mark, sound on -->
+<div style="background:#000; padding:12px 0 0; margin-bottom:0;">
+  <div style="position:relative; width:min(800px,100%); aspect-ratio:16/9; margin:0 auto;">
+    <iframe
+      id="yt-iframe"
+      src="https://www.youtube.com/embed/P-4tJCXrP80?start=21&autoplay=0&rel=0"
+      style="width:100%; height:100%; border:0; display:block;"
+      allow="autoplay; encrypted-media; fullscreen"
+      allowfullscreen
+    ></iframe>
+    <!-- Transparent overlay blocks accidental clicks into YouTube controls -->
+    <div id="yt-overlay"
+      style="position:absolute; inset:0; background:transparent; cursor:default;">
+    </div>
+  </div>
+</div>
+
+<!-- Styled box: gold on dark purple -->
+<div style="background:#2D1B69; color:#D4AF37; padding:14px 20px;
+            margin-bottom:1em; display:flex; align-items:center; gap:20px;">
+  <div style="font-size:22px; font-weight:bold; flex:0 0 auto; white-space:nowrap;">
+    Browse by Guest
+  </div>
+  <div style="width:1px; background:#D4AF37; opacity:0.4; align-self:stretch;"></div>
+  <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+    <div style="font-size:14px; font-style:italic;">
+      Enjoy Mira Nadon on Balanchine&#8217;s Rubies
+    </div>
+    <div>
+      <button
+        onclick="document.getElementById('yt-iframe').src=
+          'https://www.youtube.com/embed/P-4tJCXrP80?autoplay=1&amp;start=0&amp;rel=0';
+          document.getElementById('yt-overlay').style.display='none';"
+        style="background:#D4AF37; color:#2D1B69; border:none;
+               padding:8px 18px; font-size:14px; font-weight:bold;
+               cursor:pointer; border-radius:4px;"
+      >&#9654; Play Video</button>
+    </div>
+  </div>
 </div>
 
 <div class="index">
