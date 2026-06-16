@@ -855,8 +855,12 @@ function toggleHomeNav(btn) {
         var target = document.getElementById(href.slice(1));
         if (!target) return;
         e.preventDefault();
-        var top = target.getBoundingClientRect().top + window.pageYOffset - _navH();
-        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+        // Set scroll-margin-top to the live nav height at click time, then use
+        // scrollIntoView so the browser tracks the element's position during the
+        // animation — unlike window.scrollTo(Y), this isn't invalidated if the
+        // page reflows (e.g. a banner image finishing load) mid-scroll.
+        target.style.scrollMarginTop = _navH() + 'px';
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         history.pushState(null, '', href);
     });
 })();
