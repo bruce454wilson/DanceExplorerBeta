@@ -712,17 +712,22 @@ function toggleHomeNav(btn) {
 </div>
 <script>
 (function () {
-    function _setScrollMargins() {
+    function _navH() {
         var nav = document.querySelector('.index, .alpha-nav');
-        if (!nav) return;
-        var h = Math.ceil(nav.getBoundingClientRect().height) + 8;
-        var sel = '.guest-block, .choreo-block, .work-block, .letter-heading, .year-heading';
-        document.querySelectorAll(sel).forEach(function (el) {
-            el.style.scrollMarginTop = h + 'px';
-        });
+        return nav ? Math.ceil(nav.getBoundingClientRect().height) + 8 : 60;
     }
-    _setScrollMargins();
-    window.addEventListener('resize', _setScrollMargins);
+    document.addEventListener('click', function (e) {
+        var a = e.target.closest('a');
+        if (!a) return;
+        var href = a.getAttribute('href');
+        if (!href || href.charAt(0) !== '#' || href.length < 2) return;
+        var target = document.getElementById(href.slice(1));
+        if (!target) return;
+        e.preventDefault();
+        var top = target.getBoundingClientRect().top + window.pageYOffset - _navH();
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+        history.pushState(null, '', href);
+    });
 })();
 </script>
 </body>
