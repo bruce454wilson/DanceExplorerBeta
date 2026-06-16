@@ -1072,24 +1072,30 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Cross-page arrival with a hash (e.g. "performances_works.html#work-rubies").
-    // Debug version — logs to console so we can see what's happening.
+    // The browser's native scroll uses CSS scroll-margin-top (fixed at 50px).
+    // On a narrow screen where the nav has wrapped taller than 50px, the element
+    // lands behind the nav. Double-rAF lets the native scroll settle, then we
+    // correct only if the element is actually hidden behind the nav.
+    // We compare against the raw nav height (no buffer) so a CSS value that
+    // already clears the nav doesn't trigger a spurious re-scroll.
     if (window.location.hash) {
         var _h = window.location.hash;
-        console.log('[hash-scroll] hash detected:', _h);
         requestAnimationFrame(function () {
             requestAnimationFrame(function () {
                 var target = document.getElementById(_h.slice(1));
-                if (!target) { console.log('[hash-scroll] target not found'); return; }
-                var navH = _navH();
+                if (!target) return;
+                var nav = document.querySelector('.index, .alpha-nav');
+                var rawNavH = nav ? Math.ceil(nav.getBoundingClientRect().height) : 0;
                 var targetTop = target.getBoundingClientRect().top;
-                console.log('[hash-scroll] navH=' + navH + ' targetTop=' + targetTop + ' scrollY=' + window.scrollY);
-                if (targetTop < navH) {
-                    console.log('[hash-scroll] correcting — element is behind nav');
-                    target.style.scrollMarginTop = navH + 'px';
+                console.log('[hash-scroll] rawNavH=' + rawNavH + ' targetTop=' + targetTop + ' scrollY=' + window.scrollY + ' w=' + window.innerWidth);
+                // Only correct if the element is genuinely hidden behind the nav.
+                if (targetTop < rawNavH) {
+                    var corrected = rawNavH + 8;
+                    console.log('[hash-scroll] correcting to ' + corrected + 'px');
+                    target.style.scrollMarginTop = corrected + 'px';
                     target.scrollIntoView({ behavior: 'instant', block: 'start' });
-                    console.log('[hash-scroll] after correction targetTop=' + target.getBoundingClientRect().top);
                 } else {
-                    console.log('[hash-scroll] no correction needed');
+                    console.log('[hash-scroll] already clear — no correction');
                 }
             });
         });
