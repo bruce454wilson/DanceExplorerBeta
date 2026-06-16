@@ -1795,10 +1795,10 @@ function toggleHomeNav(btn) {
 </div>
 <script>
 (function () {
-    // When arriving via a cross-page hash link, suppress scroll restoration.
-    // Without this, the browser restores a previously saved scroll position
-    // (~0.5 s after load), overriding the hash navigation and jumping to the
-    // wrong section.
+    // Best-effort: tell Chrome not to restore a stale scroll position.
+    // This works on the first visit; on subsequent visits Chrome may have
+    // already committed to restoration before scripts run — the guard below
+    // handles that case.
     if (window.location.hash && 'scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
     }
@@ -1822,9 +1822,7 @@ function toggleHomeNav(btn) {
         history.pushState(null, '', href);
     });
 
-    // Cross-page hash arrival: correct nav clearance if the browser's native
-    // hash scroll left the element behind the nav (happens when the nav has
-    // wrapped taller than the fixed CSS scroll-margin-top value).
+    // Cross-page hash arrival.
     if (window.location.hash) {
         var _h = window.location.hash;
         requestAnimationFrame(function () {
@@ -1833,10 +1831,33 @@ function toggleHomeNav(btn) {
                 if (!target) return;
                 var nav = document.querySelector('.index, .alpha-nav');
                 var rawNavH = nav ? Math.ceil(nav.getBoundingClientRect().height) : 0;
-                if (target.getBoundingClientRect().top < rawNavH) {
-                    target.style.scrollMarginTop = (rawNavH + 8) + 'px';
-                    target.scrollIntoView({ behavior: 'instant', block: 'start' });
-                }
+                target.style.scrollMarginTop = (rawNavH + 8) + 'px';
+                target.scrollIntoView({ behavior: 'instant', block: 'start' });
+
+                // Scroll guard: if Chrome's restoration fires after our
+                // correction (moving us to the wrong position), snap back.
+                // We distinguish restoration (no prior user gesture) from
+                // deliberate scrolling (mousedown / wheel / touch / key fires
+                // before the resulting scroll event).
+                var anchorY = window.scrollY;
+                var guardOn = true;
+                var userScrolled = false;
+                ['mousedown', 'touchstart', 'keydown', 'wheel'].forEach(function (t) {
+                    window.addEventListener(t, function () { userScrolled = true; }, { passive: true });
+                });
+                setTimeout(function () { guardOn = false; }, 1500);
+                var _g = function () {
+                    if (!guardOn) { window.removeEventListener('scroll', _g); return; }
+                    if (userScrolled) {
+                        guardOn = false;
+                        window.removeEventListener('scroll', _g);
+                        return;
+                    }
+                    if (Math.abs(window.scrollY - anchorY) > 20) {
+                        window.scrollTo(0, anchorY);
+                    }
+                };
+                window.addEventListener('scroll', _g);
             });
         });
     }
