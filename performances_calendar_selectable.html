@@ -1072,18 +1072,22 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Cross-page arrival with a hash (e.g. "performances_works.html#work-rubies").
-    // The browser's native scroll uses the CSS scroll-margin-top fixed value,
-    // which is wrong when the nav has wrapped to multiple rows on a narrow screen.
-    // Double-rAF lets the browser's own hash scroll settle first, then we
-    // re-scroll instantly with the live nav height.
+    // The browser's native scroll uses CSS scroll-margin-top (a fixed value).
+    // On a narrow screen where the nav has wrapped taller than that fixed value,
+    // the element lands behind the nav. Double-rAF lets the native scroll settle,
+    // then we correct ONLY IF the element is still obscured by the nav.
     if (window.location.hash) {
         var _h = window.location.hash;
         requestAnimationFrame(function () {
             requestAnimationFrame(function () {
                 var target = document.getElementById(_h.slice(1));
                 if (!target) return;
-                target.style.scrollMarginTop = _navH() + 'px';
-                target.scrollIntoView({ behavior: 'instant', block: 'start' });
+                var navH = _navH();
+                // Only re-scroll if the element is hidden behind (or too close to) the nav.
+                if (target.getBoundingClientRect().top < navH) {
+                    target.style.scrollMarginTop = navH + 'px';
+                    target.scrollIntoView({ behavior: 'instant', block: 'start' });
+                }
             });
         });
     }
