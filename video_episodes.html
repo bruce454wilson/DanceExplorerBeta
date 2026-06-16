@@ -277,6 +277,8 @@ function toggleHomeNav(btn) {
         var nav = document.querySelector('.index, .alpha-nav');
         return nav ? Math.ceil(nav.getBoundingClientRect().height) + 8 : 60;
     }
+
+    // Same-page anchor clicks (A-Z nav, Jump To links that stay on this page).
     document.addEventListener('click', function (e) {
         var a = e.target.closest('a');
         if (!a) return;
@@ -285,14 +287,27 @@ function toggleHomeNav(btn) {
         var target = document.getElementById(href.slice(1));
         if (!target) return;
         e.preventDefault();
-        // Set scroll-margin-top to the live nav height at click time, then use
-        // scrollIntoView so the browser tracks the element's position during the
-        // animation — unlike window.scrollTo(Y), this isn't invalidated if the
-        // page reflows (e.g. a banner image finishing load) mid-scroll.
         target.style.scrollMarginTop = _navH() + 'px';
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         history.pushState(null, '', href);
     });
+
+    // Cross-page arrival with a hash (e.g. "performances_works.html#work-rubies").
+    // The browser's native scroll uses the CSS scroll-margin-top fixed value,
+    // which is wrong when the nav has wrapped to multiple rows on a narrow screen.
+    // Double-rAF lets the browser's own hash scroll settle first, then we
+    // re-scroll instantly with the live nav height.
+    if (window.location.hash) {
+        var _h = window.location.hash;
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                var target = document.getElementById(_h.slice(1));
+                if (!target) return;
+                target.style.scrollMarginTop = _navH() + 'px';
+                target.scrollIntoView({ behavior: 'instant', block: 'start' });
+            });
+        });
+    }
 })();
 </script>
 </body>
