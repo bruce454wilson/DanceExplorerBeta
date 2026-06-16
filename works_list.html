@@ -29,8 +29,9 @@ h1 {
     padding: 8px 0;
     border-bottom: 1px solid #ccc;
     z-index: 1000;
-    overflow-x: auto;
-    white-space: nowrap;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
 }
 
 .index a {
@@ -709,5 +710,20 @@ function toggleHomeNav(btn) {
 <div class="desc-text">On today&#x27;s episode of &quot;Conversations On Dance&quot; we are joined by superstar NYCB ballerina Tiler Peck and Garen Scribner, former SFB soloist and the Artistic Director of the San Francisco Dance Film Festival. Tiler recounts how her harrowing recovery from a potentially life altering injury was captured on film after Garen suggested the process be turned into a documentary. The resulting project is &quot;Tiler Peck: Suspending Time&quot;, a documentary film making its premiere at the SF Dance Film Festival this October 24th at the Lucasfilm Premier Theater. To purchase tickets, visit sfdancefilmfest.org. Get Tiler&#x27;s new book: https://amzn.to/4oXookXAnnouncement:We are thrilled to announce that we will be returning to Miami City Ballet October 17th-19th to host live pre-performance talks for the opening weekend of the companys 40th anniversary season. For each talk, we will be joined by Gonzalo Garcia as he ushers the company into its first season under his direction. Full details below. This program is truly not to be missed: the all Peck program includes Year of the Rabbit, Chutes and Ladders, and Heatscape. If you are in the Miami area come join us.DETAILS:FRI October 17 with Gonzalo Garcia at 6:30pmSAT October 18 with Gonzalo and Justin Peck at 6:30pmSUN October 19 with Gonzalo and Patricia Delgado at 1pmAdmission to pre-performance talks at the Arsht Center is complimentary with ticket purchase. Tickets available here: https://www.miamicityballet.org/tickets-and-events/202526-season/peck/. If you are unable to join us in person, subscribe to the Conversations on Dance podcast feed through your favorite podcast app, where we will be publishing recordings of the events.</div>
 </div>
 </div>
+<script>
+(function () {
+    function _setScrollMargins() {
+        var nav = document.querySelector('.index, .alpha-nav');
+        if (!nav) return;
+        var h = Math.ceil(nav.getBoundingClientRect().height) + 8;
+        var sel = '.guest-block, .choreo-block, .work-block, .letter-heading, .year-heading';
+        document.querySelectorAll(sel).forEach(function (el) {
+            el.style.scrollMarginTop = h + 'px';
+        });
+    }
+    _setScrollMargins();
+    window.addEventListener('resize', _setScrollMargins);
+})();
+</script>
 </body>
 </html>

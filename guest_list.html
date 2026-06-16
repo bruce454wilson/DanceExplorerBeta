@@ -29,8 +29,9 @@ h1 {
     padding: 8px 0;
     border-bottom: 1px solid #ccc;
     z-index: 1000;
-    overflow-x: auto;
-    white-space: nowrap;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
 }
 
 .index a {
@@ -5453,5 +5454,20 @@ function toggleHomeNav(btn) {
 <div class="description" id="desc-eugenia-zinovieva-1">This week we are joined by Eugenia Zinovieva, Co-Director of Rhode Island Women&#x27;s Choreography Project and dancer with Festival Ballet Providence. Born in Moscow, Russia, Eugenia moved to the United States at a young age and began her classical ballet training at the Boston Ballet School while also competing as a rhythmic gymnast. She graduated from the University of North Carolina School of the Arts high school program under the artistic direction of Ethan Stiefel. She spent a year coaching with SLK Ballet in New York City before coming to Festival Ballet Providence. Eugenia got her start in choreography through a unique program, which she now co-directs called, Rhode Island Women&#x27;s Choreography Project or RIWCP. RIWCP returns on June 26st, 2021. This years digital production features six short dance films by up-and-coming women choreographers from New England and beyond. Enjoy inspired works filmed in settings such as mountains, sand dunes, a city apartment, and more. Each dance creator has also had the opportunity to connect with a personal mentor to deepen her creative process this year. For more information on the project and for tickets for their virtual event on June 26th, visit: riwomenschoreographyproject.com. Eugenia got in touch with us after listening to episode 221, where we discussed our fantasy ballet company. She let us know about RIWCP, so we knew we had to have her on to share her work with our listeners. This episode is brought to you by Yumiko (yumiko.com). Links: Join our email list: https://bit.ly/3basX5g instagram.com/conversationsondance facebook.com/conversationsondance twitter.com/convoondance conversationsondancepod.com The post (231) Eugenia Zinovieva, Rhode Island Women&#x27;s Choreography Project Co-Director and dancer with Festival Ballet Providence appeared first on tendusunderapalmtree.com.</div>
 </div>
 </div>
+<script>
+(function () {
+    function _setScrollMargins() {
+        var nav = document.querySelector('.index, .alpha-nav');
+        if (!nav) return;
+        var h = Math.ceil(nav.getBoundingClientRect().height) + 8;
+        var sel = '.guest-block, .choreo-block, .work-block, .letter-heading, .year-heading';
+        document.querySelectorAll(sel).forEach(function (el) {
+            el.style.scrollMarginTop = h + 'px';
+        });
+    }
+    _setScrollMargins();
+    window.addEventListener('resize', _setScrollMargins);
+})();
+</script>
 </body>
 </html>

@@ -29,8 +29,9 @@ h1 {
     padding: 8px 0;
     border-bottom: 1px solid #ccc;
     z-index: 1000;
-    overflow-x: auto;
-    white-space: nowrap;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
 }
 
 .index a {
@@ -337,5 +338,20 @@ function toggleHomeNav(btn) {
 </div>
 <div id="desc-live-17" class="description">Welcome to Live From the Kennedy Center: Damian Woetzel &amp; Tiler Peck on Jerome Robbins. Two weeks ago we were in Washington, DC to cover a busy weekend of ballet at the Kennedy Center. We arrived on Friday night just in time to watch an exceptional performance entitled DEMO: Jerome Robbins- An American Dance Genius. These DEMO programs are curated by former New York City Ballet Principal, Artistic Director of the Vail Dance Festival, and incoming president of Julliard, Damian Woetzel. Damian hosted the evening, which gave audiences an educational behind the scenes look at working with Jermone Robbins and dancing his ballets. He brought 5 New York City Ballet dancers with him to demonstrate multiple excerpts of Robbins ballets: Tyler Angle, Tiler Peck, Unity Phelan, Amar Ramasar, and Daniel Ulbricht. Damians wife, and former New York City Ballet Principal, (also a former Conversations on Dance guest) Heather Watts, was a special guest for the evening. The dancers were all clad in rehearsal attire, the stage was bare, with the exceptions of a few barres to constitue sets, organized onstage just as they are in the studios for rehearsals. The evening started with Robbins&#x27; first work Fancy Free, and moved in mostly chronological order, to include his Broadway work, his return to NYCB in 1969, and his interest in choreographing to Chopins music. One highlight of the evening was when Ms. Watts coached Ms. Peck in Afternoon of a Faun. The evening included so much history, details, and background on these ballets, that we invited Damian and Tiler Peck to join us the next day for a debrief of the performance. For more information on performances and events at the Kennedy Center, visit kennedy-center.org. The post (67) Live From the Kennedy Center: Damian Woetzel &amp; Tiler Peck on Jerome Robbins appeared first on tendusunderapalmtree.com.</div>
 </div>
+<script>
+(function () {
+    function _setScrollMargins() {
+        var nav = document.querySelector('.index, .alpha-nav');
+        if (!nav) return;
+        var h = Math.ceil(nav.getBoundingClientRect().height) + 8;
+        var sel = '.guest-block, .choreo-block, .work-block, .letter-heading, .year-heading';
+        document.querySelectorAll(sel).forEach(function (el) {
+            el.style.scrollMarginTop = h + 'px';
+        });
+    }
+    _setScrollMargins();
+    window.addEventListener('resize', _setScrollMargins);
+})();
+</script>
 </body>
 </html>

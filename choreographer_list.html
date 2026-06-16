@@ -29,8 +29,9 @@ h1 {
     padding: 8px 0;
     border-bottom: 1px solid #ccc;
     z-index: 1000;
-    overflow-x: auto;
-    white-space: nowrap;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
 }
 
 .index a {
@@ -801,5 +802,20 @@ function toggleHomeNav(btn) {
 <div class="description" id="desc-chor-christopher-wheeldon-1">This week on the podcast, we are joined in San Francisco by one of the worlds most in demand choreographers, Christopher Wheeldon. Having trained at Royal Ballet, Wheeldon was taken into the company, but soon transferred to the New York City Ballet, where he rose to the rank of soloist. His choreographic talents were soon recognized and while still in his twenties, he was named resident choreographer of the New York City ballet. He was shortly after in demand at major companies all over the globe, including the Bolshoi Ballet, San Francisco Ballet, and the Royal Ballet. In 2014, he made his Broadway directorial debut with An American in Paris, a production that garnered him a Tony for his work as choreographer. We talk with him about what it was like finding his voice as a young choreographer, how he made the transition to broadway, and what continues to inspire his work. The post (93) Christopher Wheeldon, Choreographer appeared first on tendusunderapalmtree.com.</div>
 </div>
 </div>
+<script>
+(function () {
+    function _setScrollMargins() {
+        var nav = document.querySelector('.index, .alpha-nav');
+        if (!nav) return;
+        var h = Math.ceil(nav.getBoundingClientRect().height) + 8;
+        var sel = '.guest-block, .choreo-block, .work-block, .letter-heading, .year-heading';
+        document.querySelectorAll(sel).forEach(function (el) {
+            el.style.scrollMarginTop = h + 'px';
+        });
+    }
+    _setScrollMargins();
+    window.addEventListener('resize', _setScrollMargins);
+})();
+</script>
 </body>
 </html>

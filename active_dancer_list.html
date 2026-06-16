@@ -29,8 +29,9 @@ h1 {
     padding: 8px 0;
     border-bottom: 1px solid #ccc;
     z-index: 1000;
-    overflow-x: auto;
-    white-space: nowrap;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
 }
 
 .index a {
@@ -840,5 +841,20 @@ function toggleHomeNav(btn) {
 <div class="description" id="desc-ad-jennifer-stahl-1">BONUS: San Francisco Ballet Dancers Ep. 1. Welcome to our 1st of two bonus episode wrap ups of San Francisco Ballets Unbound festival. In each episode we will be talking with 3 different dancers in the company about what ultimately led them to SFB and about their experience at the Unbound festival. These episodes were recorded in the first few days of the festival around April 20th. To start off this episode, we sit down and chat with Principal Dancer, Luke Ingham. Next, we welcome Benjamin Freemantle who was just promoted to soloist. And lastly, we talk with Principal Dancer Jennifer Stahl. The post BONUS: San Francisco Ballet Dancers Ep. 1 appeared first on tendusunderapalmtree.com.</div>
 </div>
 </div>
+<script>
+(function () {
+    function _setScrollMargins() {
+        var nav = document.querySelector('.index, .alpha-nav');
+        if (!nav) return;
+        var h = Math.ceil(nav.getBoundingClientRect().height) + 8;
+        var sel = '.guest-block, .choreo-block, .work-block, .letter-heading, .year-heading';
+        document.querySelectorAll(sel).forEach(function (el) {
+            el.style.scrollMarginTop = h + 'px';
+        });
+    }
+    _setScrollMargins();
+    window.addEventListener('resize', _setScrollMargins);
+})();
+</script>
 </body>
 </html>
