@@ -843,6 +843,14 @@ function toggleHomeNav(btn) {
 </div>
 <script>
 (function () {
+    // When arriving via a cross-page hash link, suppress scroll restoration.
+    // Without this, the browser restores a previously saved scroll position
+    // (~0.5 s after load), overriding the hash navigation and jumping to the
+    // wrong section.
+    if (window.location.hash && 'scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+
     function _navH() {
         var nav = document.querySelector('.index, .alpha-nav');
         return nav ? Math.ceil(nav.getBoundingClientRect().height) + 8 : 60;
@@ -862,13 +870,9 @@ function toggleHomeNav(btn) {
         history.pushState(null, '', href);
     });
 
-    // Cross-page arrival with a hash (e.g. "performances_works.html#work-rubies").
-    // The browser's native scroll uses CSS scroll-margin-top (fixed at 50px).
-    // On a narrow screen where the nav has wrapped taller than 50px, the element
-    // lands behind the nav. Double-rAF lets the native scroll settle, then we
-    // correct only if the element is actually hidden behind the nav.
-    // We compare against the raw nav height (no buffer) so a CSS value that
-    // already clears the nav doesn't trigger a spurious re-scroll.
+    // Cross-page hash arrival: correct nav clearance if the browser's native
+    // hash scroll left the element behind the nav (happens when the nav has
+    // wrapped taller than the fixed CSS scroll-margin-top value).
     if (window.location.hash) {
         var _h = window.location.hash;
         requestAnimationFrame(function () {
@@ -877,16 +881,9 @@ function toggleHomeNav(btn) {
                 if (!target) return;
                 var nav = document.querySelector('.index, .alpha-nav');
                 var rawNavH = nav ? Math.ceil(nav.getBoundingClientRect().height) : 0;
-                var targetTop = target.getBoundingClientRect().top;
-                console.log('[hash-scroll] rawNavH=' + rawNavH + ' targetTop=' + targetTop + ' scrollY=' + window.scrollY + ' w=' + window.innerWidth);
-                // Only correct if the element is genuinely hidden behind the nav.
-                if (targetTop < rawNavH) {
-                    var corrected = rawNavH + 8;
-                    console.log('[hash-scroll] correcting to ' + corrected + 'px');
-                    target.style.scrollMarginTop = corrected + 'px';
+                if (target.getBoundingClientRect().top < rawNavH) {
+                    target.style.scrollMarginTop = (rawNavH + 8) + 'px';
                     target.scrollIntoView({ behavior: 'instant', block: 'start' });
-                } else {
-                    console.log('[hash-scroll] already clear — no correction');
                 }
             });
         });
