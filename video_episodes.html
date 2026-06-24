@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Episodes with Video</title>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1W89Y447W"></script>
@@ -162,6 +163,23 @@ a:hover {
     text-decoration: none;
 }
 
+.instagram-badge {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #c13584;
+    border-radius: 3px;
+    color: #c13584;
+    vertical-align: middle;
+}
+
+.instagram-badge:hover {
+    background: #fdf0f7;
+    text-decoration: none;
+}
+
 /* --- home nav dropdown --- */
 .home-nav { position: relative; display: inline-block; vertical-align: middle; }
 .home-nav-arrow {
@@ -186,6 +204,52 @@ a:hover {
 .home-nav-dropdown a:first-child { border-radius: 5px 5px 0 0; }
 .home-nav-dropdown a:last-child  { border-radius: 0 0 5px 5px; }
 .home-nav-dropdown a:hover { background: #f5f5f5; color: #1a73e8 !important; }
+
+/* ── Mobile ─────────────────────────────────────────────────── */
+@media (max-width: 650px) {
+    body {
+        margin: 14px;
+        font-size: 18px;
+    }
+    .guest-line {
+        font-size: 20px;
+    }
+    .index a {
+        font-size: 16px;
+        margin-right: 10px;
+        padding: 5px 2px;
+    }
+    .index-sep {
+        font-size: 16px;
+    }
+    .appearance,
+    .episode-block {
+        margin-left: 8px;
+    }
+    .row2 {
+        line-height: 1.6;
+    }
+    .profile-badge,
+    .patreon-badge,
+    .youtube-badge,
+    .instagram-badge {
+        font-size: 14px;
+        padding: 5px 10px;
+        margin-left: 0;
+        margin-top: 6px;
+        display: inline-block;
+    }
+    .desc-button {
+        font-size: 14px;
+        padding: 5px 10px;
+        margin-left: 0;
+        margin-top: 6px;
+    }
+    .home-nav-dropdown a {
+        font-size: 16px;
+        padding: 11px 16px;
+    }
+}
 </style>
 <script>
 function toggleDescription(id, btn) {
@@ -225,51 +289,109 @@ function toggleHomeNav(btn) {
 <h1>Episodes with Video</h1>
 
 <div class="index">
-<span class="home-nav"><a href="danceexplorer.html">&#8592;&nbsp;Home</a><button class="home-nav-arrow" onclick="toggleHomeNav(this)" aria-label="Site navigation">&#9662;</button><div class="home-nav-dropdown"><a href="podcasts.html">Podcasts</a><a href="performances.html">Performances</a></div></span>
+<span class="home-nav"><a href="podcasts.html">Podcasts</a><button class="home-nav-arrow" onclick="toggleHomeNav(this)" aria-label="Site navigation">&#9662;</button><div class="home-nav-dropdown"><a href="danceexplorer.html">Home</a><a href="performances.html">Performances</a></div></span>
+</div>
+<div class="episode-block">
+<div class="row2">Apr 27, 2026 — (490) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/490-live-from-works-amp-process-philadelphia-ballet-romeo-and-juliet-by-juliano-nunes" target="_blank" rel="noopener noreferrer">LIVE from Works &amp; Process: Philadelphia Ballet: Romeo and Juliet by <strong>Juliano Nunes</strong></a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=FpE3tF7eOpk" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/490-live-from-by-157617488" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-1', this)">Show description</button>
+</div>
+<div id="desc-vid-1" class="description">Welcome to a special episode of Conversations on Dance recorded live at Works &amp; Process at the Guggenheim. In the conversation, we sit down with Philadelphia Ballet resident choreographer Juliano Nunes to discuss his brand new &#x27;Romeo and Juliet&#x27; that is having it&#x27;s world premiere at the Academy of Music in Philadelphia on April 30th. Throughout the event, we take moments to pause and watch the artists of Philadelphia Ballet dance and be coached by Juliano. You can watch the event in it&#x27;s entirety on YouTube here.Romeo and Juliet runs for 11 performances at the Academy of Music this season, from April 30 through May 10. For tickets and more information, visit philadelphiaballet.org.Watch the full event on Youtube: https://www.youtube.com/watch?v=FpE3tF7eOpk</div>
 </div>
 <div class="episode-block">
 <div class="row2">Feb 11, 2026 — (480) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/480-live-with-alexei-ratmansky-amp-gonzalo-garcia-works-amp-process-at-the-guggenheim-with-miami-city-ballet" target="_blank" rel="noopener noreferrer">LIVE with <strong>Alexei Ratmansky</strong> &amp; <strong>Gonzalo Garcia</strong>, Works &amp; Process at the Guggenheim with Miami City Ballet</a>
  <a class="youtube-badge" href="https://www.youtube.com/watch?v=oFt-FjXGGNA&amp;t=43s" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
  <a class="patreon-badge" href="https://www.patreon.com/posts/480-live-with-at-150529836" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
- <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-1', this)">Show description</button>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-2', this)">Show description</button>
 </div>
-<div id="desc-vid-1" class="description">WATCH the program on YouTube here.On February 7, 2026, Miami City Ballet presented a first look of world-renowned choreographer Alexei Ratmanskys new commission celebrating MCB founder Toby Lerner Ansins 85th birthday, before its February premiere in Florida. This work blends history, tradition, and forward-thinking creativity, with a score by Johann Strauss. Ratmansky and Miami City Ballets new artistic director Gonzalo Garcia will participate in the discussion, and MCB dancers perform excerpts.Miami City Ballet&#x27;s &#x27;Into The Magic City&#x27; program runs February 20th - March 1 in Miami and West Palm Beach. The program includes the World Premiere of &#x27;Roses from the South, Three Waltzes for Toby&#x27; as discussed here, as well as George Balanchine&#x27;s &#x27;Serenade&#x27; and &#x27;Tarantella&#x27;. Tickets available here.Works &amp; Process at the Guggenheim is a non-profit organization dedicated to championing the creative process from studio to stage, with programs just like this one. Find more information and ways to support on their website: https://www.worksandprocess.org/.Listen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondance</div>
+<div id="desc-vid-2" class="description">WATCH the program on YouTube here.On February 7, 2026, Miami City Ballet presented a first look of world-renowned choreographer Alexei Ratmanskys new commission celebrating MCB founder Toby Lerner Ansins 85th birthday, before its February premiere in Florida. This work blends history, tradition, and forward-thinking creativity, with a score by Johann Strauss. Ratmansky and Miami City Ballets new artistic director Gonzalo Garcia will participate in the discussion, and MCB dancers perform excerpts.Miami City Ballet&#x27;s &#x27;Into The Magic City&#x27; program runs February 20th - March 1 in Miami and West Palm Beach. The program includes the World Premiere of &#x27;Roses from the South, Three Waltzes for Toby&#x27; as discussed here, as well as George Balanchine&#x27;s &#x27;Serenade&#x27; and &#x27;Tarantella&#x27;. Tickets available here.Works &amp; Process at the Guggenheim is a non-profit organization dedicated to championing the creative process from studio to stage, with programs just like this one. Find more information and ways to support on their website: https://www.worksandprocess.org/.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Nov 19, 2025 — (474) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/474-alastair-macaulay-on-suzanne-farrell" target="_blank" rel="noopener noreferrer"><strong>Alastair Macaulay</strong> on Suzanne Farrell</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=jAkP-QnDpL0" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/474-alastair-on-143961272" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-3', this)">Show description</button>
+</div>
+<div id="desc-vid-3" class="description">Today on Conversations on Dance, we welcome back a listener favorite and our friend, Alastair Macaulay, former Chief Dance Critic for the New York Times. This past week, on Friday November 14th, Alastair hosted an event at the New York Public Library where he examined films of revered Balanchine ballerina, Suzanne Farrell. Alastair tells us about how research for this event, talks about the films he showed, and other tidbits on Suzannes career and dancing. At the end, Alastair talks about his City Center Studio 5 event which is available to watch now on YouTube: https://www.youtube.com/watch?v=jAkP-QnDpL0</div>
 </div>
 <div class="episode-block">
 <div class="row2">Oct 29, 2025 — (471) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/471-live-from-miami-city-ballet-with-justin-peck-and-gonzalo-garcia" target="_blank" rel="noopener noreferrer">LIVE from Miami City Ballet with <strong>Justin Peck</strong> and <strong>Gonzalo Garcia</strong></a>
  <a class="youtube-badge" href="https://www.youtube.com/watch?v=je6FADBH-eQ" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
  <a class="patreon-badge" href="https://www.patreon.com/posts/471-live-from-142415635" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
- <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-2', this)">Show description</button>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-4', this)">Show description</button>
 </div>
-<div id="desc-vid-2" class="description">This episode was recorded live on October 18, 2025 at The Adrienne Arsht Center for the Performing Arts in Miami before the opening of Miami City Ballet&#x27;s 40th anniversary season. Guests in this episode are is Tony Award winning choreographer, Justin Peck, and Miami City Ballet Artistic Director, Gonzalo Garcia. The pre-performance talk coordinated with the all Peck program that the company opened their season with, which included &quot;Year of The Rabbit,&quot; &quot;Chutes and Ladders,&quot; and &quot;Heatscape.&quot; WATCH this episode on YouTube! Click here: https://www.youtube.com/watch?v=je6FADBH-eQListen to Conversations on Dance ad-free on Patreon: https://www.patreon.com/cw/conversationsondance</div>
+<div id="desc-vid-4" class="description">This episode was recorded live on October 18, 2025 at The Adrienne Arsht Center for the Performing Arts in Miami before the opening of Miami City Ballet&#x27;s 40th anniversary season. Guests in this episode are is Tony Award winning choreographer, Justin Peck, and Miami City Ballet Artistic Director, Gonzalo Garcia. The pre-performance talk coordinated with the all Peck program that the company opened their season with, which included &quot;Year of The Rabbit,&quot; &quot;Chutes and Ladders,&quot; and &quot;Heatscape.&quot; WATCH this episode on YouTube! Click here: https://www.youtube.com/watch?v=je6FADBH-eQ</div>
+</div>
+<div class="episode-block">
+<div class="row2">Feb 19, 2025 — (433) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/433-yungchris-street-dancer-creator-and-teacher-on-his-new-work-at-performing-arts-houston" target="_blank" rel="noopener noreferrer">YungChris, street dancer, creator and teacher, on his new work at Performing Arts Houston</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=BzaOJWAMCKo" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-5', this)">Show description</button>
+</div>
+<div id="desc-vid-5" class="description">On today&#x27;s episode of &quot;Conversations On Dance&quot; we are joined by street dancer, creator and teacher YungChris. Chris tells us about his early beginnings in dance, how stepping away during college refueled his desire to perform, and how traveling extensively feeds his creative impulses. The first artist to receive this commission twice, Chris is the creative mind behind one of three upcoming premieres at Performing Arts Houston&#x27;s &quot;New/Now&quot; program, to be presented this March 6th and 7th. If you&#x27;re in the Houston area, visit performingartshouston.org for to purchase tickets. &#x27;Tip Toe Thomas&#x27; New/Now Commission from 2020: https://www.youtube.com/watch?v=BzaOJWAMCKo</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jan 30, 2023 — (325) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4d2" target="_blank" rel="noopener noreferrer">LIVE from Works &amp; Process at the Guggenheim: The Night Falls</a>
+ <a class="youtube-badge" href="https://youtu.be/FfidIh8pi0o" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-6', this)">Show description</button>
+</div>
+<div id="desc-vid-6" class="description">Today&#x27;s episode of Conversations On Dance&#x27; is a live podcast from the Guggenheim&#x27;s Works &amp; Process series. We explore the creation of a new dance driven music theater production The Night Falls&#x27;, which is set to run February 9th through 12th at Montclair State University. The Night Falls&#x27; is a new myth for our fractured era, depicting the metamorphosis of atomized individuals into a true community, with choreography that dramatizes the leap of empathy between bodies and music that channels the polarities of surrender and resistance. In this interview, we are joined by the show&#x27;s creative team, choreographer and director Troy Schumacher, composer and co-lyricist Ellis Ludwig-Leone and librettist and co-lyricist Karen Russell. Tickets for The Night Falls&#x27; can be found at peakperfs.org. We are happy to be able to share a visual companion to this episode. To watch the full interview including the dancing and signing segments, visit Works &amp; Process&#x27; YouTube Channel, or click here: https://youtu.be/FfidIh8pi0o.This episode was recorded live on January 22, 2023 as a part of Guggenheim&#x27;s Works &amp; Process.The Night Falls&#x27;: Co-produced by BalletCollective, Inc., and PEAK Performances at Montclair State University. The Night Falls was developed during a 2018 residency for Project Springboard: Developing Dance Musicals with further support provided during a virtual creative residency in 2021. This season was made possible, in part, by the Alexander Kasser Theater Endowment Fund, PEAK Patrons, and the New Jersey State Council on the Arts.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jun 21, 2022 — (293) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4f2" target="_blank" rel="noopener noreferrer"><strong>Ingrid Silva</strong>, Dance Theatre of Harlem Ballerina</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=fObNVpRJfkk" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-7', this)">Show description</button>
+</div>
+<div id="desc-vid-7" class="description">On today&#x27;s episode of Conversations On Dance&#x27; we are joined by Dance Theatre Of Harlem ballerina, Ingrid Silva. Ingrid has been breaking barriers and gaining industry wide attention since she first joined Dance Theatre Of Harlem for the company&#x27;s revival in 2013. We talk about her leap of faith in leaving her home country of Brazil, the impact that Arthur Mitchell had on her early career, and her experience being a new mother while keeping up with DTH&#x27;s demanding touring and performing schedule. This episode was recorded as a part of Dance Theatre of Harlems Sunday Matinee virtual series. An abbreviated version of this interview appeared in this virtual performance, accompanied by beautiful photos and video clips. To watch that portion of this interview, plus the programming we discuss in this episode, click here: https://youtu.be/fObNVpRJfkk.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 15, 2020 — <a href="https://www.youtube.com/watch?v=Epn6Ga57iVA&amp;t=925s" target="_blank" rel="noopener noreferrer"><strong>Lil Buck</strong> video from 2020 Vail Dance Festival</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=Epn6Ga57iVA&amp;t=925s" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-8', this)">Show description</button>
+</div>
+<div id="desc-vid-8" class="description">This episode with Lil Buck exists only as a YouTube video.</div>
 </div>
 <div class="episode-block">
 <div class="row2">Aug 13, 2020 — (196) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a558" target="_blank" rel="noopener noreferrer"><strong>Calvin Royal III</strong>, Soloist with American Ballet Theatre</a>
  <a class="youtube-badge" href="https://www.youtube.com/watch?v=jVcSp0lGI5w" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
- <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-3', this)">Show description</button>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-9', this)">Show description</button>
 </div>
-<div id="desc-vid-3" class="description">Today, on the Conversations on Dance podcast, we are sharing our chat with American Ballet Theatre Soloist, Calvin Royal III, that was recorded as a part of the 2020 Vail Dance Festival: Digital Edition. Through August 15th, you can watch our Zoom chat with Calvin on the Vail Dance Festival Facebook page or on their YouTube Channel. While you are there, we encourage you to explore the incredible 8 evenings of content that truly highlights what makes this festival so special! But hurry, videos are only available through August 15th. Conversations on Dance is generously supported by Yumiko (yumiko.com). The post (196) Calvin Royal III, Soloist with American Ballet Theatre appeared first on tendusunderapalmtree.com.</div>
+<div id="desc-vid-9" class="description">Today, on the Conversations on Dance podcast, we are sharing our chat with American Ballet Theatre Soloist, Calvin Royal III, that was recorded as a part of the 2020 Vail Dance Festival: Digital Edition. Through August 15th, you can watch our Zoom chat with Calvin on the Vail Dance Festival Facebook page or on their YouTube Channel. While you are there, we encourage you to explore the incredible 8 evenings of content that truly highlights what makes this festival so special! But hurry, videos are only available through August 15th.</div>
 </div>
 <div class="episode-block">
 <div class="row2">Aug 10, 2020 — (195) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a559" target="_blank" rel="noopener noreferrer"><strong>Isabella Boylston</strong> and James Whiteside  2020 Vail Dance Festival</a>
  <a class="youtube-badge" href="https://www.youtube.com/watch?v=foN4IS-7_NU" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
- <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-4', this)">Show description</button>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-10', this)">Show description</button>
 </div>
-<div id="desc-vid-4" class="description">Today, on the Conversations on Dance podcast, we are sharing our chat with American Ballet Theatre Principal Dancers, Isabella Boylston and James Whiteside, that was recorded as a part of the 2020 Vail Dance Festival: Digital Edition. Through August 15th, you can watch our Zoom chat with James and Bella on the Vail Dance Festival Facebook page or on their YouTube Channel. While you are there, we encourage you to explore the incredible 8 evenings of content that truly highlights what makes this festival so special! But hurry, videos are only available through August 15th. Conversations on Dance is generously supported by Yumiko (yumiko.com). The post (195) Isabella Boylston and James Whiteside 2020 Vail Dance Festival appeared first on tendusunderapalmtree.com.</div>
+<div id="desc-vid-10" class="description">Today, on the Conversations on Dance podcast, we are sharing our chat with American Ballet Theatre Principal Dancers, Isabella Boylston and James Whiteside, that was recorded as a part of the 2020 Vail Dance Festival: Digital Edition. Through August 15th, you can watch our Zoom chat with James and Bella on the Vail Dance Festival Facebook page or on their YouTube Channel. While you are there, we encourage you to explore the incredible 8 evenings of content that truly highlights what makes this festival so special! But hurry, videos are only available through August 15th.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Nov 26, 2019 — (163) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a57a" target="_blank" rel="noopener noreferrer"><strong>Kenneth Parris III</strong> and <strong>Melissa Toogood</strong>, LIVE from Vail Dance Festival</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=ZoLURAm4zQk" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-11', this)">Show description</button>
+</div>
+<div id="desc-vid-11" class="description">This week we are sharing with you a live podcast recording from the 2019 Vail Dance Festival. Here we speak with Visual Artist Kenneth Parris III and dancer Melissa Toogood on Tuesday July 30th, 2019. Kenneth had many of his Merce Cunningham paintings and drawings featured throughout the festival this year, and many of these pieces feature Cunningham dancer and his wife, Melissa Toogood. We sit down to chat with this duo about their artistic partnership and their relationship to the works of Merce Cunningham.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 12, 2019 — (150) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a587" target="_blank" rel="noopener noreferrer"><strong>Lil Buck</strong> LIVE From Vail Dance Festival</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=nHmjVFefo00" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-12', this)">Show description</button>
+</div>
+<div id="desc-vid-12" class="description">Today we are bringing you a live podcast recording from the Vail Dance Festival with Jookin superstar, Lil Buck. Charles Lil Buck Riley is an dancer, actor and model from Memphis, Tennessee who specializes in a style of street dance called jookin. He gained popularity after director Spike Jonze used his cell phone to record an interpretive performance of The Dying Swan by Lil Buck and Yo-Yo Ma. Li&#x27; Buck has been a long time favorite of the festival since 2011. Lil Buck is the founder of Movement Art Is, an organization focused on using movement artistry to inspire change in the world. This episode was recorded live on July 31st, 2019. Watch the video of this live event here: https://bit.ly/2MRqcNs</div>
 </div>
 <div class="episode-block">
 <div class="row2">Feb 25, 2019 — (127) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5a0" target="_blank" rel="noopener noreferrer"><strong>Skylar Brandt</strong> of American Ballet Theatre LIVE from the Kennedy Center</a>
- <a class="youtube-badge" href="https://www.youtube.com/watch?v=N6FlxJV3mZc" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
- <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-5', this)">Show description</button>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=0JkBYjEAx8M" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-13', this)">Show description</button>
 </div>
-<div id="desc-vid-5" class="description">BONUS: San Francisco Ballet Dancers Ep. 1. Welcome to our 1st of two bonus episode wrap ups of San Francisco Ballets Unbound festival. In each episode we will be talking with 3 different dancers in the company about what ultimately led them to SFB and abo</div>
+<div id="desc-vid-13" class="description">BONUS: San Francisco Ballet Dancers Ep. 1. Welcome to our 1st of two bonus episode wrap ups of San Francisco Ballets Unbound festival. In each episode we will be talking with 3 different dancers in the company about what ultimately led them to SFB and abo</div>
 </div>
 <div class="episode-block">
 <div class="row2">Oct 23, 2018 — (112) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5b0" target="_blank" rel="noopener noreferrer">LIVE from the Kennedy Center: <strong>Helgi Tomasson</strong>, Artistic Director of San Francisco Ballet</a>
  <a class="youtube-badge" href="https://www.youtube.com/watch?v=N6FlxJV3mZc" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
- <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-6', this)">Show description</button>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-vid-14', this)">Show description</button>
 </div>
-<div id="desc-vid-6" class="description">This weeks episode of Conversations On Dance was recorded live at the Kennedy Center in Washington, DC. Our guest is former New York City Ballet principal and Artistic Director of the San Francisco Ballet, Helgi Tomasson. The San Francisco Ballet is performing at the Kennedy Center this week, from October 23 28, 2018. They will be performing six works that premiered earlier this year at the Unbound festival in San Francisco. You can purchase tickets online at www.kennedy-center.org. This episode is supported by the Kennedy Center and Yumiko. Watch the full video of this event now: https://youtu.be/N6FlxJV3mZc The post (112) LIVE from the Kennedy Center: Helgi Tomasson, Artistic Director of San Francisco Ballet appeared first on tendusunderapalmtree.com.</div>
+<div id="desc-vid-14" class="description">This weeks episode of Conversations On Dance was recorded live at the Kennedy Center in Washington, DC. Our guest is former New York City Ballet principal and Artistic Director of the San Francisco Ballet, Helgi Tomasson. The San Francisco Ballet is performing at the Kennedy Center this week, from October 23 28, 2018. They will be performing six works that premiered earlier this year at the Unbound festival in San Francisco. You can purchase tickets online at www.kennedy-center.org. Watch the full video of this event now: https://youtu.be/N6FlxJV3mZc</div>
 </div>
 <script>
 (function () {
@@ -282,7 +404,7 @@ function toggleHomeNav(btn) {
     }
 
     function _navH() {
-        var nav = document.querySelector('.index, .alpha-nav');
+        var nav = document.querySelector('.index, .alpha-nav, .company-nav');
         return nav ? Math.ceil(nav.getBoundingClientRect().height) + 8 : 60;
     }
 
@@ -307,7 +429,7 @@ function toggleHomeNav(btn) {
             requestAnimationFrame(function () {
                 var target = document.getElementById(_h.slice(1));
                 if (!target) return;
-                var nav = document.querySelector('.index, .alpha-nav');
+                var nav = document.querySelector('.index, .alpha-nav, .company-nav');
                 var rawNavH = nav ? Math.ceil(nav.getBoundingClientRect().height) : 0;
                 target.style.scrollMarginTop = (rawNavH + 8) + 'px';
                 target.scrollIntoView({ behavior: 'instant', block: 'start' });

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Balanchine Dancers</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T1W89Y447W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T1W89Y447W');
+</script>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    max-width: 1000px;
+}
+
+h1 {
+    margin-bottom: 12px;
+}
+
+.index {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+    z-index: 1000;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+.index a {
+    margin-right: 10px;
+    font-size: 13px;
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.index a:hover {
+    text-decoration: underline;
+}
+
+.index-sep {
+    margin-right: 10px;
+    color: #bbb;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.letter-heading,
+.year-heading {
+    margin-top: 40px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    scroll-margin-top: 60px;
+}
+
+.guest-block {
+    margin-top: 18px;
+    margin-bottom: 24px;
+    scroll-margin-top: 60px;
+}
+
+.guest-line {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.appearance,
+.episode-block {
+    margin-left: 20px;
+    margin-bottom: 12px;
+}
+
+.row2 {
+    color: #444;
+    line-height: 1.4;
+}
+
+.desc-button {
+    margin-left: 8px;
+    font-size: 12px;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.description {
+    display: none;
+    margin-top: 6px;
+    padding: 8px 10px;
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+    color: #333;
+    line-height: 1.4;
+    white-space: pre-wrap;
+}
+
+a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.profile-badge {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #1a73e8;
+    border-radius: 3px;
+    color: #1a73e8;
+    vertical-align: middle;
+}
+
+.profile-badge:hover {
+    background: #e8f0fe;
+    text-decoration: none;
+}
+
+.patreon-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #f96854;
+    border-radius: 3px;
+    color: #f96854;
+    vertical-align: middle;
+}
+
+.patreon-badge:hover {
+    background: #fff0ee;
+    text-decoration: none;
+}
+
+.youtube-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #cc0000;
+    border-radius: 3px;
+    color: #cc0000;
+    vertical-align: middle;
+}
+
+.youtube-badge:hover {
+    background: #fff0f0;
+    text-decoration: none;
+}
+
+.instagram-badge {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #c13584;
+    border-radius: 3px;
+    color: #c13584;
+    vertical-align: middle;
+}
+
+.instagram-badge:hover {
+    background: #fdf0f7;
+    text-decoration: none;
+}
+
+/* --- home nav dropdown --- */
+.home-nav { position: relative; display: inline-block; vertical-align: middle; }
+.home-nav-arrow {
+    background: none; border: none; padding: 0 1px 0 3px; cursor: pointer;
+    font-size: 9px; color: currentColor; opacity: 0.55; vertical-align: middle;
+    line-height: 1; font-family: inherit;
+}
+.home-nav-arrow:hover { opacity: 1; }
+.home-nav-dropdown {
+    display: none;
+    position: fixed;
+    background: white; border: 1px solid #ddd; border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    white-space: nowrap; z-index: 2000; min-width: 145px;
+}
+.home-nav-dropdown.open { display: block; }
+.home-nav-dropdown a {
+    display: block; padding: 8px 14px;
+    color: #333 !important; font-weight: normal !important;
+    text-decoration: none; font-size: 13px;
+}
+.home-nav-dropdown a:first-child { border-radius: 5px 5px 0 0; }
+.home-nav-dropdown a:last-child  { border-radius: 0 0 5px 5px; }
+.home-nav-dropdown a:hover { background: #f5f5f5; color: #1a73e8 !important; }
+
+/* ── Mobile ─────────────────────────────────────────────────── */
+@media (max-width: 650px) {
+    body {
+        margin: 14px;
+        font-size: 18px;
+    }
+    .guest-line {
+        font-size: 20px;
+    }
+    .index a {
+        font-size: 16px;
+        margin-right: 10px;
+        padding: 5px 2px;
+    }
+    .index-sep {
+        font-size: 16px;
+    }
+    .appearance,
+    .episode-block {
+        margin-left: 8px;
+    }
+    .row2 {
+        line-height: 1.6;
+    }
+    .profile-badge,
+    .patreon-badge,
+    .youtube-badge,
+    .instagram-badge {
+        font-size: 14px;
+        padding: 5px 10px;
+        margin-left: 0;
+        margin-top: 6px;
+        display: inline-block;
+    }
+    .desc-button {
+        font-size: 14px;
+        padding: 5px 10px;
+        margin-left: 0;
+        margin-top: 6px;
+    }
+    .home-nav-dropdown a {
+        font-size: 16px;
+        padding: 11px 16px;
+    }
+}
+</style>
+<script>
+function toggleDescription(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const isOpen = el.style.display === "block";
+    el.style.display = isOpen ? "none" : "block";
+    btn.textContent = isOpen ? "Show description" : "Hide description";
+    btn.setAttribute("aria-expanded", String(!isOpen));
+}
+
+function toggleHomeNav(btn) {
+    const dd = btn.nextElementSibling;
+    const opening = !dd.classList.contains('open');
+    document.querySelectorAll('.home-nav-dropdown.open').forEach(function(el) {
+        el.classList.remove('open');
+    });
+    if (opening) {
+        const rect = btn.getBoundingClientRect();
+        dd.style.top = (rect.bottom + 4) + 'px';
+        dd.style.left = rect.left + 'px';
+        dd.classList.add('open');
+        setTimeout(function () {
+            document.addEventListener('click', function closeDD(e) {
+                if (!btn.closest('.home-nav').contains(e.target)) {
+                    dd.classList.remove('open');
+                    document.removeEventListener('click', closeDD);
+                }
+            });
+        }, 0);
+    }
+}
+</script>
+</head>
+<body>
+<h1>Balanchine Dancers</h1>
+
+<div class="index">
+<span class="home-nav"><a href="podcasts.html">Podcasts</a><button class="home-nav-arrow" onclick="toggleHomeNav(this)" aria-label="Site navigation">&#9662;</button><div class="home-nav-dropdown"><a href="danceexplorer.html">Home</a><a href="performances.html">Performances</a></div></span>
+<span class="index-sep">|</span>
+<a href="#letter-A">A</a>
+<a href="#letter-B">B</a>
+<a href="#letter-C">C</a>
+<a href="#letter-F">F</a>
+<a href="#letter-G">G</a>
+<a href="#letter-H">H</a>
+<a href="#letter-L">L</a>
+<a href="#letter-M">M</a>
+<a href="#letter-N">N</a>
+<a href="#letter-P">P</a>
+<a href="#letter-V">V</a>
+<a href="#letter-W">W</a>
+</div>
+<h2 id="letter-A" class="letter-heading">A</h2>
+<div class="guest-block">
+<div class="guest-line">Karole Armitage — Artistic Director — <a href="https://armitagegonedance.org/" target="_blank" rel="noopener noreferrer" title="Armitage GONE! Dance Company Home Page">Armitage GONE! Dance Company</a> <a class="instagram-badge" href="https://www.instagram.com/karolearmitage/" target="_blank" rel="noopener noreferrer" title="Instagram profile for Karole Armitage">Instagram</a></div>
+<div class="appearance">
+<div class="row2">Mar 1, 2022 — (272) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a507" target="_blank" rel="noopener noreferrer"><strong>Karole Armitage</strong>, Artistic Director of Armitage GONE! Dance Company</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-karole-armitage-1', this)">Show description</button>
+</div>
+<div id="desc-karole-armitage-1" class="description">Today we are joined by Karole Armitage, Artistic Director of the New York-based Armitage GONE! Dance Company. Karole has had an extensive career as a dancer and choreographer. She began her professional career in 1973 as a member of the Ballet du Grand Thtre de Genve, Switzerland, under the direction of George Balanchine. In 1976, she was invited to join Merce Cunningham&#x27;s company, where she remained for five years, performing leading roles in Cunningham&#x27;s landmark works. She began her choreographic career in 1979, showcasing her unique voice in the dichotomy of classical and modern dance. Requests for commissions came in quickly once she started creating dance, from companies such as the Paris Opera Ballet, American Ballet Theatre, and companies throughout Europe. In 1990, she choreographed Madonna&#x27;s now iconic music video, Vogue, then went on to choreograph for Michael Jackson&#x27;s music video, In The Closet. In 2004 she founded her company, Armitage GONE! Dance, which will be onstage this month at New York Live Arts. We caught up with Karole as she was at the studios between rehearsals to hear about her expansive career, stories of working with Balanchine and Cunningham, choreographing for two of the most prolific pop stars of all time, and about her company&#x27;s upcoming shows. Don&#x27;t miss A Pandemic Notebook at New York Live Arts March 16-19, 2022. Tickets are available at https://newyorklivearts.org/live-arts-plus. _________________________</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Debra Austin — Rehersal Director — <a href="https://carolinaballet.com" target="_blank" rel="noopener noreferrer" title="Carolina Ballet Home Page">Carolina Ballet</a> <a class="instagram-badge" href="https://www.instagram.com/debraaustin_ballet/" target="_blank" rel="noopener noreferrer" title="Instagram profile for Debra Austin">Instagram</a></div>
+<div class="appearance">
+<div class="row2">Feb 5, 2025 — (431) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/431-debra-austin-new-york-city-ballet-dance-legend" target="_blank" rel="noopener noreferrer"><strong>Debra Austin</strong>, New York City Ballet dance legend</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-debra-austin-1', this)">Show description</button>
+</div>
+<div id="desc-debra-austin-1" class="description">On today&#x27;s episode of &quot;Conversations On Dance&quot; we are joined by New York City Ballet dance legend and trailblazer Debra Austin. Debbie, as she liked to be called, takes us through her time as a native New Yorker training locally before entering the New York City Ballet, her experiences working with Balanchine, charting new territory leading full lengths as a principal dancer at the Pennsylvania Ballet and the work she does now as a rehearsal director for Carolina Ballet for over 25 years.</div>
+</div>
+</div>
+<h2 id="letter-B" class="letter-heading">B</h2>
+<div class="guest-block">
+<div class="guest-line">Paul Boos — Repetiteur — <a href="https://balanchine.org" target="_blank" rel="noopener noreferrer" title="Balanchine Foundation Home Page">Balanchine Foundation</a></div>
+<div class="appearance">
+<div class="row2">Jun 4, 2026 — (496) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/496-paul-boos-repetiteur-and-former-balanchine-dancer" target="_blank" rel="noopener noreferrer"><strong>Paul Boos</strong>, Repetiteur and former Balanchine dancer</a>
+ <a class="patreon-badge" href="https://www.patreon.com/conversationsondance/posts/496-paul-boos-160134704" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-paul-boos-1', this)">Show description</button>
+</div>
+<div id="desc-paul-boos-1" class="description">Today on the Conversations on Dance podcast we are joined by Paul Boos, Repetiteur and former Balanchine dancer. Paul recounts growing up in South Dakota, being enrolled in ballet with his sisters, then eventually continuing his training at American Ballet Theatre, where he received a full scholarship to study and live in New York. He describes early exposure to ABT stars, joining New York City Ballet, informative encounters with Balanchine and Robbins during his time in the company. After leaving New York City Ballet, He began staging Balanchine works and later became director of the Balanchine Foundation Video Archives, which documents role originators coaching and being interviewed.  Book: In Balanchine&#x27;s Steps: https://amzn.to/4vxm9IgApply to view Balanchine Foundation videos: https://balanchine.org/video-archives/interpreters-archive-archive-of-lost-choreography/</div>
+</div>
+</div>
+<h2 id="letter-C" class="letter-heading">C</h2>
+<div class="guest-block">
+<div class="guest-line">Maria Calegari — Repetiteur — <a href="https://balanchine.com" target="_blank" rel="noopener noreferrer" title="Balanchine Trust Home Page">Balanchine Trust</a> <a class="instagram-badge" href="https://www.instagram.com/calegariteacher/" target="_blank" rel="noopener noreferrer" title="Instagram profile for Maria Calegari">Instagram</a></div>
+<div class="appearance">
+<div class="row2">Oct 8, 2025 — (468) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/468-maria-calegari-and-bart-cook-legendary-dancers-and-coaches-of-balanchine-amp-robbins-rep" target="_blank" rel="noopener noreferrer"><strong>Maria Calegari</strong> and <strong>Bart Cook</strong>, legendary dancers and coaches of Balanchine &amp; Robbins rep</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/468-maria-and-of-141800342" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-maria-calegari-1', this)">Show description</button>
+</div>
+<div id="desc-maria-calegari-1" class="description">Today on the Conversations on Dance podcast we are thrilled to have two fabulous guests: Maria Calegari and Bart Cook. We have have both Maria and Bart on the podcast before, but this married couple danced together and now sets ballets together, so we knew we had to get them on the podcast together to hear more about their careers and their work as repetiteurs for the Balanchine Trust and for the Robbins Trust. We talk through their experiences dancing together, then some of the specific ballets that they have set together: basically its just an hour and a half of bunhead time. Maria &amp; Bart are currently offering virtual and in-person private lessons for pre-professional and professional ballet dancers ages 15 and up. Lessons are structured to focus on your specific artistic goals to identify the stylistic and technical nuances that you can use to improve your movement quality, advice that goes beyond the typical class format. For more information visit: https://calegariteacher.com/.Announcement:We are thrilled to announce that we will be returning to Miami City Ballet October 17th-19th to host live pre-performance talks for the opening weekend of the companys 40th anniversary season. For each talk, we will be joined by Gonzalo Garcia as he ushers the company into its first season under his direction. Full details below. This program is truly not to be missed: the all Peck program includes Year of the Rabbit, Chutes and Ladders, and Heatscape. If you are in the Miami area come join us. And if you arent, time to look for flights! DETAILS:FRI October 17 with Gonzalo Garcia at 6:30pmSAT October 18 with Gonzalo and Justin Peck at 6:30pmSUN October 19 with Gonzalo and Patricia Delgado at 1pmAdmission to pre-performance talks at the Arsht Center is complimentary with ticket purchase. Tickets available here: https://www.miamicityballet.org/tickets-and-events/202526-season/peck/. If you are unable to join us in person, subscribe to the Conversations on Dance podcast feed through your favorite podcast app, where we will be publishing recordings of the events.SPONSOR:Friday through Sunday, November 7th through 9th, join Amanda Treiber and Company for their debut performances at the Mark ODonnell Theater in Brooklyn! Featuring a cast of international artists, including dancers and musicians from New York City Ballet, and a world premiere to music by Philip Glass, these performances showcase NYC-based choreographer and dancer Amanda Treiber&#x27;s ability to create worlds through unique movement vocabularies and her deep collaborations with dancers, musicians, and visual artists. You won&#x27;t want to miss it! Reserve your tickets today at amandatreiber.com.</div>
+</div>
+<div class="appearance">
+<div class="row2">Nov 20, 2024 — (424) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/424-part-two-maria-calegari-legendary-ballerina-amp-balanchine-repetiteur" target="_blank" rel="noopener noreferrer">PART TWO: <strong>Maria Calegari</strong>, legendary ballerina &amp; Balanchine Repetiteur</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-maria-calegari-2', this)">Show description</button>
+</div>
+<div id="desc-maria-calegari-2" class="description">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we bring to you the second installment of our conversation with Balanchine ballerina Maria Calegari. Maria tells about her own process and experience as a teacher and repetiteur, having staged dozens of ballets for companies all over the world. If you enjoyed hearing the stories of Maria&#x27;s illustrious career as much as we did, be sure to subscribe to the podcast on whatever platform you stream.</div>
+</div>
+<div class="appearance">
+<div class="row2">Nov 13, 2024 — (423) — <a href="https://shows.acast.com/conversations-on-dance/episodes/423-maria-calegari-legendary-new-york-city-ballet-ballerina" target="_blank" rel="noopener noreferrer">PART ONE: <strong>Maria Calegari</strong>, legendary New York City Ballet ballerina</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-maria-calegari-3', this)">Show description</button>
+</div>
+<div id="desc-maria-calegari-3" class="description">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are thrilled to be joined by legendary New York City Ballet ballerina Maria Calegari. In the first installment of our interview, Maria details her early training, initial interactions with Balanchine and how therapy became a driving force in the success of her career. Maria offers a view into one of the most storied eras of American ballet history, and a very personal insight into her own meteoric success. To ensure that you catch the second episode, subscribe to the podcast wherever you listen.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Bart Cook — Repetiteur — <a href="https://balanchine.com" target="_blank" rel="noopener noreferrer" title="Balanchine Trust Home Page">Balanchine Trust</a></div>
+<div class="appearance">
+<div class="row2">Oct 8, 2025 — (468) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/468-maria-calegari-and-bart-cook-legendary-dancers-and-coaches-of-balanchine-amp-robbins-rep" target="_blank" rel="noopener noreferrer"><strong>Maria Calegari</strong> and <strong>Bart Cook</strong>, legendary dancers and coaches of Balanchine &amp; Robbins rep</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/468-maria-and-of-141800342" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-bart-cook-1', this)">Show description</button>
+</div>
+<div id="desc-bart-cook-1" class="description">Today on the Conversations on Dance podcast we are thrilled to have two fabulous guests: Maria Calegari and Bart Cook. We have have both Maria and Bart on the podcast before, but this married couple danced together and now sets ballets together, so we knew we had to get them on the podcast together to hear more about their careers and their work as repetiteurs for the Balanchine Trust and for the Robbins Trust. We talk through their experiences dancing together, then some of the specific ballets that they have set together: basically its just an hour and a half of bunhead time. Maria &amp; Bart are currently offering virtual and in-person private lessons for pre-professional and professional ballet dancers ages 15 and up. Lessons are structured to focus on your specific artistic goals to identify the stylistic and technical nuances that you can use to improve your movement quality, advice that goes beyond the typical class format. For more information visit: https://calegariteacher.com/.Announcement:We are thrilled to announce that we will be returning to Miami City Ballet October 17th-19th to host live pre-performance talks for the opening weekend of the companys 40th anniversary season. For each talk, we will be joined by Gonzalo Garcia as he ushers the company into its first season under his direction. Full details below. This program is truly not to be missed: the all Peck program includes Year of the Rabbit, Chutes and Ladders, and Heatscape. If you are in the Miami area come join us. And if you arent, time to look for flights! DETAILS:FRI October 17 with Gonzalo Garcia at 6:30pmSAT October 18 with Gonzalo and Justin Peck at 6:30pmSUN October 19 with Gonzalo and Patricia Delgado at 1pmAdmission to pre-performance talks at the Arsht Center is complimentary with ticket purchase. Tickets available here: https://www.miamicityballet.org/tickets-and-events/202526-season/peck/. If you are unable to join us in person, subscribe to the Conversations on Dance podcast feed through your favorite podcast app, where we will be publishing recordings of the events.SPONSOR:Friday through Sunday, November 7th through 9th, join Amanda Treiber and Company for their debut performances at the Mark ODonnell Theater in Brooklyn! Featuring a cast of international artists, including dancers and musicians from New York City Ballet, and a world premiere to music by Philip Glass, these performances showcase NYC-based choreographer and dancer Amanda Treiber&#x27;s ability to create worlds through unique movement vocabularies and her deep collaborations with dancers, musicians, and visual artists. You won&#x27;t want to miss it! Reserve your tickets today at amandatreiber.com.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">PART ONE: Bart Cook — Repetiteur — <a href="https://balanchine.com" target="_blank" rel="noopener noreferrer" title="Balanchine Trust Home Page">Balanchine Trust</a></div>
+<div class="appearance">
+<div class="row2">Jun 25, 2025 — (449) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/449-part-one-bart-cook-legendary-new-york-city-ballet-dancer-and-repetiteur" target="_blank" rel="noopener noreferrer"><strong>PART ONE: Bart Cook</strong>, Legendary New York City Ballet dancer and repetiteur</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-part-one-bart-cook-1', this)">Show description</button>
+</div>
+<div id="desc-part-one-bart-cook-1" class="description">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are joined by legendary New York City Ballet dancer and repetiteur for the Balanchine Trust Bart Cook. Bart was a favorite of both George Balanchine and Jerome Robbins, prized for his versatility and chameleon like ability to inhabit the inner worlds of the ballets he danced. Bart goes into detail with us about these experiences, both onstage as a dancer and offstage, ensuring that the care and beauty he imbued these works with as a dancer continues in the artists of today. Tickets to Conversations on Dance at the 2025 Vail Dance Festival on sale now! https://vaildance.org/conversations-on-dance/</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">PART TWO: Bart Cook — Repetiteur — <a href="https://balanchine.com" target="_blank" rel="noopener noreferrer" title="Balanchine Trust Home Page">Balanchine Trust</a></div>
+<div class="appearance">
+<div class="row2">Jun 26, 2025 — (450) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/450-part-two-bart-cook-legendary-new-york-city-ballet-dancer-and-repetiteur" target="_blank" rel="noopener noreferrer"><strong>PART TWO: Bart Cook</strong>, Legendary New York City Ballet dancer and repetiteur</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-part-two-bart-cook-1', this)">Show description</button>
+</div>
+<div id="desc-part-two-bart-cook-1" class="description">This is Part Two of our episode with Bart Cook. If you missed Part One, please check back in our feed.On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are joined by legendary New York City Ballet dancer and repetiteur for the Balanchine Trust Bart Cook. Bart was a favorite of both George Balanchine and Jerome Robbins, prized for his versatility and chameleon like ability to inhabit the inner worlds of the ballets he danced. Bart goes into detail with us about these experiences, both onstage as a dancer and offstage, ensuring that the care and beauty he imbued these works with as a dancer continues in the artists of today. Tickets to Conversations on Dance at the 2025 Vail Dance Festival on sale now! https://vaildance.org/conversations-on-dance/</div>
+</div>
+</div>
+<h2 id="letter-F" class="letter-heading">F</h2>
+<div class="guest-block">
+<div class="guest-line">Jean-Pierre Frohlich — Repertory Director — <a href="https://nycballet.com" target="_blank" rel="noopener noreferrer" title="New York City Ballet Home Page">New York City Ballet</a> <a class="instagram-badge" href="https://www.instagram.com/jeanpierrefrohlich/" target="_blank" rel="noopener noreferrer" title="Instagram profile for Jean-Pierre Frohlich">Instagram</a></div>
+<div class="appearance">
+<div class="row2">Apr 4, 2022 — (279) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a500" target="_blank" rel="noopener noreferrer"><strong>Jean-Pierre Frohlich</strong>, New York City Ballet Repertory Director</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-jean-pierre-frohlich-1', this)">Show description</button>
+</div>
+<div id="desc-jean-pierre-frohlich-1" class="description">On today&#x27;s episode of Conversations On Dance&#x27; we are joined by New York City Ballet repertory director and former principal dancer Jean-Pierre Frohlich. JP, as he is referred to by friends and colleagues, began his training at the School Of American Ballet and quickly caught the eye of George Balanchine. Once accepted into the New York City Ballet, he soon began dancing coveted soloist and principal roles. When Jerome Robbins returned to the company, after spending over a decade on Broadway, he also began to push JP into featured roles. Following his retirement from the stage, JP began to stage the works of Jerome Robbins all over the world and has been an integral figure in maintaining the integrity of the Robbins repertoire at home at New York City Ballet as a repertory director. We talk to JP about his early interactions with Balanchine, performing iconic roles of the works of two living geniuses, and how he came to stage ballets for Robbins. Dance Teacher Web Conference and Expo, August 4-7, 2022 in Las Vegas. Use code COD50 at checkout for $50 off your conference registration at http://danceteachersummerexpo.com/. I Heart Dance Stands With Ukraine&#x27; April 9, 2022 at Florence Gould Hall in New York City: iheartdancenyc.com. Take our listener survey: https://conversationsondancepod.com/listener-survey ________________________________</div>
+</div>
+</div>
+<h2 id="letter-G" class="letter-heading">G</h2>
+<div class="guest-block">
+<div class="guest-line">Gloria Govrin — former Principal — <a href="https://nycballet.com" target="_blank" rel="noopener noreferrer" title="New York City Ballet Home Page">New York City Ballet</a></div>
+<div class="appearance">
+<div class="row2">Jan 19, 2021 — (213) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a547" target="_blank" rel="noopener noreferrer"><strong>Gloria Govrin</strong>, Balanchine Ballerina (Part II)</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-gloria-govrin-1', this)">Show description</button>
+</div>
+<div id="desc-gloria-govrin-1" class="description">Welcome to the second part of our interview with Balanchine Ballerina, Gloria Govrin. If you are tuning in and haven&#x27;t heard part one, we hope that you will go back in your feed to episode 212 for our chat with Gloria about her career. Today in Part II, Gloria tells us about where her career took her after retiring from the stage. She has since gone on to a prolific teaching career, being considered one of the leading masters of the Balanchine Technique. She is currently the Artistic Director of Eastern Connecticut Ballet.</div>
+</div>
+<div class="appearance">
+<div class="row2">Jan 13, 2021 — (212) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a548" target="_blank" rel="noopener noreferrer"><strong>Gloria Govrin</strong>, Balanchine Ballerina (Part I)</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-gloria-govrin-2', this)">Show description</button>
+</div>
+<div id="desc-gloria-govrin-2" class="description">Today we are joined by Balanchine Ballerina, Gloria Govrin. Gloria danced with New York City Ballet from 1959 to 1974 and was promoted to soloist in 1963. An unusually tall dancer, she inspired Balanchine to choreograph several distinctive roles on her. Roles such as Hippolyta in A Midsummer&#x27;s Night Dream, Coffee in Nutcracker, the Princess in Firebird, and La Bonne Fee in Harlequinade were stamped with her identity. After her distinguished stage career, Ms. Govrin has gone on to a prolific teaching career, being considered one of the leading masters of the Balanchine Technique. She is now the Artistic Director of Eastern Connecticut Ballet. We spoke with Gloria for over an hour and a half, so we will be splitting this interview into two parts. In Part One, we talk with Gloria about her origin in ballet, how she came to join NYCB, dancing for Balanchine, and the many iconic roles he created specifically for her. Be sure to subscribe to Conversations on Dance wherever you get your podcasts, to receive a notification when we publish Part Two of this interview next week. In Part Two we go in depth with Gloria about the trajectory of her teaching career after her retirement from the stage.</div>
+</div>
+</div>
+<h2 id="letter-H" class="letter-heading">H</h2>
+<div class="guest-block">
+<div class="guest-line">Darla Hoover — Repetiteur</div>
+<div class="appearance">
+<div class="row2">Feb 13, 2025 — (432) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/432-darla-hoover-esteemed-teacher-and-repetiteur" target="_blank" rel="noopener noreferrer"><strong>Darla Hoover</strong>, esteemed teacher and repetiteur</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-darla-hoover-1', this)">Show description</button>
+</div>
+<div id="desc-darla-hoover-1" class="description">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are joined by esteemed teacher and repetiteur Darla Hoover. Darla tells about how her early training at CPYB including teaching regularly, her time working with Balanchine at the School of American Ballet and later as a member of the New York City Ballet, her process to prepare for her stagings of Balanchine&#x27;s work and how she tailor makes a syllabus for the needs of individual schools. Note: When Darla refers to Marcia, she is talking about Marcia Dale Weary who founded Central Pennsylvania Youth Ballet.</div>
+</div>
+</div>
+<h2 id="letter-L" class="letter-heading">L</h2>
+<div class="guest-block">
+<div class="guest-line">George Lee — Former Dancer — <a href="https://nycballet.com" target="_blank" rel="noopener noreferrer" title="New York City Ballet Home Page">New York City Ballet</a></div>
+<div class="appearance">
+<div class="row2">May 8, 2024 — (396) — <a href="https://shows.acast.com/conversations-on-dance/episodes/jennifer-lin-george-lee-ten-times-better" target="_blank" rel="noopener noreferrer"><strong>Jennifer Lin</strong> and <strong>George Lee</strong>, the original Tea in Balanchine&#x27;s &#x27;Nutcracker&#x27;</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-george-lee-1', this)">Show description</button>
+</div>
+<div id="desc-george-lee-1" class="description">Today we are so pleased to bring you our interview with George Lee, the original &#x27;Tea&#x27; dancer in George Balanchine&#x27;s &#x27;The Nutcracker.&#x27; Also joining us for the second time, is documentary filmmaker Jennifer Lin. Jennifer&#x27;s latest film &#x27;Ten Times Better&#x27; explores the life and legacy of George. Jennifer talked to us about this film in episode 382, before it&#x27;s premiere. Today, George tells us about his story and the pair talk about how they came to connect and what filming the documentary was like. We hear about the response to the film and what it has meant to George to know so many people are touched by his story.For information about upcoming screenings or to get in touch with Jennifer, visit tentimesbetterfilm.com.Episode 382 with Jennifer Lin: Listen here.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Jennifer Lin — Film Maker</div>
+<div class="appearance">
+<div class="row2">May 8, 2024 — (396) — <a href="https://shows.acast.com/conversations-on-dance/episodes/jennifer-lin-george-lee-ten-times-better" target="_blank" rel="noopener noreferrer"><strong>Jennifer Lin</strong> and <strong>George Lee</strong>, the original Tea in Balanchine&#x27;s &#x27;Nutcracker&#x27;</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-jennifer-lin-1', this)">Show description</button>
+</div>
+<div id="desc-jennifer-lin-1" class="description">Today we are so pleased to bring you our interview with George Lee, the original &#x27;Tea&#x27; dancer in George Balanchine&#x27;s &#x27;The Nutcracker.&#x27; Also joining us for the second time, is documentary filmmaker Jennifer Lin. Jennifer&#x27;s latest film &#x27;Ten Times Better&#x27; explores the life and legacy of George. Jennifer talked to us about this film in episode 382, before it&#x27;s premiere. Today, George tells us about his story and the pair talk about how they came to connect and what filming the documentary was like. We hear about the response to the film and what it has meant to George to know so many people are touched by his story.For information about upcoming screenings or to get in touch with Jennifer, visit tentimesbetterfilm.com.Episode 382 with Jennifer Lin: Listen here.</div>
+</div>
+<div class="appearance">
+<div class="row2">Jan 29, 2024 — (382) — <a href="https://shows.acast.com/conversations-on-dance/episodes/george-lee-the-original-tea-in-balanchines-nutcracker" target="_blank" rel="noopener noreferrer">The story of George Lee, the original Tea in Balanchine&#x27;s &#x27;Nutcracker&#x27;, with <strong>Jennifer Lin</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-jennifer-lin-2', this)">Show description</button>
+</div>
+<div id="desc-jennifer-lin-2" class="description">On today&#x27;s episode of &#x27;Conversations On Dance&#x27; we are joined by documentary filmmaker Jennifer Lin. Jennifer&#x27;s latest film &#x27;Ten Times Better&#x27; explores the life and legacy of dancer George Lee, who originated the role of tea in &#x27;George Balanchine&#x27;s The Nutcracker&#x27;. She tells us the inspiring story of George&#x27;s experience as an immigrant, performing as a child in nightclubs and shuffling across countries before ultimately landing in New York City, and his experience working with theater luminaries like Balanchine and Gene Kelly. If you are in the New York City area, check out the Works and Process event on Wednesday, February 7th at the NYPL for the Performing Arts featuring a discussion about the film with both Jennifer Lin and George Lee. (More info) And be sure to catch the premiere of &#x27;Ten Times Better&#x27; on February 10th at the Dance On Camera Festival at Lincoln Center. (Tickets)More information on the film: https://www.tentimesbetterfilm.com</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Lourdes Lopez — Artistic Director — <a href="https://miamicityballet.org" target="_blank" rel="noopener noreferrer" title="Miami City Ballet Home Page">Miami City Ballet</a> <a class="instagram-badge" href="https://www.instagram.com/lourdeslopezarts/" target="_blank" rel="noopener noreferrer" title="Instagram profile for Lourdes Lopez">Instagram</a></div>
+<div class="appearance">
+<div class="row2">Nov 19, 2018 — (116) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5ab" target="_blank" rel="noopener noreferrer"><strong>Lourdes Lopez</strong>, Artistic Director of Miami City Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-lourdes-lopez-1', this)">Show description</button>
+</div>
+<div id="desc-lourdes-lopez-1" class="description">Today we are joined by Miami City Ballet Artistic Director, Lourdes Lopez, and our former boss. Born in Havana, Cuba and raised in Miami, Lopez began taking ballet lessons at the age of five and continued her training full time at the School of American Ballet when she was 14. George Balanchine chose her to join the New York City Ballet corps de ballet shortly after her 16th birthday. She danced many featured roles with the company and was promoted by Balanchine to soloist in 1981, one of the last dancers he promoted. She became a Principal under the direction of Peter Martins in 1984 and she retired from the stage in 1997. After retiring she joined WNBC-TV in New York as a cultural arts reporter. She later went on to become the Executive Director of The George Balanchine Foundation and then co-founded the dance company, Morphoses with Christopher Wheeldon in 2007. In 2012, she became the Artistic Director of Miami City Ballet. Lourdes has been named a Nominee at this years Dance Magazine Awards taking place in New York City on December 3rd. For more information on the Dance Magazine awards, visit dancemagazine.com. Note: Lourdes discusses the book entitled, Bravura!: Lucia Chase and the American Ballet Theatre.</div>
+</div>
+</div>
+<h2 id="letter-M" class="letter-heading">M</h2>
+<div class="guest-block">
+<div class="guest-line">Patricia McBride — former Principal — <a href="https://nycballet.com" target="_blank" rel="noopener noreferrer" title="New York City Ballet Home Page">New York City Ballet</a></div>
+<div class="appearance">
+<div class="row2">May 18, 2023 — <a href="https://shows.acast.com/conversations-on-dance/episodes/re-release-patricia-mcbride-beloved-balanchine-ballerina" target="_blank" rel="noopener noreferrer">RE-RELEASE: <strong>Patricia McBride</strong>, beloved Balanchine ballerina</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-patricia-mcbride-1', this)">Show description</button>
+</div>
+<div id="desc-patricia-mcbride-1" class="description">We are going back into our archives from the first few years of the podcast and re-releasing some of our favorite episodes. Today we are restoring our 2016 interview with the legendary Balanchine ballerina, Patricia McBride to our feed, and if you missed it the first time, now is the perfect time to catch up. Patty, as she is affectionately referred to by her many fans, peers and students, tells us some truly memorable stories about a legendary time for dance in America with her signature radiance and charm. This episode was recorded in 2016 when Patricia was in Miami working with Miami City Ballet.</div>
+</div>
+</div>
+<h2 id="letter-N" class="letter-heading">N</h2>
+<div class="guest-block">
+<div class="guest-line">Colleen Neary — Artistic Director — <a href="https://losangelesballet.org" target="_blank" rel="noopener noreferrer" title="Los Angeles Ballet Home Page">Los Angeles Ballet</a></div>
+<div class="appearance">
+<div class="row2">Jan 31, 2022 — (268) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a50b" target="_blank" rel="noopener noreferrer"><strong>Colleen Neary</strong>, Artistic Director of Los Angeles Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-colleen-neary-1', this)">Show description</button>
+</div>
+<div id="desc-colleen-neary-1" class="description">Today we have the pleasure of being joined by Colleen Neary, Artistic Director of Los Angeles Ballet. Born in Miami, Florida, Neary trained in New York at both the School of American Ballet and Harkness House for Ballet Arts. From 1969 to 1979, she danced as a soloist with New York City Ballet under the direction of George Balanchine and became one of his quintessential ballerinas. Colleen&#x27;s career path led her to Europe in 1979 when she became Rehearsal Director and Choreographic Assistant at Switzerlands Zurich Ballet. In 1986 she accepted the position of Principal Dancer with Pacific Northwest Ballet, then returned to Europe in 1992 to spend a decade with The Royal Danish Ballet as Rehearsal Director, Company Teacher, and First Instructor in charge of productions. In 2004, she and her husband, Thordal Christensen, founded Los Angeles Ballet. Today we take a deep dive into Colleens career, where she shares with us what it was like dancing at SAB as a young dancer while her older sister, Pat Neary, was in the company, her relationship with Balanchine, and her unusual path to join NYCB. She shares delightful stories with us about working with Balanchine and Jerome Robbins, and where her career took her after leaving the company. You wont want to miss a moment of this chat, so we hope you all enjoy! ___________________________</div>
+</div>
+</div>
+<h2 id="letter-P" class="letter-heading">P</h2>
+<div class="guest-block">
+<div class="guest-line">Susan Pilarre — Repetiteur — <a href="https://balanchine.com" target="_blank" rel="noopener noreferrer" title="Balanchine Trust Home Page">Balanchine Trust</a></div>
+<div class="appearance">
+<div class="row2">Sep 12, 2017 — (59) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5f2" target="_blank" rel="noopener noreferrer"><strong>Susan Pilarre</strong>, Esteemed Teacher at the School of American Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-susan-pilarre-1', this)">Show description</button>
+</div>
+<div id="desc-susan-pilarre-1" class="description">This week we are joined by Susan Pilarre, esteemed teacher at the School of American Ballet, repetiteur for the Balanchine Trust, and former New York City Ballet soloist. Suzy, as her students, friends and family call her, joined the New York City Ballet under George Balanchines direction at the age of 15. She spent 16 years there, premiering in many of his most important works and eventually rising to the rank of soloist. She has remained a keeper of the Balanchine flame ever since, officially joining the staff at the School of American Ballet in 1986. Ms. Pillare also stages Balanchine&#x27;s works throughout the world, as a representative of the Balanchine Trust. Her daughter Zoe, a former Miami City Ballet dancer and repetiteur, appeared on Conversations on Dance just last week. Today we talk with Suzy about her first encounters with Balanchine, her career dancing for him, how she got her position at the School of American Ballet, and about her passion for passing on her knowledge to future generations of SAB students.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Viki Bromberg Psihoyos — Repetiteur — <a href="https://balanchine.com" target="_blank" rel="noopener noreferrer" title="Balanchine Trust Home Page">Balanchine Trust</a> <a class="instagram-badge" href="https://www.instagram.com/tobiaspraetorius/" target="_blank" rel="noopener noreferrer" title="Instagram profile for Viki Bromberg Psihoyos">Instagram</a></div>
+<div class="appearance">
+<div class="row2">Nov 21, 2022 — (315) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4dc" target="_blank" rel="noopener noreferrer"><strong>Viki Bromberg Psihoyos</strong>, Balanchine Trust Repetiteur</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-viki-bromberg-psihoyos-1', this)">Show description</button>
+</div>
+<div id="desc-viki-bromberg-psihoyos-1" class="description">This week on Conversations On Dance&#x27; we are joined by Viki Bromberg Psihoyos, former New York City Ballet dancer and repetiteur with the Balanchine Trust. Viki takes us on a journey through her experiences working with Balanchine from her childhood to her professional career, how she became a repetiteur and what it is like working in companies who have never previously danced Balanchine&#x27;s work.</div>
+</div>
+</div>
+<h2 id="letter-V" class="letter-heading">V</h2>
+<div class="guest-block">
+<div class="guest-line">Edward Villella — former Artistic Director — <a href="https://miamicityballet.org" target="_blank" rel="noopener noreferrer" title="Miami City Ballet Home Page">Miami City Ballet</a></div>
+<div class="appearance">
+<div class="row2">May 5, 2023 — <a href="https://shows.acast.com/conversations-on-dance/episodes/re-release-part-two-with-edward-villella" target="_blank" rel="noopener noreferrer">RE-RELEASE: PART TWO with <strong>Edward Villella</strong>, former Artistic Director of Miami City Ballet (June 2017)</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-edward-villella-1', this)">Show description</button>
+</div>
+<div id="desc-edward-villella-1" class="description">We are going back into our archives from the first few years of the podcast and re-releasing some of our favorite episodes. Today is part two of our June 2017 interview with Edward Villella, Balanchine dancer and founding Artistic Director of Miami City Ballet. In part two, we focus on his founding of Miami City Ballet and so much more. Listen to part one here. Subscribe to Conversations on Dance wherever you get your podcasts.</div>
+</div>
+<div class="appearance">
+<div class="row2">Apr 25, 2023 — <a href="https://shows.acast.com/conversations-on-dance/episodes/re-release-edward-villella-balanchine-dancer" target="_blank" rel="noopener noreferrer">RE-RELEASE: <strong>Edward Villella</strong>, Balanchine Dancer and former Artistic Director of Miami City Ballet (June 2017)</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-edward-villella-2', this)">Show description</button>
+</div>
+<div id="desc-edward-villella-2" class="description">We are going back into our archives from the first few years of the podcast and re-releasing some of our favorite episodes. Today is our first re-release: our June 2017 interview with Edward Villella, Balanchine dancer and founding Artistic Director of Miami City Ballet. We talk with our former boss about his career, dancing for Balanchine, the specific roles made on him, and much more. Part Two of this re-release will be coming next week. Subscribe to Conversations on Dance wherever you get your podcasts.</div>
+</div>
+</div>
+<h2 id="letter-W" class="letter-heading">W</h2>
+<div class="guest-block">
+<div class="guest-line">Heather Watts — former Principal — <a href="https://nycballet.com" target="_blank" rel="noopener noreferrer" title="New York City Ballet Home Page">New York City Ballet</a> <a class="instagram-badge" href="https://www.instagram.com/heather_watts_watts/" target="_blank" rel="noopener noreferrer" title="Instagram profile for Heather Watts">Instagram</a></div>
+<div class="appearance">
+<div class="row2">Sep 18, 2017 — (60) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5f1" target="_blank" rel="noopener noreferrer"><strong>Heather Watts</strong>, Balanchine Ballerina</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-heather-watts-1', this)">Show description</button>
+</div>
+<div id="desc-heather-watts-1" class="description">This week we are joined by distinguished Balanchine ballerina, Heather Watts. Immediately noticed for her stunning physicality and the individuality of her interpretations, Watts was one of the last ballerinas to inspire Balanchine, having roles created for her in ballets like Walpurgisnacht&#x27; and danced many of his existing masterpieces such as Concerto Barocco, Symphony in C, and Theme in Variations. She has devoted her life after the stage to keeping Balanchine&#x27;s works alive, whether it&#x27;s giving lectures on the way Balanchine&#x27;s worlds related to art and world events at the time of their creation, or coaching her roles for the many artists of the Vail Dance Festival. In 2012, Watts was awarded an honorary doctorate from Hunter College. She is married to former New York City Ballet Principal Dancer, Damian Woetzel. Today we talk with Heather about her early career, how she caught Balanchines eye, the way his death impacted her life, and why coaching his ballets and influencing the next generation is so important to her.</div>
+</div>
+</div>
+<script>
+(function () {
+    // Best-effort: tell Chrome not to restore a stale scroll position.
+    // This works on the first visit; on subsequent visits Chrome may have
+    // already committed to restoration before scripts run — the guard below
+    // handles that case.
+    if (window.location.hash && 'scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+
+    function _navH() {
+        var nav = document.querySelector('.index, .alpha-nav, .company-nav');
+        return nav ? Math.ceil(nav.getBoundingClientRect().height) + 8 : 60;
+    }
+
+    // Same-page anchor clicks (A-Z nav, Jump To links that stay on this page).
+    document.addEventListener('click', function (e) {
+        var a = e.target.closest('a');
+        if (!a) return;
+        var href = a.getAttribute('href');
+        if (!href || href.charAt(0) !== '#' || href.length < 2) return;
+        var target = document.getElementById(href.slice(1));
+        if (!target) return;
+        e.preventDefault();
+        target.style.scrollMarginTop = _navH() + 'px';
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.pushState(null, '', href);
+    });
+
+    // Cross-page hash arrival.
+    if (window.location.hash) {
+        var _h = window.location.hash;
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                var target = document.getElementById(_h.slice(1));
+                if (!target) return;
+                var nav = document.querySelector('.index, .alpha-nav, .company-nav');
+                var rawNavH = nav ? Math.ceil(nav.getBoundingClientRect().height) : 0;
+                target.style.scrollMarginTop = (rawNavH + 8) + 'px';
+                target.scrollIntoView({ behavior: 'instant', block: 'start' });
+
+                // Scroll guard: if Chrome's restoration fires after our
+                // correction (moving us to the wrong position), snap back.
+                // We distinguish restoration (no prior user gesture) from
+                // deliberate scrolling (mousedown / wheel / touch / key fires
+                // before the resulting scroll event).
+                var anchorY = window.scrollY;
+                var guardOn = true;
+                var userScrolled = false;
+                ['mousedown', 'touchstart', 'keydown', 'wheel'].forEach(function (t) {
+                    window.addEventListener(t, function () { userScrolled = true; }, { passive: true });
+                });
+                setTimeout(function () { guardOn = false; }, 1500);
+                var _g = function () {
+                    if (!guardOn) { window.removeEventListener('scroll', _g); return; }
+                    if (userScrolled) {
+                        guardOn = false;
+                        window.removeEventListener('scroll', _g);
+                        return;
+                    }
+                    if (Math.abs(window.scrollY - anchorY) > 20) {
+                        window.scrollTo(0, anchorY);
+                    }
+                };
+                window.addEventListener('scroll', _g);
+            });
+        });
+    }
+})();
+</script>
+</body>
+</html>

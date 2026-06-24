@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Balanchine Scholars</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T1W89Y447W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T1W89Y447W');
+</script>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    max-width: 1000px;
+}
+
+h1 {
+    margin-bottom: 12px;
+}
+
+.index {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+    z-index: 1000;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+.index a {
+    margin-right: 10px;
+    font-size: 13px;
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.index a:hover {
+    text-decoration: underline;
+}
+
+.index-sep {
+    margin-right: 10px;
+    color: #bbb;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.letter-heading,
+.year-heading {
+    margin-top: 40px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    scroll-margin-top: 60px;
+}
+
+.guest-block {
+    margin-top: 18px;
+    margin-bottom: 24px;
+    scroll-margin-top: 60px;
+}
+
+.guest-line {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.appearance,
+.episode-block {
+    margin-left: 20px;
+    margin-bottom: 12px;
+}
+
+.row2 {
+    color: #444;
+    line-height: 1.4;
+}
+
+.desc-button {
+    margin-left: 8px;
+    font-size: 12px;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.description {
+    display: none;
+    margin-top: 6px;
+    padding: 8px 10px;
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+    color: #333;
+    line-height: 1.4;
+    white-space: pre-wrap;
+}
+
+a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.profile-badge {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #1a73e8;
+    border-radius: 3px;
+    color: #1a73e8;
+    vertical-align: middle;
+}
+
+.profile-badge:hover {
+    background: #e8f0fe;
+    text-decoration: none;
+}
+
+.patreon-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #f96854;
+    border-radius: 3px;
+    color: #f96854;
+    vertical-align: middle;
+}
+
+.patreon-badge:hover {
+    background: #fff0ee;
+    text-decoration: none;
+}
+
+.youtube-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #cc0000;
+    border-radius: 3px;
+    color: #cc0000;
+    vertical-align: middle;
+}
+
+.youtube-badge:hover {
+    background: #fff0f0;
+    text-decoration: none;
+}
+
+.instagram-badge {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #c13584;
+    border-radius: 3px;
+    color: #c13584;
+    vertical-align: middle;
+}
+
+.instagram-badge:hover {
+    background: #fdf0f7;
+    text-decoration: none;
+}
+
+/* --- home nav dropdown --- */
+.home-nav { position: relative; display: inline-block; vertical-align: middle; }
+.home-nav-arrow {
+    background: none; border: none; padding: 0 1px 0 3px; cursor: pointer;
+    font-size: 9px; color: currentColor; opacity: 0.55; vertical-align: middle;
+    line-height: 1; font-family: inherit;
+}
+.home-nav-arrow:hover { opacity: 1; }
+.home-nav-dropdown {
+    display: none;
+    position: fixed;
+    background: white; border: 1px solid #ddd; border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    white-space: nowrap; z-index: 2000; min-width: 145px;
+}
+.home-nav-dropdown.open { display: block; }
+.home-nav-dropdown a {
+    display: block; padding: 8px 14px;
+    color: #333 !important; font-weight: normal !important;
+    text-decoration: none; font-size: 13px;
+}
+.home-nav-dropdown a:first-child { border-radius: 5px 5px 0 0; }
+.home-nav-dropdown a:last-child  { border-radius: 0 0 5px 5px; }
+.home-nav-dropdown a:hover { background: #f5f5f5; color: #1a73e8 !important; }
+
+/* ── Mobile ─────────────────────────────────────────────────── */
+@media (max-width: 650px) {
+    body {
+        margin: 14px;
+        font-size: 18px;
+    }
+    .guest-line {
+        font-size: 20px;
+    }
+    .index a {
+        font-size: 16px;
+        margin-right: 10px;
+        padding: 5px 2px;
+    }
+    .index-sep {
+        font-size: 16px;
+    }
+    .appearance,
+    .episode-block {
+        margin-left: 8px;
+    }
+    .row2 {
+        line-height: 1.6;
+    }
+    .profile-badge,
+    .patreon-badge,
+    .youtube-badge,
+    .instagram-badge {
+        font-size: 14px;
+        padding: 5px 10px;
+        margin-left: 0;
+        margin-top: 6px;
+        display: inline-block;
+    }
+    .desc-button {
+        font-size: 14px;
+        padding: 5px 10px;
+        margin-left: 0;
+        margin-top: 6px;
+    }
+    .home-nav-dropdown a {
+        font-size: 16px;
+        padding: 11px 16px;
+    }
+}
+</style>
+<script>
+function toggleDescription(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const isOpen = el.style.display === "block";
+    el.style.display = isOpen ? "none" : "block";
+    btn.textContent = isOpen ? "Show description" : "Hide description";
+    btn.setAttribute("aria-expanded", String(!isOpen));
+}
+
+function toggleHomeNav(btn) {
+    const dd = btn.nextElementSibling;
+    const opening = !dd.classList.contains('open');
+    document.querySelectorAll('.home-nav-dropdown.open').forEach(function(el) {
+        el.classList.remove('open');
+    });
+    if (opening) {
+        const rect = btn.getBoundingClientRect();
+        dd.style.top = (rect.bottom + 4) + 'px';
+        dd.style.left = rect.left + 'px';
+        dd.classList.add('open');
+        setTimeout(function () {
+            document.addEventListener('click', function closeDD(e) {
+                if (!btn.closest('.home-nav').contains(e.target)) {
+                    dd.classList.remove('open');
+                    document.removeEventListener('click', closeDD);
+                }
+            });
+        }, 0);
+    }
+}
+</script>
+</head>
+<body>
+<h1>Balanchine Scholars</h1>
+
+<div class="index">
+<span class="home-nav"><a href="podcasts.html">Podcasts</a><button class="home-nav-arrow" onclick="toggleHomeNav(this)" aria-label="Site navigation">&#9662;</button><div class="home-nav-dropdown"><a href="danceexplorer.html">Home</a><a href="performances.html">Performances</a></div></span>
+<span class="index-sep">|</span>
+<a href="#letter-B">B</a>
+<a href="#letter-C">C</a>
+<a href="#letter-F">F</a>
+<a href="#letter-G">G</a>
+<a href="#letter-H">H</a>
+<a href="#letter-K">K</a>
+<a href="#letter-M">M</a>
+<a href="#letter-W">W</a>
+</div>
+<h2 id="letter-B" class="letter-heading">B</h2>
+<div class="guest-block">
+<div class="guest-line">Michael Sean Breeden — Host — <a href="https://conversationsondancepod.com" target="_blank" rel="noopener noreferrer" title="Conversations on Dance Home Page">Conversations on Dance</a> <a class="instagram-badge" href="https://www.instagram.com/michaelseanbreeden/" target="_blank" rel="noopener noreferrer" title="Instagram profile for Michael Sean Breeden">Instagram</a></div>
+<div class="appearance">
+<div class="row2">May 1, 2020 — (182) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a566" target="_blank" rel="noopener noreferrer">Rebecca and Michael: Balanchine Masterworks Tournament Bracket</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-michael-sean-breeden-1', this)">Show description</button>
+</div>
+<div id="desc-michael-sean-breeden-1" class="description">This week on the pod, Rebecca and Michael fill out a Balanchine masterwork tournament bracket to crown the ultimate Balanchine ballet. In March, two students at Indiana University sent us an email: they were missing March Madness and decided to create a bracket for Balanchine Masterworks as a fun activity for the dance department. They were kind enough to share their bracket with us. So today, we each fill out our bracket, share our results, and defend our choices. Our bracket discussion starts at time marker 16:00. Follow along with us (file below and on conversationsondancepod.com) and be sure to share your winner with us! Share your bracket on social media and tag us: @conversationsondance.</div>
+</div>
+</div>
+<h2 id="letter-C" class="letter-heading">C</h2>
+<div class="guest-block">
+<div class="guest-line">Maria Calegari — Repetiteur — <a href="https://balanchine.com" target="_blank" rel="noopener noreferrer" title="Balanchine Trust Home Page">Balanchine Trust</a> <a class="instagram-badge" href="https://www.instagram.com/calegariteacher/" target="_blank" rel="noopener noreferrer" title="Instagram profile for Maria Calegari">Instagram</a></div>
+<div class="appearance">
+<div class="row2">Mar 25, 2026 — (486) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/486-march-madness-balanchine-bracket-with-maria-calegari-and-bart-cook" target="_blank" rel="noopener noreferrer">March Madness Balanchine Bracket with <strong>Maria Calegari</strong> and <strong>Bart Cook</strong></a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/486-march-with-153927180" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-maria-calegari-1', this)">Show description</button>
+</div>
+<div id="desc-maria-calegari-1" class="description">On Conversations on Dance, we welcome Maria Calegari and Bart Cook to revisit a March Madness-style bracket of George Balanchine ballets created by Indiana University students during COVID, using head-versus-heart choices to spark memories and discussion about dancing and staging the repertory. As we debate matchups, Maria and Bart reflect on musicality, design collaborations, costuming, performance traditions, coaching details, and more. The bracket ultimately yields different winners among the four of us.Follow along with a bracket of your own.  Click here to view and download.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Bart Cook — Repetiteur — <a href="https://balanchine.com" target="_blank" rel="noopener noreferrer" title="Balanchine Trust Home Page">Balanchine Trust</a></div>
+<div class="appearance">
+<div class="row2">Mar 25, 2026 — (486) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/486-march-madness-balanchine-bracket-with-maria-calegari-and-bart-cook" target="_blank" rel="noopener noreferrer">March Madness Balanchine Bracket with <strong>Maria Calegari</strong> and <strong>Bart Cook</strong></a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/486-march-with-153927180" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-bart-cook-1', this)">Show description</button>
+</div>
+<div id="desc-bart-cook-1" class="description">On Conversations on Dance, we welcome Maria Calegari and Bart Cook to revisit a March Madness-style bracket of George Balanchine ballets created by Indiana University students during COVID, using head-versus-heart choices to spark memories and discussion about dancing and staging the repertory. As we debate matchups, Maria and Bart reflect on musicality, design collaborations, costuming, performance traditions, coaching details, and more. The bracket ultimately yields different winners among the four of us.Follow along with a bracket of your own.  Click here to view and download.</div>
+</div>
+</div>
+<h2 id="letter-F" class="letter-heading">F</h2>
+<div class="guest-block">
+<div class="guest-line">Rebecca King Ferraro — Host — <a href="https://conversationsondancepod.com" target="_blank" rel="noopener noreferrer" title="Conversations on Dance Home Page">Conversations on Dance</a> <a class="instagram-badge" href="https://www.instagram.com/rebeccakingferraro/" target="_blank" rel="noopener noreferrer" title="Instagram profile for Rebecca King Ferraro">Instagram</a></div>
+<div class="appearance">
+<div class="row2">May 1, 2020 — (182) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a566" target="_blank" rel="noopener noreferrer">Rebecca and Michael: Balanchine Masterworks Tournament Bracket</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-rebecca-king-ferraro-1', this)">Show description</button>
+</div>
+<div id="desc-rebecca-king-ferraro-1" class="description">This week on the pod, Rebecca and Michael fill out a Balanchine masterwork tournament bracket to crown the ultimate Balanchine ballet. In March, two students at Indiana University sent us an email: they were missing March Madness and decided to create a bracket for Balanchine Masterworks as a fun activity for the dance department. They were kind enough to share their bracket with us. So today, we each fill out our bracket, share our results, and defend our choices. Our bracket discussion starts at time marker 16:00. Follow along with us (file below and on conversationsondancepod.com) and be sure to share your winner with us! Share your bracket on social media and tag us: @conversationsondance.</div>
+</div>
+</div>
+<h2 id="letter-G" class="letter-heading">G</h2>
+<div class="guest-block">
+<div class="guest-line">Bob Gottlieb — writer</div>
+<div class="appearance">
+<div class="row2">Dec 18, 2017 — (72) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/72-balanchines-jewels-with-bob-gottlieb-author-editor-and-dance-critic" target="_blank" rel="noopener noreferrer">Balanchines Jewels with <strong>Bob Gottlieb</strong>: author, editor, and dance critic</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-bob-gottlieb-1', this)">Show description</button>
+</div>
+<div id="desc-bob-gottlieb-1" class="description">As our final episode of 2017, we are saluting this years biggest ballet celebration, 50 years of George Balanchines Jewels. Today we take an in depth look at Balanchine&#x27;s Jewels&#x27; with Bob Gottlieb: author, editor, and dance critic. Bob has been editor-and-chief of Simon &amp; Schuster, Alfred A. Knopf, and the New Yorker. Gottlieb is widely considered to be one of the greatest editors of the second half of the 20th century. For many years he was associated with the New York City Ballet during Balanchines time, often contributing to programming and serving on the Board of Directors. He currently sits on the Board of Trustees of Miami City Ballet. We always enjoy talking with Bob, and sometimes veer off topic, and in this case, around 45 minutes into this episode, our bun-head sides take over. Today we talk extensively with Bob about Balanchines process, the premier of Jewels, the original cast, and how the ballet is being danced today.</div>
+</div>
+</div>
+<h2 id="letter-H" class="letter-heading">H</h2>
+<div class="guest-block">
+<div class="guest-line">Jennifer Homans — writer</div>
+<div class="appearance">
+<div class="row2">Jul 30, 2023 — (352) — <a href="https://shows.acast.com/conversations-on-dance/episodes/jennifer-homans-vail-dance-festival" target="_blank" rel="noopener noreferrer"><strong>Jennifer Homans</strong>, Author and Dance Historian, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-jennifer-homans-1', this)">Show description</button>
+</div>
+<div id="desc-jennifer-homans-1" class="description">Author Jennifer Homans first made her mark ten years ago with the release of &#x27;Apollo&#x27;s Angels&#x27;, an exhaustive work tracing ballet&#x27;s roots from the Renaissance to modern times. Now she&#x27;s back with a new release, &#x27;Mr. B: George Balanchine&#x27;s 20th Century&#x27;, following the choreographer&#x27;s life and work in one of the most comprehensive ways ever committed to the page. Homans sits down to with the hosts of the podcast &#x27;Conversations On Dance&#x27; to talk about the research she did over the course of a decade of writing, what her most surprising finds were, and what her ultimate takeaways were from getting to know the life of one of the 20th century&#x27;s artistic greats in a way few writers ever have.This episode was recorded live on Saturday July 29th, 2023 at the Gerald R Ford Amphitheater. Conversations on Dance at the Vail Dance Festival is generously underwritten by the Town of Vail.VAIL DANCE FESTIVAL IS GOING ON NOW! Conversations on Dance events: https://vaildance.org/conversations-on-dance/Performance tickets: https://vaildance.org/</div>
+</div>
+<div class="appearance">
+<div class="row2">Dec 6, 2022 — (318) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4d9" target="_blank" rel="noopener noreferrer"><strong>Jennifer Homans</strong>, author and historian, on her new book, Mr. B</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-jennifer-homans-2', this)">Show description</button>
+</div>
+<div id="desc-jennifer-homans-2" class="description">On today&#x27;s episode of Conversations On Dance&#x27; we are joined by author, Jennifer Homans. Jennifer received critical acclaim for her 2011 book Apollo&#x27;s Angels&#x27;, a historical documentation of ballet from its creation to the present day. She has spent the past ten years working on Mr. B&#x27;, a biography of George Balanchine that was published this November. We talk to Jennifer about the research process, her most fascinating finds and what her final takeaways are from spending a decade getting to know the life of George Balanchine. Get your copy of Mr. B&#x27;: https://amzn.to/3VRCKEH.</div>
+</div>
+</div>
+<div class="guest-block">
+<div class="guest-line">Shane Horan — Editor — <a href="https://balanchine.org" target="_blank" rel="noopener noreferrer" title="Balanchine Foundation Home Page">Balanchine Foundation</a></div>
+<div class="appearance">
+<div class="row2">Mar 6, 2025 — (435) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/435-shane-horan-editor-for-the-george-balanchine-foundations-video-archives" target="_blank" rel="noopener noreferrer"><strong>Shane Horan</strong>, editor for the George Balanchine Foundation&#x27;s Video Archives</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-shane-horan-1', this)">Show description</button>
+</div>
+<div id="desc-shane-horan-1" class="description">On today&#x27;s episode of &quot;Conversations On Dance&quot;, we are joined by editor at the George Balanchine Foundation, Shane Horan. Shane tells us about how the Balanchine Foundation impacted his life as a ballet student, how he was brought on board as an editor learning the craft and the work the foundation is doing to expand its scope in preserving the Balanchine legacy. Apply to view Balanchine Foundation videos: https://balanchine.org/video-archives/interpreters-archive-archive-of-lost-choreography/Balanchine Finder: https://balanchine.org/find-balanchine/</div>
+</div>
+</div>
+<h2 id="letter-K" class="letter-heading">K</h2>
+<div class="guest-block">
+<div class="guest-line">Elizabeth Kendall — writer</div>
+<div class="appearance">
+<div class="row2">Dec 3, 2025 — (475) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/475-author-elizabeth-kendall-on-her-new-book-balanchine-finds-his-america-a-tale-of-love-lost-and-ballet-reborn" target="_blank" rel="noopener noreferrer">Author, <strong>Elizabeth Kendall</strong>, on her new book &quot;Balanchine Finds His America: A Tale Of Love Lost And Ballet Reborn&quot;</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/475-author-on-of-144996634" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-elizabeth-kendall-1', this)">Show description</button>
+</div>
+<div id="desc-elizabeth-kendall-1" class="description">On today&#x27;s episode of Conversations On Dance, we are joined by author Elizabeth Kendall. Elizabeth has written numerous books on dance, her most recent, &quot;Balanchine Finds His America: A Tale Of Love Lost And Ballet Reborn&quot; is on shelves now. Elizabeth takes us through her journey to writing on dance, why Balanchine has become such an important figure to her as a writer, and the varied processes through which she researches, writes and edits her work. To purchase &quot;Balanchine Finds His America&quot;, perhaps as a holiday gift or some excellent solo travel reading material, grab your copy on Amazon: https://amzn.to/49QmfDa.</div>
+</div>
+</div>
+<h2 id="letter-M" class="letter-heading">M</h2>
+<div class="guest-block">
+<div class="guest-line">Alastair Macaulay — Writer</div>
+<div class="appearance">
+<div class="row2">Nov 19, 2025 — (474) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/474-alastair-macaulay-on-suzanne-farrell" target="_blank" rel="noopener noreferrer"><strong>Alastair Macaulay</strong> on Suzanne Farrell</a>
+ <a class="youtube-badge" href="https://www.youtube.com/watch?v=jAkP-QnDpL0" target="_blank" rel="noopener noreferrer" title="Watch this episode on YouTube">YouTube Video</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/474-alastair-on-143961272" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-alastair-macaulay-1', this)">Show description</button>
+</div>
+<div id="desc-alastair-macaulay-1" class="description">Today on Conversations on Dance, we welcome back a listener favorite and our friend, Alastair Macaulay, former Chief Dance Critic for the New York Times. This past week, on Friday November 14th, Alastair hosted an event at the New York Public Library where he examined films of revered Balanchine ballerina, Suzanne Farrell. Alastair tells us about how research for this event, talks about the films he showed, and other tidbits on Suzannes career and dancing. At the end, Alastair talks about his City Center Studio 5 event which is available to watch now on YouTube: https://www.youtube.com/watch?v=jAkP-QnDpL0</div>
+</div>
+<div class="appearance">
+<div class="row2">Apr 8, 2024 — (392) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/392-balanchine-rarities-with-alastair-macaulay-critic-and-historian-of-the-performing-arts" target="_blank" rel="noopener noreferrer">Balanchine Rarities with <strong>Alastair Macaulay</strong>, critic and historian of the Performing Arts</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-alastair-macaulay-2', this)">Show description</button>
+</div>
+<div id="desc-alastair-macaulay-2" class="description">Today on the Conversations on Dance podcast, we are joined by Alastair Macaulay, critic and historian of the performing arts, and former Chief Dance Critic of the New York Times. While Alastair is no stranger to the podcast, today we get to delve into the history of numerous rare Balanchine ballets. Ahead of Alastair&#x27;s program at the New York Public Library on the topic, he gives a preview of what audiences can expect, what films will be shown, and gives us the backstory of some of these works that were only seen a few times. Plus, he tells us about some of the works that aren&#x27;t able to be shown and why. If you are in the New York area, don&#x27;t miss &#x27;Alastair Macaulay on Balanchine Rarities&#x27; on May 6th at 6pm at the New York Public Library for the Performing Arts. Reserve your spot here: https://www.nypl.org/events/programs/2024/05/06/alastair-macaulay-balanchine-rarities.Visit Alastair&#x27;s website for more of his writings on dance: alastairmacaulay.com.</div>
+</div>
+<div class="appearance">
+<div class="row2">Nov 27, 2023 — (374) — <a href="https://shows.acast.com/conversations-on-dance/episodes/374-the-history-of-giselle-with-alastair-macaulay" target="_blank" rel="noopener noreferrer">The History of &#x27;Giselle&#x27; with <strong>Alastair Macaulay</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-alastair-macaulay-3', this)">Show description</button>
+</div>
+<div id="desc-alastair-macaulay-3" class="description">On today&#x27;s episode of &#x27;Conversations On Dance&#x27;, we are joined by Alastair Macaulay, esteemed critic and historian for the performing arts. Alastair previously joined us for a deep dive into the history of Balanchine&#x27;s classic &#x27;Serenade&#x27;; today he returns for critical analysis of one of the oldest and most beloved full lengths in ballet history, &#x27;Giselle&#x27;. Alastair will be presenting a seminar on the same subject at the New York Public Library Bruno Walter Auditorium on Friday, December 1st. Tickets are sold out, but a standby line will form 45 minutes before with available seats distributed on a first come first served basis. Explore Alastair&#x27;s dance musings on his website, alastairmacaulay.com.Try Audible Plus free for 30 daysGive the gift of Audible Plus</div>
+</div>
+<div class="appearance">
+<div class="row2">Jun 6, 2023 — (343) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/343-the-history-of-balanchines-serenade-with-alastair-macaulay" target="_blank" rel="noopener noreferrer">The History of Balanchine&#x27;s &#x27;Serenade&#x27; with <strong>Alastair Macaulay</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-alastair-macaulay-4', this)">Show description</button>
+</div>
+<div id="desc-alastair-macaulay-4" class="description">Today we are joined by critic, dance scholar, and former chief dance critic to the New York Times, Alastair Macaulay. We talk with Alastair about the incredible legacy of George Balanchine&#x27;s &#x27;Serenade&#x27;. Originally choreographed in 1934 for students at the School Of American Ballet, &#x27;Serenade&#x27; has gone on to become one of the most beloved works of the 20th century. Alastair takes us through the history of the ballet, including the myths surrounding its creation, the many changes it has gone through over the years, and why we should really all be pronouncing it &#x27;Seren-AYDE&#x27;.</div>
+</div>
+<div class="appearance">
+<div class="row2">May 26, 2021 — (230) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a536" target="_blank" rel="noopener noreferrer"><strong>Alastair Macaulay</strong> on new installments of New York City Centers Studio 5</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-alastair-macaulay-5', this)">Show description</button>
+</div>
+<div id="desc-alastair-macaulay-5" class="description">Listener favorite and former Chief Dance Critic at the New York Times, Alastair Macaulay returns to the podcast this week. We realize that we have never asked Alastair his origin story in dance, so he gives us background on how the love affair began. We take a few detours to discuss the late Jacques d&#x27;Amboise, Dances at a Gathering&#x27;, Anthony Tudor, and stories of Balanchine Ballerinas. Then, Alastair talks with us about the virtual return of City Center&#x27;s Studio 5&#x27; series that he hosts. This year, with Studio 5 | Dancing Across Continents&#x27; New York City Center brings us an intimate look at rare pairings of exceptional dance artists from around the world. To watch the films already available, and to be notified when new content goes live, subscribe to City Center&#x27;s YouTube Channel, or click here: https://bit.ly/3vqqZrZ. Read Alastair&#x27;s recent essays on dance on his website, alastairmacauly.com.</div>
+</div>
+<div class="appearance">
+<div class="row2">Jan 29, 2018 — (1900-03-17 00:00:00) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5de" target="_blank" rel="noopener noreferrer">Ashton and Balanchine: Parallel Lives with <strong>Alastair Macaulay</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-alastair-macaulay-6', this)">Show description</button>
+</div>
+<div id="desc-alastair-macaulay-6" class="description">Today we have a wonderful bunhead episode in store, with one of our favorite guests, The Chief Dance Critic of the New York Times, Alastair Macaulay. Alastair and Michael are together in Michaels New York City apartment, while I call in to join the conversation. Today we are focusing on two of the most important choreographers of the 20th century: George Balanchine and Frederick Ashton. If you listen to the pod, you have heard us speak of Balanchine, and are likely a fan yourself, but we havent covered Ashton much, until today. Mr. Macaulay has been preparing for a lecture he will be presenting at the New York Public Library on February 5th on the subject of these two choreographers. Alastair offers us a wonderful preview of the content he will cover, tells stories of the two choreographic greats, and compares and contrasts their work. Alastair will be presenting the annual Lincoln Kirstein Lecture, Ashton and Balanchine: Parallel Lives at the New York Public Library on February 5th at 6pm. This event is co-presented by The Center for Ballet and the Arts at New York University and The New York Public Library for the Performing Arts. For more information, visit NYPL.org.</div>
+</div>
+</div>
+<h2 id="letter-W" class="letter-heading">W</h2>
+<div class="guest-block">
+<div class="guest-line">Deborah Wingert — Balanchine Repetiteur <a class="instagram-badge" href="https://www.instagram.com/dancing_deb/" target="_blank" rel="noopener noreferrer" title="Instagram profile for Deborah Wingert">Instagram</a></div>
+<div class="appearance">
+<div class="row2">Mar 11, 2026 — (484) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/484-deborah-wingert-on-marcia-dale-weary-balanchine-and-preserving-ballet-lineage" target="_blank" rel="noopener noreferrer"><strong>Deborah Wingert</strong> on Marcia Dale Weary, Balanchine, and Preserving Ballet Lineage</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/484-deborah-on-152804325" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-deborah-wingert-1', this)">Show description</button>
+</div>
+<div id="desc-deborah-wingert-1" class="description">Today on the Conversations on Dance podcast, we talk with former New York City Ballet dancer and Balanchine repetiteur Deborah Wingert about her early training at Central Pennsylvania Youth Ballet, where rigorous daily classes, musical and artistic context, and early teaching responsibilities shaped her discipline and curiosity. Wingert recounts being accepted to the School of American Ballet, performing key workshop roles, and joining NYCB at 16, including formative experiences and personal coaching from George Balanchine before his death in 1983. She describes thriving as a detail-oriented &quot;sponge,&quot; navigating later casting and body-image pressures, and building a wide repertory across Balanchine and Robbins works. After leaving NYCB, she began teaching privately and at multiple New York schools, then expanded into staging Balanchine works around the world.00:00 Meet The Hosts00:11 Debra Wingert Overview01:35 First Ballet Spark04:16 CPYB Magic And Context06:31 Rigor And Early Teaching14:24 SAB Audition And Move16:50 Workshop Breakthrough Roles18:57 Joining NYCB At Sixteen25:10 Balanchine Coaching Moments27:21 Life After Balanchine28:19 Other SAB Teachers33:22 Body Image And Confidence35:09 Backstage Ballet Devotion35:34 Staying in the Company36:39 Outside Projects and Robbins38:07 Leaving NYCB and Starting to Teach40:55 Outreach and Repertory Staging43:10 Learning to Stage New Works45:33 Musicality and Version Options51:18 Keeping Patterns and Details Alive55:56 Dream Ballets and Future Stagings01:04:06 Closing Thanks and Signoff</div>
+</div>
+</div>
+<script>
+(function () {
+    // Best-effort: tell Chrome not to restore a stale scroll position.
+    // This works on the first visit; on subsequent visits Chrome may have
+    // already committed to restoration before scripts run — the guard below
+    // handles that case.
+    if (window.location.hash && 'scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+
+    function _navH() {
+        var nav = document.querySelector('.index, .alpha-nav, .company-nav');
+        return nav ? Math.ceil(nav.getBoundingClientRect().height) + 8 : 60;
+    }
+
+    // Same-page anchor clicks (A-Z nav, Jump To links that stay on this page).
+    document.addEventListener('click', function (e) {
+        var a = e.target.closest('a');
+        if (!a) return;
+        var href = a.getAttribute('href');
+        if (!href || href.charAt(0) !== '#' || href.length < 2) return;
+        var target = document.getElementById(href.slice(1));
+        if (!target) return;
+        e.preventDefault();
+        target.style.scrollMarginTop = _navH() + 'px';
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.pushState(null, '', href);
+    });
+
+    // Cross-page hash arrival.
+    if (window.location.hash) {
+        var _h = window.location.hash;
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                var target = document.getElementById(_h.slice(1));
+                if (!target) return;
+                var nav = document.querySelector('.index, .alpha-nav, .company-nav');
+                var rawNavH = nav ? Math.ceil(nav.getBoundingClientRect().height) : 0;
+                target.style.scrollMarginTop = (rawNavH + 8) + 'px';
+                target.scrollIntoView({ behavior: 'instant', block: 'start' });
+
+                // Scroll guard: if Chrome's restoration fires after our
+                // correction (moving us to the wrong position), snap back.
+                // We distinguish restoration (no prior user gesture) from
+                // deliberate scrolling (mousedown / wheel / touch / key fires
+                // before the resulting scroll event).
+                var anchorY = window.scrollY;
+                var guardOn = true;
+                var userScrolled = false;
+                ['mousedown', 'touchstart', 'keydown', 'wheel'].forEach(function (t) {
+                    window.addEventListener(t, function () { userScrolled = true; }, { passive: true });
+                });
+                setTimeout(function () { guardOn = false; }, 1500);
+                var _g = function () {
+                    if (!guardOn) { window.removeEventListener('scroll', _g); return; }
+                    if (userScrolled) {
+                        guardOn = false;
+                        window.removeEventListener('scroll', _g);
+                        return;
+                    }
+                    if (Math.abs(window.scrollY - anchorY) > 20) {
+                        window.scrollTo(0, anchorY);
+                    }
+                };
+                window.addEventListener('scroll', _g);
+            });
+        });
+    }
+})();
+</script>
+</body>
+</html>

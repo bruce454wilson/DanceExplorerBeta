@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Just Rebecca and Michael</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T1W89Y447W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T1W89Y447W');
+</script>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    max-width: 1000px;
+}
+
+h1 {
+    margin-bottom: 12px;
+}
+
+.index {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+    z-index: 1000;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+.index a {
+    margin-right: 10px;
+    font-size: 13px;
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.index a:hover {
+    text-decoration: underline;
+}
+
+.index-sep {
+    margin-right: 10px;
+    color: #bbb;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.letter-heading,
+.year-heading {
+    margin-top: 40px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    scroll-margin-top: 60px;
+}
+
+.guest-block {
+    margin-top: 18px;
+    margin-bottom: 24px;
+    scroll-margin-top: 60px;
+}
+
+.guest-line {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.appearance,
+.episode-block {
+    margin-left: 20px;
+    margin-bottom: 12px;
+}
+
+.row2 {
+    color: #444;
+    line-height: 1.4;
+}
+
+.desc-button {
+    margin-left: 8px;
+    font-size: 12px;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.description {
+    display: none;
+    margin-top: 6px;
+    padding: 8px 10px;
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+    color: #333;
+    line-height: 1.4;
+    white-space: pre-wrap;
+}
+
+a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.profile-badge {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #1a73e8;
+    border-radius: 3px;
+    color: #1a73e8;
+    vertical-align: middle;
+}
+
+.profile-badge:hover {
+    background: #e8f0fe;
+    text-decoration: none;
+}
+
+.patreon-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #f96854;
+    border-radius: 3px;
+    color: #f96854;
+    vertical-align: middle;
+}
+
+.patreon-badge:hover {
+    background: #fff0ee;
+    text-decoration: none;
+}
+
+.youtube-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #cc0000;
+    border-radius: 3px;
+    color: #cc0000;
+    vertical-align: middle;
+}
+
+.youtube-badge:hover {
+    background: #fff0f0;
+    text-decoration: none;
+}
+
+.instagram-badge {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 7px;
+    border: 1px solid #c13584;
+    border-radius: 3px;
+    color: #c13584;
+    vertical-align: middle;
+}
+
+.instagram-badge:hover {
+    background: #fdf0f7;
+    text-decoration: none;
+}
+
+/* --- home nav dropdown --- */
+.home-nav { position: relative; display: inline-block; vertical-align: middle; }
+.home-nav-arrow {
+    background: none; border: none; padding: 0 1px 0 3px; cursor: pointer;
+    font-size: 9px; color: currentColor; opacity: 0.55; vertical-align: middle;
+    line-height: 1; font-family: inherit;
+}
+.home-nav-arrow:hover { opacity: 1; }
+.home-nav-dropdown {
+    display: none;
+    position: fixed;
+    background: white; border: 1px solid #ddd; border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    white-space: nowrap; z-index: 2000; min-width: 145px;
+}
+.home-nav-dropdown.open { display: block; }
+.home-nav-dropdown a {
+    display: block; padding: 8px 14px;
+    color: #333 !important; font-weight: normal !important;
+    text-decoration: none; font-size: 13px;
+}
+.home-nav-dropdown a:first-child { border-radius: 5px 5px 0 0; }
+.home-nav-dropdown a:last-child  { border-radius: 0 0 5px 5px; }
+.home-nav-dropdown a:hover { background: #f5f5f5; color: #1a73e8 !important; }
+
+/* ── Mobile ─────────────────────────────────────────────────── */
+@media (max-width: 650px) {
+    body {
+        margin: 14px;
+        font-size: 18px;
+    }
+    .guest-line {
+        font-size: 20px;
+    }
+    .index a {
+        font-size: 16px;
+        margin-right: 10px;
+        padding: 5px 2px;
+    }
+    .index-sep {
+        font-size: 16px;
+    }
+    .appearance,
+    .episode-block {
+        margin-left: 8px;
+    }
+    .row2 {
+        line-height: 1.6;
+    }
+    .profile-badge,
+    .patreon-badge,
+    .youtube-badge,
+    .instagram-badge {
+        font-size: 14px;
+        padding: 5px 10px;
+        margin-left: 0;
+        margin-top: 6px;
+        display: inline-block;
+    }
+    .desc-button {
+        font-size: 14px;
+        padding: 5px 10px;
+        margin-left: 0;
+        margin-top: 6px;
+    }
+    .home-nav-dropdown a {
+        font-size: 16px;
+        padding: 11px 16px;
+    }
+}
+</style>
+<script>
+function toggleDescription(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const isOpen = el.style.display === "block";
+    el.style.display = isOpen ? "none" : "block";
+    btn.textContent = isOpen ? "Show description" : "Hide description";
+    btn.setAttribute("aria-expanded", String(!isOpen));
+}
+
+function toggleHomeNav(btn) {
+    const dd = btn.nextElementSibling;
+    const opening = !dd.classList.contains('open');
+    document.querySelectorAll('.home-nav-dropdown.open').forEach(function(el) {
+        el.classList.remove('open');
+    });
+    if (opening) {
+        const rect = btn.getBoundingClientRect();
+        dd.style.top = (rect.bottom + 4) + 'px';
+        dd.style.left = rect.left + 'px';
+        dd.classList.add('open');
+        setTimeout(function () {
+            document.addEventListener('click', function closeDD(e) {
+                if (!btn.closest('.home-nav').contains(e.target)) {
+                    dd.classList.remove('open');
+                    document.removeEventListener('click', closeDD);
+                }
+            });
+        }, 0);
+    }
+}
+</script>
+</head>
+<body>
+<h1>Just Rebecca and Michael</h1>
+
+<div class="index">
+<span class="home-nav"><a href="podcasts.html">Podcasts</a><button class="home-nav-arrow" onclick="toggleHomeNav(this)" aria-label="Site navigation">&#9662;</button><div class="home-nav-dropdown"><a href="danceexplorer.html">Home</a><a href="performances.html">Performances</a></div></span>
+</div>
+<div class="episode-block">
+<div class="row2">Dec 18, 2025 — (477) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/477-the-best-of-2025-with-michael-and-rebecca" target="_blank" rel="noopener noreferrer">The Best of 2025 with Michael and Rebecca</a>
+ <a class="patreon-badge" href="https://www.patreon.com/posts/477-best-of-2025-146148900" target="_blank" rel="noopener noreferrer" title="Listen to this episode ad-free on Patreon">Patreon</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-1', this)">Show description</button>
+</div>
+<div id="desc-justus-1" class="description">Today it&#x27;s just Michael and Rebecca for our annual look back over the year. Enjoy! Happy Holidays and Happy New Year everyone! We will be back with a new episode on January 7th, 2026.Miami City Ballet Nutcracker running through 12/28: https://www.miamicityballet.org/tickets-and-events/202526-season/nutcracker/#e214Miami City Ballet world premiere by Alexei Ratmansky: https://www.miamicityballet.org/tickets-and-events/202526-season/winter/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Sep 10, 2025 — (464) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/464-michael-amp-rebecca-catching-up-10th-anniversary-season" target="_blank" rel="noopener noreferrer">Michael &amp; Rebecca, catching up + 10th anniversary season!</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-2', this)">Show description</button>
+</div>
+<div id="desc-justus-2" class="description">?This week on Conversations on Dance, it&#x27;s just Michael and Rebecca. We catch up on what we have been up to since Vail Dance Festival in August. Michael talks about working as a rehearsal director for James Whiteside in Mexico, and staging Justin Peck&#x27;s &#x27;Heatscape&#x27; at New York City Ballet this Fall.SPONSOR:San Francisco-based choreographer Alyssa Mitchel presents the premiere of Endure, a multimedia dance production taking place at Dance Mission Theater on October 3rd, 4th and 5th. The piece features six dancers, the graphic art and animations of designer Zach Litoff and recorded interviews with six marathon runners. This new work celebrates running while paying tribute to the enduring human spirit, with the intention of empowering audience members to persevere through difficult challenges. Tickets are on sale now at dancemissiontheater.org. You can follow Alyssa Mitchel on Instagram at @alymitchel or visit alyssaevemitchel.com for more information.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jun 18, 2025 — (448) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/448-rebecca-amp-michael-catch-up-vail-live-event-tickets-on-sale-now-clive-barnes-awards" target="_blank" rel="noopener noreferrer">Rebecca &amp; Michael Catch Up: Vail Live Event tickets on sale now + Clive Barnes Awards</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-3', this)">Show description</button>
+</div>
+<div id="desc-justus-3" class="description">Tickets to Conversations on Dance at the 2025 Vail Dance Festival on sale now! https://vaildance.org/conversations-on-dance/Today it&#x27;s just us as we catch up on the past few weeks: Miami City Ballet&#x27;s recent announcement of Gonzalo Garcia as the new Artistic Director, Michael&#x27;s time in Amsterdam, the Clive Barnes awards, and we go through all our events that are coming up at the 2025 Vail Dance Festival. You can support the Clive Barnes Foundation by donating here: https://www.clivebarnesfoundation.org/.SPONSOR:Felice Lesser Dance Theater celebrates its 50th Anniversary with the live documentary, I AM A DANCER 2020, a real-time journey into the effects of the pandemic on the dance world. Combining live dance, projected video, and filmed interviews depicting how dance workers navigated the COVID-19 pandemic, I AM A DANCER 2020 will have four performances, June 26th to 28th at New York Live Arts in New York City. For tickets and information, please visit newyorklivearts.org.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jan 8, 2025 — (427) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/427-happy-new-year-listener-survey-review" target="_blank" rel="noopener noreferrer">Happy New Year: Listener Survey review</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-4', this)">Show description</button>
+</div>
+<div id="desc-justus-4" class="description">Today it&#x27;s just Michael &amp; Rebecca. We go through the listener survey submissions and start building our 2025 guest wish list! Thank you to everyone who took the time to take our listener survey!</div>
+</div>
+<div class="episode-block">
+<div class="row2">Dec 18, 2024 — (426) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/426-best-of-2024" target="_blank" rel="noopener noreferrer">Best of 2024</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-5', this)">Show description</button>
+</div>
+<div id="desc-justus-5" class="description">Today, we sit down for our annual &quot;Best of&quot; episode! We saw great dance this year and talked with amazing guests. Cheers to another year with all of you. Thank you for coming on this ride with us! Please take 5 mins to take our listener survey. We want to hear from you.Episodes referenced:Maria Calegari - Part 1 Part 2Jennifer Lin - (382) The story of George Lee, the original Tea in Balanchine&#x27;s &#x27;Nutcracker&#x27;, with Jennifer LinGeorge Lee &amp; Jennifer Lin - (396) Jennifer Lin and George Lee, the original Tea in Balanchine&#x27;s &#x27;Nutcracker&#x27;Michael Vernon - (391) Michael Vernon, Professor of Music (Ballet) at Indiana University Jacobs School of MusicKatlyn Addison - (383) Katlyn Addison, Principal Dancer with Ballet WestLimon at VDF - (405) Dante Puleio and Joey Columbus on the legacy of Jos Limn, LIVE from the Vail Dance FestivalGolden State Ballet&#x27;s Nutcracker: https://www.goldenstateballet.org/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Dec 4, 2024 — (425) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/425-michael-amp-rebecca-catch-up-plus-take-our-listener-survey" target="_blank" rel="noopener noreferrer">Michael &amp; Rebecca catch up, plus, take our listener survey!</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-6', this)">Show description</button>
+</div>
+<div id="desc-justus-6" class="description">Today it&#x27;s just Michael and Rebecca checking in. Please take 5 mins to take our listener survey. We want to hear from you!</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 30, 2024 — (406) — <a href="https://shows.acast.com/conversations-on-dance/episodes/bonus-q-a-with-michael-rebecca-vail-dance-festival" target="_blank" rel="noopener noreferrer">BONUS: Q &amp; A with Michael &amp; Rebecca, LIVE from the Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-7', this)">Show description</button>
+</div>
+<div id="desc-justus-7" class="description">This episode was recorded live on July 30, 2024 at the Vail Dance Festival. In this episode, Michael and Rebecca sit down with our Vail Dance Festival audience for a Q &amp; A before our guest, Catherine Hurlin joins us. Our episode with Catherine is now in the feed in episode 407.Conversations on Dance at the Vail Dance Festival is generously supported by the Town of Vail. Upcoming Conversations on Dance events at the 2024 Vail Dance Festival: https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 22, 2024 — (403) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/403-rebecca-amp-michael-preview-the-2024-vail-dance-festival" target="_blank" rel="noopener noreferrer">Rebecca &amp; Michael preview the 2024 Vail Dance Festival</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-8', this)">Show description</button>
+</div>
+<div id="desc-justus-8" class="description">We are leaving for the Vail Dance Festival in just a few days, so today we sit down to talk through the performances that we will be catching during the festival and preview who we will be talking to during our live events.Conversations on Dance at the Vail Dance Festival: https://vaildance.org/conversations-on-dance/Vail Dance Festival performances: https://vaildance.org/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jun 20, 2024 — (401) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/401-michael-amp-rebecca-on-michaels-setting-of-alexei-ratmanskys-the-fairys-kiss" target="_blank" rel="noopener noreferrer">Michael &amp; Rebecca on Michael&#x27;s setting of Alexei Ratmansky&#x27;s &#x27;The Fairy&#x27;s Kiss&#x27;</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-9', this)">Show description</button>
+</div>
+<div id="desc-justus-9" class="description">It&#x27;s just us this week and we catch up on Michael&#x27;s staging of Alexei Ratmansky&#x27;s &#x27;The Fairy&#x27;s Kiss&#x27; at Dutch National Ballet. PLUS - JUST ANNOUNCED! Tickets for Conversations on Dance at the 2024 Vail Dance Festival are on sale now! https://vaildance.org/conversations-on-dance/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Mar 19, 2024 — (389) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/389-michael-and-rebecca-check-in" target="_blank" rel="noopener noreferrer">Michael and Rebecca check in</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-10', this)">Show description</button>
+</div>
+<div id="desc-justus-10" class="description">It&#x27;s just us this week! We check in on some of the dance we have seen recently and talk about Michael&#x27;s work as a repetiteur.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jan 23, 2024 — (381) — <a href="https://shows.acast.com/conversations-on-dance/episodes/michael-and-rebecca-catching-up-january" target="_blank" rel="noopener noreferrer">Michael and Rebecca, catching up after Michael&#x27;s staging of &#x27;Rodeo&#x27; at Semperoper Ballett</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-11', this)">Show description</button>
+</div>
+<div id="desc-justus-11" class="description">This week, Michael and Rebecca sit down to catch up. Michael tells Rebecca about his experience over the past 3 weeks in Dresden, Germany setting Justin Peck&#x27;s &#x27;Rodeo.&#x27; We also chat about miscellaneous items including Johan Inger&#x27;s Swan Lake, auditions for Golden State Ballet, and the Artistic Director opening at Lexington Ballet Company.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Dec 27, 2023 — (378) — <a href="https://shows.acast.com/conversations-on-dance/episodes/378-michael-and-rebeccas-best-of-2023" target="_blank" rel="noopener noreferrer">Michael and Rebecca&#x27;s Best of 2023</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-12', this)">Show description</button>
+</div>
+<div id="desc-justus-12" class="description">Michael and Rebecca sit down for our annual &quot;Best of 2023.&quot; Hop over to our Instagram account to comment and share with us some of your fave dance moments you experienced this year: @conversationsondance.Happy New Year and thank you for your support of Conversations on Dance this past year!</div>
+</div>
+<div class="episode-block">
+<div class="row2">Sep 21, 2023 — <a href="https://shows.acast.com/conversations-on-dance/episodes/bonus-michael-on-staging-justin-pecks-year-of-the-rabbit-at-" target="_blank" rel="noopener noreferrer">BONUS: Michael on Staging Justin Peck&#x27;s &#x27;Year of the Rabbit&#x27; at Nashville Ballet</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-13', this)">Show description</button>
+</div>
+<div id="desc-justus-13" class="description">Today&#x27;s episode is a special bonus episode and cross over with Nashville Ballet&#x27;s Inside the Ballet Podcast. In this episode, Michael takes the guest chair and chats with two members of the Nashville Ballet team, Briona Richardson, Senior Manager of Community Engagement and Nick Mullikin, Artistic Director. This episode gives a behind the scenes look at the work Michael did helping bring JustinPeck&#x27;s &#x27;Year Of the Rabbit&#x27; to Nashville Ballet. If you&#x27;re in the Nashville area, visit nashvilleballet.com to purchase tickets for performances Sep 22-24. Listen to Nashville Ballet&#x27;s Inside the Ballet Podcast here.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 15, 2023 — (361) — <a href="https://www.conversationsondancepod.com/episodes-transcripts/361-catching-up-with-michael-and-rebecca" target="_blank" rel="noopener noreferrer">Catching up, with Michael and Rebecca</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-14', this)">Show description</button>
+</div>
+<div id="desc-justus-14" class="description">It&#x27;s just us this week. We chat about the 2023 Vail Dance Festival (listen to episodes from the fest here) and catch up on what else we have been up to recently.Email us: info@conversationsondancepod.comRebecca&#x27;s website: rebeccaferraro.com</div>
+</div>
+<div class="episode-block">
+<div class="row2">Apr 4, 2023 — (334) — <a href="https://shows.acast.com/conversations-on-dance/episodes/334-welcome-to-the-new-cod-with-michael-and-rebecca" target="_blank" rel="noopener noreferrer">Welcome to the new COD! with Michael and Rebecca</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-15', this)">Show description</button>
+</div>
+<div id="desc-justus-15" class="description">Welcome to the brand new Conversations on Dance! We are pleased to announce we are now a part of the Acast Creator Network. Check out what else is new:New website: conversationsondancepod.comMerch: https://bit.ly/cod-merchYouTube: https://bit.ly/youtube-CODSpotify Playlists: COD Fave Ballets Program A and Program BJoin our email list: https://bit.ly/mail-COD</div>
+</div>
+<div class="episode-block">
+<div class="row2">Feb 10, 2023 — (327) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4d0" target="_blank" rel="noopener noreferrer">The Night Falls and Copland Dance Episodes with Michael and Rebecca</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-16', this)">Show description</button>
+</div>
+<div id="desc-justus-16" class="description">It&#x27;s just Michael and Rebecca this week. We start by catch up after Michael&#x27;s live events at Works &amp; Process at the Guggenheim and Inside NYCB. Michael tells us about seeing Justin Peck&#x27;s newest work at New York City Ballet, Copland Dance Episodes,&#x27; then about his work on The Night Falls&#x27; with Troy Schumacher and BalletCollective. See The Night Falls&#x27; February 9th through 12th at Montclair State University. Tickets for The Night Falls can be found at peakperfs.org. Watch the Works &amp; Process event on their YouTube Channel, or click here: https://youtu.be/FfidIh8pi0o.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Dec 20, 2022 — (320) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4d7" target="_blank" rel="noopener noreferrer">Best of 2022 with Michael and Rebecca</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-17', this)">Show description</button>
+</div>
+<div id="desc-justus-17" class="description">It&#x27;s just us this week for our annual year-end wrap up. What a year 2022 has been! We list our favorite episodes from this year, our favorite performances we saw, our FOMO list of what we didn&#x27;t get to see but wished we had, and we share what we learned this year. Check out our COD Reading List for some last minute gift ideas for the dance lover in your life: https://conversationsondancepod.com/cod-reading-list/ Support COD: https://conversationsondancepod.com/support/</div>
+</div>
+<div class="episode-block">
+<div class="row2">Oct 13, 2022 — (310) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4e1" target="_blank" rel="noopener noreferrer">Michael &amp; Rebecca: catching up from Copenhagen</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-18', this)">Show description</button>
+</div>
+<div id="desc-justus-18" class="description">It&#x27;s just us this week on Conversations on Dance. Michael is in Denmark setting a ballet for choreographer Justin Peck at Royal Danish Ballet, so he fills us in on how it&#x27;s going, 3 weeks in. Rebecca fills us in on how everything is going with her new baby.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Sep 13, 2022 — (306) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4e5" target="_blank" rel="noopener noreferrer">Michael &amp; Rebecca: Were Back!</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-19', this)">Show description</button>
+</div>
+<div id="desc-justus-19" class="description">It&#x27;s just Michael and Rebecca this week. We&#x27;re back and catch up on what we have been up to this summer and we dive into some recent news. Subscribe to Conversations on Dance wherever you get your podcasts to notified of our upcoming content featuring dance this fall, all new interviews, and much more!</div>
+</div>
+<div class="episode-block">
+<div class="row2">May 19, 2022 — (286) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4f9" target="_blank" rel="noopener noreferrer">BONUS: Michael and Rebecca spring dance roundup</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-20', this)">Show description</button>
+</div>
+<div id="desc-justus-20" class="description">It&#x27;s just Michael and Rebecca in this bonus episode, where we chat about the great dance performances we have seen over the past few months, including Royal Danish Ballet, Miami City Ballet, New York City Ballet, Ragamala, Karole Armitage&#x27;s Armitage Gone Dance!, and more! Support COD: conversationsondancepod.com/support</div>
+</div>
+<div class="episode-block">
+<div class="row2">Apr 26, 2022 — (282) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a4fd" target="_blank" rel="noopener noreferrer">Michael &amp; Rebecca on our 2022 listener survey</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-21', this)">Show description</button>
+</div>
+<div id="desc-justus-21" class="description">It&#x27;s just Michael and Rebecca this week as we come together for a catch up, plus we go through responses to our 2022 listener survey. Thank you to everyone who participated! Your feedback was very valuable and will help us plan our content moving forward. This past weekend we were together in Miami to see Miami City Ballet in Jewels,&#x27; which we will be discussing in an upcoming episode of COD. Be sure to subscribe to COD wherever you get your podcasts. Information on the 2022 Vail Dance Festival is now available on their website. Information coming soon regarding COD events: vaildance.org/conversations-on-dance.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jan 11, 2022 — (265) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a50e" target="_blank" rel="noopener noreferrer">Welcoming 2022, with Rebecca and Michael</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-22', this)">Show description</button>
+</div>
+<div id="desc-justus-22" class="description">It&#x27;s 2022 and COD is back! We are ushering in the new year by celebrating some of the great things that friends of the pod have been up to recently, discussing the complexity surrounding dancer promotions, and how the change in the social media landscape in the past few years is affecting content that dancers and companies are putting out. Plus, we tease next week&#x27;s guest. We have lots of exciting things coming your way this year, so thank you for tuning in and for supporting the pod. In the beginning of this episode, we mention our close friend, Jovani Furlan, who has created a Go Fund Me page for help with family medical expenses. You can read Jovani&#x27;s story here: https://bit.ly/3FlnOpI. If you are able to give, that would be greatly appreciated. Please also feel free share the link with people who might be interested. Thank you all. _________________________________</div>
+</div>
+<div class="episode-block">
+<div class="row2">Dec 16, 2021 — (264) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a50f" target="_blank" rel="noopener noreferrer">Best of 2021 with <strong>Evelyn Kocak</strong></a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-23', this)">Show description</button>
+</div>
+<div id="desc-justus-23" class="description">It&#x27;s our last episode of 2021 and we are looking back over the year with our friend, Evelyn Kocak. Thank you to all of our listeners and our partners for joining us for another year of COD! We will be back in 2022 with some exciting new episodes and thrilling guests. We love you all! Thank you for listening. Happy Holidays! Photo: Mira Nadon in Movements for Piano and Orchestra&#x27; __________________________________</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 26, 2021 — (236) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a52e" target="_blank" rel="noopener noreferrer">Rebecca and Michael catch up</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-24', this)">Show description</button>
+</div>
+<div id="desc-justus-24" class="description">We have been off this month, but on Thursday we head to Vail for the Vail Dance Festival. So we hopped on our last zoom before we are back together in person recording episodes and live podcast recordings at the festival, just for a check in.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 7, 2021 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a530" target="_blank" rel="noopener noreferrer">COD July Update + Come see us at Vail Dance Festival!</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-25', this)">Show description</button>
+</div>
+<div id="desc-justus-25" class="description">Rebecca pops in today to share some COD updates, including live events and master classes at Vail Dance Festival, and publishing schedule this month.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Mar 4, 2021 — (219) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a541" target="_blank" rel="noopener noreferrer">Rebecca and Michael, a check in</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-26', this)">Show description</button>
+</div>
+<div id="desc-justus-26" class="description">It&#x27;s just Rebecca and Michael this week on the pod. We do a check in on what we have been up to (Michael got the vaccine!), we take a couple detours, then share a few books we are looking forward to getting our hands on.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Dec 3, 2020 — (207) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a54d" target="_blank" rel="noopener noreferrer">CODs Best of 2020</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-27', this)">Show description</button>
+</div>
+<div id="desc-justus-27" class="description">We are back! It&#x27;s been a minute, but unfortunately some work obligations took us away from the pod last month. Now, we are back and ready to get back to it! Today we catch up and go through our Conversations on Dance Best of 2020. Brought to you by Yumiko (Yumiko.com.) YUMIKOs holiday collection, comprised of festive ready-to-wear options, will be available in-stores and online this month! Receive a first chance to shop the new items at their Instagram LIVE shopping event on December 15th, plus for the very first time the new 2021 colors will be revealed! These events are a lot of fun and discounts are offered, so be sure to tune in @yumiko on Instagram on the 15th.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Sep 8, 2020 — (200) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a554" target="_blank" rel="noopener noreferrer">Rebecca and Michael: Our 200th Episode</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-28', this)">Show description</button>
+</div>
+<div id="desc-justus-28" class="description">It&#x27;s our 200th episode of Conversations on Dance! To celebrate, Rebecca and Michael get together to chat about the beginnings of COD, some favorite memories, and catch up on what they have been up to recently. If you would like to give to the Miami City Ballet dancer relief fund, you can do so here: https://tickets.miamicityballet.org/donate/q/dsf</div>
+</div>
+<div class="episode-block">
+<div class="row2">May 1, 2020 — (182) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a566" target="_blank" rel="noopener noreferrer">Rebecca and Michael: Balanchine Masterworks Tournament Bracket</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-29', this)">Show description</button>
+</div>
+<div id="desc-justus-29" class="description">This week on the pod, Rebecca and Michael fill out a Balanchine masterwork tournament bracket to crown the ultimate Balanchine ballet. In March, two students at Indiana University sent us an email: they were missing March Madness and decided to create a bracket for Balanchine Masterworks as a fun activity for the dance department. They were kind enough to share their bracket with us. So today, we each fill out our bracket, share our results, and defend our choices. Our bracket discussion starts at time marker 16:00. Follow along with us (file below and on conversationsondancepod.com) and be sure to share your winner with us! Share your bracket on social media and tag us: @conversationsondance.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Mar 19, 2020 — (177) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a56b" target="_blank" rel="noopener noreferrer">Rebecca and Michael: Quarantine Guide for Ballet Dancers and Fans</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-30', this)">Show description</button>
+</div>
+<div id="desc-justus-30" class="description">Today, Rebecca and Michael connect via Skype from quarantine. We discuss some options of ballet related content to consume while the world is social distancing during the Coronavirus Pandemic. We list some online class options, resources for dancers who are out of work, and our favorite dance related books, movies, and much more. This list was put together based on internet research and content that we are familiar with. Pointe Magazine and Dance Magazine are also offering a lot of great up to date resources. ) Remember to please follow CDC guidelines and the direction of your local officials during this time. We are hoping to be able to bring our listeners content to help take your mind off of everything, if just for a short time. During this time, we will not be following our regular publishing schedule, so follow us on social media to stay up to date on our new content. Below is a list that includes links to the items we discuss in this episode. ONLINE CLASSES: Kathryn Morgan YouTube Channel, World Ballet Day Videos, John Clifford Class with Portland Ballet, Miami City Ballet School Class via Dance Spirit, Mens Class (PNB Summer Course 2018), PNB School Class (Summer 2016), Herman Dance Live by Herman Cornejo on YouTube, and Ashley Bouder just launched a YouTube Channel. INSTAGRAM RESOURCES FOR CLASS: Martha Graham classes via @marziamem @lloydknight, Tiler Peck via @tilerpeck, Juilliard class available at @juilliardschool, and @vaildancefest is cataloging a lot of what your favorite dancers are doing during this time. PLACES TO TAKE BALLET CLASS ONLINE OUTSIDE OF INSTAGRAM OR YOUTUBE: Dancio (offering two free weeks of classes due to Coronavirus), Veyette Virtual Ballet School, 1on1 Ballet, and Ballet Beautiful. HOW CAN WE HELP DANCERS DIRECTLY DURING THIS TIME? If you are a dancer, get in touch with the Actors Fund or explore these freelance dancer resources. The Dance Union Podcast is starting a GoFundMe for NYC Based Dancers. Tell Congress to include displaced entertainment workers in relief package via Action Network. MOVIES: The Red Shoes (Amazon Prime), Billy Elliot (Netflix), Center Stage (Netflix), Turning Point (Amazon Prime), White Knights (Amazon Prime), Black Swan (Hulu, Amazon Prime), Oklahoma (Amazon Prime), Carousel (Amazon Prime), Singin In the Rain (iTunes), On The Town (iTunes), American In Paris (Amazon Prime), Top Hat (Netflix), West Side Story (Netflix), Fame (Netflix.) BOOKS: Repertory In Review (Nancy Reynolds), Apollos Angels (Jennifer Homans), Winters Season (Toni Bentley), Holding Onto the Air (Suzanne Farrell), The Unmaking Of a Dancer (Joan Brady), Once a Dancer (Allegra Kent), Balanchine (Bernard Taper), Margot Fonteyn (Alastair Macaulay). VIRTUAL ART: 12 museums with virtual tours, stream the Met Opera via Metopera.org, and John Clifford&#x27;s YouTube Channel. Video of the Italian Opera singer on his balcony. We will be putting out emails with some of our favorite episodes chronologically, so go to our website to sign up for our email list to get an email with a featured episode from our older catalog.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jan 24, 2020 — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a573" target="_blank" rel="noopener noreferrer">BONUS: Rebecca and Michael: Nutcracker Gigs, Part Deux</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-31', this)">Show description</button>
+</div>
+<div id="desc-justus-31" class="description">Last week, in episode 168, we talked about Michael&#x27;s coming out of retirement for Nutcracker guesting. Unfortunately due to scheduling, this episode was cut short, so in a BONUS episode this week, we are finishing that chat, and taking a few detours along the way!</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jan 13, 2020 — (168) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a575" target="_blank" rel="noopener noreferrer">Rebecca and Michael: Nutcracker Gigs</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-32', this)">Show description</button>
+</div>
+<div id="desc-justus-32" class="description">Nutcracker may be over, but this week Rebecca and Michael sit down to catch up and discuss Michael&#x27;s Nutcracker gigs. Rebecca asks Michael about coming out of retirement for his return to the Nutcracker this past December. We chat about how he prepared, what the rehearsal process was like, and we get nostalgic over other Nutcracker memories from years past.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Sep 23, 2019 — (155) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a582" target="_blank" rel="noopener noreferrer">Rebecca &amp; Michael Respond to COD Listener Survey</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-33', this)">Show description</button>
+</div>
+<div id="desc-justus-33" class="description">This week it&#x27;s just Rebecca and Michael. We sit down to go through the responses from our listener survey. We talk about some of the statistics that came to light from our questionnaire, go through some of the guest requests, talk about the ins and outs of creating the podcast, and go through your feed back. If you have not yet taken our survey, it&#x27;s not too late: https://www.surveymonkey.com/r/9XVM5KJ. If you wish to request a guest or put us in touch with a potential guest, email us at info@conversationsondancepod.com</div>
+</div>
+<div class="episode-block">
+<div class="row2">Aug 26, 2019 — (152) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a585" target="_blank" rel="noopener noreferrer">Boys Dance  Our Reaction to Lara Spencer and GMA</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-34', this)">Show description</button>
+</div>
+<div id="desc-justus-34" class="description">It&#x27;s just Rebecca and Michael this week, breaking down everything that happened surrounding Lara Spencer&#x27;s comments on Prince George studying ballet on Good Morning America. We are guessing that this story may have made it on your radar over the past few days, but we are here to break down the dance community&#x27;s reaction, why it was important, and how Good Morning America reacted on Monday morning.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 2, 2019 — (144) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a590" target="_blank" rel="noopener noreferrer">Rebecca and Michael: Catching Up &amp; Vail Dance Festival Preview</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-35', this)">Show description</button>
+</div>
+<div id="desc-justus-35" class="description">It&#x27;s just Rebecca and Michael this week on the pod. We talk about looking forward to this year&#x27;s Vail Dance Festival, our 3 year anniversary, what Michael has been up to, and we answer your questions from social media.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Apr 8, 2019 — (133) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a59a" target="_blank" rel="noopener noreferrer">Rebecca &amp; Michael: Becoming a Repetiteur</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-36', this)">Show description</button>
+</div>
+<div id="desc-justus-36" class="description">This episode was recorded in February, when Rebecca &amp; Michael were at the Kennedy Center to cover American Ballet Theatre&#x27;s tour to Washington, D.C. We sit down to finally catch up on Michael&#x27;s experience setting a ballet for the very first time. Michael spent about a month in Phoenix with the wonderful dancers of Ballet Arizona to teach them Justin Peck&#x27;s ballet In Creases.&#x27; He shares with us how he prepared, what the first day was like, how he modeled his work ethic, and what it felt like to see the ballet on stage for the first time.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Mar 1, 2019 — (128) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a59f" target="_blank" rel="noopener noreferrer">Rebecca &amp; Michael: NYCB Directorship Announcement</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-37', this)">Show description</button>
+</div>
+<div id="desc-justus-37" class="description">Rebecca and Michael record an emergency podcast to discuss and react to the big news this week in the ballet world: the announcement of the appointment of Jonathan Stafford as artistic director and Wendy Whelan as associate artistic director of New York City Ballet. Our sound quality isn&#x27;t our best, and for that we apologize, but we had to drop everything and get on the phone to chat about the news ASAP! Thanks for your understanding.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Feb 11, 2019 — (126) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5a1" target="_blank" rel="noopener noreferrer">Rebecca &amp; Michael: What to do if you didnt get your contract renewed</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-38', this)">Show description</button>
+</div>
+<div id="desc-justus-38" class="description">It&#x27;s just Rebecca and Michael this week. It&#x27;s that time of year when company contracts are going out, which means that dancers across the country may not be getting their contracts renewed for the 2019-2020 season. We put together a handful of bullet points to help dancers navigate this tough time and discuss what to do next. We turn this challenging experience into something positive, this week on Conversations on Dance.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Sep 4, 2018 — (105) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5b8" target="_blank" rel="noopener noreferrer">Rebecca &amp; Michael: Summer 2018 &amp; NYCB Artistic Director Job Posting</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-39', this)">Show description</button>
+</div>
+<div id="desc-justus-39" class="description">This week, Rebecca &amp; Michael sit down to discuss this past summer, what we are up to in the coming months, and to discuss the New York City Ballet Artistic Director job description. Here is the New York Times article by Michael Cooper which we reference. We recorded this episode before the devastating news came last week that the dance world lost two greats: Paul Taylor and Peter Frame. We did not feel it appropriate to publish this weeks episode without mentioning these two who impacted dance on a grand scale and who also impacted our careers directly. Firstly, we never met Paul Taylor, but we both had the great pleasure of dancing quite a few of his works. These works offered up some of our most memorable and challenging onstage moments. We felt as if we got to know Paul through his dances and through his repetiteurs who staged the ballets on us. We will always treasure the memories of dancing these works. As for Peter Frame, Rebecca only had a short experience with him when he came to Miami City Ballet to share his solo for Episodes that Paul Taylor created on him. Michael had the pleasure of being his student. Whether you knew him just a short time, or came in contact with him on a regular basis, it was clear to everyone that Peter was a truly selfless, humble, beautiful human being. He truly wanted to bring joy to any person he touched. His legacy will live on through the audiences who watched him dance, and the students whom he mentored. Rest in Peace Paul Taylor and Peter Frame.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Jul 30, 2018 — (100) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5c2" target="_blank" rel="noopener noreferrer">Rebecca &amp; Michael celebrate 100 episodes!</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-40', this)">Show description</button>
+</div>
+<div id="desc-justus-40" class="description">This week it&#x27;s just Rebecca and Michael to celebrate our 100th episode. We take the time to reflect on the past two years of Conversations on Dance by counting down our top 10 favorite episodes. We have had so many incredible guests that it was hard to narrow it down, so a few other favorite moments come up. Thank you to all of our listeners who have made these past two years of podcasting such a wonderful journey and thank you to each and every one of our guests who took the time to talk with us a spread the good word of ballet! We are heading to Vail on Tuesday, July 31st, so stay tuned for lots of content coming at you live from The Vail Dance Festival. Subscribe now on iTunes, Stitcher, or wherever you get your podcasts to receive notifications when a new episode has been published. For more information on what we will be up to in Vail click here: https://conversationsondancepod.com/vail-dance-festival</div>
+</div>
+<div class="episode-block">
+<div class="row2">Apr 10, 2018 — (87) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5d4" target="_blank" rel="noopener noreferrer">Dancers Negativity and Perspective Post-Retirement</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-41', this)">Show description</button>
+</div>
+<div id="desc-justus-41" class="description">Its just Rebecca and Michael this week, together from New York City, as they return to discuss some of the feedback received after last weeks episode. They also discuss a recent article on dancers&#x27; and negativity (10:30), and how a dancers perspective on their career changes post retirement (16:29). They return to their interview format next week, and the following week will be reporting from San Francisco Ballet to cover their Unbound Festival. Subscribe now so you wont miss a moment!</div>
+</div>
+<div class="episode-block">
+<div class="row2">Apr 2, 2018 — (86) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5d5" target="_blank" rel="noopener noreferrer">Misty Copelands Clap Back &amp; Ballets Chance for a Turning Point</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-42', this)">Show description</button>
+</div>
+<div id="desc-justus-42" class="description">It&#x27;s just Rebecca and Michael this week as they sit down to discuss some of the stories that have been making news recently. We talk about Misty Copeland&#x27;s epic and graceful response to a Twitter troll last week (7:55) and discuss Avichai Scher&#x27;s article for the Huffington Post, The Me Too Moment Is Ballet&#x27;s Chance for a Turning Point (16:15). We will be going to San Francisco April 20-25th to partner with San Francisco Ballet to bring you coverage from their massive Unbound Festival, which will feature 12 new works by 12 choreographers in 17 days (34:48). Subscribe now to Conversations on Dance in iTunes or wherever you get your podcasts to automatically be notified when new episodes are available.</div>
+</div>
+<div class="episode-block">
+<div class="row2">Mar 5, 2018 — (82) — <a href="https://shows.acast.com/conversations-on-dance/episodes/64147e7c7eb781001260a5d9" target="_blank" rel="noopener noreferrer">Michael and Rebecca on Retirement &amp; Changes in the Ballet World</a>
+ <button class="desc-button" aria-expanded="false" onclick="toggleDescription('desc-justus-43', this)">Show description</button>
+</div>
+<div id="desc-justus-43" class="description">This week it is just Michael and Rebecca, taking some time to catch up. Rebecca has a big announcement to make, we talk changes happening at New York City Ballet and what it means for ballet as a whole (30:10), and we discuss what is coming up for Conversations on Dance (44:07).</div>
+</div>
+<script>
+(function () {
+    // Best-effort: tell Chrome not to restore a stale scroll position.
+    // This works on the first visit; on subsequent visits Chrome may have
+    // already committed to restoration before scripts run — the guard below
+    // handles that case.
+    if (window.location.hash && 'scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+
+    function _navH() {
+        var nav = document.querySelector('.index, .alpha-nav, .company-nav');
+        return nav ? Math.ceil(nav.getBoundingClientRect().height) + 8 : 60;
+    }
+
+    // Same-page anchor clicks (A-Z nav, Jump To links that stay on this page).
+    document.addEventListener('click', function (e) {
+        var a = e.target.closest('a');
+        if (!a) return;
+        var href = a.getAttribute('href');
+        if (!href || href.charAt(0) !== '#' || href.length < 2) return;
+        var target = document.getElementById(href.slice(1));
+        if (!target) return;
+        e.preventDefault();
+        target.style.scrollMarginTop = _navH() + 'px';
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.pushState(null, '', href);
+    });
+
+    // Cross-page hash arrival.
+    if (window.location.hash) {
+        var _h = window.location.hash;
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                var target = document.getElementById(_h.slice(1));
+                if (!target) return;
+                var nav = document.querySelector('.index, .alpha-nav, .company-nav');
+                var rawNavH = nav ? Math.ceil(nav.getBoundingClientRect().height) : 0;
+                target.style.scrollMarginTop = (rawNavH + 8) + 'px';
+                target.scrollIntoView({ behavior: 'instant', block: 'start' });
+
+                // Scroll guard: if Chrome's restoration fires after our
+                // correction (moving us to the wrong position), snap back.
+                // We distinguish restoration (no prior user gesture) from
+                // deliberate scrolling (mousedown / wheel / touch / key fires
+                // before the resulting scroll event).
+                var anchorY = window.scrollY;
+                var guardOn = true;
+                var userScrolled = false;
+                ['mousedown', 'touchstart', 'keydown', 'wheel'].forEach(function (t) {
+                    window.addEventListener(t, function () { userScrolled = true; }, { passive: true });
+                });
+                setTimeout(function () { guardOn = false; }, 1500);
+                var _g = function () {
+                    if (!guardOn) { window.removeEventListener('scroll', _g); return; }
+                    if (userScrolled) {
+                        guardOn = false;
+                        window.removeEventListener('scroll', _g);
+                        return;
+                    }
+                    if (Math.abs(window.scrollY - anchorY) > 20) {
+                        window.scrollTo(0, anchorY);
+                    }
+                };
+                window.addEventListener('scroll', _g);
+            });
+        });
+    }
+})();
+</script>
+</body>
+</html>
